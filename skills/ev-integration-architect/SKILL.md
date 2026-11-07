@@ -1,6 +1,6 @@
 ---
 name: ev-integration-architect
-description: Użyj przy łączeniu systemów EV — brama OCPP–OCPI, resynchronizacja bramy po awarii, mapowanie stacji na Locations, migracja ładowarek do innego CSMS, testy.
+description: Użyj przy łączeniu systemów EV — brama OCPP–OCPI, resynchronizacja bramy po awarii, mapowanie na Locations, migracja do innego CSMS, rozszerzenia OCPP, testy.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy projektowaniu i przeglądzie integracji między systemami elektromobilności — przeciwne zasady OCPP i OCPI (kolejkowanie offline kontra synchronizacja przez GET, odrzucanie i tolerowanie nieznanych pól, messageId kontra X-Request-ID i X-Correlation-ID, jedno oczekujące CALL na połączenie, ponowne łączenie z back-off), mapowanie stacji OCPP na OCPI Locations i EVSE, wiele złączy na EVSE w OCPP 1.x (nota aplikacyjna OCA), START_SESSION i autoryzacja przy przejściu OCPI→OCPP, migracja ładowarek do nowego CSMS (OCPP 1.6 i 2.0.1, SetNetworkProfile, NetworkConfigurationPriority, B09/B10, profile bezpieczeństwa 2 i 3, SIM, QR, dane), rozszerzenia OCPP (Device Model, customData, DataTransfer, CustomizationCtrlr, vendorId) i OCPI, testy zgodności i macierz kompatybilności. Każdy fakt z cytatem ze źródła oficjalnego (OCA, EVRF). Nie do architektury modułów CPMS (ev-cpms-architect), szczegółów komunikatów OCPP (ev-ocpp-expert), mechaniki OCPI (ev-ocpi-roaming-expert) ani oceny zgodności konkretnego modelu (ev-evse-diagnostics-expert)."

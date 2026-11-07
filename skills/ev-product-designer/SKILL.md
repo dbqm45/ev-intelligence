@@ -1,6 +1,6 @@
 ---
 name: ev-product-designer
-description: Użyj przy projekcie produktu EV — aplikacja, mapa i karta stacji dla kierowcy, ekran ładowarki, cena, dostępność, dane rynkowe i ekonomika stacji, user stories.
+description: Użyj przy projekcie produktu EV — przepisy jako user stories, aplikacja, mapa i karta stacji, ekran ładowarki, cena, dostępność, dane rynkowe, ekonomika.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy projektowaniu funkcji produktu dla kierowcy, operatora i partnera (aplikacja eMSP, ekran ładowarki, panel CPMS, mapa stacji) i przy zamianie przepisów oraz protokołów na wymagania produktu — publikacja lokalizacji w aplikacji (OCPI publish, publish_allowed_to, pola karty stacji), start i płatność ad hoc, rezygnacja z automatycznej autoryzacji, ładowanie bez wcześniejszej umowy (PL), informacja o cenie przed sesją na stacji i w aplikacji MSP (AFIR art. 5), koszt na ekranie stacji (OCPP 2.0.1 blok I), komunikaty na stacji (DisplayMessage, języki, priorytety), numer pomocy i instrukcja, dostępność dla osób z niepełnosprawnościami (dyrektywa 2019/882 i polska ustawa, terminal płatniczy), dane rynkowe z datą i źródłem (liczba punktów w PL, UE i DE, flota aut elektrycznych, struktura cen z 2024 r.), wskaźniki z CDR. Każde wymaganie z cytatem; praktyki UX, ekonomika stacji i wykorzystanie nie mają źródeł w bazie. Nie do obliczania cen (ev-billing-tariff-expert), przepisów i kar (ev-compliance-expert), alarmów i operacji NOC (ev-charging-operations-expert) ani architektury CPMS (ev-cpms-architect)."

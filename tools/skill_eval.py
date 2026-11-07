@@ -244,6 +244,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--model", default="", help="opus | sonnet | haiku albo pełne ID modelu")
     ap.add_argument("--skills", default="", help="skille po przecinku (domyślnie wszystkie)")
     ap.add_argument("--holdout", action="store_true", help="scenariusze z evals/skill_evals/holdout/")
+    ap.add_argument("--ids", default="", help="tylko scenariusze o tych id (po przecinku), np. po poprawce")
     ap.add_argument("--budget", type=float, default=1.0, help="limit kosztu w USD")
     ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"])
     ap.add_argument("--label", default="run", help="opis przebiegu w nazwie pliku wyniku")
@@ -256,6 +257,9 @@ def main(argv: list[str] | None = None) -> int:
     all_names = sorted(p.parent.name for p in SKILLS.glob("*/SKILL.md"))
     names = [s.strip() for s in a.skills.split(",") if s.strip()] or all_names
     items = scenarios(names, a.holdout)
+    ids = {i.strip() for i in a.ids.split(",") if i.strip()}
+    if ids:
+        items = [(n, s) for n, s in items if s.get("id") in ids]
     trig = sum(1 for _, s in items if s.get("expect") == "trigger")
     if a.dry_run or not a.model:
         chars = sum(len(skill_context(n)) for n, s in items if s.get("expect") == "trigger")
