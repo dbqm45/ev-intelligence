@@ -1,0 +1,9 @@
+# Kontekst budowy obrazu serwera MCP: bez historii, przestrzeni roboczych i kopii dokumentów (licencje).
+.git
+.work
+.cache
+**/__pycache__
+evals
+docs
+tests
+deploy/.env

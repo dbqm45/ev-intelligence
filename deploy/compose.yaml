@@ -1,0 +1,37 @@
+# Serwer MCP ev-intelligence za Caddy (HTTPS z automatycznym certyfikatem dla EV_KB_DOMAIN).
+# Użycie (z katalogu deploy/): cp env.example .env; uzupełnij; docker compose up -d --build
+services:
+  ev-kb:
+    image: ev-intelligence-mcp:${EV_KB_VERSION:-local}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        EV_KB_VERSION: ${EV_KB_VERSION:-nieznana}
+    environment:
+      EV_KB_TOKEN: ${EV_KB_TOKEN:?ustaw EV_KB_TOKEN w deploy/.env}
+      EV_KB_ALLOWED_HOSTS: ${EV_KB_DOMAIN:?ustaw EV_KB_DOMAIN w deploy/.env}
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    # Opcjonalne kopie dokumentów źródłowych dla ev_cite (tylko odczyt). Zobacz docs/DEPLOY.md, „Licencje”.
+    # volumes:
+    #   - ${EV_KB_DOCS_HOST:-../.cache/ev-kb}:/docs:ro
+    expose: ["8765"]
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.10.2
+    depends_on: [ev-kb]
+    ports: ["80:80", "443:443"]
+    environment:
+      EV_KB_DOMAIN: ${EV_KB_DOMAIN:?ustaw EV_KB_DOMAIN w deploy/.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

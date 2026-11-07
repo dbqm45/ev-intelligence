@@ -1,0 +1,3 @@
+# Wersje przypięte dla obrazu kontenera (sprawdzone 2026-11-07). Zależności przechodnie rozwiązuje pip.
+mcp==2.3.0
+PyYAML==6.0.3

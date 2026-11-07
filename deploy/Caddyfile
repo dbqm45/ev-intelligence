@@ -1,0 +1,6 @@
+# HTTPS dla serwera MCP. Bez dyrektywy `log`: Caddy zapisuje logi dostępu tylko po jej skonfigurowaniu, a adres może
+# zawierać token (/<token>/mcp). Nie dodawaj `log` bez filtra ścieżki.
+{$EV_KB_DOMAIN} {
+	encode gzip
+	reverse_proxy ev-kb:8765
+}

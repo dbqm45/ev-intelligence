@@ -104,6 +104,36 @@ class TestHttpGuard(unittest.TestCase):
             if old is not None:
                 os.environ["EV_KB_TOKEN"] = old
 
+    def test_transport_security_for_public_host(self):
+        import io
+        import os
+        from contextlib import redirect_stderr
+        self.assertIsNone(ev_kb_mcp.transport_security("127.0.0.1"))
+        old = {k: os.environ.pop(k, None) for k in ("EV_KB_ALLOWED_HOSTS", "EV_KB_ALLOWED_ORIGINS")}
+        try:
+            with redirect_stderr(io.StringIO()):
+                self.assertFalse(ev_kb_mcp.transport_security("0.0.0.0").enable_dns_rebinding_protection)
+            os.environ["EV_KB_ALLOWED_HOSTS"] = "ev-kb.example.com"
+            ts = ev_kb_mcp.transport_security("0.0.0.0")
+            self.assertTrue(ts.enable_dns_rebinding_protection)
+            self.assertEqual(ts.allowed_hosts, ["ev-kb.example.com"])
+            self.assertEqual(ts.allowed_origins, ["https://ev-kb.example.com"])
+        finally:
+            for k, v in old.items():
+                os.environ.pop(k, None)
+                if v is not None:
+                    os.environ[k] = v
+
+    def test_healthz_without_token(self):
+        async def app(scope, receive, send):
+            raise AssertionError("aplikacja nie powinna obsłużyć /healthz")
+        sent = []
+
+        async def send(msg):
+            sent.append(msg)
+        run(ev_kb_mcp.BearerAuth(app, "t" * 40)({"type": "http", "path": "/healthz", "headers": []}, None, send))
+        self.assertEqual(sent[0]["status"], 200)
+
     def test_bearer_auth_rejects_and_accepts(self):
         seen = []
 

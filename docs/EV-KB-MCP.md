@@ -51,6 +51,9 @@ Dla całego zespołu w danym projekcie: `--scope project` (wpis w `.mcp.json` w 
 projektów: `--scope user`.
 
 ### Konektor w claude.ai: serwer zdalny
+Gotowe pliki wdrożenia (Docker, Caddy z HTTPS) i procedura: `docs/DEPLOY.md`. Za reverse proxy ustaw
+`EV_KB_ALLOWED_HOSTS` na domenę, bo SDK sprawdza nagłówek `Host`. Compose robi to sam.
+
 1. Uruchom serwer HTTP pod publicznym adresem HTTPS:
    ```bash
    EV_KB_TOKEN="$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')" \

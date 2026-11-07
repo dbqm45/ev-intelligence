@@ -13,7 +13,7 @@ Transporty:
                    nagłówek `Authorization: Bearer <token>` albo adres `/<token>/mcp`.
                    Szczegóły i licencje: docs/EV-KB-MCP.md.
 
-Zmienne: EV_KB_TOKEN (token HTTP), PORT, EV_KB_ROOT (katalog repozytorium z wiedzą; domyślnie to repozytorium), EV_KB_DOCS (kopie dokumentów).
+Zmienne: EV_KB_TOKEN (token HTTP), EV_KB_ALLOWED_HOSTS / EV_KB_ALLOWED_ORIGINS (domena za proxy), PORT, EV_KB_VERSION (wersja wiedzy w obrazie), EV_KB_ROOT (katalog repozytorium z wiedzą; domyślnie to repozytorium), EV_KB_DOCS (kopie dokumentów).
 """
 from __future__ import annotations
 
@@ -31,6 +31,7 @@ import ev_kb  # noqa: E402
 try:
     from mcp.server.mcpserver import MCPServer
     from mcp.server.mcpserver.prompts.base import Prompt
+    from mcp.server.transport_security import TransportSecuritySettings
     from mcp.types import ToolAnnotations
 except ImportError:  # pragma: no cover
     sys.stderr.write("Brak pakietu `mcp` w wersji 2.x (pip install 'mcp>=2,<3').\n")
@@ -49,6 +50,8 @@ INSTRUCTIONS_LIMIT = 4096   # Claude Code ucina dłuższe instrukcje serwera (co
 
 def knowledge_version(root: Path = ROOT) -> str:
     """Commit repozytorium wiedzy (gdy jest git) — żeby odpowiedź dało się przypisać do wersji bazy."""
+    if os.environ.get("EV_KB_VERSION"):                  # obraz kontenera nie ma .git; wersję podaje build
+        return os.environ["EV_KB_VERSION"][:12]
     head = root / ".git" / "HEAD"
     try:
         ref = head.read_text(encoding="utf-8").strip()
@@ -160,8 +163,27 @@ def ev_check(text: str, require_text: bool = False) -> dict[str, Any]:
     return {"ok": not any(r["status"] in failing for r in results), "count": len(results), "results": results}
 
 
+async def _plain(send, status: int, text: str, extra: list | None = None) -> None:
+    await send({"type": "http.response.start", "status": status,
+                "headers": [(b"content-type", b"text/plain; charset=utf-8")] + (extra or [])})
+    await send({"type": "http.response.body", "body": text.encode()})
+
+
+class Health:
+    """ASGI: `/healthz` bez uwierzytelnienia (kontrola stanu kontenera), reszta do aplikacji."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http" and scope.get("path") == "/healthz":
+            await _plain(send, 200, "ok\n")
+            return
+        await self.app(scope, receive, send)
+
+
 class BearerAuth:
-    """ASGI: żądanie przechodzi, gdy ma nagłówek `Authorization: Bearer <token>` albo ścieżkę `/<token>/mcp`.
+    """ASGI: `/healthz` zawsze; pozostałe żądania przechodzą, gdy mają nagłówek `Authorization: Bearer <token>` albo ścieżkę `/<token>/mcp`.
 
     Druga forma jest dla konektorów bez obsługi nagłówków (claude.ai: „No sign-in”). Porównanie stałoczasowe.
     """
@@ -171,6 +193,9 @@ class BearerAuth:
         self.expected = b"Bearer " + self.token
 
     async def __call__(self, scope, receive, send):
+        if scope["type"] == "http" and scope.get("path") == "/healthz":
+            await _plain(send, 200, "ok\n")
+            return
         if scope["type"] == "http":
             got = dict(scope.get("headers") or []).get(b"authorization", b"")
             path = scope.get("path", "")
@@ -180,17 +205,36 @@ class BearerAuth:
             elif len(parts) == 3 and hmac.compare_digest(parts[1].encode(), self.token):
                 scope = dict(scope, path="/" + parts[2], raw_path=("/" + parts[2]).encode())
             else:
-                await send({"type": "http.response.start", "status": 401,
-                            "headers": [(b"content-type", b"text/plain; charset=utf-8"), (b"www-authenticate", b"Bearer")]})
-                await send({"type": "http.response.body", "body": "Brak lub zły token.\n".encode()})
+                await _plain(send, 401, "Brak lub zły token.\n", [(b"www-authenticate", b"Bearer")])
                 return
         await self.app(scope, receive, send)
 
 
-def http_app(token: str | None):
+def _csv_env(name: str) -> list[str]:
+    return [x.strip() for x in os.environ.get(name, "").split(",") if x.strip()]
+
+
+def transport_security(bind_host: str) -> "TransportSecuritySettings | None":
+    """Ochrona przed DNS rebinding (walidacja Host i Origin w SDK).
+
+    Localhost: domyślne ustawienia SDK. Adres publiczny: hosty z EV_KB_ALLOWED_HOSTS (np. domena za reverse proxy),
+    originy z EV_KB_ALLOWED_ORIGINS (domyślnie https://<host>). Żądanie bez nagłówka Origin SDK przepuszcza.
+    """
+    if bind_host in ("127.0.0.1", "localhost", "::1"):
+        return None
+    hosts = _csv_env("EV_KB_ALLOWED_HOSTS")
+    if not hosts:
+        sys.stderr.write("Uwaga: brak EV_KB_ALLOWED_HOSTS — walidacja nagłówka Host wyłączona.\n")
+        return TransportSecuritySettings(enable_dns_rebinding_protection=False)
+    origins = _csv_env("EV_KB_ALLOWED_ORIGINS") or [f"https://{h}" for h in hosts]
+    return TransportSecuritySettings(enable_dns_rebinding_protection=True, allowed_hosts=hosts, allowed_origins=origins)
+
+
+def http_app(token: str | None, bind_host: str = "127.0.0.1"):
     """Aplikacja Streamable HTTP (bezstanowa, odpowiedzi JSON) z opcjonalnym tokenem."""
-    app = server.streamable_http_app(stateless_http=True, json_response=True)
-    return BearerAuth(app, token) if token else app
+    app = server.streamable_http_app(stateless_http=True, json_response=True, host=bind_host,
+                                     transport_security=transport_security(bind_host))
+    return BearerAuth(app, token) if token else Health(app)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -209,7 +253,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     import uvicorn
     # access_log=False: przy tokenie w ścieżce adres zawiera sekret
-    uvicorn.run(http_app(token), host=a.host, port=a.port, log_level="info", access_log=not token)
+    uvicorn.run(http_app(token, a.host), host=a.host, port=a.port, log_level="info", access_log=not token)
     return 0
 
 
