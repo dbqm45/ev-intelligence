@@ -107,6 +107,12 @@ normy_platne:
     temat: "zarządzanie infrastrukturą ładowania; wymiana informacji roamingowych (w przygotowaniu)"
     przywolana_przez: []
     przywolana_w: [ev-domain-expert]
+  - norma: "VDE-AR-E 2802-100-1"
+    wydawca: VDE
+    dostep: platna
+    temat: "pula certyfikatów umów (contract certificate pool) dla Plug & Charge"
+    przywolana_przez: ["201-P2 M01.FR.01, M02.FR.01"]
+    przywolana_w: [ev-iso15118-pki-expert]
   - norma: "IEC 63584-210:2025 (OCPP 2.1 jako norma IEC)"
     wydawca: IEC
     dostep: platna

@@ -31,12 +31,16 @@
   "fingerprint": "5016509e91ab9147",
   "offline": "2026-11-07"
  },
+ "ev-iso15118-pki-expert": {
+  "fingerprint": "92e9d95a40a8492e",
+  "offline": "2026-11-07"
+ },
  "ev-ocpi-roaming-expert": {
   "fingerprint": "545439350a2177b7",
   "offline": "2026-11-07"
  },
  "ev-ocpp-expert": {
-  "fingerprint": "564c3d27ac466d60",
+  "fingerprint": "086f430b61317545",
   "offline": "2026-11-07"
  }
 }

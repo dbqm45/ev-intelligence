@@ -1,0 +1,73 @@
+{
+ "skill": "ev-iso15118-pki-expert",
+ "scenarios": [
+  {
+   "id": "pnc-offline-201",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 2.0.1 z Plug & Charge (ISO 15118) traci łączność z CSMS. Kierowca podłącza auto z certyfikatem umowy. Czy stacja może rozpocząć ładowanie i od czego to zależy? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["ContractValidationOffline"],
+     ["LocalAuthorizeOffline|lokaln\\w* list\\w* autoryzac\\w*|Authorization Cache|cache"],
+     ["eMAID"],
+     ["C07\\.FR\\.0[7-9]|C07\\.FR\\.1[0-2]"]
+    ],
+    "none": [
+     "Plug (&|and) Charge (zawsze )?nie działa offline"
+    ]
+   }
+  },
+  {
+   "id": "pnc-ocpp16",
+   "expect": "trigger",
+   "prompt": "Nasze ładowarki mają OCPP 1.6J, a chcemy uruchomić Plug & Charge z ISO 15118. Czy to możliwe bez przejścia na 2.0.1 i jak to zrobić zgodnie z zaleceniami OCA? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["DataTransfer"],
+     ["org\\.openchargealliance\\.iso15118pnc"],
+     ["ISO15118PnCEnabled"],
+     ["smart charging[^.\\n]{0,80}(2\\.0\\.1|nie obejmuje|poza)|bez (ISO 15118 )?smart charging|nie (obejmuje|zawiera)[^.\\n]{0,60}smart charging"]
+    ],
+    "none": [
+     "OCPP 1\\.6 (natywnie )?obsługuje ISO 15118"
+    ]
+   }
+  },
+  {
+   "id": "profil-bezpieczenstwa-tls",
+   "expect": "trigger",
+   "prompt": "Wdrażamy OCPP 2.0.1 w terenie. Który profil bezpieczeństwa wybrać, jakie wersje TLS i szyfry musi obsłużyć CSMS i czy można potem obniżyć profil z 3 na 1? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["TLS (v)?1\\.2"],
+     ["ECDHE_ECDSA_WITH_AES_128_GCM_SHA256|cipher suite|zestaw\\w* szyfr\\w*"],
+     ["AllowSecurityProfileDowngrade"],
+     ["(3 (na|→|->) ?2)|z 3 do 2|profilu 3 do 2"]
+    ],
+    "none": [
+     "(można|wolno) (obniżyć|zmienić) (profil )?(z 3 |z 2 )?(na|do) (profil(u)? )?1 przez OCPP"
+    ]
+   }
+  },
+  {
+   "id": "iso15118-tresc-normy",
+   "expect": "trigger",
+   "prompt": "Opisz dokładnie sekwencję komunikatów SLAC i SDP w ISO 15118-2 oraz pola certyfikatu umowy (contract certificate) w V2G PKI.",
+   "checks": {
+    "all": [
+     ["płatn\\w*|nie (mam|ma) (dostępu|treści)|niedostępn\\w*|niedostep"],
+     ["niedostepne\\.yaml|nie (odpowiadam|opisuję) z pamięci|bez dostępu do normy|wymaga (dostępu do )?normy"]
+    ],
+    "none": [
+     "sekwencja SLAC (wygląda|przebiega) następująco"
+    ]
+   }
+  },
+  {
+   "id": "credit-cdr",
+   "expect": "no-trigger",
+   "prompt": "Jak w OCPI 2.2.1 wysłać korektę CDR, gdy eMSP zgłosił błędną kwotę?",
+   "neighbor": "ev-ocpi-roaming-expert"
+  }
+ ]
+}
