@@ -1,7 +1,7 @@
 # `tools/ev_kb.py` — dostęp do wiedzy i kontrola cytatów
 
 Rdzeń integracji EV Intelligence z innymi narzędziami (np. tryb Talos w fabryce tf). Kolejne warstwy, czyli serwer
-MCP i plugin, mają tylko wywoływać te same funkcje. Zależności: Python 3, PyYAML; do indeksowania PDF `pdftotext`.
+MCP (`tools/ev_kb_mcp.py`, opis: `docs/EV-KB-MCP.md`) i plugin, wywołują te same funkcje. Zależności: Python 3, PyYAML; do indeksowania PDF `pdftotext`.
 
 | Polecenie | Co robi |
 |---|---|

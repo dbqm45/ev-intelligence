@@ -6,6 +6,7 @@ Polecenia:
   search <pytanie>        fragmenty skilli i knowledge/ razem ze znacznikami źródeł
   cite   <znacznik>       dokument z rejestru sources/*.yaml (URL, data, SHA-256, licencja) i tekst sekcji z lokalnej kopii
   check  [plik|-]         sprawdza znaczniki `[ID §…]`: czy dokument jest w rejestrze i czy sekcja istnieje w tekście
+  skill  [nazwa [plik]]   lista skilli albo treść SKILL.md / pliku z references/
   index  <pliki…>         dodaje lokalne kopie dokumentów do pamięci podręcznej; dopasowanie wyłącznie po SHA-256
 
 Teksty dokumentów nie są w repozytorium (licencje, rozmiar). Pamięć podręczna: --docs, zmienna EV_KB_DOCS albo
@@ -457,6 +458,35 @@ def cmd_route(task: str, limit: int, root: Path = ROOT) -> dict:
     return {"skills": skills[:limit], "domains": domains[:limit]}
 
 
+# ───────────────────────────── treść skilli ─────────────────────────────
+
+
+def list_skills(root: Path = ROOT) -> list[dict]:
+    out = []
+    for path in sorted((root / "skills").glob("*/SKILL.md")):
+        fm = _frontmatter(path)
+        refs = sorted(p.name for p in (path.parent / "references").glob("*.md")) if (path.parent / "references").is_dir() else []
+        out.append({"skill": fm.get("name", path.parent.name), "description": fm.get("description", ""), "references": refs})
+    return out
+
+
+def read_skill(name: str, file: str | None = None, root: Path = ROOT) -> dict:
+    """SKILL.md albo plik z references/; nazwy sprawdzane wobec listy plików (bez ścieżek z zewnątrz)."""
+    skills = {s["skill"]: s for s in list_skills(root)}
+    if name not in skills:
+        return {"error": f"nieznany skill: {name}", "skills": sorted(skills)}
+    base = root / "skills" / name
+    if not file or file == "SKILL.md":
+        path = base / "SKILL.md"
+    else:
+        fname = Path(file).name
+        if fname not in skills[name]["references"]:
+            return {"error": f"brak pliku {file} w {name}/references", "references": skills[name]["references"]}
+        path = base / "references" / fname
+    return {"skill": name, "file": str(path.relative_to(root)), "references": skills[name]["references"],
+            "content": path.read_text(encoding="utf-8")}
+
+
 # ───────────────────────────── CLI ─────────────────────────────
 
 
@@ -484,6 +514,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--require-text", action="store_true", help="brak lokalnej kopii dokumentu to błąd")
     p.add_argument("-v", "--verbose", action="store_true", help="pokaż także znaczniki poprawne")
     p = sub.add_parser("index"); p.add_argument("files", nargs="+")
+    p = sub.add_parser("skill"); p.add_argument("name", nargs="?"); p.add_argument("file", nargs="?")
     args = ap.parse_args(argv)
 
     sources = load_sources()
@@ -570,6 +601,20 @@ def main(argv: list[str] | None = None) -> int:
             _print_check(results, args.verbose)
             print("Werdykt: OK" if rc == 0 else "Werdykt: BŁĘDY")
         return rc
+
+    if args.cmd == "skill":
+        res = read_skill(args.name, args.file) if args.name else list_skills()
+        if args.json:
+            out(res)
+        elif isinstance(res, list):
+            for x in res:
+                print(f"{x['skill']}: {x['description']}" + (f"\n  references: {', '.join(x['references'])}" if x["references"] else ""))
+        elif "error" in res:
+            print(res["error"])
+            return 1
+        else:
+            print(res["content"])
+        return 0
 
     if args.cmd == "index":
         res = cmd_index(args.files, ddir, sources)

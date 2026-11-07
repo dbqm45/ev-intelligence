@@ -1,0 +1,3 @@
+# Serwer MCP tools/ev_kb_mcp.py (oficjalny Python SDK MCP 2.x; uvicorn i starlette przychodzą z pakietem mcp)
+mcp>=2.3,<3
+PyYAML>=6
