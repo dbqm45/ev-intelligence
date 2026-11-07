@@ -43,6 +43,8 @@ Part 2: Technical guidelines
 Preface
 [[eRoamingAuthorizeStart]]
 === eRoamingAuthorizeStart_V2.1
+### CDRInfo *class*
+## Live Status Interface
 """
 
 
@@ -67,6 +69,10 @@ class TestRegistry(unittest.TestCase):
 
 
 class TestUnavailable(unittest.TestCase):
+    def test_unavailable_explicit_keys(self):
+        hits = ev_kb.unavailable_matches("Jak działa autoryzacja w eMIP?")
+        self.assertTrue(any(h.get("dostep") == "licencja_poufna" for h in hits))
+
     def test_unavailable_register_is_not_citable_but_searchable(self):
         import yaml
         data = yaml.safe_load((ROOT / "sources" / "niedostepne.yaml").read_text(encoding="utf-8"))
@@ -74,7 +80,7 @@ class TestUnavailable(unittest.TestCase):
         self.assertTrue(entries)
         for e in entries:
             self.assertNotIn("id", e)
-            self.assertIn(e.get("dostep"), ("platna", "niezarejestrowana"))
+            self.assertIn(e.get("dostep"), ("platna", "niezarejestrowana", "licencja_poufna"))
         sources = ev_kb.load_sources()
         self.assertFalse(any(s.registry == "niedostepne.yaml" for s in sources.values()))
         hits = ev_kb.cmd_search("ISO 15118 norma płatna", 5, sources)
@@ -167,6 +173,11 @@ class TestLocate(unittest.TestCase):
     def test_asciidoc_anchor(self):
         self.assertEqual(self.status("#eRoamingAuthorizeStart"), ["OK"])
         self.assertEqual(self.status("#eRoamingAuthorizeStop"), ["NIE_ZNALEZIONO"])
+
+    def test_markdown_heading(self):
+        self.assertEqual(self.status("#CDRInfo"), ["OK"])
+        self.assertEqual(self.status("#Live Status Interface"), ["OK"])
+        self.assertEqual(self.status("#Tariffs"), ["NIE_ZNALEZIONO"])
 
     def test_unsupported_locator_is_unchecked(self):
         self.assertEqual(self.status("tabela F"), ["NIESPRAWDZONE"])

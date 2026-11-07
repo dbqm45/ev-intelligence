@@ -159,7 +159,8 @@ Poddomeny z flagą `verify: true` zawierają nazwy wersji, numery norm albo stat
 - ~~wersji OCPI 2.3.0 i statusu prac nad OCPI 3.0~~ — sprawdzone u EVRoaming Foundation (`sources/evrf-ocpi.yaml`,
   `skills/ev-ocpi-roaming-expert/references/wersje-i-role.md`);
 - ~~aktualnej wersji OICP~~ — sprawdzone w repozytorium Hubject (`sources/hubject-oicp.yaml`,
-  `skills/ev-ocpi-roaming-expert/references/oicp.md`); eMIP i status OCHP nadal niesprawdzone;
+  `skills/ev-ocpi-roaming-expert/references/oicp.md`); status OCHP sprawdzony w repozytorium e-clearing.net
+  (`sources/eclearing-ochp.yaml`, ostatnie wydanie 1.4 z 2016 r.); eMIP nieopracowany z powodu licencji poufnej;
 - części ISO 15118 i ich statusu, numerów norm MCS;
 - statusu IEC 63110 i IEC 63119, OpenADR 3.0, EN 18031;
 - zakresu aktów wykonawczych AFIR — częściowo sprawdzone: wersja skonsolidowana AFIR (zmiany 2025/656, 2025/671) i

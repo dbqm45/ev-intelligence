@@ -9,7 +9,9 @@
 # - `dostep`:
 #   - `platna`: norma wydawana odpłatnie; brak kopii (płatność potwierdza dopiero zakup u wydawcy);
 #   - `niezarejestrowana`: dokument prawdopodobnie bezpłatny, ale jeszcze niepobrany i niesprawdzony;
-#   - `zablokowany`: host niedostępny z sieci sesji.
+#   - `zablokowany`: host niedostępny z sieci sesji;
+#   - `licencja_poufna`: dokument dostępny, ale licencja zakazuje ujawniania treści (np. eMIP); nie opracowujemy go.
+# - `klucze` (opcjonalne): dodatkowe słowa do dopasowania pytań, gdy nazwa nie ma numeru normy (np. „emip”).
 # - Gdy uzyskamy dokument: pobranie → wpis w `sources/<wydawca>.yaml` z SHA-256 → usunięcie wpisu stąd.
 # - `przywolana_w`: skille, które wymieniają dokument (stan 2026-11-07). Aktualizuj przy zmianach.
 
@@ -161,6 +163,12 @@ niezarejestrowane:
     temat: "komunikacja z pojazdem (CHAdeMO), z siecią i urządzeniami budynku"
     przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert, ev-evse-hardware-expert, ev-cpms-architect]
     uwaga: "Warunki dostępu (członkostwo, licencja) nieustalone."
+  - dokument: "eMIP (Gireve) — Protocol Description 1.0.17 i Implementation Guide 1.0.7 (eMIP v0.7.4)"
+    dostep: licencja_poufna
+    klucze: [emip]
+    temat: "protokół roamingowy Gireve, domena D01.04"
+    przywolana_w: [ev-ocpi-roaming-expert]
+    uwaga: "Pliki są publicznie do pobrania z www.gireve.com/download/, ale licencja (rozdz. 1.4 Confidentiality) zobowiązuje do ścisłej poufności i zakazuje ujawniania protokołu osobom trzecim w jakiejkolwiek formie. Treści nie opracowujemy do decyzji właściciela projektu (docs/DO-ZROBIENIA.md). Pobrane 2026-11-07, SHA-256: ProtocolDescription 1e52701050904d38c5ec4c4550fdf30c0820b19553fd01d0966a0ca309587db1, ImplementationGuide 7ce72da8e4efdc79a5e756d7b9740b74be7175548e155e38f211a074af2c111d."
 
 hosty_zablokowane:
   - host: modelcontextprotocol.io
@@ -172,12 +180,6 @@ hosty_zablokowane:
   - host: commission.europa.eu
     data: 2026-11-07
     obejscie: "brak — nota prawna Komisji (warunki ponownego wykorzystania danych)"
-  - host: www.gireve.com
-    data: 2026-11-07
-    obejscie: "brak — specyfikacja eMIP (Gireve), domena D01.04"
   - host: www.ochp.eu
     data: 2026-11-07
-    obejscie: "brak — OCHP (e-clearing.net), domena D01.05"
-  - host: www.hubject.com
-    data: 2026-11-07
-    obejscie: "specyfikacja OICP z github.com/hubject/oicp (git i raw.githubusercontent.com działają)"
+    obejscie: "specyfikacja OCHP z github.com/e-clearing-net/OCHP; host dodany do listy, ale połączenie jest resetowane"

@@ -275,12 +275,16 @@ def locate(rest: str, text: str) -> list[PartResult]:
             if m:
                 checked = True
                 found = _find_line(lines, re.compile(r"^" + m.group(1) + r"\.\s+[A-Z]"))
-        # Kotwica AsciiDoc (OICP): #eRoamingAuthorizeStart → wiersz „[[eRoamingAuthorizeStart]]”
+        # Kotwica AsciiDoc (OICP): #eRoamingAuthorizeStart → wiersz „[[eRoamingAuthorizeStart]]”;
+        # nagłówek Markdown (OCHP): #CDRInfo → „### CDRInfo *class*”, #Live Status Interface → „## Live Status Interface”
         if not checked:
-            m = re.match(r"^#([A-Za-z0-9_.\-]+)$", part)
+            m = re.match(r"^#(\S.*)$", part)
             if m:
                 checked = True
-                found = _find_line(lines, re.compile(r"^\s*\[\[" + re.escape(m.group(1)) + r"(,[^\]]*)?\]\]\s*$"))
+                name = m.group(1).strip()
+                found = _find_line(lines, re.compile(r"^\s*\[\[" + re.escape(name) + r"(,[^\]]*)?\]\]\s*$"))
+                if found is None:
+                    found = _find_line(lines, re.compile(r"^#{1,6}\s+" + re.escape(name) + r"(\s+\*\w+\*)?\s*$"))
         # Nazwany fragment: Preface
         if not checked and part in ("Preface",):
             checked = True
@@ -335,6 +339,7 @@ def load_unavailable(root: Path = ROOT) -> list[dict]:
             name = str(e.get("norma") or e.get("dokument") or "")
             raw = [m.group(1).lower() for m in _UNAVAILABLE_NAMES.finditer(name)]
             raw += [re.sub(r"-(19|20)\d\d$", "", k) for k in raw]          # „2030.5-2018” pasuje też do „2030.5”
+            raw += [str(k).lower() for k in (e.get("klucze") or [])]       # jawne klucze, np. nazwa protokołu
             keys = sorted({k for k in raw if not re.fullmatch(r"(19|20)\d\d", k)})   # same lata to nie klucze
             out.append({"nazwa": name, "dostep": e.get("dostep", ""), "temat": e.get("temat", ""),
                         "uwaga": e.get("uwaga", ""), "keys": keys})
@@ -352,7 +357,8 @@ def unavailable_matches(text: str, root: Path = ROOT) -> list[dict]:
 
 
 DOSTEP_OPIS = {"platna": "normą płatną", "niezarejestrowana": "dokumentem jeszcze niepobranym",
-               "zablokowany": "dokumentem z niedostępnego hosta"}
+               "zablokowany": "dokumentem z niedostępnego hosta",
+               "licencja_poufna": "dokumentem objętym licencją z klauzulą poufności"}
 UNAVAILABLE_NOTICE = ("Tej części nie da się sprawdzić w źródłach: {nazwa} jest {opis} i nie mamy treści tego dokumentu "
                       "(sources/niedostepne.yaml). Powiedz to na początku odpowiedzi i nie uzupełniaj z pamięci.")
 

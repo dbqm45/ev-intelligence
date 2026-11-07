@@ -137,6 +137,30 @@
       }
     },
     {
+      "id": "ochp-cdr-odrzucony",
+      "expect": "trigger",
+      "prompt": "Partner przez clearing house OCHP 1.4 odrzucił nasz CDR. Jakie mamy opcje jako operator i jakie statusy przejdzie ten CDR? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "declined"
+          ],
+          [
+            "revised"
+          ],
+          [
+            "rejected"
+          ],
+          [
+            "AddCDRs|CheckCDRs"
+          ]
+        ],
+        "none": [
+          "credit CDR (jest|to) (jedyn|wymagan)"
+        ]
+      }
+    },
+    {
       "id": "ocpp-callerror",
       "expect": "no-trigger",
       "neighbor": "ev-ocpp-expert",

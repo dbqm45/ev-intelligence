@@ -10,15 +10,24 @@ historii w commicie.
 - **Płatna ewaluacja na modelu:** tylko za zgodą (CLAUDE.md). Nowe scenariusze w ev-product-designer
   (`terminal-dostepnosc`, `liczba-punktow-pl`) nie mają jeszcze przebiegu.
 
+- **eMIP (Gireve):** licencja specyfikacji wymaga ścisłej poufności i zakazuje ujawniania protokołu osobom trzecim
+  „in any form whatsoever”. Baza jest udostępniana przez MCP, więc opisanie eMIP w skillach może naruszać licencję.
+  Opcje: (a) nie opracowujemy eMIP (domyślnie); (b) tylko informacja publiczna bez treści protokołu; (c) zgoda Gireve na
+  piśmie albo opinia prawna. Pliki i SHA: `sources/niedostepne.yaml`.
+
 ## Hosty, które nie działają
 | Host | Objaw | Co daje | Co zrobić |
 |---|---|---|---|
 | `www.iea.org` | HTTP 403 mimo dodania do listy domen | IEA Global EV Outlook 2026 (raport CC BY 4.0, dane na licencji IEA innej niż CC) | sprawdzić, czy blokuje automatyczne pobieranie; ewentualnie pobrać ręcznie i podać plik |
+| `www.ochp.eu` | połączenie resetowane mimo dodania do listy | strona OCHP; specyfikacja jest już z GitHuba | prawdopodobnie strona nieczynna; nic nie robić |
 | `commission.europa.eu` | połączenie odrzucone przez proxy | nota prawna Komisji: warunki ponownego wykorzystania danych Eurostatu i EAFO | dodać host; potem zastąpić „[niesprawdzone]” w `sources/eu-dane.yaml` |
 
 Pełna lista zablokowanych hostów: `sources/niedostepne.yaml`, sekcja `hosty_zablokowane`.
 
 ## Źródła do przejrzenia (hosty działają)
+- **Gireve OCPI 2.2.1 Implementation Guide V1.6** (www.gireve.com/download/): zasady Gireve jako huba OCPI. Licencji w
+  dokumencie nie znaleziono; pobrany, nieopracowany.
+- **Hubject Dynamic Pricing — Functional Guide** (support.hubject.com) i dokumentacja OpenAPI OICP 2.3.
 - **CEPiK w dane.gov.pl:** rejestracje pojazdów w PL, dokładniejsze niż Eurostat (część wartości Eurostatu dla PL ma
   flagę „i”, czyli jest uzupełniona z innych źródeł).
 - **Specyfikacja usługi sieciowej EIPA w BIP UDT** (art. 42 ust. 9 ustawy o elektromobilności): na bip.udt.gov.pl nie

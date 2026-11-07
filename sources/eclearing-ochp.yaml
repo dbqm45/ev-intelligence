@@ -1,0 +1,27 @@
+# Rejestr źródeł: OCHP (Open Clearing House Protocol) — klasa A (repozytorium wydawcy protokołu).
+# github.com/e-clearing-net/OCHP, commit 034363a896bb9c8a24a82e078d57505eaad68ce7 (master, 2023-12-14).
+# Pliki Markdown bez numerów sekcji: lokalizator to tytuł nagłówka, np. [OCHP14 #CDRInfo], [OCHP14 #Live Status Interface].
+# Strona www.ochp.eu nie odpowiada z sieci sesji (2026-11-07).
+
+source_class: A
+owner: "smartlab, elaad.nl (e-clearing.net)"
+licence: "Licencja typu MIT (nota w OCHP.md, OCHP-direct.md i LICENSE): wolno kopiować i modyfikować z zachowaniem noty o prawach autorskich"
+retrieved: 2026-11-07
+
+documents:
+  - id: OCHP-README
+    title: "OCHP — README repozytorium (aktualne wersje, historia)"
+    url: https://raw.githubusercontent.com/e-clearing-net/OCHP/034363a896bb9c8a24a82e078d57505eaad68ce7/README.md
+    sha256: a8a0c6abc92b2095f8baff2ea4061b4b681f727f6bc77bc17653786e44839540
+  - id: OCHP14
+    title: "Open Clearing House Protocol (OCHP) 1.4 — specyfikacja (OCHP.md)"
+    url: https://raw.githubusercontent.com/e-clearing-net/OCHP/034363a896bb9c8a24a82e078d57505eaad68ce7/OCHP.md
+    sha256: 41d21a4829bbd051afc213535c75425b7023792b8c0eda5c9dd17ccc1607a79f
+  - id: OCHPD02
+    title: "OCHPdirect 0.2 — rozszerzenie OCHP o komunikację bezpośrednią (OCHP-direct.md)"
+    url: https://raw.githubusercontent.com/e-clearing-net/OCHP/034363a896bb9c8a24a82e078d57505eaad68ce7/OCHP-direct.md
+    sha256: 094d8fa4e4f7b5c8cd794097f008e7e16e02583ddfa06c0e33e23f103ae468b0
+  - id: OCHP14-WSDL
+    title: "OCHP 1.4 — ochp.wsdl (definicja usług SOAP)"
+    url: https://raw.githubusercontent.com/e-clearing-net/OCHP/034363a896bb9c8a24a82e078d57505eaad68ce7/ochp.wsdl
+    sha256: 8949cd7b379f9a03329c9e2749f581b4c3345d9e668122c425d4eef859fa50ce
