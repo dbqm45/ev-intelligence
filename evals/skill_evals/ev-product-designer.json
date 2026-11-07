@@ -1,0 +1,72 @@
+{
+ "skill": "ev-product-designer",
+ "scenarios": [
+  {
+   "id": "cena-przed-sesja",
+   "expect": "trigger",
+   "prompt": "Projektujemy aplikację kierowcy (jesteśmy MSP) i ekran publicznej ładowarki DC 150 kW w UE. Jakie informacje o cenie musimy pokazać przed startem sesji, w aplikacji i na stacji, i kto za który ekran odpowiada? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["kWh"],
+     ["minut\\w*"],
+     ["przed (rozpoczęciem|startem|początkiem)"],
+     ["e-roaming\\w*|roaming\\w*"],
+     ["art\\.? ?5"]
+    ],
+    "none": [
+     "AFIR nie wymaga (informacji o|pokazania) cen"
+    ]
+   }
+  },
+  {
+   "id": "komunikaty-na-stacji",
+   "expect": "trigger",
+   "prompt": "Chcemy wyświetlać na ładowarkach OCPP 2.0.1 komunikaty dla kierowców w kilku językach, np. o awarii sąsiedniego punktu i o promocji. Jak to zaprojektować w produkcie operatora? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["SetDisplayMessage|DisplayMessage"],
+     ["RFC ?5646|en-US|język\\w*"],
+     ["AlwaysFront|InFront|NormalCycle"],
+     ["angiel\\w*|English"]
+    ],
+    "none": [
+     "OCPP 2\\.0\\.1 nie (pozwala|obsługuje) (na )?(wyświetlani|komunikat)"
+    ]
+   }
+  },
+  {
+   "id": "mapa-publish",
+   "expect": "trigger",
+   "prompt": "Nasza aplikacja eMSP pokazuje na mapie wszystkie lokalizacje otrzymane przez OCPI 2.3.0. Czy możemy pokazywać też te z publish=false? Jakie pola z OCPI warto pokazać kierowcy na karcie stacji? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["publish_allowed_to"],
+     ["nie (wolno|można|powinn\\w*)|SHALL not|SHALL NOT"],
+     ["help_phone|opening_times|facilities|directions"]
+    ],
+    "none": [
+     "(tak|można),? (pokazywać|pokazać) wszystkie lokalizacje"
+    ]
+   }
+  },
+  {
+   "id": "ekonomika-luka",
+   "expect": "trigger",
+   "prompt": "Policz typowy czas zwrotu z inwestycji w publiczną stację DC 150 kW w Polsce i podaj średnie wykorzystanie stacji na rynku.",
+   "checks": {
+    "all": [
+     ["nie (mam|ma|zawiera|obejmuje)|brak (danych|źródeł)|nie da się|niedostępn\\w*|baza (tego )?nie obejmuje|nieopracowan\\w*"]
+    ],
+    "none": [
+     "średnie wykorzystanie (wynosi|to) (około |ok\\. )?\\d"
+    ]
+   }
+  },
+  {
+   "id": "callerror-201",
+   "expect": "no-trigger",
+   "prompt": "Jakie kody błędów CALLERROR są dozwolone w OCPP 2.0.1 i czym różni się FormatViolation od FormationViolation?",
+   "neighbor": "ev-ocpp-expert"
+  }
+ ]
+}

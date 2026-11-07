@@ -145,6 +145,14 @@ niezarejestrowane:
     dostep: niezarejestrowana
     temat: "OSD, OSP, elastyczność; definicje przywołane przez AFIR"
     przywolana_w: [ev-energy-smart-charging-expert]
+  - dokument: "Dyrektywa (UE) 2019/882 (European Accessibility Act)"
+    dostep: niezarejestrowana
+    temat: "wymagania dostępności, przywołane przez AFIR art. 14 ust. 2 lit. i"
+    przywolana_w: [ev-product-designer]
+  - dokument: "Dane rynkowe i ekonomika stacji (wykorzystanie, przychody, CAPEX/OPEX, krajobraz rynku)"
+    dostep: niezarejestrowana
+    temat: "D15.01, D15.02, D17 — brak źródeł oficjalnych w bazie; do rozważenia statystyki instytucji UE i regulatorów"
+    przywolana_w: [ev-product-designer]
   - dokument: "Specyfikacje CHAdeMO, OpenADR, EEBUS, SunSpec, Modbus"
     dostep: niezarejestrowana
     temat: "komunikacja z pojazdem (CHAdeMO), z siecią i urządzeniami budynku"

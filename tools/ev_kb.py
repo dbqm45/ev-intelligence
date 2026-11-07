@@ -314,7 +314,7 @@ def locate(rest: str, text: str) -> list[PartResult]:
 
 _UNAVAILABLE_NAMES = re.compile(r"\b(\d{4,5}(?:[-.]\d+)*|MID|PSD2|PCI DSS|Eichrecht|CHAdeMO|OpenADR|EEBUS|SunSpec|Modbus|"
                                 r"Prawo o miarach|MessEV|PTB|OCMF|EDL|BNetzA|"
-                                r"DATEX|DNP3|2014/32|2015/2366|2019/944)\b")
+                                r"DATEX|DNP3|2014/32|2015/2366|2019/944|2019/882)\b")
 
 
 def load_unavailable(root: Path = ROOT) -> list[dict]:
