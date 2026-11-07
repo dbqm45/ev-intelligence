@@ -72,6 +72,51 @@
      "AFIR wymaga (uptime|dostępności) (na poziomie )?9\\d ?%"
     ]
    }
+  },
+  {
+   "id": "ho-ops-evcommerror-faulted",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 1.6J zgłasza StatusNotification ze statusem Faulted i errorCode EVCommunicationError. Czy dyżurny powinien od razu wysłać serwis? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "SuspendedEVSE"
+     ],
+     [
+      "(nie|not)[^.\\n]{0,80}(faulted|awari\\w*|real error)"
+     ],
+     [
+      "vendorErrorCode|log\\w*|D21|producent\\w*"
+     ]
+    ],
+    "none": [
+     "(tak,? )?(od razu )?wyślij serwis"
+    ]
+   }
+  },
+  {
+   "id": "ho-ops-wylacz-evse-na-noc",
+   "expect": "trigger",
+   "prompt": "Na stacji OCPP 2.0.1 z trzema EVSE trzeba na noc wyłączyć jedno EVSE do prac serwisowych, nie przerywając sesji na pozostałych. Jakie polecenie, co jeśli na tym EVSE trwa sesja i jak to wpłynie na dane AFIR? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "ChangeAvailability"
+     ],
+     [
+      "Inoperative"
+     ],
+     [
+      "Scheduled"
+     ],
+     [
+      "non-operational|operacyjn\\w*|AFIR"
+     ]
+    ],
+    "none": [
+     "(użyj|wyślij|zrób) (polecenie )?Reset"
+    ]
+   }
   }
  ]
 }

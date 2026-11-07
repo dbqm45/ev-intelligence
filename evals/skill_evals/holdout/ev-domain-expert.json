@@ -1,0 +1,62 @@
+{
+ "skill": "ev-domain-expert",
+ "scenarios": [
+  {
+   "id": "ho-dom-afir-minuta",
+   "expect": "trigger",
+   "prompt": "W EV Intelligence chcemy opisać wymóg AFIR, że dane dynamiczne trzeba aktualizować najpóźniej minutę po zmianie. W której domenie i poddomenie taksonomii to zapisać, który skill za to odpowiada i czy jest już opracowany? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "D12\\.01"
+     ],
+     [
+      "ev-compliance-expert|Compliance Expert"
+     ],
+     [
+      "P2|nieopracowan\\w*|luk\\w*|jeszcze nie"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "ho-dom-pantograf",
+   "expect": "trigger",
+   "prompt": "Nowe zadanie w EV Intelligence: obsługa ładowania autobusów pantografem w zajezdni. Które poddomeny taksonomii tego dotyczą i co z tego baza ma już opracowane? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "D19\\.05"
+     ],
+     [
+      "P3|nieopracowan\\w*|luk\\w*"
+     ],
+     [
+      "D08|D03|D02\\.02|ev-evse-hardware-expert|ev-energy-smart-charging-expert"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "ho-dom-model-zle-statusy",
+   "expect": "trigger",
+   "prompt": "Serwis zauważył, że jeden model ładowarki po aktualizacji firmware raportuje statusy złączy w nietypowej kolejności. Gdzie w taksonomii EV Intelligence zapisać tę informację, jakim rodzajem wiedzy ją oznaczyć i który skill ją obsługuje? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "D21\\.01|D21"
+     ],
+     [
+      "klas\\w* D|implementation|implementacyjn\\w*"
+     ],
+     [
+      "ev-evse-diagnostics-expert"
+     ],
+     [
+      "firmware"
+     ]
+    ]
+   }
+  }
+ ]
+}

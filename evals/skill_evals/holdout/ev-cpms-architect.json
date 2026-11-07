@@ -1,0 +1,65 @@
+{
+ "skill": "ev-cpms-architect",
+ "scenarios": [
+  {
+   "id": "ho-cpms-lc-utrata-stacji",
+   "expect": "trigger",
+   "prompt": "W topologii z Local Controllerem OCPP 2.0.1 jedna stacja traci połączenie z kontrolerem, a kontroler nadal ma połączenie z CSMS. Co kontroler musi zrobić i jak CSMS się o tym dowie? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "SHALL"
+     ],
+     [
+      "zamkn\\w*|close"
+     ],
+     [
+      "WebSocket"
+     ],
+     [
+      "offline"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "ho-cpms-identyfikator-url",
+   "expect": "trigger",
+   "prompt": "Chcemy nadawać stacjom OCPP 2.0.1 identyfikatory w formacie 'PL:WAW:000123-KONTROLER-GLOWNY-STREFA-PARKINGOWA-A1'. Czy to poprawny identyfikator stacji w URL połączenia? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "dwukrop\\w*|\":\"|znak\\w* :|`:`"
+     ],
+     [
+      "48"
+     ],
+     [
+      "Basic|uwierzyteln\\w*|hasł\\w*"
+     ]
+    ],
+    "none": [
+     "(to )?(jest )?poprawny identyfikator"
+    ]
+   }
+  },
+  {
+   "id": "ho-cpms-datex",
+   "expect": "trigger",
+   "prompt": "Budujemy moduł CPMS publikujący dane AFIR do krajowego punktu dostępowego. Od kiedy dane muszą być dostępne także w modelu DATEX II i jakiej normy to dotyczy? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "14 (kwietnia|April) 2026|2026-04-14|14\\.04\\.2026"
+     ],
+     [
+      "16157-10"
+     ],
+     [
+      "2025/655"
+     ]
+    ]
+   }
+  }
+ ]
+}

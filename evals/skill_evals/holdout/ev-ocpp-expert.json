@@ -72,6 +72,48 @@
      "(wyślij|użyj|wysyłaj) EVConnectionTimeout"
     ]
    }
+  },
+  {
+   "id": "ho-ocpp-profil-rezerwacji",
+   "expect": "trigger",
+   "prompt": "W tabeli profili OCPP 1.6 edition 2 (§3.3) komunikaty ReserveNow i CancelReservation są zaznaczone w kolumnie Remote Trigger. Czy rezerwacje należą do profilu Remote Trigger? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "errat\\w*"
+     ],
+     [
+      "(pomieszan\\w*|zamienion\\w*|mixed|przestawion\\w*)"
+     ],
+     [
+      "Reservation"
+     ]
+    ],
+    "none": [
+     "(tak,? )?rezerwacje należą do (profilu )?Remote Trigger"
+    ]
+   }
+  },
+  {
+   "id": "ho-ocpp-call-naraz-sila",
+   "expect": "trigger",
+   "prompt": "Czy CSMS może wysłać drugie polecenie do tej samej stacji, zanim dostanie odpowiedź na pierwsze? Czy reguła jest tak samo wiążąca w OCPP-J 1.6 i w 2.0.1? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "SHOULD NOT"
+     ],
+     [
+      "SHALL NOT"
+     ],
+     [
+      "połączeni\\w*|connection"
+     ],
+     [
+      "timeout|time-?out|przekroczen\\w* czasu"
+     ]
+    ]
+   }
   }
  ]
 }

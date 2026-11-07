@@ -1,0 +1,65 @@
+{
+ "skill": "ev-ocpi-roaming-expert",
+ "scenarios": [
+  {
+   "id": "ho-ocpi-request-correlation-id",
+   "expect": "trigger",
+   "prompt": "Nasz hub OCPI przekazuje żądanie od CPO do eMSP. Czy hub ma skopiować nagłówki X-Request-ID i X-Correlation-ID z żądania przychodzącego, czy nadać nowe? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "X-Request-ID[^.\\n]{0,120}(now\\w*|inn\\w*|new)"
+     ],
+     [
+      "X-Correlation-ID[^.\\n]{0,120}(ten sam|tak\\w* sam|zachow|same|bez zmian|kopi)"
+     ],
+     [
+      "SHALL"
+     ]
+    ],
+    "none": [
+     "hub (kopiuje|przekazuje) (ten sam|niezmieniony) X-Request-ID"
+    ]
+   }
+  },
+  {
+   "id": "ho-ocpi-4003-kolejka",
+   "expect": "trigger",
+   "prompt": "Przy wysyłce PATCH z sesją przez hub OCPI dostajemy status_code 4003. Co to oznacza i czy powinniśmy zakolejkować tę aktualizację i wysłać ją ponownie później? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "4003[^.\\n]{0,120}(niepołącz|nie jest połączon|not connected|połączeni\\w*|connection)"
+     ],
+     [
+      "SHOULD NOT|nie (należy|powinn\\w*)[^.\\n]{0,40}(kolejk|ponaw)"
+     ],
+     [
+      "\\bGET\\b|pull"
+     ]
+    ],
+    "none": [
+     "(należy|trzeba|powinniście) (zakolejkować|ponowić) (tę )?(aktualizację|PATCH)"
+    ]
+   }
+  },
+  {
+   "id": "ho-ocpi-step-size-przyszlosc",
+   "expect": "trigger",
+   "prompt": "Projektujemy taryfy OCPI 2.2.1 z elementem TIME i step_size 300. Klient ładował 6 minut. Ile czasu rozliczyć i co EVRoaming Foundation zaleca w sprawie step_size z myślą o OCPI 3.0? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "10 ?min"
+     ],
+     [
+      "step_size ?= ?1|ustaw\\w*[^.\\n]{0,30}\\b1\\b"
+     ],
+     [
+      "3\\.0[^.\\n]{0,80}(nie ma|usunięt|brak|no longer|nie występuje)|(nie ma|brak)[^.\\n]{0,60}3\\.0"
+     ]
+    ]
+   }
+  }
+ ]
+}

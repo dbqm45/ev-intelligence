@@ -1,0 +1,65 @@
+{
+ "skill": "ev-evse-diagnostics-expert",
+ "scenarios": [
+  {
+   "id": "ho-diag-schematy-z-biblioteki",
+   "expect": "trigger",
+   "prompt": "Do walidacji ramek OCPP 1.6 chcemy użyć schematów JSON skopiowanych z popularnej biblioteki open-source zamiast pakietu OCA. Czy to wystarczy jako dowód niezgodności stacji? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "OCA"
+     ],
+     [
+      "oficjaln\\w*"
+     ],
+     [
+      "Hertz|dodaj\\w*[^.\\n]{0,40}wartoś|różni\\w*"
+     ]
+    ],
+    "none": [
+     "(to )?wystarczy"
+    ]
+   }
+  },
+  {
+   "id": "ho-diag-firmware-inny-niz-cert",
+   "expect": "trigger",
+   "prompt": "Certyfikat OCA ładowarki wskazuje wersję oprogramowania 2.3, a stacja w BootNotification raportuje firmware 2.5 i źle obsługuje profile ładowania. Co to oznacza dla diagnozy i co dalej? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "certyfikat\\w*[^.\\n]{0,80}(nie rozstrzyga|nie obejmuje|nie dotyczy|nie potwierdza)"
+     ],
+     [
+      "PICS"
+     ],
+     [
+      "(test\\w* case|TC_|część 6|przypad\\w* testow)"
+     ],
+     [
+      "rejestr\\w*|D21|obserwac\\w*"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "ho-diag-co-rozstrzyga",
+   "expect": "trigger",
+   "prompt": "W dokumentacji OCPP tekst wymagania podaje inną nazwę wartości niż schemat JSON, a przykład w dokumencie jeszcze inną. Według czego rozstrzygnąć, co jest poprawne? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "errat\\w*"
+     ],
+     [
+      "schemat\\w*"
+     ],
+     [
+      "przykład\\w*[^.\\n]{0,80}(ilustrac\\w*|najniż\\w*|na końcu|ostatni\\w*)"
+     ]
+    ]
+   }
+  }
+ ]
+}
