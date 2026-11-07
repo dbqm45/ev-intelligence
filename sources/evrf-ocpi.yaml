@@ -1,0 +1,55 @@
+# Rejestr źródeł: OCPI (EVRoaming Foundation) — klasa A (właściciel protokołu).
+# Pliki NIE są w repozytorium; licencja dokumentów: CC BY-ND 4.0 (nota w specyfikacjach i rozszerzeniach).
+# Weryfikacja: pobierz z `url`, porównaj sha256. Strony EVRF sprawdzone 2026-11-07.
+
+source_class: A
+owner: EVRoaming Foundation
+licence: CC BY-ND 4.0 — cytujemy fakty z atrybucją, nie publikujemy zmienionych kopii
+retrieved: 2026-11-07
+
+pages:
+  - id: EVRF-DL
+    title: "OCPI Downloads (lista wydań, status 2.3.0 / 2.2.1 / 2.2 / 3.0)"
+    url: https://evroaming.org/ocpi-downloads/
+    note: >
+      Strona jednocześnie podaje „OCPI v2.3.0 is available since 21st February 2025” i „The current official release of OCPI
+      is version 2.2.1, with deliverable 2 (d2)” (sekcja o 2.2.1). OCPI 3.0: „Update October 2026 … waiting official review
+      by CENELEC … expected release date of OCPI v3.0 is H2 2027”. OCPI 2.2: „will not be supported anymore”.
+  - id: EVRF-VME
+    title: "OCPI versions & modules explained (strona)"
+    url: https://evroaming.org/ocpi-versions-modules-explained/
+
+documents:
+  - id: OCPI230
+    title: "OCPI 2.3.0 — Open Charge Point Interface, document version 2.3.0, 2025-02-21"
+    url: https://evroaming.org/wp-content/uploads/2025/02/OCPI-2.3.0.pdf
+    sha256: 4504f1a973c17eeb3b6d629c843acb00ededacb48d0ee418a6f1e4627f721f29
+  - id: OCPI221
+    title: "OCPI 2.2.1-d2 (plik); wewnątrz: „document version 2.2.1-d3-pre1, 2023-09-07”"
+    url: https://evroaming.org/wp-content/uploads/2024/11/OCPI-2.2.1-d2.pdf
+    sha256: 03580efca909f0e042d86f00647e88b5c63d64482df82096f020094810b0f6d6
+  - id: OCPI221-CH
+    title: "OCPI v2.2.1 changes (with reason)"
+    url: https://evroaming.org/wp-content/uploads/2024/10/OCP-v2-2-1-changes-with-reason.pdf
+    sha256: 468321b44c663db20af42efabbc43048cc2ff1777bf1be963a7b1c3cba6a8f9b
+  - id: EVRF-V25
+    title: "OCPI versions explained, August 2025 (prezentacja EVRF, 19/08/2025)"
+    url: https://evroaming.org/wp-content/uploads/2025/08/EVRF-OCPI-versions-August-25.pdf
+    sha256: d13a26300be9e46cfd6bbe8a1ae4fcd689d095b915961415bce47f0206a051ba
+    note: "Podaje dla 3.0 „To be released – H2 2025” — nieaktualne wobec EVRF-DL (październik 2026: H2 2027)."
+  - id: OCPI-NAP
+    title: "OCPI NAP extension 1.0 — OCPI Data Exchange for National Access Points under AFIR"
+    url: https://evroaming.org/wp-content/uploads/2026/09/OCPI-nap-extension-1.0.pdf
+    sha256: 44d23989dca824283161bc28bbc7721a4184c8b9111c1b6f8621ebb8ab109213
+  - id: OCPI-NAP-MAP
+    title: "Overview of EU AFIR NAP Implementing Act requirements vs OCPI 2.3.0"
+    url: https://evroaming.org/wp-content/uploads/2025/03/NAP-EU-2023_1804-data-fields-OCPI-2.3.0.pdf
+    sha256: 37b6c9a00c0dd89dd0b8b276f18433e188bda043621bb8105cb00b8add9fcfac
+  - id: OCPI-TSG
+    title: "Tariff simplification in the EV charging market using OCPI v2.3 (extension 1.0)"
+    url: https://evroaming.org/wp-content/uploads/2026/10/OCPI-tariff_simplification_extension-1.0.pdf
+    sha256: 9e6d3fa0ddfe974ac21eaccf89f4b157fcd5010fdb59bcd0b86ac7023ef67f76
+  - id: OCPI-DP
+    title: "Direct Payment module for OCPI 2.2.1 (EVRF version)"
+    url: https://evroaming.org/wp-content/uploads/2024/10/DirectPayment_2_2_1___EVRF_version.pdf
+    sha256: f7266287a093e23ce745e80db5d7cf41788ce7a56017df7eb79e8533225df31d
