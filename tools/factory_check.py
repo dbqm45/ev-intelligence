@@ -8,6 +8,8 @@ copies our skills and scenarios in, and runs the factory's checks:
   1. taxonomy     — tools/render_taxonomy.py --check (local)
   2. registry     — every skills/<name> is listed in taxonomy.yaml → skills (local)
      unit tests   — python3 -m unittest discover tests (scripts shipped with skills)
+     citations    — tools/ev_kb.py check skills knowledge (every `[ID §…]` tag is in sources/*.yaml; sections are
+                    checked against local copies in .cache/ev-kb when present)
   3. build        — factory/build.py check (skill structure rules)
   4. scenarios    — .claude/tests/run_skill_evals.py --validate
   5. gate         — factory/skill_gate.py <skill> for each skill (free checks: structure, scenarios, hint routing,
@@ -149,6 +151,8 @@ def main() -> int:
     if (ROOT / "tests").is_dir():
         ok &= step("unit tests (python3 -m unittest discover tests)",
                    [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], ROOT)
+    ok &= step("citations (tools/ev_kb.py check skills knowledge)",
+               [sys.executable, "tools/ev_kb.py", "check", "skills", "knowledge"], ROOT)
     if not names:
         print("No skills yet — only the taxonomy was checked.")
         return 0 if ok else 1

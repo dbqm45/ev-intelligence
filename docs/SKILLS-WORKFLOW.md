@@ -50,8 +50,10 @@ Zasady pochodzą z `core/skills/core-skill-authoring/SKILL.md` w tf. Czytaj je s
    - `description` ≤170 znaków w formie „Użyj, gdy … — …”;
    - `metadata.katalog` z granicami („Nie do …”), `metadata.slowa`, `metadata.przeglad`;
    - procedura, `## Przykład`, `## Źródła` z datą.
-5. **Bramka:** `python3 tools/factory_check.py --skills <nazwa>`, aż do `PASS`.
-6. **Ewaluacja na modelu** (płatna, ok. $0,10–0,30 za scenariusz i model) **tylko za zgodą człowieka**:
+5. **Cytaty:** `python3 tools/ev_kb.py check skills/<nazwa>` (opis: `docs/EV-KB.md`). Z lokalnymi kopiami dokumentów
+   sprawdza też, czy sekcje istnieją. `factory_check.py` robi to samo dla wszystkich skilli.
+6. **Bramka:** `python3 tools/factory_check.py --skills <nazwa>`, aż do `PASS`.
+7. **Ewaluacja na modelu** (płatna, ok. $0,10–0,30 za scenariusz i model) **tylko za zgodą człowieka**:
    `python3 tools/factory_check.py --skills <nazwa> --model haiku,sonnet --budget 2 --yes`.
 
 ## Ograniczenia
