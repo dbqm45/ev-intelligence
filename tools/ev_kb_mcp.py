@@ -30,6 +30,7 @@ import ev_kb  # noqa: E402
 
 try:
     from mcp.server.mcpserver import MCPServer
+    from mcp.server.mcpserver.prompts.base import Prompt
     from mcp.types import ToolAnnotations
 except ImportError:  # pragma: no cover
     sys.stderr.write("Brak pakietu `mcp` w wersji 2.x (pip install 'mcp>=2,<3').\n")
@@ -38,26 +39,70 @@ except ImportError:  # pragma: no cover
 ROOT = Path(os.environ.get("EV_KB_ROOT") or ev_kb.ROOT).resolve()
 READ_ONLY = ToolAnnotations(read_only_hint=True, open_world_hint=False)
 
-INSTRUCTIONS = """EV Intelligence: wiedza o ładowaniu pojazdów elektrycznych (OCPP, OCPI, CPMS, operacje, sprzęt, taryfy,
-AFIR) z cytatami ze źródeł oficjalnych (OCA, EVRoaming Foundation, EUR-Lex).
+RULES = """Zasady: (1) nic z pamięci — fakty o protokołach, normach i regulacjach bierz z tych narzędzi i podawaj ze
+znacznikiem [ID §sekcja] oraz nazwą dokumentu słowami; (2) kolejność: ev_route → ev_skill (procedura, pułapki,
+references) → ev_search / ev_cite → ev_check gotowego tekstu; (3) rekomendacje oznaczaj „Wniosek”; (4) czego baza nie
+obejmuje, mów wprost."""
 
-Zasady:
-1. Nic z pamięci modelu. Fakty o protokołach, normach i regulacjach bierz z tych narzędzi i podawaj ze znacznikiem
-   [ID §sekcja] oraz nazwą dokumentu słowami (np. „specyfikacja OCPI 2.3.0 §10.3.1 [OCPI230 §10.3.1]”).
-2. Kolejność: ev_route (które skille i domeny), potem ev_skill (procedura, pułapki, references), ev_search (konkretny
-   fakt), ev_cite (źródło i fragment tekstu), ev_check (kontrola znaczników w gotowym tekście).
-3. Rekomendacje wyprowadzone z faktów oznaczaj słowem „Wniosek”.
-4. Gdy baza czegoś nie obejmuje (brak trafień, skill nieopracowany), powiedz to wprost. Nie uzupełniaj z pamięci.
-"""
+INSTRUCTIONS_LIMIT = 4096   # Claude Code ucina dłuższe instrukcje serwera (code.claude.com/docs/en/mcp.md, tool search)
+
+
+def knowledge_version(root: Path = ROOT) -> str:
+    """Commit repozytorium wiedzy (gdy jest git) — żeby odpowiedź dało się przypisać do wersji bazy."""
+    head = root / ".git" / "HEAD"
+    try:
+        ref = head.read_text(encoding="utf-8").strip()
+        if ref.startswith("ref: "):
+            path = root / ".git" / ref[5:]
+            if path.is_file():
+                return path.read_text(encoding="utf-8").strip()[:12]
+            packed = root / ".git" / "packed-refs"
+            for line in packed.read_text(encoding="utf-8").splitlines():
+                if line.endswith(" " + ref[5:]):
+                    return line.split()[0][:12]
+        return ref[:12]
+    except OSError:
+        return "nieznana"
+
+
+def build_instructions(root: Path = ROOT) -> str:
+    """Instrukcje serwera = katalog skilli (odpowiednik opisów zainstalowanych skilli) + zasady źródeł."""
+    head = ("EV Intelligence: wiedza o ładowaniu pojazdów elektrycznych z cytatami ze źródeł oficjalnych (OCA, "
+            "EVRoaming Foundation, EUR-Lex). Używaj przy każdym zadaniu z elektromobilności: CPMS/CSMS, OCPP, OCPI i "
+            "roaming, ładowarki, operacje NOC, taryfy i rozliczenia, AFIR. Skille (treść: ev_skill):\n")
+    lines = [f"- {s['skill']}: {s['description']}" for s in ev_kb.list_skills(root)]
+    text = head + "\n".join(lines) + "\n" + RULES + f"\nWersja wiedzy: {knowledge_version(root)}."
+    if len(text) > INSTRUCTIONS_LIMIT:                    # zapas: skracamy katalog do nazw, zasady zostają
+        text = head + ", ".join(s["skill"] for s in ev_kb.list_skills(root)) + "\n" + RULES
+    return text
+
+
+INSTRUCTIONS = build_instructions()
 
 server = MCPServer(
     name="ev-intelligence",
     title="EV Intelligence",
     description="Wiedza EV (OCPP, OCPI, CPMS, AFIR, taryfy) z kontrolą źródeł oficjalnych",
     instructions=INSTRUCTIONS,
-    version="0.1.0",
+    version="0.2.0",
 )
 
+
+def _register_skill_prompts(root: Path = ROOT) -> None:
+    """Każdy skill jako prompt MCP (w Claude Code komenda /ev-intelligence:<skill>) z treścią SKILL.md."""
+    def make(name: str):
+        def render(task: str = "") -> str:
+            skill = ev_kb.read_skill(name, None, root)
+            refs = ", ".join(skill["references"]) or "brak"
+            return (skill["content"] + f"\n\nPliki references (czytaj przez ev_skill): {refs}."
+                    + (f"\n\nZadanie: {task}" if task else ""))
+        return render
+
+    for meta in ev_kb.list_skills(root):
+        server.add_prompt(Prompt.from_function(make(meta["skill"]), name=meta["skill"], title=meta["skill"],
+                                               description=meta["description"]))
+
+_register_skill_prompts()
 
 def _docs() -> Path:
     return ev_kb.docs_dir(None, ROOT)

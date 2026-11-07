@@ -33,10 +33,32 @@ class TestServer(unittest.TestCase):
             async with Client(ev_kb_mcp.server) as c:
                 return c.instructions, (await c.list_tools()).tools
         instructions, tools = run(go())
-        self.assertIn("Nic z pamięci", instructions)
+        self.assertIn("nic z pamięci", instructions)
         self.assertEqual(sorted(t.name for t in tools), ["ev_check", "ev_cite", "ev_route", "ev_search", "ev_skill"])
         for t in tools:
             self.assertTrue(t.annotations.read_only_hint, t.name)
+
+    def test_instructions_list_all_skills_within_limit(self):
+        import ev_kb
+        names = [x["skill"] for x in ev_kb.list_skills()]
+        text = ev_kb_mcp.INSTRUCTIONS
+        self.assertLessEqual(len(text), ev_kb_mcp.INSTRUCTIONS_LIMIT)
+        for n in names:
+            self.assertIn(n, text)
+        self.assertIn("Wersja wiedzy:", text)
+
+    def test_every_skill_is_a_prompt(self):
+        import ev_kb
+        async def go():
+            async with Client(ev_kb_mcp.server) as c:
+                prompts = (await c.list_prompts()).prompts
+                got = await c.get_prompt("ev-billing-tariff-expert", {"task": "wycena"})
+                return prompts, got
+        prompts, got = run(go())
+        self.assertEqual(sorted(p.name for p in prompts), sorted(x["skill"] for x in ev_kb.list_skills()))
+        text = got.messages[0].content.text
+        self.assertIn("name: ev-billing-tariff-expert", text)
+        self.assertTrue(text.endswith("Zadanie: wycena"))
 
     def test_route_and_skill(self):
         r = self.call("ev_route", {"task": "wycena sesji z taryfy OCPI, step_size"})

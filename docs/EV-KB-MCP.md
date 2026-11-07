@@ -15,6 +15,16 @@ Wszystkie tylko czytają (`readOnlyHint: true`, `openWorldHint: false`). Wynik j
 | `ev_cite(tag)` | dokument z rejestru (URL, data, SHA-256, licencja) i fragment sekcji z lokalnej kopii |
 | `ev_check(text)` | kontrola znaczników `[ID §…]` w tekście, np. w opisie PR albo w odpowiedzi modelu |
 
+**Jedno połączenie zamiast instalowania skilli.** Skille nie są instalowane w kliencie. Serwer czyta je z
+repozytorium, więc po `git pull` na serwerze każdy klient ma od razu aktualną wiedzę i nie trzeba śledzić, co gdzie
+dodano. Elementy, które zastępują zainstalowane skille:
+- **instrukcje serwera** zawierają katalog wszystkich skilli z ich opisami, budowany automatycznie przy starcie.
+  Claude Code przy wyszukiwaniu narzędzi ładuje na start tylko nazwy narzędzi i instrukcje serwera, które według
+  dokumentacji działają podobnie do opisów skilli. Limit to 4096 znaków; przy przekroczeniu katalog skraca się do nazw;
+- **prompty MCP**: każdy skill jest promptem z argumentem `task`. W Claude Code to komenda
+  `/ev-intelligence:<skill>` (albo `/mcp__ev-intelligence__<skill>`), która wstawia treść `SKILL.md` do rozmowy;
+- **wersja wiedzy** (commit repozytorium) w instrukcjach, żeby odpowiedź dało się przypisać do wersji bazy.
+
 Serwer przekazuje klientowi instrukcje (pole `instructions` przy inicjalizacji): nic z pamięci, znaczniki ze słowną
 nazwą dokumentu, „Wniosek” przy rekomendacjach, jawne luki.
 
