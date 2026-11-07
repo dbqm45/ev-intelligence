@@ -10,22 +10,22 @@ metadata:
 # EV Domain Expert — router taksonomii
 
 Skill nie odpowiada merytorycznie. Ustala, **których obszarów wiedzy dotyczy zadanie**, które skille wczytać, w jakiej
-kolejności i czego baza jeszcze nie ma. Źródło prawdy: `taxonomy/taxonomy.yaml`. Widok do przeszukiwania:
-`taxonomy/TAXONOMY-TREE.md`. Zasady granic: `taxonomy/TAXONOMY.md`, sekcja 5. Sieć: brak.
+kolejności i czego baza jeszcze nie ma. Źródło prawdy w repozytorium: `taxonomy/taxonomy.yaml`. Skill ma własne kopie (generowane, nie edytuj):
+drzewo `references/taksonomia-drzewo.md` i zasady `references/taksonomia-zasady.md` (granice: sekcja 5). Sieć: brak.
 
 ## Procedura
 1. **Rozpoznaj zadanie.** Wypisz rzeczowniki z zadania (komunikaty, obiekty, role, procesy), np. `Heartbeat`, `CDR`,
    `eMSP`, `przyłącze`. Brakuje wersji protokołu, roli rynkowej albo rynku (PL/UE)? Dopytaj albo zapisz założenie.
 2. **Znajdź poddomeny.** Szukaj każdego hasła w drzewie:
-   `grep -n -i "<hasło>" taxonomy/TAXONOMY-TREE.md`. Zapisz identyfikatory `Dnn.mm`, a nie same nazwy.
-3. **Wyznacz właściciela tematu** według tabeli granic (`taxonomy/TAXONOMY.md`, sekcja 5):
+   `grep -n -i "<hasło>" references/taksonomia-drzewo.md` (w repozytorium także `taxonomy/TAXONOMY-TREE.md`). Zapisz identyfikatory `Dnn.mm`, a nie same nazwy.
+3. **Wyznacz właściciela tematu** według tabeli granic (`references/taksonomia-zasady.md`, sekcja 5):
    - komunikat i parametr → D01;
    - zachowanie w systemie → D05;
    - praca operatora → D07;
    - rzeczywiste zachowanie urządzenia → D21;
    - scenariusz end-to-end → D22.
    Dopisz domeny z `depends_on` tylko wtedy, gdy zadanie bez nich jest niezrozumiałe.
-4. **Dobierz skille.** Pole `skills` domeny (rejestr: `taxonomy.yaml` → `skills`). Kolejność:
+4. **Dobierz skille.** Kolumna „Skille” w spisie domen i rejestr skilli na końcu `references/taksonomia-drzewo.md`. Kolejność:
    - najpierw fundament (D00, D01);
    - potem system (D05);
    - potem proces (D07, D06);

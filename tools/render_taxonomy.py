@@ -16,6 +16,10 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "taxonomy" / "taxonomy.yaml"
 OUT = ROOT / "taxonomy" / "TAXONOMY-TREE.md"
+# Self-contained copies for the router skill (skills are evaluated/installed without the repository files)
+SKILL_REFS = ROOT / "skills" / "ev-domain-expert" / "references"
+RULES = ROOT / "taxonomy" / "TAXONOMY.md"
+COPY_HEADER = "<!-- AUTO-GENERATED copy of {src} by tools/render_taxonomy.py — do not edit by hand. -->\n\n"
 
 PRIORITIES = {"mvp", "p2", "p3"}
 PRIORITY_LABEL = {"mvp": "MVP", "p2": "P2", "p3": "P3"}
@@ -144,14 +148,23 @@ def main() -> int:
         print("Taxonomy validation failed:", *errors, sep="\n  ")
         return 1
     output = render(data)
+    targets = {OUT: output}
+    if SKILL_REFS.parent.is_dir():   # the router skill exists → its copies are required
+        targets[SKILL_REFS / "taksonomia-drzewo.md"] = COPY_HEADER.format(src="taxonomy/TAXONOMY-TREE.md") + output
+        targets[SKILL_REFS / "taksonomia-zasady.md"] = (COPY_HEADER.format(src="taxonomy/TAXONOMY.md")
+                                                         + RULES.read_text(encoding="utf-8"))
     if "--check" in sys.argv:
-        if not OUT.exists() or OUT.read_text(encoding="utf-8") != output:
-            print(f"{OUT.relative_to(ROOT)} is stale — run: python3 tools/render_taxonomy.py")
+        stale = [p for p, text in targets.items() if not p.exists() or p.read_text(encoding="utf-8") != text]
+        if stale:
+            print("Stale: " + ", ".join(str(p.relative_to(ROOT)) for p in stale)
+                  + " — run: python3 tools/render_taxonomy.py")
             return 1
-        print("Taxonomy OK, tree up to date.")
+        print("Taxonomy OK, tree and skill copies up to date.")
         return 0
-    OUT.write_text(output, encoding="utf-8")
-    print(f"Taxonomy OK — wrote {OUT.relative_to(ROOT)}")
+    for p, text in targets.items():
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(text, encoding="utf-8")
+    print("Taxonomy OK — wrote " + ", ".join(str(p.relative_to(ROOT)) for p in targets))
     return 0
 
 
