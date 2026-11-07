@@ -1,19 +1,20 @@
 ---
 name: ev-ocpi-roaming-expert
-description: Użyj przy roamingu OCPI 2.2.1 i 2.3.0 między CPO, eMSP i hubem — rejestracja credentials, Locations, Sessions, CDR, taryfy, tokeny, komendy, routing.
+description: Użyj przy roamingu OCPI 2.2.1/2.3.0 i OICP 2.3 (Hubject) między CPO, eMSP i hubem — credentials, Locations, Sessions, CDR, taryfy, tokeny, komendy, mapowanie.
 metadata:
   przeglad: "2027-02-07"
-  katalog: "Użyj przy pytaniach i decyzjach projektowych dotyczących OCPI (2.2.1, 2.3.0; status 3.0) między platformami CPO, eMSP, hubem, NSP, NAP, SCSP i PTP — wersje i role, rejestracja i tokeny credentials A/B/C, nagłówek Authorization (Base64), push i pull, paginacja, nagłówki routingu przez hub, X-Request-ID i X-Correlation-ID, kody statusu OCPI, zachowanie offline, Locations/EVSE/Connector i statusy, Sessions, CDR i credit CDR, taryfy i step_size, tokeny i whitelist, autoryzacja real-time, asynchroniczne komendy START_SESSION, STOP_SESSION, RESERVE_NOW, UNLOCK_CONNECTOR. Każdy fakt z cytatem ze specyfikacji EVRoaming Foundation. Nie do wyceny sesji i reguł cenowych taryf (ev-billing-tariff-expert), protokołu ładowarka–CSMS (ev-ocpp-expert), doboru domen dla zadania przekrojowego (ev-domain-expert) ani OICP/Hubject i eMIP (domeny D01.03–D01.04, jeszcze nieopracowane)."
-  slowa: "OCPI, OCPI 2.2.1, OCPI 2.3.0, OCPI 3.0, roaming, EVRoaming Foundation, CPO, eMSP, MSP, hub, roaming hub, NSP, NAP, SCSP, platforma, credentials, CREDENTIALS_TOKEN_A, token B, token C, rejestracja partnera, onboarding roamingu, 401 OCPI, versions endpoint, Authorization Token, Base64, push, pull, paginacja, X-Total-Count, X-Limit, Link, date_from, OCPI-to-party-id, OCPI-from-country-code, routing, X-Request-ID, X-Correlation-ID, status_code 1000, 2001, 2003, 3001, 4001, Locations, EVSE, Connector, status EVSE, UNKNOWN, OUTOFORDER, INOPERATIVE, REMOVED, Sessions, SessionStatus, CDR, credit CDR, credit_reference_id, Tariffs, step_size, PriceComponent, TariffDimensionType, Tokens, whitelist, real-time authorization, ALLOWED_OFFLINE, Commands, START_SESSION, CommandResponse, CommandResult, response_url, timeout komendy, sesja roamingowa nie startuje, synchronizacja po awarii, ładowarki roamingowe, country_code party_id"
+  katalog: "Użyj przy pytaniach i decyzjach projektowych dotyczących OCPI (2.2.1, 2.3.0; status 3.0) między platformami CPO, eMSP, hubem, NSP, NAP, SCSP i PTP — wersje i role, rejestracja i tokeny credentials A/B/C, nagłówek Authorization (Base64), push i pull, paginacja, nagłówki routingu przez hub, X-Request-ID i X-Correlation-ID, kody statusu OCPI, zachowanie offline, Locations/EVSE/Connector i statusy, Sessions, CDR i credit CDR, taryfy i step_size, tokeny i whitelist, autoryzacja real-time, asynchroniczne komendy START_SESSION, STOP_SESSION, RESERVE_NOW, UNLOCK_CONNECTOR. Każdy fakt z cytatem ze specyfikacji EVRoaming Foundation. Nie do wyceny sesji i reguł cenowych taryf (ev-billing-tariff-expert), protokołu ładowarka–CSMS (ev-ocpp-expert), doboru domen dla zadania przekrojowego (ev-domain-expert) ani eMIP i OCHP (D01.04–D01.05, nieopracowane). OICP 2.3 (Hubject): autoryzacja przez HBS (offline, EMP z EvcoID, broadcast RFID), SessionID, CDR i dane do Eichrecht, EVSE Data/Status, Dynamic Pricing, kody statusu, limity wywołań, mapowanie statusów i różnice OICP–OCPI."
+  slowa: "OCPI, OCPI 2.2.1, OCPI 2.3.0, OCPI 3.0, roaming, EVRoaming Foundation, CPO, eMSP, MSP, hub, roaming hub, NSP, NAP, SCSP, platforma, credentials, CREDENTIALS_TOKEN_A, token B, token C, rejestracja partnera, onboarding roamingu, 401 OCPI, versions endpoint, Authorization Token, Base64, push, pull, paginacja, X-Total-Count, X-Limit, Link, date_from, OCPI-to-party-id, OCPI-from-country-code, routing, X-Request-ID, X-Correlation-ID, status_code 1000, 2001, 2003, 3001, 4001, Locations, EVSE, Connector, status EVSE, UNKNOWN, OUTOFORDER, INOPERATIVE, REMOVED, Sessions, SessionStatus, CDR, credit CDR, credit_reference_id, Tariffs, step_size, PriceComponent, TariffDimensionType, Tokens, whitelist, real-time authorization, ALLOWED_OFFLINE, Commands, START_SESSION, CommandResponse, CommandResult, response_url, timeout komendy, sesja roamingowa nie startuje, synchronizacja po awarii, ładowarki roamingowe, country_code party_id, OICP, OICP 2.3, Hubject, HBS, intercharge, EMP, eRoamingAuthorizeStart, eRoamingAuthorizeRemoteStart, eRoamingChargeDetailRecord, eRoamingPushEvseData, eRoamingPullEvseStatus, EvseID, EvcoID, OperatorID, ProviderID, SessionID, Dynamic Pricing, CalibrationLawDataAvailability, SignedMeteringValues, OICP vs OCPI, mapowanie statusów OICP OCPI"
 ---
 
 # OCPI / Roaming Expert — CPO ↔ eMSP ↔ hub
 
 Skill odpowiada na pytania o **protokół OCPI**: role, rejestrację, transport, moduły i ich cykl życia. Projekt modułu
 CPMS dla ładowarek roamingowych to `ev-cpms-architect` (D05.05, jeszcze nieopracowany). Tu podajesz **ograniczenia
-protokołu**. Taksonomia: D01.02, D06. Sieć: brak.
+protokołu**. Taksonomia: D01.02, D01.03 (OICP), D06. Sieć: brak.
 
-**Zasada źródeł.** Fakty pochodzą z dokumentów EVRoaming Foundation w `sources/evrf-ocpi.yaml`. Znacznik
+**Zasada źródeł.** Fakty pochodzą z dokumentów EVRoaming Foundation w `sources/evrf-ocpi.yaml` i, dla OICP, ze
+specyfikacji Hubject w `sources/hubject-oicp.yaml` (lokalizator `#kotwica`, np. `[OICP23-CPO-SVC #eRoamingAuthorizeStart]`). Znacznik
 `[OCPI230 §x]` wskazuje sekcję OCPI 2.3.0 (2025-02-21). Kluczowe zdania mają identyczne brzmienie
 w `[OCPI221]` (porównanie ciągów; numery sekcji: tabela w `references/transport.md`). Inne fakty dla 2.2.1
 sprawdzasz w `[OCPI221]` przed cytowaniem. **Wniosek** to rekomendacja wyprowadzona
@@ -33,6 +34,7 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 | `references/wersje-i-role.md` | status wersji (2.2.1, 2.3.0, 3.0), role i typowe moduły per rola, topologie, rozszerzenia EVRF |
 | `references/transport.md` | Authorization i Base64, push/pull, paginacja, routing przez hub, ID żądań, kody statusu, offline |
 | `references/moduly.md` | Credentials A/B/C, Locations i statusy EVSE, Sessions, CDR i credit CDR, Tariffs i `step_size`, Tokens, Commands |
+| `references/oicp.md` | OICP 2.3 / Hubject: wersje usług, HBS i ID, autoryzacja (offline, EvcoID, broadcast), CDR i Eichrecht, EVSE Data/Status, Dynamic Pricing, kody, limity, porównanie i mapowanie z OCPI |
 
 ## Procedura
 1. **Ustal wersję po obu stronach i rolę każdej platformy.** Wspólną wersję wybiera się w module Versions podczas
@@ -72,6 +74,10 @@ a sesji nie ma.”
    Po stronie CPO szczegóły polecenia OCPP: `ev-ocpp-expert`.
 
 ## Pułapki
+- OICP: drugi CDR dla tego samego SessionID zostanie odrzucony; Hubject przyjmuje jeden CDR na sesję
+  `[OICP23-CPO-SVC #eRoamingChargeDetailRecord]`. Nie przenoś do OICP logiki credit CDR z OCPI.
+- OICP: równoległe push tej samej operacji (np. dwa `fullLoad` EVSE) mogą się wyprzedzić i nadpisać dane; push wysyłasz
+  sekwencyjnie `[OICP23-CPO-COM #data_push_operations]`.
 - Nagłówek `Authorization: Token <Base64(credentials token)>`. Wiele implementacji 2.1.1 i 2.2 nie koduje tokenu,
   a od 2.2-d2 kodowanie Base64 jest wymagane `[OCPI230 §4.1.2]`.
 - `CREDENTIALS_TOKEN_A` działa tylko dla modułów Credentials i Versions. Inne moduły z tym tokenem → HTTP 401
@@ -92,7 +98,8 @@ a sesji nie ma.”
 - Hub przekazując żądanie SHALL nadać nowy `X-Request-ID`, a `X-Correlation-ID` zostaje ten sam `[OCPI230 §4.2]`.
 
 ## Źródła
-Dokumenty, adresy i sumy SHA-256: `sources/evrf-ocpi.yaml` (pobrane ze stron EVRF 2026-11-07).
+Dokumenty, adresy i sumy SHA-256: `sources/evrf-ocpi.yaml` (pobrane ze stron EVRF 2026-11-07) i
+`sources/hubject-oicp.yaml` (OICP 2.3, repozytorium Hubject, commit 119c5d5, pobrane 2026-11-07).
 - `OCPI230` — OCPI 2.3.0, document version 2.3.0, 2025-02-21;
 - `OCPI221` — OCPI 2.2.1-d2 (wewnątrz: „2.2.1-d3-pre1, 2023-09-07”);
 - `EVRF-DL` — strona „OCPI Downloads” (status wersji, 2026-11-07);

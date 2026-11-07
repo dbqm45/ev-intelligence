@@ -1,58 +1,146 @@
 {
- "skill": "ev-ocpi-roaming-expert",
- "scenarios": [
-  {
-   "id": "start-session-bez-sesji",
-   "expect": "trigger",
-   "prompt": "Jako eMSP wysłaliśmy przez OCPI komendę START_SESSION. CPO odpowiedział ACCEPTED, potem przyszedł CommandResult ACCEPTED, ale żadna sesja się nie pojawiła i klient nie ładuje. Jak to możliwe i jak powinniśmy to obsłużyć w aplikacji? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["CommandResponse"],
-     ["CommandResult"],
-     ["asynchron\\w*|response_url"],
-     ["timeout"],
-     ["(nie|podłącz)[^.\\n]{0,60}(kabel|kabl|EV|pojazd)|plugged|time-?out[^.\\n]{0,60}(sesj|EV)"],
-     ["Sessions?|PENDING|ACTIVE"]
-    ],
-    "none": ["CommandResult ACCEPTED (zawsze )?oznacza,? że sesja (się )?rozpoczęła"]
-   }
-  },
-  {
-   "id": "credentials-401",
-   "expect": "trigger",
-   "prompt": "Podłączamy nowego partnera po OCPI 2.2.1. Dostaliśmy od niego mailem token i adres versions. Pobranie /versions działa, ale GET na jego Locations zwraca 401. Co robimy źle? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["CREDENTIALS_TOKEN_A|token(em)? A\\b"],
-     ["CREDENTIALS_TOKEN_[BC]|token(y|em)? [BC]\\b"],
-     ["POST[^.\\n]{0,60}credentials|credentials[^.\\n]{0,60}POST"],
-     ["Base64"],
-     ["Authorization: Token|nagłów\\w* Authorization"]
-    ],
-    "none": ["token A (można|wolno) używać (do|dla) wszystkich modułów"]
-   }
-  },
-  {
-   "id": "sync-po-awarii",
-   "expect": "trigger",
-   "prompt": "Po kilkugodzinnej awarii połączenia OCPI z hubem: czy powinniśmy zbuforować nieudane PUT i PATCH z aktualizacjami statusów EVSE i wysłać je ponownie? Jak odbiorca ma wrócić do zgodnego stanu, także dla CDR? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["nie (należy |powinn\\w* )?(kolejkow|buforow)|SHOULD NOT be queued|nie kolejkuje"],
-     ["\\bGET\\b"],
-     ["date_from"],
-     ["CDR"],
-     ["Locations?"],
-     ["paginac\\w*|offset|X-Total-Count|Link"]
-    ],
-    "none": ["(należy|trzeba) (zbuforować|zakolejkować) (nieudane )?(PUT|PATCH)"]
-   }
-  },
-  {
-   "id": "ocpp-callerror",
-   "expect": "no-trigger",
-   "neighbor": "ev-ocpp-expert",
-   "prompt": "Ładowarka na OCPP 1.6J odpowiada CALLERROR FormationViolation na nasze ChangeConfiguration. Co oznacza ten kod i czym różni się od statusu Rejected?"
-  }
- ]
+  "skill": "ev-ocpi-roaming-expert",
+  "scenarios": [
+    {
+      "id": "start-session-bez-sesji",
+      "expect": "trigger",
+      "prompt": "Jako eMSP wysłaliśmy przez OCPI komendę START_SESSION. CPO odpowiedział ACCEPTED, potem przyszedł CommandResult ACCEPTED, ale żadna sesja się nie pojawiła i klient nie ładuje. Jak to możliwe i jak powinniśmy to obsłużyć w aplikacji? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "CommandResponse"
+          ],
+          [
+            "CommandResult"
+          ],
+          [
+            "asynchron\\w*|response_url"
+          ],
+          [
+            "timeout"
+          ],
+          [
+            "(nie|podłącz)[^.\\n]{0,60}(kabel|kabl|EV|pojazd)|plugged|time-?out[^.\\n]{0,60}(sesj|EV)"
+          ],
+          [
+            "Sessions?|PENDING|ACTIVE"
+          ]
+        ],
+        "none": [
+          "CommandResult ACCEPTED (zawsze )?oznacza,? że sesja (się )?rozpoczęła"
+        ]
+      }
+    },
+    {
+      "id": "credentials-401",
+      "expect": "trigger",
+      "prompt": "Podłączamy nowego partnera po OCPI 2.2.1. Dostaliśmy od niego mailem token i adres versions. Pobranie /versions działa, ale GET na jego Locations zwraca 401. Co robimy źle? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "CREDENTIALS_TOKEN_A|token(em)? A\\b"
+          ],
+          [
+            "CREDENTIALS_TOKEN_[BC]|token(y|em)? [BC]\\b"
+          ],
+          [
+            "POST[^.\\n]{0,60}credentials|credentials[^.\\n]{0,60}POST"
+          ],
+          [
+            "Base64"
+          ],
+          [
+            "Authorization: Token|nagłów\\w* Authorization"
+          ]
+        ],
+        "none": [
+          "token A (można|wolno) używać (do|dla) wszystkich modułów"
+        ]
+      }
+    },
+    {
+      "id": "sync-po-awarii",
+      "expect": "trigger",
+      "prompt": "Po kilkugodzinnej awarii połączenia OCPI z hubem: czy powinniśmy zbuforować nieudane PUT i PATCH z aktualizacjami statusów EVSE i wysłać je ponownie? Jak odbiorca ma wrócić do zgodnego stanu, także dla CDR? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "nie (należy |powinn\\w* )?(kolejkow|buforow)|SHOULD NOT be queued|nie kolejkuje"
+          ],
+          [
+            "\\bGET\\b"
+          ],
+          [
+            "date_from"
+          ],
+          [
+            "CDR"
+          ],
+          [
+            "Locations?"
+          ],
+          [
+            "paginac\\w*|offset|X-Total-Count|Link"
+          ]
+        ],
+        "none": [
+          "(należy|trzeba) (zbuforować|zakolejkować) (nieudane )?(PUT|PATCH)"
+        ]
+      }
+    },
+    {
+      "id": "oicp-rfid-autoryzacja",
+      "expect": "trigger",
+      "prompt": "Podłączamy CPMS do Hubject przez OICP 2.3. Kierowca przykłada kartę RFID, której nasz system nie zna. Jak przebiega autoryzacja i jak powiązać późniejszy CDR z tą sesją? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "eRoamingAuthorizeStart"
+          ],
+          [
+            "SessionID"
+          ],
+          [
+            "broadcast|wszystki\\w* EMP|do wszystkich"
+          ],
+          [
+            "eRoamingChargeDetailRecord|CDR"
+          ]
+        ],
+        "none": [
+          "OICP (nie ma|nie obsługuje) autoryzacji RFID"
+        ]
+      }
+    },
+    {
+      "id": "oicp-vs-ocpi-status",
+      "expect": "trigger",
+      "prompt": "Mamy integrację OCPI 2.3.0 i dokładamy Hubject (OICP 2.3). Jak zmapować statusy EVSE i czym różni się sposób przesyłania statusów w OICP od OCPI? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Available|AVAILABLE"
+          ],
+          [
+            "OutOfService|OUTOFORDER|INOPERATIVE"
+          ],
+          [
+            "eRoamingPushEvseStatus|PushEvseStatus"
+          ],
+          [
+            "PullEvseStatus|pull"
+          ]
+        ],
+        "none": [
+          "OICP (używa|ma) (tych samych|identycznych) status\\w*"
+        ]
+      }
+    },
+    {
+      "id": "ocpp-callerror",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Ładowarka na OCPP 1.6J odpowiada CALLERROR FormationViolation na nasze ChangeConfiguration. Co oznacza ten kod i czym różni się od statusu Rejected?"
+    }
+  ]
 }

@@ -1,0 +1,52 @@
+# Rejestr źródeł: OICP (Hubject) — klasa A (właściciel protokołu). Repozytorium github.com/hubject/oicp.
+# Wersja przypięta do commita 119c5d5655694f89a013ab0ff1266a76299c2895 (master, 2026-06-17).
+# Pliki AsciiDoc nie mają numerów sekcji w tekście (:numbered: generuje je przy renderowaniu), więc lokalizator to
+# kotwica: [OICP23-CPO-SVC #eRoamingAuthorizeStart] = wiersz [[eRoamingAuthorizeStart]].
+# Uwaga: kotwice w części EMP mają literówki z oryginału (np. #eRoamingAuthoizeStart) — cytuj dokładnie.
+# Weryfikacja: pobierz url, porównaj sha256.
+
+source_class: A
+owner: Hubject GmbH
+licence: "CC BY-SA 4.0 (README i License.md repozytorium) — cytujemy fakty z atrybucją; kopie zmienione wymagałyby tej samej licencji"
+retrieved: 2026-11-07
+
+documents:
+  - id: OICP-README
+    title: "OICP — README repozytorium (wydania, wycofanie 2.1, licencja)"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/README.md
+    sha256: c35693009f48ea8fdaab0dc8c436ec2f8c34c342696d9acf34c6250ae900fbad
+  - id: OICP23-CPO-INTRO
+    title: "OICP 2.3 CPO — 00 README (platforma HBS, zarządzanie wydaniami, wersje usług)"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/OICP-2.3/OICP%202.3%20CPO/00_README_CPO.md
+    sha256: 07288f0c1b17d87a45d5679965de5aceca6a24b5233edfbfe2eacbb65e268e57
+  - id: OICP23-CPO-COM
+    title: "OICP 2.3 CPO — 01 Communication Paradigms"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/OICP-2.3/OICP%202.3%20CPO/01_CPO_Communication_Paradigms.asciidoc
+    sha256: dd46d18385fb9c063d663ad29a268989816fe96d809850296a2272df1ecd3b20
+  - id: OICP23-CPO-SVC
+    title: "OICP 2.3 CPO — 02 Services and Operations"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/OICP-2.3/OICP%202.3%20CPO/02_CPO_Services_and_Operations.asciidoc
+    sha256: 986ec2f3aefcb17acf698b8b8657b0401f358b554b1a04489f7caa834c9e8cb5
+  - id: OICP23-CPO-DT
+    title: "OICP 2.3 CPO — 03 Data Types"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/OICP-2.3/OICP%202.3%20CPO/03_CPO_Data_Types.asciidoc
+    sha256: 78e408ec99ad3175f0a5a3a440f013b8d44923816f058149c825aec87b61df8d
+  - id: OICP23-EMP-SVC
+    title: "OICP 2.3 EMP — 02 Services and Operations"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/OICP-2.3/OICP%202.3%20EMP/02_EMP_Services_and_Operations.asciidoc
+    sha256: d4a4d0fbd7fd8b5a09943a23b05b10be335b0f58f895b752b256be42033fdc33
+  - id: OICP23-RN
+    title: "OICP 2.3 Release Notes (zmiany względem 2.2)"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/OICP-2.3/Realease_Notes.asciidoc
+    sha256: c3ef4fedcdfcd9e09a9fec3312d62816009e0f11b03e9d01b45e2cd0390adb7b
+  - id: HBJ-AUP
+    title: "Hubject Acceptable Use Policy v1.0 (zasady użycia HBS, limity wywołań na minutę)"
+    url: https://raw.githubusercontent.com/hubject/oicp/119c5d5655694f89a013ab0ff1266a76299c2895/Hubject%20Acceptable%20Use%20Policy%20v1-0.asciidoc
+    sha256: 2fa2436b832146098d4b608b02d0d988ff04b1c2fefb83ba3cb3078d7e004480
+    note: "Dokument Hubject o korzystaniu z platformy, nie część protokołu. Limity mogą się zmieniać (sam dokument to przewiduje)."
+
+not_yet_reviewed:
+  - "OICP 2.3 EMP 03 Data Types (zakładamy identyczność z CPO, niesprawdzone poza wybranymi typami), 01 i 04–06 obu części."
+  - "Dokumentacja OpenAPI: github.com/hubject/oicp-cpo-2.3-api-doc i oicp-emp-2.3-api-doc."
+  - "OICP 2.2 (folder OICP-2.2) — tylko gdy partner nadal używa 2.2."
+  - "Dynamic Pricing 1.0 — Functional Guide (support.hubject.com; host niesprawdzony)."

@@ -172,3 +172,12 @@ hosty_zablokowane:
   - host: commission.europa.eu
     data: 2026-11-07
     obejscie: "brak — nota prawna Komisji (warunki ponownego wykorzystania danych)"
+  - host: www.gireve.com
+    data: 2026-11-07
+    obejscie: "brak — specyfikacja eMIP (Gireve), domena D01.04"
+  - host: www.ochp.eu
+    data: 2026-11-07
+    obejscie: "brak — OCHP (e-clearing.net), domena D01.05"
+  - host: www.hubject.com
+    data: 2026-11-07
+    obejscie: "specyfikacja OICP z github.com/hubject/oicp (git i raw.githubusercontent.com działają)"

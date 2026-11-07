@@ -24,7 +24,8 @@ Wszystkie polecenia mają `--json`. Katalog kopii: `--docs`, `EV_KB_DOCS` albo `
 - `NIESPRAWDZONE`: lokalizator, którego narzędzie nie umie sprawdzić (np. „tabela F”).
 
 Rozpoznawane lokalizatory: `§10.3.1`, `§8.4.5–8.4.6`, `§2` (także „Chapter 2”), `rozdz. 8`, `I03.FR.04`, `E13`,
-`N02–N06`, blok `I`, `art. 5 ust. 4`, `Annex II`, `cz. 2 pkt 6`, `Preface`. Kilka części rozdziela przecinek.
+`N02–N06`, blok `I`, `art. 5 ust. 4`, `Annex II`, `cz. 2 pkt 6`, `Preface`, kotwica AsciiDoc `#eRoamingAuthorizeStart`
+(OICP, wiersz `[[eRoamingAuthorizeStart]]`). Kilka części rozdziela przecinek.
 
 **Ograniczenie:** `check` potwierdza, że sekcja **istnieje**, a nie że zdanie w skillu wiernie oddaje jej treść. To
 nadal sprawdza autor, czytając fragment z `cite`.

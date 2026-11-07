@@ -41,6 +41,8 @@ Part 2: Technical guidelines
 1. Always use step_size 1
 6. Usage of 0 (zero) in restrictions
 Preface
+[[eRoamingAuthorizeStart]]
+=== eRoamingAuthorizeStart_V2.1
 """
 
 
@@ -161,6 +163,10 @@ class TestLocate(unittest.TestCase):
         self.assertEqual(self.status("cz. 2 pkt 6"), ["OK"])
         self.assertEqual(self.status("cz. 1 pkt 6"), ["NIE_ZNALEZIONO"])
         self.assertEqual(self.status("Preface"), ["OK"])
+
+    def test_asciidoc_anchor(self):
+        self.assertEqual(self.status("#eRoamingAuthorizeStart"), ["OK"])
+        self.assertEqual(self.status("#eRoamingAuthorizeStop"), ["NIE_ZNALEZIONO"])
 
     def test_unsupported_locator_is_unchecked(self):
         self.assertEqual(self.status("tabela F"), ["NIESPRAWDZONE"])

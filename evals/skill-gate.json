@@ -16,7 +16,7 @@
   "offline": "2026-11-07"
  },
  "ev-domain-expert": {
-  "fingerprint": "0871f5e56d925d6b",
+  "fingerprint": "6ba180ccd4b9e491",
   "offline": "2026-11-07"
  },
  "ev-energy-smart-charging-expert": {
@@ -40,7 +40,7 @@
   "offline": "2026-11-07"
  },
  "ev-ocpi-roaming-expert": {
-  "fingerprint": "bd376ebd06b62dd7",
+  "fingerprint": "c791e8d240d044b3",
   "offline": "2026-11-07"
  },
  "ev-ocpp-expert": {

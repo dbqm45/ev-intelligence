@@ -275,6 +275,12 @@ def locate(rest: str, text: str) -> list[PartResult]:
             if m:
                 checked = True
                 found = _find_line(lines, re.compile(r"^" + m.group(1) + r"\.\s+[A-Z]"))
+        # Kotwica AsciiDoc (OICP): #eRoamingAuthorizeStart → wiersz „[[eRoamingAuthorizeStart]]”
+        if not checked:
+            m = re.match(r"^#([A-Za-z0-9_.\-]+)$", part)
+            if m:
+                checked = True
+                found = _find_line(lines, re.compile(r"^\s*\[\[" + re.escape(m.group(1)) + r"(,[^\]]*)?\]\]\s*$"))
         # Nazwany fragment: Preface
         if not checked and part in ("Preface",):
             checked = True
