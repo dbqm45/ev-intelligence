@@ -1,6 +1,6 @@
 ---
 name: ev-charging-operations-expert
-description: Użyj, gdy operator lub dyżurny NOC pyta, co zrobić teraz — alarm, sesja nie startuje, reset, odblokowanie, wyłączenie EVSE, incydent, KPI, także przy OCPP.
+description: Użyj, gdy dyżurny NOC pyta, co zrobić teraz — alarm, sesja nie startuje, reset, odblokowanie, wyłączenie EVSE, incydent, KPI, raport uptime, także przy OCPP.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy pracy operatora sieci ładowania (CPO/NOC) i projektowaniu narzędzi operacyjnych, także gdy pytanie operatora dotyczy konkretnych komunikatów OCPP (NotifyEvent, StatusNotification, Reset, UnlockConnector), a chodzi o decyzję, co zrobić teraz — wykrywanie problemów i priorytety alarmów (severity 0–9, NotifyEvent, zdarzenia bezpieczeństwa, errorCode i Faulted), diagnoza krok po kroku (stacja online, a sesja nie startuje; brak autoryzacji RFID; SuspendedEV/SuspendedEVSE; ładowarka partnera w roamingu), bezpieczne zdalne działania (Reset OnIdle/Immediate, Soft/Hard, reset jednego EVSE, ChangeAvailability, UnlockConnector, TriggerMessage, pobranie logów), eskalacja incydentu, KPI dostępności i raport uptime (czy AFIR je wymaga, z jakich danych liczyć). Każdy fakt z cytatem ze specyfikacji OCA, EVRF albo AFIR, decyzje operacyjne oznaczone jako wniosek. Nie do szczegółów komunikatów OCPP (ev-ocpp-expert), architektury CPMS ani projektu API i publikacji danych do NAP (ev-cpms-architect) ani zachowań konkretnego modelu ładowarki (ev-evse-diagnostics-expert)."

@@ -1,6 +1,6 @@
 ---
 name: ev-evse-hardware-expert
-description: Użyj przy sprzęcie ładowarek EV z perspektywy CPMS — złącza i typy w OCPP/OCPI, moc i fazy, karta urządzenia, wymagania sprzętowe AFIR, normy.
+description: Użyj przy sprzęcie ładowarek EV z perspektywy CPMS — złącza i typy w OCPP/OCPI, moc i fazy, kategorie mocy i wymagania sprzętowe AFIR, karta urządzenia, normy.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy opisie i doborze sprzętu ładowania w systemach CPMS/eMSP — typy złączy i ich zapis w OCPP 2.0.1 (ConnectorEnumType, Device Model) i OCPI 2.3.0 (ConnectorType, ConnectorFormat, PowerType), parametry mocy, napięcia, prądu i faz, karta techniczna urządzenia (dane z BootNotification i Device Model), terminal płatniczy i czytnik tokenów, wymagania sprzętowe AFIR (złącza wg aneksu II, ISO 15118, kabel stały DC, płatność ad hoc, klasy mocy) oraz normy, do których odsyła AFIR. Każdy fakt z cytatem ze źródła oficjalnego; treść norm płatnych IEC/ISO nie jest opracowana. Nie do diagnozy awarii i alarmów (ev-charging-operations-expert), zachowań konkretnych modeli i firmware (ev-evse-diagnostics-expert) ani komunikatów OCPP (ev-ocpp-expert)."

@@ -1,6 +1,6 @@
 ---
 name: ev-domain-expert
-description: Użyj, gdy zadanie z branży EV obejmuje kilka obszarów — dobór domen taksonomii EV Intelligence, skilli i kolejności, luki w bazie, norma kontra praktyka.
+description: Użyj, gdy zadanie EV obejmuje kilka obszarów — dobór domen taksonomii, skilli i kolejności, luki w bazie, norma kontra praktyka. Nie do doboru person i zespołu.
 metadata:
   przeglad: "2027-05-07"
   katalog: "Użyj na początku zadania z elektromobilności (CPMS, ładowarki, roaming, operacje, taryfy, energia, regulacje), gdy trzeba ustalić, których domen i poddomen taksonomii EV Intelligence ono dotyczy, które skille wczytać i w jakiej kolejności, czego baza jeszcze nie obejmuje (priorytet P2/P3, flaga do weryfikacji) oraz gdzie zapisać nową wiedzę — norma, dokumentacja producenta, obserwacja z wdrożenia czy decyzja produktowa. Nie do merytorycznej odpowiedzi o protokole (skille ev-ocpp-expert, ev-ocpi-roaming-expert) ani do doboru person i składu zespołu (core-problem-routing)."

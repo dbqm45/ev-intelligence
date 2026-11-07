@@ -1,171 +1,171 @@
 {
- "skill": "ev-ocpp-expert",
- "scenarios": [
-  {
-   "id": "remote-start-accepted-bez-sesji",
-   "expect": "trigger",
-   "prompt": "Ładowarka na OCPP 1.6J odpowiedziała Accepted na RemoteStartTransaction, ale po dwóch minutach nadal nie ma StartTransaction i sesja nie ruszyła. Co to znaczy i jak CSMS ma to obsłużyć? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "ConnectionTimeOut"
-     ],
-     [
-      "Accepted[^.\\n]{0,80}(nie oznacza|nie znaczy|≠|to nie)|przyj\\w* (polecenia|żądania)[^.\\n]{0,40}nie"
-     ],
-     [
-      "StatusNotification|TriggerMessage"
-     ],
-     [
-      "(nie|bez)[^.\\n]{0,40}(ponaw|powtarza|retry)|podwójn\\w*|duplikat\\w*|drug\\w* (sesj|transakcj)"
-     ],
-     [
-      "kabel|wtyczk|podłącz|Preparing"
-     ]
-    ],
-    "none": [
-     "(od razu|natychmiast) (ponów|wyślij ponownie|powtórz) RemoteStartTransaction"
-    ]
-   }
-  },
-  {
-   "id": "korelacja-remote-start-201",
-   "expect": "trigger",
-   "prompt": "Przenosimy zdalny start z OCPP 1.6 na 2.0.1. Jak w 2.0.1 powiązać polecenie startu z transakcją, którą potem zgłosi stacja, i kto nadaje transactionId? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "RequestStartTransaction"
-     ],
-     [
-      "remoteStartId"
-     ],
-     [
-      "TransactionEvent"
-     ],
-     [
-      "stacj\\w*[^.\\n]{0,60}(nadaje|generuje|tworzy)|(nadaje|generuje)[^.\\n]{0,40}stacj|Charging Station[^.\\n]{0,40}(assign|nadaje)"
-     ],
-     [
-      "1\\.6[^.\\n]{0,120}(CSMS|Central System)[^.\\n]{0,60}(nadaw|nadaje|w odpowiedzi)|StartTransaction[^.\\n]{0,80}(odpowied|CALLRESULT|\\.conf)"
-     ]
-    ],
-    "none": [
-     "w (OCPP )?2\\.0\\.1 transactionId nadaje CSMS"
-    ]
-   }
-  },
-  {
-   "id": "heartbeat-wykrywanie-offline",
-   "expect": "trigger",
-   "prompt": "Projektuję w CSMS wykrywanie ładowarek offline. Czy wystarczy patrzeć, kiedy przyszedł ostatni Heartbeat, i jak dobrać próg? Mamy stacje OCPP 1.6J i 2.0.1. Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "interval|HeartbeatInterval"
-     ],
-     [
-      "BootNotification"
-     ],
-     [
-      "dowoln\\w* (ramk|komunikat|wiadomo)|każd\\w* (ramk|komunikat|wiadomo)|jakikolwiek (komunikat|ramk)|ping|pong|WebSocket"
-     ],
-     [
-      "próg|wielokrotno|[2-3] ?(×|x|razy)|margines|tolerancj"
-     ],
-     [
-      "OCPPCommCtrlr|Device Model|SetVariables|ChangeConfiguration|GetConfiguration|GetVariables"
-     ],
-     [
-      "(nie jest|nieobowiązkow|not mandatory|MAY pomin|może pomin|pomija)"
-     ]
-    ],
-    "none": [
-     "brak Heartbeat(a)? (zawsze )?oznacza awari\\w* ładowarki",
-     "Heartbeat (jest )?(zawsze )?obowiązkow\\w* w (OCPP )?1\\.6J?"
-    ]
-   }
-  },
-  {
-   "id": "transaction-id-minus-1",
-   "expect": "trigger",
-   "prompt": "Stacja OCPP 1.6J po awarii łączności wysłała nam StopTransaction i MeterValues z transactionId równym -1. Nasz CSMS odrzuca je jako nieznaną transakcję. Co oznacza -1 i jak CSMS powinien odpowiadać? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "StartTransaction(\\.conf|Response)?[^.\\n]{0,120}(nie dotar|nie (został|zostało) dostarcz|nie otrzyma|nie dostała|not deliver|zgubi)"
-     ],
-     [
-      "(jak|tak,? jak)(by)?[^.\\n]{0,40}(ważn|prawidłow|poprawn|valid)|as if"
-     ],
-     [
-      "errat\\w*"
-     ],
-     [
-      "(nie|nigdy)[^.\\n]{0,40}(odrzuc|CALLERROR)|zablok\\w*|porzuc\\w*|discard"
-     ]
-    ],
-    "none": [
-     "-1 (to|oznacza) (błąd|niepoprawn\\w*) (stacji|ramki)[^.\\n]{0,40}(odrzuć|odrzucić)"
-    ]
-   }
-  },
-  {
-   "id": "odswiez-dane-trigger-boot",
-   "expect": "trigger",
-   "prompt": "Projektujemy w panelu CSMS dla stacji OCPP 1.6J przycisk „Odśwież dane urządzenia”, który wysyła TriggerMessage z requestedMessage BootNotification do stacji już zaakceptowanej, żeby pobrać aktualną wersję firmware. Czy specyfikacja na to pozwala i skąd inaczej wziąć te dane? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "errat\\w*"
-     ],
-     [
-      "SHALL ?NOT|nie (wolno|może|powinien|należy)|zakaz\\w*"
-     ],
-     [
-      "Accepted"
-     ],
-     [
-      "FirmwareStatusNotification|po (restarcie|ponownym uruchomieniu|aktualizacji)|sam\\w* (go )?wyśl\\w*|następn\\w* BootNotification|kolejn\\w* BootNotification"
-     ]
-    ],
-    "none": [
-     "(specyfikacja|OCPP) (na to )?pozwala bez (ograniczeń|zastrzeżeń)"
-    ]
-   }
-  },
-  {
-   "id": "identyfikator-stacji-url-auth",
-   "expect": "trigger",
-   "prompt": "Stacja OCPP 1.6J z profilem bezpieczeństwa Basic Auth ma identyfikator „RDAM 123”. Jak będzie wyglądać jej URL połączenia, czego CSMS ma użyć jako nazwy użytkownika i co musi sprawdzić? Jakie dodatkowe ograniczenia identyfikatora wprowadza OCPP 2.0.1? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "%20"
-     ],
-     [
-      "(nazw\\w* użytkownika|username)[^.\\n]{0,80}(identyfikator|identity)|(identyfikator|identity)[^.\\n]{0,80}(nazw\\w* użytkownika|username)"
-     ],
-     [
-      "AuthorizationKey|hasł\\w*"
-     ],
-     [
-      "48"
-     ],
-     [
-      "dwukrop\\w*|`:`|\":\""
-     ]
-    ],
-    "none": [
-     "identyfikator (stacji )?może (zawierać|mieć) dowolne znaki bez kodowania"
-    ]
-   }
-  },
-  {
-   "id": "dobor-domen-zadania",
-   "expect": "no-trigger",
-   "neighbor": "ev-domain-expert",
-   "prompt": "Mamy w EV Intelligence nowe zadanie przekrojowe: moduł CPMS dla ładowarek roamingowych z rozliczeniem CDR. Które domeny taksonomii i które skille trzeba wczytać i w jakiej kolejności?"
-  }
- ]
+  "skill": "ev-ocpp-expert",
+  "scenarios": [
+    {
+      "id": "remote-start-accepted-bez-sesji",
+      "expect": "trigger",
+      "prompt": "Ładowarka na OCPP 1.6J odpowiedziała Accepted na RemoteStartTransaction, ale po dwóch minutach nadal nie ma StartTransaction i sesja nie ruszyła. Co to znaczy i jak CSMS ma to obsłużyć? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "ConnectionTimeOut"
+          ],
+          [
+            "Accepted[^.\\n]{0,80}(nie oznacza|nie znaczy|≠|to nie)|przyj\\w* (polecenia|żądania)[^.\\n]{0,40}nie"
+          ],
+          [
+            "StatusNotification|TriggerMessage"
+          ],
+          [
+            "(nie|bez)[^.\\n]{0,40}(ponaw|powtarza|retry)|podwójn\\w*|duplikat\\w*|drug\\w* (sesj|transakcj)"
+          ],
+          [
+            "kabel|wtyczk|podłącz|Preparing"
+          ]
+        ],
+        "none": [
+          "(od razu|natychmiast) (ponów|wyślij ponownie|powtórz) RemoteStartTransaction"
+        ]
+      }
+    },
+    {
+      "id": "korelacja-remote-start-201",
+      "expect": "trigger",
+      "prompt": "Przenosimy zdalny start z OCPP 1.6 na 2.0.1. Jak w 2.0.1 powiązać polecenie startu z transakcją, którą potem zgłosi stacja, i kto nadaje transactionId? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "RequestStartTransaction"
+          ],
+          [
+            "remoteStartId"
+          ],
+          [
+            "TransactionEvent"
+          ],
+          [
+            "stacj\\w*[^.\\n]{0,60}(nadaje|generuje|tworzy)|(nadaje|generuje)[^.\\n]{0,40}stacj|Charging Station[^.\\n]{0,40}(assign|nadaje)"
+          ],
+          [
+            "1\\.6[^.\\n]{0,120}(CSMS|Central System)[^.\\n]{0,60}(nadaw|nadaje|w odpowiedzi)|StartTransaction[^.\\n]{0,80}(odpowied|CALLRESULT|\\.conf)"
+          ]
+        ],
+        "none": [
+          "w (OCPP )?2\\.0\\.1 transactionId nadaje CSMS"
+        ]
+      }
+    },
+    {
+      "id": "heartbeat-wykrywanie-offline",
+      "expect": "trigger",
+      "prompt": "Projektuję w CSMS wykrywanie ładowarek offline. Czy wystarczy patrzeć, kiedy przyszedł ostatni Heartbeat, i jak dobrać próg? Mamy stacje OCPP 1.6J i 2.0.1. Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "interval|HeartbeatInterval"
+          ],
+          [
+            "BootNotification"
+          ],
+          [
+            "dowoln\\w* (ramk|komunikat|wiadomo)|każd\\w* (ramk|komunikat|wiadomo)|jakikolwiek (komunikat|ramk)|ping|pong|WebSocket"
+          ],
+          [
+            "próg|wielokrotno|[2-3] ?(×|x|razy)|margines|tolerancj"
+          ],
+          [
+            "OCPPCommCtrlr|Device Model|SetVariables|ChangeConfiguration|GetConfiguration|GetVariables"
+          ],
+          [
+            "(nie jest|nieobowiązkow|not mandatory|MAY pomin|może pomin|pomija)"
+          ]
+        ],
+        "none": [
+          "brak Heartbeat(a)? (zawsze )?oznacza awari\\w* ładowarki",
+          "Heartbeat (jest )?(zawsze )?obowiązkow\\w* w (OCPP )?1\\.6J?"
+        ]
+      }
+    },
+    {
+      "id": "transaction-id-minus-1",
+      "expect": "trigger",
+      "prompt": "Stacja OCPP 1.6J po awarii łączności wysłała nam StopTransaction i MeterValues z transactionId równym -1. Nasz CSMS odrzuca je jako nieznaną transakcję. Co oznacza -1 i jak CSMS powinien odpowiadać? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "StartTransaction(\\.conf|Response)?[^.\\n]{0,120}(nie dotar|nie (został|zostało) dostarcz|nie otrzyma|nie dostała|not deliver|zgubi)|(nie dotar\\w*|nie otrzyma\\w*|nie dostał\\w*)[^.\\n]{0,40}StartTransaction"
+          ],
+          [
+            "(jak|tak,? jak)(by)?[^.\\n]{0,40}(ważn|prawidłow|poprawn|valid)|as if"
+          ],
+          [
+            "errat\\w*"
+          ],
+          [
+            "(nie|nigdy)[^.\\n]{0,40}(odrzuc|CALLERROR)|zablok\\w*|porzuc\\w*|discard"
+          ]
+        ],
+        "none": [
+          "-1 (to|oznacza) (błąd|niepoprawn\\w*) (stacji|ramki)[^.\\n]{0,40}(odrzuć|odrzucić)"
+        ]
+      }
+    },
+    {
+      "id": "odswiez-dane-trigger-boot",
+      "expect": "trigger",
+      "prompt": "Projektujemy w panelu CSMS dla stacji OCPP 1.6J przycisk „Odśwież dane urządzenia”, który wysyła TriggerMessage z requestedMessage BootNotification do stacji już zaakceptowanej, żeby pobrać aktualną wersję firmware. Czy specyfikacja na to pozwala i skąd inaczej wziąć te dane? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "errat\\w*"
+          ],
+          [
+            "SHALL ?NOT|nie (wolno|może|powinien|należy)|zakaz\\w*"
+          ],
+          [
+            "Accepted"
+          ],
+          [
+            "FirmwareStatusNotification|po (restarcie|ponownym uruchomieniu|aktualizacji)|sam\\w* (go )?wyśl\\w*|następn\\w* BootNotification|kolejn\\w* BootNotification"
+          ]
+        ],
+        "none": [
+          "(specyfikacja|OCPP) (na to )?pozwala bez (ograniczeń|zastrzeżeń)"
+        ]
+      }
+    },
+    {
+      "id": "identyfikator-stacji-url-auth",
+      "expect": "trigger",
+      "prompt": "Stacja OCPP 1.6J z profilem bezpieczeństwa Basic Auth ma identyfikator „RDAM 123”. Jak będzie wyglądać jej URL połączenia, czego CSMS ma użyć jako nazwy użytkownika i co musi sprawdzić? Jakie dodatkowe ograniczenia identyfikatora wprowadza OCPP 2.0.1? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "%20"
+          ],
+          [
+            "(nazw\\w* użytkownika|username)[^.\\n]{0,80}(identyfikator|identity)|(identyfikator|identity)[^.\\n]{0,80}(nazw\\w* użytkownika|username)"
+          ],
+          [
+            "AuthorizationKey|hasł\\w*"
+          ],
+          [
+            "48"
+          ],
+          [
+            "dwukrop\\w*|`:`|\":\""
+          ]
+        ],
+        "none": [
+          "identyfikator (stacji )?może (zawierać|mieć) dowolne znaki bez kodowania"
+        ]
+      }
+    },
+    {
+      "id": "dobor-domen-zadania",
+      "expect": "no-trigger",
+      "neighbor": "ev-domain-expert",
+      "prompt": "Mamy w EV Intelligence nowe zadanie przekrojowe: moduł CPMS dla ładowarek roamingowych z rozliczeniem CDR. Które domeny taksonomii i które skille trzeba wczytać i w jakiej kolejności?"
+    }
+  ]
 }

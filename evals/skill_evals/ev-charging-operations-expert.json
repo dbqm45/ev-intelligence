@@ -1,179 +1,179 @@
 {
- "skill": "ev-charging-operations-expert",
- "scenarios": [
-  {
-   "id": "online-sesja-nie-startuje",
-   "expect": "trigger",
-   "prompt": "Zgłoszenie do NOC: ładowarka jest online w panelu, złącze pokazuje Available, kierowca przykłada kartę RFID i nic się nie dzieje. Stacja na OCPP 1.6J. W jakiej kolejności to diagnozować, zanim ktoś zrobi restart? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "Authorize|idTagInfo"
-     ],
-     [
-      "Invalid|Blocked|Expired|ConcurrentTx"
-     ],
-     [
-      "StatusNotification|Preparing|SuspendedEVSE|errorCode"
-     ],
-     [
-      "ConnectionTimeOut|kabel|podłącz"
-     ],
-     [
-      "(restart|reset)[^.\\n]{0,160}(przerw|zatrzym|stop|kończ|transakcj)|na końcu|ostatni\\w*"
-     ],
-     [
-      "GetDiagnostics|TriggerMessage|log"
-     ]
-    ],
-    "none": [
-     "(najpierw|zacznij od|od razu) (zrób |wykonaj )?(restart|reset)"
-    ]
-   }
-  },
-  {
-   "id": "priorytety-alarmow",
-   "expect": "trigger",
-   "prompt": "Ustawiamy priorytety alarmów w NOC dla stacji OCPP 2.0.1: które zdarzenia ze stacji mają budzić dyżurnego w nocy, a które mogą czekać do rana? Czy protokół daje coś gotowego? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "severity|ważnoś\\w*|poziom\\w*"
-     ],
-     [
-      "Danger|Hardware Failure|0-9|0 ?[-–] ?9"
-     ],
-     [
-      "NotifyEvent|SetMonitoringLevel|SetVariableMonitoring"
-     ],
-     [
-      "SecurityEventNotification|Tamper|zdarze\\w* bezpieczeństwa"
-     ],
-     [
-      "Faulted|StatusNotification|errorCode"
-     ]
-    ],
-    "none": [
-     "OCPP nie (ma|definiuje) (żadnych )?poziom\\w* (ważności|severity)"
-    ]
-   }
-  },
-  {
-   "id": "restart-stacji-z-sesjami",
-   "expect": "trigger",
-   "prompt": "Na stacji z czterema punktami ładowania jedno EVSE zgłasza Faulted, a na pozostałych trzech trwa ładowanie. Operator chce zdalnie zrestartować urządzenie. Jak to zrobić, żeby nie przerwać sesji innym kierowcom, dla 2.0.1 i 1.6? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "OnIdle"
-     ],
-     [
-      "Immediate"
-     ],
-     [
-      "Scheduled"
-     ],
-     [
-      "evseId|pojedyncz\\w* EVSE|jednego EVSE|tylko (to|jedno) EVSE"
-     ],
-     [
-      "Soft|Hard"
-     ],
-     [
-      "(przerw|zatrzym|stop|kończ)\\w*[^.\\n]{0,80}transakcj"
-     ]
-    ],
-    "none": [
-     "(Soft|miękki) reset nie (przerywa|zatrzymuje|kończy) transakcj"
-    ]
-   }
-  },
-  {
-   "id": "unlock-przy-trwajacej-sesji",
-   "expect": "trigger",
-   "prompt": "Kierowca dzwoni, że nie może wyjąć kabla, a sesja na stacji OCPP 2.0.1 nadal trwa. Operator wysłał UnlockConnector i dostał OngoingAuthorizedTransaction. Co teraz zrobić i czy na stacji OCPP 1.6 to samo polecenie zachowałoby się tak samo? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "OngoingAuthorizedTransaction"
-     ],
-     [
-      "RequestStopTransaction|zatrzym\\w*[^.\\n]{0,40}(sesj|transakcj)|zakończ\\w*[^.\\n]{0,40}(sesj|transakcj)"
-     ],
-     [
-      "1\\.6[^\\n]{0,200}(najpierw|SHALL)?[^\\n]{0,80}(zakończ|kończ|finish|zatrzym)"
-     ],
-     [
-      "SHOULD NOT|nie (powinno|służy|należy)[^.\\n]{0,60}(zatrzym|stop)"
-     ]
-    ],
-    "none": [
-     "(w|na) (OCPP )?1\\.6 (zachowa się|działa) tak samo"
-    ]
-   }
-  },
-  {
-   "id": "raport-uptime-dla-inwestora",
-   "expect": "trigger",
-   "prompt": "Zarząd chce dla inwestora miesięczny raport dostępności naszej sieci ładowania w UE. Czy AFIR określa minimalny uptime albo sposób jego liczenia, i z jakich danych w NOC najlepiej go liczyć? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "(nie|brak)[^.\\n]{0,80}(uptime|progu dostępności|poziomu dostępności)|uptime[^.\\n]{0,80}(nie|brak)"
-     ],
-     [
-      "SLA|umow\\w*"
-     ],
-     [
-      "status\\w*|StatusNotification"
-     ],
-     [
-      "non-operational|operacyjn\\w*|2025/655"
-     ]
-    ],
-    "none": [
-     "AFIR wymaga (uptime|dostępności) (na poziomie )?9\\d ?%"
-    ]
-   }
-  },
-  {
-   "id": "noc-severity1-jedno-evse",
-   "expect": "trigger",
-   "prompt": "Jestem dyżurnym NOC, jest 3 w nocy. Stacja OCPP 2.0.1 przysłała NotifyEvent z severity 1 dla jednego EVSE, a na dwóch pozostałych EVSE trwa ładowanie. Co mam zrobić teraz, a co może poczekać do rana? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "Hardware Failure"
-     ],
-     [
-      "ChangeAvailability|Inoperative"
-     ],
-     [
-      "OnIdle|evseId|jednego EVSE|tylko (to|tego) EVSE"
-     ],
-     [
-      "(nie|bez)[^.\\n]{0,60}(Immediate|całej stacji|resetu? całej)|Immediate[^.\\n]{0,80}(przerw|kończ|zatrzym)"
-     ],
-     [
-      "serwis\\w*|eskal\\w*"
-     ]
-    ],
-    "none": [
-     "(od razu|natychmiast) (zrób|wyślij|wykonaj) Reset(Request)?\\(?Immediate"
-    ]
-   }
-  },
-  {
-   "id": "model-danych-cpms",
-   "expect": "no-trigger",
-   "neighbor": "ev-cpms-architect",
-   "prompt": "Jaki model danych Location, EVSE i Connector przyjąć w CPMS, żeby w jednym systemie trzymać stacje własne po OCPP i stacje partnerów widziane przez OCPI?"
-  },
-  {
-   "id": "api-nap-projekt",
-   "expect": "no-trigger",
-   "neighbor": "ev-cpms-architect",
-   "prompt": "Projektujemy w CPMS moduł API, który udostępnia dane statyczne i dynamiczne AFIR dla krajowego punktu dostępowego. Jaki format danych i jaką częstotliwość aktualizacji musi zapewnić ten moduł?"
-  }
- ]
+  "skill": "ev-charging-operations-expert",
+  "scenarios": [
+    {
+      "id": "online-sesja-nie-startuje",
+      "expect": "trigger",
+      "prompt": "Zgłoszenie do NOC: ładowarka jest online w panelu, złącze pokazuje Available, kierowca przykłada kartę RFID i nic się nie dzieje. Stacja na OCPP 1.6J. W jakiej kolejności to diagnozować, zanim ktoś zrobi restart? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Authorize|idTagInfo"
+          ],
+          [
+            "Invalid|Blocked|Expired|ConcurrentTx"
+          ],
+          [
+            "StatusNotification|Preparing|SuspendedEVSE|errorCode"
+          ],
+          [
+            "ConnectionTimeOut|kabel|podłącz"
+          ],
+          [
+            "(restart|reset)[^.\\n]{0,160}(przerw|zatrzym|stop|kończ|transakcj)|na końcu|ostatni\\w*"
+          ],
+          [
+            "GetDiagnostics|TriggerMessage|log"
+          ]
+        ],
+        "none": [
+          "(najpierw|zacznij od|od razu) (zrób |wykonaj )?(restart|reset)"
+        ]
+      }
+    },
+    {
+      "id": "priorytety-alarmow",
+      "expect": "trigger",
+      "prompt": "Ustawiamy priorytety alarmów w NOC dla stacji OCPP 2.0.1: które zdarzenia ze stacji mają budzić dyżurnego w nocy, a które mogą czekać do rana? Czy protokół daje coś gotowego? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "severity|ważnoś\\w*|poziom\\w*"
+          ],
+          [
+            "Danger|Hardware Failure|0-9|0 ?[-–] ?9"
+          ],
+          [
+            "NotifyEvent|SetMonitoringLevel|SetVariableMonitoring"
+          ],
+          [
+            "SecurityEventNotification|Tamper|zdarze\\w* bezpieczeństwa"
+          ],
+          [
+            "Faulted|StatusNotification|errorCode"
+          ]
+        ],
+        "none": [
+          "OCPP nie (ma|definiuje) (żadnych )?poziom\\w* (ważności|severity)"
+        ]
+      }
+    },
+    {
+      "id": "restart-stacji-z-sesjami",
+      "expect": "trigger",
+      "prompt": "Na stacji z czterema punktami ładowania jedno EVSE zgłasza Faulted, a na pozostałych trzech trwa ładowanie. Operator chce zdalnie zrestartować urządzenie. Jak to zrobić, żeby nie przerwać sesji innym kierowcom, dla 2.0.1 i 1.6? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "OnIdle"
+          ],
+          [
+            "Immediate"
+          ],
+          [
+            "Scheduled"
+          ],
+          [
+            "evseId|pojedyncz\\w* EVSE|jednego EVSE|tylko (to|jedno) EVSE"
+          ],
+          [
+            "Soft|Hard"
+          ],
+          [
+            "(przerw|zatrzym|stop|kończ)\\w*[^.\\n]{0,80}transakcj"
+          ]
+        ],
+        "none": [
+          "(Soft|miękki) reset nie (przerywa|zatrzymuje|kończy) transakcj"
+        ]
+      }
+    },
+    {
+      "id": "unlock-przy-trwajacej-sesji",
+      "expect": "trigger",
+      "prompt": "Kierowca dzwoni, że nie może wyjąć kabla, a sesja na stacji OCPP 2.0.1 nadal trwa. Operator wysłał UnlockConnector i dostał OngoingAuthorizedTransaction. Co teraz zrobić i czy na stacji OCPP 1.6 to samo polecenie zachowałoby się tak samo? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "OngoingAuthorizedTransaction"
+          ],
+          [
+            "RequestStopTransaction|zatrzym\\w*[^.\\n]{0,40}(sesj|transakcj)|zakończ\\w*[^.\\n]{0,40}(sesj|transakcj)"
+          ],
+          [
+            "1\\.6[^\\n]{0,200}(najpierw|SHALL)?[^\\n]{0,80}(zakończ|kończ|finish|zatrzym)"
+          ],
+          [
+            "SHOULD NOT|SHALL NOT[^.\\n]{0,80}(zatrzym|stop)|nie (powinno|służy|należy|jest sposobem)[^.\\n]{0,60}(zatrzym|stop)"
+          ]
+        ],
+        "none": [
+          "(w|na) (OCPP )?1\\.6 (zachowa się|działa) tak samo"
+        ]
+      }
+    },
+    {
+      "id": "raport-uptime-dla-inwestora",
+      "expect": "trigger",
+      "prompt": "Zarząd chce dla inwestora miesięczny raport dostępności naszej sieci ładowania w UE. Czy AFIR określa minimalny uptime albo sposób jego liczenia, i z jakich danych w NOC najlepiej go liczyć? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "(nie|brak)[^.\\n]{0,80}(uptime|progu dostępności|poziomu dostępności)|uptime[^.\\n]{0,80}(nie|brak)"
+          ],
+          [
+            "SLA|umow\\w*"
+          ],
+          [
+            "status\\w*|StatusNotification"
+          ],
+          [
+            "non-operational|operacyjn\\w*|2025/655"
+          ]
+        ],
+        "none": [
+          "AFIR wymaga (uptime|dostępności) (na poziomie )?9\\d ?%"
+        ]
+      }
+    },
+    {
+      "id": "noc-severity1-jedno-evse",
+      "expect": "trigger",
+      "prompt": "Jestem dyżurnym NOC, jest 3 w nocy. Stacja OCPP 2.0.1 przysłała NotifyEvent z severity 1 dla jednego EVSE, a na dwóch pozostałych EVSE trwa ładowanie. Co mam zrobić teraz, a co może poczekać do rana? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Hardware Failure"
+          ],
+          [
+            "ChangeAvailability|Inoperative"
+          ],
+          [
+            "OnIdle|evseId|jednego EVSE|tylko (to|tego) EVSE"
+          ],
+          [
+            "(nie|bez)[^.\\n]{0,60}(Immediate|całej stacji|resetu? całej)|Immediate[^.\\n]{0,80}(przerw|kończ|zatrzym)"
+          ],
+          [
+            "serwis\\w*|eskal\\w*"
+          ]
+        ],
+        "none": [
+          "(od razu|natychmiast) (zrób|wyślij|wykonaj) Reset(Request)?\\(?Immediate"
+        ]
+      }
+    },
+    {
+      "id": "model-danych-cpms",
+      "expect": "no-trigger",
+      "neighbor": "ev-cpms-architect",
+      "prompt": "Jaki model danych Location, EVSE i Connector przyjąć w CPMS, żeby w jednym systemie trzymać stacje własne po OCPP i stacje partnerów widziane przez OCPI?"
+    },
+    {
+      "id": "api-nap-projekt",
+      "expect": "no-trigger",
+      "neighbor": "ev-cpms-architect",
+      "prompt": "Projektujemy w CPMS moduł API, który udostępnia dane statyczne i dynamiczne AFIR dla krajowego punktu dostępowego. Jaki format danych i jaką częstotliwość aktualizacji musi zapewnić ten moduł?"
+    }
+  ]
 }

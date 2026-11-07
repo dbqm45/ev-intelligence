@@ -1,6 +1,6 @@
 ---
 name: ev-ocpp-expert
-description: Użyj przy OCPP 1.6J, 2.0.1 i 2.1 między ładowarką a CSMS — komunikaty, statusy, transakcje, zdalny start, Heartbeat, konfiguracja, różnice wersji.
+description: Użyj przy OCPP 1.6J, 2.0.1 i 2.1 między ładowarką a CSMS — komunikaty, statusy, transakcje, zdalny start, URL i ID stacji, Heartbeat, konfiguracja, wersje.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy pytaniach i decyzjach projektowych dotyczących protokołu OCPP (1.6J, 2.0.1, 2.1) między stacją ładowania a CSMS/CPMS — kiedy wolno użyć komunikatu, jakie odpowiedzi i statusy są możliwe, timeouty i ponawianie, cykl BootNotification i Heartbeat, transakcje 1.6 vs TransactionEvent, zdalny start i stop, konfiguracja (klucze 1.6, Device Model 2.x), kody błędów RPC, profile bezpieczeństwa, różnice wersji, nowe komunikaty 2.1. Każdy fakt z cytatem ze specyfikacji OCA. Nie do certyfikatów, TLS i Plug & Charge (ev-iso15118-pki-expert), wyboru domen i skilli dla zadania przekrojowego (ev-domain-expert), roamingu OCPI (ev-ocpi-roaming-expert) zachowań konkretnego modelu ładowarki odbiegających od standardu (ev-evse-diagnostics-expert) ani decyzji dyżurnego NOC, co zrobić teraz ze stacją (ev-charging-operations-expert)."
