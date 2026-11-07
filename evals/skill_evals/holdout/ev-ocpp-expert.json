@@ -1,0 +1,77 @@
+{
+ "skill": "ev-ocpp-expert",
+ "scenarios": [
+  {
+   "id": "ho-heartbeatinterval-1-6",
+   "expect": "trigger",
+   "prompt": "Piszemy symulator CSMS dla OCPP 1.6J według przykładu z dokumentu OCPP-J 1.6 i odpowiadamy na BootNotification polem heartbeatInterval: 300. Część ładowarek zgłasza błąd. Kto ma rację? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "\\binterval\\b"
+     ],
+     [
+      "schemat\\w*|schema"
+     ],
+     [
+      "errat\\w*"
+     ],
+     [
+      "przykład\\w*|example|niespójn\\w*|literówk\\w*|typo"
+     ]
+    ],
+    "none": [
+     "heartbeatInterval jest (poprawn\\w*|prawidłow\\w*) (nazwą|polem)"
+    ]
+   }
+  },
+  {
+   "id": "ho-seqno-57",
+   "expect": "trigger",
+   "prompt": "W OCPP 2.0.1 nowa transakcja na EVSE 2 przychodzi z TransactionEvent Started i seqNo 57, a nie 0. Czy stacja łamie specyfikację i jak sprawdzić kompletność zdarzeń tej transakcji? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "SHOULD|zalec\\w*"
+     ],
+     [
+      "(ciągł\\w*|continuously)[^.\\n]{0,60}(dozwol|allowed|dopuszcz)|dozwolon\\w*[^.\\n]{0,60}ciągł"
+     ],
+     [
+      "EVSE"
+     ],
+     [
+      "\\+ ?1|o 1\\b|o jeden|increase"
+     ]
+    ],
+    "none": [
+     "seqNo (musi|SHALL) (zaczynać się|zaczynac sie|zawsze zaczynać) od 0"
+    ]
+   }
+  },
+  {
+   "id": "ho-evconnecttimeout",
+   "expect": "trigger",
+   "prompt": "Implementujemy po stronie stacji OCPP 2.0.1 koniec transakcji, gdy kierowca nie podłączył kabla po zdalnym starcie. Wymaganie F02.FR.07 podaje triggerReason EVConnectionTimeout, ale walidator schematu go odrzuca. Jaką wartość wysłać i jaki stoppedReason? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "EVConnectTimeout"
+     ],
+     [
+      "Timeout"
+     ],
+     [
+      "schemat\\w*|enum"
+     ],
+     [
+      "Ended"
+     ]
+    ],
+    "none": [
+     "(wyślij|użyj|wysyłaj) EVConnectionTimeout"
+    ]
+   }
+  }
+ ]
+}

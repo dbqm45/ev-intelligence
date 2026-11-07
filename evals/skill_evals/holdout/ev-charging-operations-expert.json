@@ -1,0 +1,77 @@
+{
+ "skill": "ev-charging-operations-expert",
+ "scenarios": [
+  {
+   "id": "ho-hard-reset-kolejka",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 1.6J działa niestabilnie, a w jej kolejce czekają jeszcze komunikaty transakcji z okresu bez sieci. Dyżurny NOC chce od razu zrobić hard reset. Jakie jest ryzyko i jaka kolejność działań? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "last resort|ostateczn\\w*"
+     ],
+     [
+      "(utrac|przepad|zgub|lost)\\w*"
+     ],
+     [
+      "Soft"
+     ],
+     [
+      "StopTransaction"
+     ]
+    ],
+    "none": [
+     "hard reset (jest )?bezpieczn\\w*"
+    ]
+   }
+  },
+  {
+   "id": "ho-trigger-boot-po-reconnect",
+   "expect": "trigger",
+   "prompt": "Po każdym ponownym połączeniu stacji OCPP 1.6J nasz NOC wysyła TriggerMessage z requestedMessage BootNotification, żeby odświeżyć dane i statusy. Czy to poprawne podejście operacyjne? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "SHALL ?NOT|nie (wolno|może|powinien)|zakazan\\w*"
+     ],
+     [
+      "errat\\w*"
+     ],
+     [
+      "StatusNotification"
+     ],
+     [
+      "Accepted"
+     ]
+    ],
+    "none": [
+     "(to )?poprawne podejście,? (bo|ponieważ) BootNotification"
+    ]
+   }
+  },
+  {
+   "id": "ho-afir-minuta-status",
+   "expect": "trigger",
+   "prompt": "Nasz NOC zbiera statusy stacji i raz na 15 minut wysyła paczkę do API dla krajowego punktu dostępowego (NAP) zgodnie z AFIR. Szef pyta, czy to wystarczy do raportowania dostępności i czy AFIR wymaga konkretnego uptime. Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "minut\\w*"
+     ],
+     [
+      "2025/655"
+     ],
+     [
+      "(nie|brak)[^.\\n]{0,60}(uptime|dostępnoś\\w* (sieci|na poziomie))|uptime[^.\\n]{0,60}(nie|brak)"
+     ],
+     [
+      "SLA|umow\\w*"
+     ]
+    ],
+    "none": [
+     "AFIR wymaga (uptime|dostępności) (na poziomie )?9\\d ?%"
+    ]
+   }
+  }
+ ]
+}

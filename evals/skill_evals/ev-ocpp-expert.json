@@ -74,7 +74,7 @@
       "próg|wielokrotno|[2-3] ?(×|x|razy)|margines|tolerancj"
      ],
      [
-      "OCPPCommCtrlr|Device Model|SetVariables|ChangeConfiguration"
+      "OCPPCommCtrlr|Device Model|SetVariables|ChangeConfiguration|GetConfiguration|GetVariables"
      ],
      [
       "(nie jest|nieobowiązkow|not mandatory|MAY pomin|może pomin|pomija)"
@@ -83,6 +83,30 @@
     "none": [
      "brak Heartbeat(a)? (zawsze )?oznacza awari\\w* ładowarki",
      "Heartbeat (jest )?(zawsze )?obowiązkow\\w* w (OCPP )?1\\.6J?"
+    ]
+   }
+  },
+  {
+   "id": "transaction-id-minus-1",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 1.6J po awarii łączności wysłała nam StopTransaction i MeterValues z transactionId równym -1. Nasz CSMS odrzuca je jako nieznaną transakcję. Co oznacza -1 i jak CSMS powinien odpowiadać? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "StartTransaction(\\.conf|Response)?[^.\\n]{0,120}(nie dotar|nie (został|zostało) dostarcz|nie otrzyma|nie dostała|not deliver|zgubi)"
+     ],
+     [
+      "(jak|tak,? jak)(by)?[^.\\n]{0,40}(ważn|prawidłow|poprawn|valid)|as if"
+     ],
+     [
+      "errat\\w*"
+     ],
+     [
+      "(nie|nigdy)[^.\\n]{0,40}(odrzuc|CALLERROR)|zablok\\w*|porzuc\\w*|discard"
+     ]
+    ],
+    "none": [
+     "-1 (to|oznacza) (błąd|niepoprawn\\w*) (stacji|ramki)[^.\\n]{0,40}(odrzuć|odrzucić)"
     ]
    }
   },
