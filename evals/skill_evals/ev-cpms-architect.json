@@ -1,0 +1,61 @@
+{
+ "skill": "ev-cpms-architect",
+ "scenarios": [
+  {
+   "id": "model-statusow-wlasne-i-roaming",
+   "expect": "trigger",
+   "prompt": "Projektujemy w CPMS jeden model statusów dla własnych ładowarek (OCPP 1.6J i 2.0.1) i dla stacji partnerów, które widzimy tylko przez OCPI. Jak odróżnić w modelu brak łączności, wyłączenie z użytku i awarię, i co z tego musimy udostępniać jako dane dynamiczne według AFIR? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["UNKNOWN"],
+     ["Faulted|OUTOFORDER"],
+     ["Unavailable|INOPERATIVE|Inoperative"],
+     ["(offline|łącznoś\\w*)[^.\\n]{0,120}(nie jest|nie ma|brak)[^.\\n]{0,40}(status\\w* OCPP|w OCPP|w protokole)|CSMS[^.\\n]{0,60}(wyznacza|wylicza|ustala)[^.\\n]{0,40}(offline|łącznoś)"],
+     ["AFIR|2023/1804"],
+     ["Operational status|status operacyjn\\w*"],
+     ["Availability|dostępnoś\\w*"],
+     ["wymiar\\w*|osobn\\w* (pol|atrybut|oś)|rozdziel\\w*"]
+    ],
+    "none": ["OCPI (definiuje|zawiera|podaje) (oficjalne )?mapowanie status\\w* OCPP"]
+   }
+  },
+  {
+   "id": "brama-po-restarcie",
+   "expect": "trigger",
+   "prompt": "Nasza brama WebSocket CSMS po restarcie dostaje naraz tysiące połączeń od ładowarek, a po ponownym połączeniu większość z nich nie wysyła BootNotification, więc nie mamy aktualnych statusów złączy. Jak to zaprojektować po stronie CSMS? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["RetryBackOff\\w*|back-?off|rozrzut|losow"],
+     ["BootNotification[^.\\n]{0,160}(SHOULD NOT|nie powinn\\w*|nie wysyła|tylko gdy|chyba że|unless)"],
+     ["TriggerMessage"],
+     ["StatusNotification"],
+     ["URL|identyfikator\\w* (stacji|w ścieżce)|identity"],
+     ["uwierzyteln\\w*|Basic Auth|certyfikat|hasł"]
+    ],
+    "none": ["(zawsze )?czekaj na BootNotification,? (aby|żeby) (odtworzyć|poznać) stan"]
+   }
+  },
+  {
+   "id": "onboarding-pending",
+   "expect": "trigger",
+   "prompt": "Projektujemy w CPMS proces onboardingu nowej ładowarki OCPP 2.0.1: najpierw konfiguracja i odczyt pełnego raportu, dopiero potem dopuszczenie do sesji. Jak wykorzystać do tego statusy rejestracji i co w tym czasie wolno, a czego nie wolno stacji i CSMS? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["Pending"],
+     ["GetBaseReport|SetVariables"],
+     ["Rejected"],
+     ["(nie (wolno|może)|SHALL NOT)[^.\\n]{0,80}(CALL|komunikat|wiadomo|inicjow)"],
+     ["StatusNotification"],
+     ["RequestStartTransaction[^.\\n]{0,80}Rejected|zdaln\\w* start[^.\\n]{0,80}(odrzuc|Rejected)"]
+    ],
+    "none": ["w (statusie )?Pending stacja (może|wolno jej) (normalnie )?(rozpoczynać|wysyłać) (wszystkie|dowolne)"]
+   }
+  },
+  {
+   "id": "ocpi-credentials",
+   "expect": "no-trigger",
+   "neighbor": "ev-ocpi-roaming-expert",
+   "prompt": "Jak przebiega rejestracja credentials w OCPI 2.2.1 między dwiema platformami — kto generuje tokeny A, B i C i kiedy token A przestaje działać?"
+  }
+ ]
+}

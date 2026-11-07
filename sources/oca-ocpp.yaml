@@ -34,6 +34,7 @@ packages:
     sha256: 9e025b7d0ef45deb221a7b0bb24b6eb0d199dce8927e1512a8aa75419f511a64
     documents:
       - {id: "201-P0", file: OCPP-2.0.1_edition4_part0_introduction.pdf, date: 2025-12-03, sha256: 9272f05c26120869a13dda24bea9233a66cf38228c89074764de71f67d8c8d4c}
+      - {id: "201-P1", file: OCPP-2.0.1_edition4_part1_architecture_topology.pdf, date: 2025-12-03, sha256: 65181a8fae27c249e93c12a89c4f4ed4855fb142919544ab0808327c92ff940e}
       - {id: "201-P2", file: OCPP-2.0.1_edition4_part2_specification.pdf, date: 2025-12-03, sha256: 2bd854c01abdf20290d016e05779f952655177f09fedff2149126921dd5557e2}
       - {id: "201-P3", file: OCPP-2.0.1_part3_JSON_schemas.zip, title: "Schematy JSON („OCPP 2.0.1 FINAL”, 128 plików, 64 akcje)", date: 2020-03-31, sha256: 6279c40b74929cce7fca439622194a8890a0d250de5665f3e4d80ef8529c51ce}
       - {id: "201-P4", file: OCPP-2.0.1_edition4_part4_ocpp-j-specification.pdf, date: 2025-12-03, sha256: 63eff96483d453b79b299e0a40b054d106f28dfc9a6c175f1d97d82fbeba47b3}

@@ -1,0 +1,35 @@
+# Rejestr źródeł: AFIR — Rozporządzenie (UE) 2023/1804 — klasa A (akt prawny UE).
+# Cytujemy WERSJĘ SKONSOLIDOWANĄ (dokumentacyjną; moc prawną ma tekst w Dz.U.) i zaznaczamy zmiany aktami M1/M2.
+# Pobrano z EUR-Lex 2026-11-07.
+
+source_class: A
+owner: Unia Europejska (EUR-Lex)
+licence: "[niesprawdzone] zasady ponownego wykorzystania treści EUR-Lex — do sprawdzenia w nocie prawnej EUR-Lex; cytujemy z podaniem źródła"
+retrieved: 2026-11-07
+
+documents:
+  - id: AFIR
+    title: "Regulation (EU) 2023/1804 — consolidated text 02023R1804-20260108 (EN)"
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02023R1804-20260108
+    sha256_html: 5f5a238d55c38566664123a95088a2e2525c29ba559fa40588b6aeaf53561a8e
+    amended_by:
+      - {mark: M1, act: "Commission Delegated Regulation (EU) 2025/656 of 2 April 2025", oj: "OJ L 2025/656, 18.6.2025"}
+      - {mark: M2, act: "Commission Delegated Regulation (EU) 2025/671 of 2 April 2025", oj: "OJ L 2025/671, 18.6.2025", changes: "art. 20 ust. 2 (lista danych statycznych i dynamicznych)"}
+    note: >
+      Wersja skonsolidowana „is meant purely as a documentation tool and has no legal effect”. Porównanie 2026-11-07 z tekstem
+      pierwotnym (OJ L 234, 22.9.2023): art. 5 bez zmian; art. 2 różni się tylko numeracją przypisów; art. 20 ust. 2 zastąpiony (M2).
+  - id: AFIR-OJ
+    title: "Regulation (EU) 2023/1804 — tekst pierwotny, OJ L 234, 22.9.2023 (EN)"
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32023R1804
+    sha256_html: bf4f19781cbb5be19c5bdb248dcd0c8fcaceda3ddc634a80a94ad0204967c748
+    note: "Tylko do porównań; art. 20 ust. 2 w tej wersji jest nieaktualny."
+
+  - id: AFIR-655
+    title: "Commission Implementing Regulation (EU) 2025/655 of 2 April 2025 — specifications and procedures on availability and accessibility of AFIR data (OJ L 2025/655, 3.4.2025)"
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32025R0655
+    sha256_html: d5fa4f7dcf731ca7b0cdd245c8c87f5fdb1408dfd54065f18d7dc1db7753ec00
+    note: "Art. 1 format (Annex; DATEX II, co najmniej CEN/TS 16157-10:2022, od 14.4.2026), art. 2 częstotliwość, art. 3 jakość; stosuje się od 14.4.2025 (art. 5). Wersji skonsolidowanej nie sprawdzano."
+
+not_yet_reviewed:
+  - "Akty delegowane i wykonawcze do art. 20 ust. 6–7 (wspólne API, format, częstotliwość danych) — EUR-Lex wskazuje projekty i akty; nieprzeczytane."
+  - "Treść rozporządzeń delegowanych 2025/656 i 2025/671 poza zmianami widocznymi w wersji skonsolidowanej."
