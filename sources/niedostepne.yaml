@@ -1,0 +1,140 @@
+# Rejestr źródeł NIEDOSTĘPNYCH: normy i dokumenty, które przywołują nasze źródła albo skille, ale których treści
+# nie mamy (płatne, niezarejestrowane, zablokowany host). Decyzja właściciela projektu z 2026-11-07.
+#
+# Zasady:
+# - Wpis NIE jest źródłem. Celowo nie ma pola `id`, więc tools/ev_kb.py nie traktuje go jako dokumentu do cytowania.
+#   Znacznik [ISO 15118-2 §…] w skillu będzie błędem `check` (NIEZNANY_DOKUMENT).
+# - O treści takiej normy nie piszemy z pamięci. Wolno podać numer i kontekst, w jakim przywołuje ją dokument
+#   z `sources/*.yaml` (pole `przywolana_przez`).
+# - `dostep`:
+#   - `platna`: norma wydawana odpłatnie; brak kopii (płatność potwierdza dopiero zakup u wydawcy);
+#   - `niezarejestrowana`: dokument prawdopodobnie bezpłatny, ale jeszcze niepobrany i niesprawdzony;
+#   - `zablokowany`: host niedostępny z sieci sesji.
+# - Gdy uzyskamy dokument: pobranie → wpis w `sources/<wydawca>.yaml` z SHA-256 → usunięcie wpisu stąd.
+# - `przywolana_w`: skille, które wymieniają dokument (stan 2026-11-07). Aktualizuj przy zmianach.
+
+updated: 2026-11-07
+
+normy_platne:
+  - norma: "ISO 15118 (części -1, -2, -3, -4, -5, -20 oraz -20 Amendment 1)"
+    wydawca: ISO
+    dostep: platna
+    temat: "komunikacja pojazd–ładowarka, Plug & Charge, struktura V2G PKI, BPT"
+    przywolana_przez: ["AFIR Annex II pkt 2.1 (EN ISO 15118-1…-5, EN ISO 15118-20:2022)", "201-P2 blok A, C, K, M", "21-P2 bloki K, Q, R", "OCA-AN-PNC"]
+    przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert, ev-evse-diagnostics-expert, ev-evse-hardware-expert, ev-ocpi-roaming-expert, ev-iso15118-pki-expert]
+  - norma: "IEC 61851-1 / EN IEC 61851-1:2019, EN 61851-23-1:2020"
+    wydawca: IEC / CENELEC
+    dostep: platna
+    temat: "tryby ładowania, sygnał Control Pilot, stacje DC"
+    przywolana_przez: ["AFIR Annex II", "201-P2 K02.FR.02"]
+    przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert, ev-evse-hardware-expert]
+  - norma: "EN IEC 62196-2 (2017, 2022), EN IEC 62196-3 (2014, 2022), IEC 60884-1:2022"
+    wydawca: IEC / CENELEC
+    dostep: platna
+    temat: "złącza i gniazda (Type 2, Combo 2)"
+    przywolana_przez: ["AFIR Annex II pkt 1"]
+    przywolana_w: [ev-domain-expert, ev-evse-hardware-expert]
+  - norma: "EN IEC 61980-1:2021, EN 50696:2021"
+    wydawca: IEC / CENELEC
+    dostep: platna
+    temat: "ładowanie indukcyjne; pantograf / ładowanie ciężkich pojazdów"
+    przywolana_przez: ["AFIR Annex II"]
+    przywolana_w: [ev-evse-hardware-expert]
+  - norma: "IEC 60364-7-722"
+    wydawca: IEC
+    dostep: platna
+    temat: "instalacje elektryczne zasilające pojazdy elektryczne"
+    przywolana_przez: []
+    przywolana_w: [ev-domain-expert]
+  - norma: "DIN SPEC 70121"
+    wydawca: DIN
+    dostep: platna
+    temat: "komunikacja DC pojazd–ładowarka (poprzednik ISO 15118-2)"
+    przywolana_przez: []
+    przywolana_w: [ev-domain-expert]
+  - norma: "ISO/IEC 14443, ISO/IEC 15693"
+    wydawca: ISO/IEC
+    dostep: platna
+    temat: "karty zbliżeniowe RFID (typy tokenów w OCPP)"
+    przywolana_przez: ["201-P2 (IdTokenEnumType)"]
+    przywolana_w: [ev-ocpp-expert]
+  - norma: "ISO 4217"
+    wydawca: ISO
+    dostep: platna
+    temat: "kody walut; pole currency w OCPI i OCPP"
+    przywolana_przez: ["OCPI230 §10.3.1, §11.3.1", "201-APP §3.1.17"]
+    przywolana_w: [ev-billing-tariff-expert]
+    uwaga: "Lista kodów może być publikowana bezpłatnie przez agencję utrzymującą normę [niesprawdzone]."
+  - norma: "CEN/TS 16157-10:2022 (DATEX II)"
+    wydawca: CEN
+    dostep: platna
+    temat: "format danych AFIR dla NAP"
+    przywolana_przez: ["AFIR-655 art. 1"]
+    przywolana_w: [ev-cpms-architect]
+  - norma: "IEC 61850 (m.in. -7-420), IEC 60870-5-104"
+    wydawca: IEC
+    dostep: platna
+    temat: "komunikacja z siecią, DER, logiczne węzły (np. DWFL)"
+    przywolana_przez: ["201-P2 K §2.4", "21-P2 R §2.1", "21-E §2.22"]
+    przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert]
+  - norma: "IEEE 1547-2018, IEEE 2030.5-2018, IEEE 1815 (DNP3)"
+    wydawca: IEEE
+    dostep: platna
+    temat: "DER, kodeksy sieciowe (USA), komunikacja z operatorem sieci"
+    przywolana_przez: ["21-P2 R §1, §2.1", "201-P2 K §2.4"]
+    przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert]
+  - norma: "UL 1741, SAE J3072"
+    wydawca: UL / SAE
+    dostep: platna
+    temat: "certyfikacja falowników i pojazdów AC V2G (USA)"
+    przywolana_przez: ["21-P2 R §1"]
+    przywolana_w: [ev-energy-smart-charging-expert]
+  - norma: "VDE-AR-N 4105"
+    wydawca: VDE FNN
+    dostep: platna
+    temat: "przyłączanie wytwórców do sieci nN (DE), krzywe Q(U), cos φ(P)"
+    przywolana_przez: ["21-P2 R §2.7"]
+    przywolana_w: [ev-energy-smart-charging-expert]
+  - norma: "IEC 62443, ISO/IEC 27001, EN 18031"
+    wydawca: IEC / ISO / CEN-CENELEC
+    dostep: platna
+    temat: "cyberbezpieczeństwo przemysłowe, ISMS, wymagania RED dla urządzeń radiowych"
+    przywolana_przez: []
+    przywolana_w: [ev-domain-expert]
+  - norma: "IEC 63110, IEC 63119"
+    wydawca: IEC
+    dostep: platna
+    temat: "zarządzanie infrastrukturą ładowania; wymiana informacji roamingowych (w przygotowaniu)"
+    przywolana_przez: []
+    przywolana_w: [ev-domain-expert]
+  - norma: "IEC 63584-210:2025 (OCPP 2.1 jako norma IEC)"
+    wydawca: IEC
+    dostep: platna
+    temat: "OCPP 2.1"
+    przywolana_przez: ["OCA-N1", "OCA-N2"]
+    przywolana_w: [ev-domain-expert, ev-ocpp-expert]
+    uwaga: "Treść OCPP 2.1 mamy z bezpłatnej publikacji OCA (21-P0, 21-P2, 21-P4, 21-E). Zgodności tekstu IEC z wydaniem OCA nie sprawdzano."
+
+niezarejestrowane:
+  - dokument: "Dyrektywa 2014/32/UE (MID) i przepisy krajowe o metrologii prawnej, w tym niemieckie Eichrecht"
+    dostep: niezarejestrowana
+    temat: "liczniki energii, rozliczenia"
+    przywolana_w: [ev-billing-tariff-expert, ev-domain-expert]
+  - dokument: "Dyrektywa (UE) 2015/2366 (PSD2) i standard PCI DSS (PCI SSC)"
+    dostep: niezarejestrowana
+    temat: "płatności kartowe, SCA"
+    przywolana_w: [ev-billing-tariff-expert, ev-domain-expert]
+  - dokument: "Dyrektywa (UE) 2019/944 (rynek energii elektrycznej)"
+    dostep: niezarejestrowana
+    temat: "OSD, OSP, elastyczność; definicje przywołane przez AFIR"
+    przywolana_w: [ev-energy-smart-charging-expert]
+  - dokument: "Specyfikacje CHAdeMO, OpenADR, EEBUS, SunSpec, Modbus"
+    dostep: niezarejestrowana
+    temat: "komunikacja z pojazdem (CHAdeMO), z siecią i urządzeniami budynku"
+    przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert, ev-evse-hardware-expert, ev-cpms-architect]
+    uwaga: "Warunki dostępu (członkostwo, licencja) nieustalone."
+
+hosty_zablokowane:
+  - host: modelcontextprotocol.io
+    data: 2026-11-07
+    obejscie: "specyfikacja MCP z oficjalnego repozytorium github.com/modelcontextprotocol/modelcontextprotocol"

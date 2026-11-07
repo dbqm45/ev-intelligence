@@ -403,6 +403,9 @@ def blocks(path: Path) -> list[tuple[int, str]]:
 def corpus(root: Path = ROOT) -> list[Path]:
     files = sorted((root / "skills").glob("*/SKILL.md")) + sorted((root / "skills").glob("*/references/*.md"))
     files += sorted(p for p in (root / "knowledge").rglob("*") if p.suffix in (".md", ".yaml") and p.is_file())
+    unavailable = root / "sources" / "niedostepne.yaml"   # normy płatne i niedostępne: wyszukiwalne, nie cytowalne
+    if unavailable.is_file():
+        files.append(unavailable)
     return [p for p in files if "taksonomia-" not in p.name]
 
 

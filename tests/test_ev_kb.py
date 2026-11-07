@@ -64,6 +64,21 @@ class TestRegistry(unittest.TestCase):
         self.assertEqual(unknown, [], "znaczniki spoza sources/*.yaml")
 
 
+class TestUnavailable(unittest.TestCase):
+    def test_unavailable_register_is_not_citable_but_searchable(self):
+        import yaml
+        data = yaml.safe_load((ROOT / "sources" / "niedostepne.yaml").read_text(encoding="utf-8"))
+        entries = data["normy_platne"] + data["niezarejestrowane"]
+        self.assertTrue(entries)
+        for e in entries:
+            self.assertNotIn("id", e)
+            self.assertIn(e.get("dostep"), ("platna", "niezarejestrowana"))
+        sources = ev_kb.load_sources()
+        self.assertFalse(any(s.registry == "niedostepne.yaml" for s in sources.values()))
+        hits = ev_kb.cmd_search("ISO 15118 norma płatna", 5, sources)
+        self.assertTrue(any(h["file"] == "sources/niedostepne.yaml" for h in hits))
+
+
 class TestTags(unittest.TestCase):
     def setUp(self):
         self.sources = ev_kb.load_sources()

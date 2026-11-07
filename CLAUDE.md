@@ -11,6 +11,8 @@
 - Rozbieżność między dokumentami (np. tekst wymagania vs schemat) opisujesz z obydwoma cytatami i rozstrzygnięciem
   (errata, enum w schemacie).
 - Brak dostępu do źródła (zablokowany host, płatna norma) → zgłaszasz to człowiekowi. Nie zastępujesz go pamięcią.
+  Każdą taką normę lub dokument wpisujesz do `sources/niedostepne.yaml` (co, dlaczego niedostępne, kto przywołuje, w
+  których skillach). Wpis nie jest źródłem: nie ma `id` i nie wolno go cytować znacznikiem.
 
 ## Praca ze skillami
 - Struktura i bramki: `docs/SKILLS-WORKFLOW.md`. Przed oddaniem: `python3 tools/factory_check.py --tf ../tf`.
