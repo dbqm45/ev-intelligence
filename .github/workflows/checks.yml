@@ -1,6 +1,4 @@
-# Sprawdzenia bez modelu: testy, cytaty, taksonomia, Conventional Commits. Job `factory` uruchamia pełną bramkę tf
-# (tools/factory_check.py): bramki leżą w repozytorium dbqm45/tf, które jest prywatne, więc job potrzebuje sekretu
-# TF_READ_TOKEN (fine-grained token tylko do odczytu Contents tego repozytorium). Bez sekretu job się pomija.
+# Sprawdzenia bez modelu i bez sekretów: testy, cytaty, taksonomia, Conventional Commits od ostatniego tagu.
 name: checks
 on:
   pull_request:
@@ -33,31 +31,3 @@ jobs:
             python3 scripts/check_commit_message.py --file msg.txt || { echo "::error::commit $c"; exit 1; }
           done
 
-  factory:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    env:
-      TF_READ_TOKEN: ${{ secrets.TF_READ_TOKEN }}
-    steps:
-      - name: Bez sekretu TF_READ_TOKEN pomijam bramkę tf
-        if: env.TF_READ_TOKEN == ''
-        run: echo "::notice::Brak sekretu TF_READ_TOKEN — pełna bramka tf uruchamiana tylko lokalnie (docs/RELEASING.md)"
-      - uses: actions/checkout@v7
-        if: env.TF_READ_TOKEN != ''
-        with:
-          persist-credentials: false
-      - uses: actions/checkout@v7
-        if: env.TF_READ_TOKEN != ''
-        with:
-          repository: dbqm45/tf
-          token: ${{ secrets.TF_READ_TOKEN }}
-          path: .work/tf
-          persist-credentials: false
-      - uses: actions/setup-python@v7
-        if: env.TF_READ_TOKEN != ''
-        with:
-          python-version: "3.13"
-      - if: env.TF_READ_TOKEN != ''
-        run: pip install -r deploy/requirements.lock
-      - if: env.TF_READ_TOKEN != ''
-        run: python3 tools/factory_check.py --tf .work/tf

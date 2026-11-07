@@ -1,6 +1,7 @@
 # Wersjonowanie i wydania EV Intelligence
 
-Mechanizm jest skopiowany z tf (claude-team-factory, licencja MIT) i dostosowany do tego repozytorium. Baza ma jeden
+Mechanizm działa jak w tf (claude-team-factory): skrypty są skopiowane do `scripts/` (licencja MIT) i niczego nie
+pobierają z tf. Baza ma jeden
 numer wersji zgodny z [Semantic Versioning 2.0.0](https://semver.org/lang/pl/) w pliku `VERSION`. Wydaną wersję
 oznacza tag git `vX.Y.Z`, a do każdego tagu powstaje GitHub Release z wpisem z `CHANGELOG.md`. Serwer MCP podaje wersję
 w instrukcjach (`Wersja wiedzy: 0.1.0 (<commit>)`), więc odpowiedź da się przypisać do wydania bazy.
@@ -40,17 +41,6 @@ Sprawdzanie:
   `python3 scripts/check_commit_message.py "feat(ocpi): add OICP 2.3 reference"`.
 - **CI:** workflow `checks` sprawdza wszystkie commity od ostatniego tagu, a `pr-title` tytuł PR.
 
-## Bramka tf w CI
-
-`tools/factory_check.py` korzysta z narzędzi fabryki (`core/factory/install.py`, `factory/build.py`,
-`factory/skill_gate.py`), które leżą w repozytorium `dbqm45/tf`. Lokalnie to klon `../tf`. Na GitHub Actions runner
-pobiera tylko ev-intelligence, a domyślny token przebiegu nie ma dostępu do innego prywatnego repozytorium. Job
-`factory` w `checks.yml` pobiera tf, gdy w ustawieniach repozytorium jest sekret **`TF_READ_TOKEN`**:
-1. GitHub → Settings → Developer settings → Fine-grained tokens: nowy token, repozytorium tylko `dbqm45/tf`,
-   uprawnienie *Contents: Read-only*.
-2. ev-intelligence → Settings → Secrets and variables → Actions → *New repository secret* `TF_READ_TOKEN`.
-
-Bez sekretu job wypisuje uwagę i się pomija; pozostałe kontrole działają.
 
 ## Faza 0.y.z
 
@@ -77,7 +67,7 @@ commit `chore(release)`, więc przed kolejnym merge'em gałąź roboczą trzeba 
 
 Gdy wynik z commitów trzeba nadpisać (źle oznaczony commit, przeredagowany CHANGELOG, świadome `1.0.0`):
 1. `python3 scripts/release.py --dry-run`, potem `python3 scripts/release.py minor` (albo `major`, `patch`, `X.Y.Z`).
-2. Przejrzyj `CHANGELOG.md`, uruchom `python3 tools/factory_check.py --tf ../tf`.
+2. Przejrzyj `CHANGELOG.md`, uruchom `python3 -m unittest discover tests` i `python3 tools/ev_kb.py check skills knowledge`.
 3. Commit `chore(release): X.Y.Z` i merge na `main`. Workflow otaguje wersję.
 
 **Wydanej wersji się nie zmienia.** Tagu nie przesuwamy ani nie usuwamy; błąd naprawia kolejna wersja.
