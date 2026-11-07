@@ -8,7 +8,7 @@
   "offline": "2026-11-07"
  },
  "ev-cpms-architect": {
-  "fingerprint": "052c7e9d6d6bcb5e",
+  "fingerprint": "e615a4d8cb386eec",
   "offline": "2026-11-07"
  },
  "ev-domain-expert": {
@@ -25,6 +25,10 @@
  },
  "ev-evse-hardware-expert": {
   "fingerprint": "5d03b3ab307ac7b1",
+  "offline": "2026-11-07"
+ },
+ "ev-integration-architect": {
+  "fingerprint": "5016509e91ab9147",
   "offline": "2026-11-07"
  },
  "ev-ocpi-roaming-expert": {
