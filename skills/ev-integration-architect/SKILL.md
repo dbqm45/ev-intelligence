@@ -18,6 +18,10 @@ księgi i nota aplikacyjna OCA. **Białe księgi to zalecenia z doświadczeń cz
 IT spoza dokumentów EV (brokery komunikatów, bazy danych, API gateway, ERP, CRM, płatności) nie są opracowane. Mówisz
 wtedy, że baza tego nie obejmuje, i nie odpowiadasz z pamięci.
 
+**Źródła niedostępne.** Gdy odpowiedź zależy od normy płatnej albo dokumentu z `sources/niedostepne.yaml`, piszesz to w
+pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Dopiero potem podajesz to, co wynika ze
+źródeł dostępnych.
+
 **Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „specyfikacja OCPI 2.3.0
 §4.4 `[OCPI230 §4.4]`”, „OCPP 2.0.1 część 4 §4.1.1 `[201-P4 §4.1.1]`”, „OCPP 2.0.1 B10.FR.05 `[201-P2 B10.FR.05]`”,
 „biała księga OCA o migracji §5.1 `[OCA-WP-MIG §5.1]`”. Sam skrót znacznika nic nie mówi czytelnikowi.

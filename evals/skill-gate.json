@@ -1,46 +1,46 @@
 {
  "ev-billing-tariff-expert": {
-  "fingerprint": "c5f692b065c17780",
+  "fingerprint": "b98e05774941b76f",
   "offline": "2026-11-07"
  },
  "ev-charging-operations-expert": {
-  "fingerprint": "4d6bef7a352a411e",
+  "fingerprint": "34b9536ad2c3c5f4",
   "offline": "2026-11-07"
  },
  "ev-cpms-architect": {
-  "fingerprint": "e615a4d8cb386eec",
+  "fingerprint": "f93e0df6a8c16a19",
   "offline": "2026-11-07"
  },
  "ev-domain-expert": {
-  "fingerprint": "1e74982694fa52e2",
+  "fingerprint": "0871f5e56d925d6b",
   "offline": "2026-11-07"
  },
  "ev-energy-smart-charging-expert": {
-  "fingerprint": "35e9311c1408f677",
+  "fingerprint": "d551a15493b76fab",
   "offline": "2026-11-07"
  },
  "ev-evse-diagnostics-expert": {
-  "fingerprint": "8271562d1d1cf13b",
+  "fingerprint": "4d7cbc9afdf5f47b",
   "offline": "2026-11-07"
  },
  "ev-evse-hardware-expert": {
-  "fingerprint": "5d03b3ab307ac7b1",
+  "fingerprint": "57aec760904667d5",
   "offline": "2026-11-07"
  },
  "ev-integration-architect": {
-  "fingerprint": "5016509e91ab9147",
+  "fingerprint": "574c15a811700809",
   "offline": "2026-11-07"
  },
  "ev-iso15118-pki-expert": {
-  "fingerprint": "92e9d95a40a8492e",
+  "fingerprint": "074baa1962ae45dc",
   "offline": "2026-11-07"
  },
  "ev-ocpi-roaming-expert": {
-  "fingerprint": "545439350a2177b7",
+  "fingerprint": "bd376ebd06b62dd7",
   "offline": "2026-11-07"
  },
  "ev-ocpp-expert": {
-  "fingerprint": "086f430b61317545",
+  "fingerprint": "2706badfaf38dd1b",
   "offline": "2026-11-07"
  }
 }

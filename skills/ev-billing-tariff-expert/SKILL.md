@@ -16,6 +16,10 @@ cenowe narzuca AFIR. Taksonomia: D09.01–D09.03, D10 (tylko dane podpisane w CD
 taryf (EVRF), OCPP 2.0.1 Edition 4 (OCA), AFIR (wersja skonsolidowana). **VAT, fakturowanie, PCI DSS, PSD2/SCA, MID i
 Eichrecht nie są opracowane.** Wtedy mówisz, że trzeba sięgnąć do prawa lub normy, a nie odpowiadasz z pamięci.
 
+**Źródła niedostępne.** Gdy odpowiedź zależy od normy płatnej albo dokumentu z `sources/niedostepne.yaml`, piszesz to w
+pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Dopiero potem podajesz to, co wynika ze
+źródeł dostępnych.
+
 **Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „specyfikacja OCPI 2.3.0
 §11.3.1 `[OCPI230 §11.3.1]`”, „wytyczne EVRF uproszczenia taryf, cz. 2 pkt 1 `[OCPI-TSG cz. 2 pkt 1]`”, „OCPP 2.0.1
 I03.FR.04 `[201-P2 I03.FR.04]`”, „AFIR art. 5 ust. 4”. Sam skrót znacznika nic nie mówi czytelnikowi.

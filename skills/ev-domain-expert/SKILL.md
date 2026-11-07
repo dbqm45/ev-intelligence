@@ -13,6 +13,10 @@ Skill nie odpowiada merytorycznie. Ustala, **których obszarów wiedzy dotyczy z
 kolejności i czego baza jeszcze nie ma. Źródło prawdy w repozytorium: `taxonomy/taxonomy.yaml`. Skill ma własne kopie (generowane, nie edytuj):
 drzewo `references/taksonomia-drzewo.md` i zasady `references/taksonomia-zasady.md` (granice: sekcja 5). Sieć: brak.
 
+**Źródła niedostępne.** Gdy odpowiedź zależy od normy płatnej albo dokumentu z `sources/niedostepne.yaml`, piszesz to w
+pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Dopiero potem podajesz to, co wynika ze
+źródeł dostępnych.
+
 ## Procedura
 1. **Rozpoznaj zadanie.** Wypisz rzeczowniki z zadania (komunikaty, obiekty, role, procesy), np. `Heartbeat`, `CDR`,
    `eMSP`, `przyłącze`. Brakuje wersji protokołu, roli rynkowej albo rynku (PL/UE)? Dopytaj albo zapisz założenie.

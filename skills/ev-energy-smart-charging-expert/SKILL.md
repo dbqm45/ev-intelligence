@@ -17,6 +17,10 @@ sygnały zewnętrzne, profile z roamingu i wymogi AFIR. Taksonomia: D08.01–D08
 (EEBUS, OpenADR, IEC 61850, Modbus), przyłączenie do sieci i rynek energii nie są opracowane.** Wtedy mówisz, czego
 brakuje, i nie odpowiadasz z pamięci.
 
+**Źródła niedostępne.** Gdy odpowiedź zależy od normy płatnej albo dokumentu z `sources/niedostepne.yaml`, piszesz to w
+pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Dopiero potem podajesz to, co wynika ze
+źródeł dostępnych.
+
 **Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „OCPP 2.0.1 K01.FR.50
 `[201-P2 K01.FR.50]`”, „OCPP 1.6 §3.13.6 `[16 §3.13.6]`”, „errata OCPP 1.6 §3.37 `[16E §3.37]`”, „specyfikacja OCPI
 2.3.0 §14.3 `[OCPI230 §14.3]`”, „AFIR art. 5 ust. 8”. Sam skrót znacznika nic nie mówi czytelnikowi.

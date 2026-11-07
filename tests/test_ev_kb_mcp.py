@@ -81,6 +81,16 @@ class TestServer(unittest.TestCase):
         self.assertFalse(r.structured_content["ok"])
         self.assertEqual([x["status"] for x in r.structured_content["results"]], ["NIEZNANY_DOKUMENT", "OK"])
 
+    def test_unavailable_norm_is_flagged_in_search_cite_check(self):
+        r = self.call("ev_search", {"query": "parametry styków według EN IEC 62196-2"})
+        self.assertIn("unavailable", r.structured_content)
+        self.assertIn("pierwszym zdaniu", ev_kb_mcp.INSTRUCTIONS)
+        r = self.call("ev_cite", {"tag": "[ISO 15118-20 §8]"})
+        self.assertEqual(r.structured_content["status"], "NIEDOSTEPNE")
+        r = self.call("ev_check", {"text": "Według ISO 15118-2 `[ISO 15118-2 §7]` …"})
+        self.assertFalse(r.structured_content["ok"])
+        self.assertIn("notice", r.structured_content)
+
     def test_search_empty_has_note(self):
         r = self.call("ev_search", {"query": "kwantowy reaktor fuzji"})
         self.assertEqual(r.structured_content["hits"], [])

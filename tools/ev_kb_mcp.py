@@ -43,7 +43,8 @@ READ_ONLY = ToolAnnotations(read_only_hint=True, open_world_hint=False)
 RULES = """Zasady: (1) nic z pamięci — fakty o protokołach, normach i regulacjach bierz z tych narzędzi i podawaj ze
 znacznikiem [ID §sekcja] oraz nazwą dokumentu słowami; (2) kolejność: ev_route → ev_skill (procedura, pułapki,
 references) → ev_search / ev_cite → ev_check gotowego tekstu; (3) rekomendacje oznaczaj „Wniosek”; (4) czego baza nie
-obejmuje, mów wprost."""
+obejmuje, mów wprost; (5) gdy odpowiedź zależy od normy płatnej lub dokumentu niedostępnego (pole `unavailable`
+w wynikach, status NIEDOSTEPNE), napisz to w pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego."""
 
 INSTRUCTIONS_LIMIT = 4096   # Claude Code ucina dłuższe instrukcje serwera (code.claude.com/docs/en/mcp.md, tool search)
 
@@ -133,7 +134,13 @@ def ev_search(query: str, limit: int = 5) -> dict[str, Any]:
     Pusta lista oznacza, że baza tego nie obejmuje."""
     sources = ev_kb.load_sources(ROOT)
     hits = ev_kb.cmd_search(query, max(1, min(limit, 20)), sources, ROOT)
-    return {"hits": hits, "note": "" if hits else "Brak trafień: baza tego nie obejmuje. Nie uzupełniaj z pamięci."}
+    res: dict[str, Any] = {"hits": hits,
+                           "note": "" if hits else "Brak trafień: baza tego nie obejmuje. Nie uzupełniaj z pamięci."}
+    missing = ev_kb.unavailable_matches(query, ROOT)
+    if missing:
+        res["unavailable"] = missing
+        res["notice"] = ev_kb.unavailable_notice(missing)
+    return res
 
 
 @server.tool(title="Źródło znacznika", annotations=READ_ONLY)
@@ -144,6 +151,10 @@ def ev_cite(tag: str) -> dict[str, Any]:
     tag = tag.strip().strip("`").strip("[]")
     doc_id, _ = ev_kb.split_tag(tag)
     if doc_id not in sources:
+        missing = ev_kb.unavailable_matches(tag, ROOT)
+        if missing:
+            return {"tag": tag, "status": "NIEDOSTEPNE", "unavailable": missing,
+                    "notice": ev_kb.unavailable_notice(missing)}
         return {"tag": tag, "status": "NIEZNANY_DOKUMENT", "known_ids": sorted(sources)}
     r = ev_kb.check_tag(tag, sources, _docs(), {})
     return {"source": ev_kb.asdict(sources[doc_id]), "result": ev_kb.asdict(r)}
@@ -159,8 +170,14 @@ def ev_check(text: str, require_text: bool = False) -> dict[str, Any]:
     for line, tag in ev_kb.extract_tags(text, sources):
         r = ev_kb.check_tag(tag, sources, _docs(), texts)
         results.append(dict(ev_kb.asdict(r), line=line))
-    failing = {"NIEZNANY_DOKUMENT", "NIE_ZNALEZIONO"} | ({"BRAK_TEKSTU"} if require_text else set())
-    return {"ok": not any(r["status"] in failing for r in results), "count": len(results), "results": results}
+    failing = {"NIEZNANY_DOKUMENT", "NIE_ZNALEZIONO", "NIEDOSTEPNE"} | ({"BRAK_TEKSTU"} if require_text else set())
+    res: dict[str, Any] = {"ok": not any(r["status"] in failing for r in results), "count": len(results),
+                           "results": results}
+    missing = ev_kb.unavailable_matches(text, ROOT)
+    if missing:   # tekst powołuje się na normy niedostępne: odpowiedź musi to powiedzieć wprost
+        res["unavailable"] = missing
+        res["notice"] = ev_kb.unavailable_notice(missing)
+    return res
 
 
 async def _plain(send, status: int, text: str, extra: list | None = None) -> None:

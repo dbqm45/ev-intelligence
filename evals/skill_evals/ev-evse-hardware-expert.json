@@ -128,6 +128,24 @@
    }
   },
   {
+   "id": "norma-platna-styki",
+   "expect": "trigger",
+   "prompt": "Jakie wymiary styków i prąd znamionowy gniazda Type 2 określa norma EN IEC 62196-2? Potrzebuję tego do karty technicznej ładowarki. Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "płatn\\w*|niedostępn\\w*|nie (mam|mamy) (dostępu|treści)|nie da się sprawdzić"
+     ],
+     [
+      "62196-2"
+     ]
+    ],
+    "none": [
+     "styk\\w* (ma|mają) średnic\\w* \\d"
+    ]
+   }
+  },
+  {
    "id": "groundfailure-dyzur",
    "expect": "no-trigger",
    "neighbor": "ev-charging-operations-expert",

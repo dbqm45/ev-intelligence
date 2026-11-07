@@ -300,9 +300,56 @@ def locate(rest: str, text: str) -> list[PartResult]:
     return results
 
 
+# ───────────────────────────── źródła niedostępne ─────────────────────────────
+
+_UNAVAILABLE_NAMES = re.compile(r"\b(\d{4,5}(?:[-.]\d+)*|MID|PSD2|PCI DSS|Eichrecht|CHAdeMO|OpenADR|EEBUS|SunSpec|Modbus|"
+                                r"DATEX|DNP3|2014/32|2015/2366|2019/944)\b")
+
+
+def load_unavailable(root: Path = ROOT) -> list[dict]:
+    """Wpisy z sources/niedostepne.yaml z kluczami do dopasowania (numery norm, nazwy). Nie są źródłami."""
+    path = root / "sources" / "niedostepne.yaml"
+    if not path.is_file():
+        return []
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    out = []
+    for section in ("normy_platne", "niezarejestrowane"):
+        for e in data.get(section, []) or []:
+            name = str(e.get("norma") or e.get("dokument") or "")
+            raw = [m.group(1).lower() for m in _UNAVAILABLE_NAMES.finditer(name)]
+            raw += [re.sub(r"-(19|20)\d\d$", "", k) for k in raw]          # „2030.5-2018” pasuje też do „2030.5”
+            keys = sorted({k for k in raw if not re.fullmatch(r"(19|20)\d\d", k)})   # same lata to nie klucze
+            out.append({"nazwa": name, "dostep": e.get("dostep", ""), "temat": e.get("temat", ""),
+                        "uwaga": e.get("uwaga", ""), "keys": keys})
+    return out
+
+
+def unavailable_matches(text: str, root: Path = ROOT) -> list[dict]:
+    """Normy i dokumenty niedostępne, o których mowa w tekście (pytaniu, znaczniku, odpowiedzi)."""
+    low = text.lower()
+    hits = []
+    for e in load_unavailable(root):
+        if any(re.search(r"(?<![\w.])" + re.escape(k) + r"(?![\w])", low) for k in e["keys"]):
+            hits.append({k: e[k] for k in ("nazwa", "dostep", "temat", "uwaga") if e[k]})
+    return hits
+
+
+DOSTEP_OPIS = {"platna": "normą płatną", "niezarejestrowana": "dokumentem jeszcze niepobranym",
+               "zablokowany": "dokumentem z niedostępnego hosta"}
+UNAVAILABLE_NOTICE = ("Tej części nie da się sprawdzić w źródłach: {nazwa} jest {opis} i nie mamy treści tego dokumentu "
+                      "(sources/niedostepne.yaml). Powiedz to na początku odpowiedzi i nie uzupełniaj z pamięci.")
+
+
+def unavailable_notice(missing: list[dict]) -> str:
+    return " ".join(UNAVAILABLE_NOTICE.format(nazwa=m["nazwa"], opis=DOSTEP_OPIS.get(m.get("dostep", ""), "niedostępny"))
+                    for m in missing)
+
+
 def check_tag(tag: str, sources: dict[str, Source], ddir: Path, texts: dict) -> TagResult:
     doc_id, rest = split_tag(tag)
     if doc_id not in sources:
+        if unavailable_matches(tag):
+            return TagResult(tag=tag, doc_id=doc_id, status="NIEDOSTEPNE")
         return TagResult(tag=tag, doc_id=doc_id, status="NIEZNANY_DOKUMENT")
     if not rest:
         return TagResult(tag=tag, doc_id=doc_id, status="OK")
@@ -497,7 +544,7 @@ def _print_check(results: list[tuple[str, int, TagResult]], verbose: bool) -> No
     counts: dict[str, int] = {}
     for where, line, r in results:
         counts[r.status] = counts.get(r.status, 0) + 1
-        if r.status in ("NIEZNANY_DOKUMENT", "NIE_ZNALEZIONO") or verbose:
+        if r.status in ("NIEZNANY_DOKUMENT", "NIE_ZNALEZIONO", "NIEDOSTEPNE") or verbose:
             bad = [p.part for p in r.parts if p.status == "NIE_ZNALEZIONO"]
             extra = f" (brak: {', '.join(bad)})" if bad else ""
             print(f"{r.status:18} {where}:{line}  [{r.tag}]{extra}")
@@ -541,9 +588,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "search":
         res = cmd_search(" ".join(args.query), args.limit, sources)
+        missing = unavailable_matches(" ".join(args.query))
         if args.json:
-            out(res)
+            out({"unavailable": missing, "hits": res} if missing else res)
         else:
+            if missing:
+                print("UWAGA: " + unavailable_notice(missing) + "\n")
             for h in res:
                 print(f"── {h['file']}:{h['line']}  ({h['section']}; trafność {h['score']})")
                 print(h["text"])
@@ -557,6 +607,11 @@ def main(argv: list[str] | None = None) -> int:
         doc_id, _ = split_tag(tag)
         src = sources.get(doc_id)
         if not src:
+            missing = unavailable_matches(tag)
+            if missing:
+                msg = {"tag": tag, "status": "NIEDOSTEPNE", "unavailable": missing}
+                out(msg) if args.json else print("NIEDOSTEPNE: " + unavailable_notice(missing))
+                return 1
             msg = {"tag": tag, "status": "NIEZNANY_DOKUMENT"}
             out(msg) if args.json else print(f"NIEZNANY_DOKUMENT: {doc_id} nie ma w sources/*.yaml")
             return 1
@@ -596,7 +651,7 @@ def main(argv: list[str] | None = None) -> int:
             where = "stdin" if p == "-" else str(p)
             for line, tag in extract_tags(text, sources):
                 results.append((where, line, check_tag(tag, sources, ddir, texts)))
-        failing = {"NIEZNANY_DOKUMENT", "NIE_ZNALEZIONO"} | ({"BRAK_TEKSTU"} if args.require_text else set())
+        failing = {"NIEZNANY_DOKUMENT", "NIE_ZNALEZIONO", "NIEDOSTEPNE"} | ({"BRAK_TEKSTU"} if args.require_text else set())
         rc = 1 if any(r.status in failing for _, _, r in results) else 0
         if args.json:
             out({"ok": rc == 0, "results": [dict(asdict(r), where=w, line=n) for w, n, r in results]})

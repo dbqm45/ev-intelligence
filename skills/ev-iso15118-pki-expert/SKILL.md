@@ -19,6 +19,10 @@ płatną bez dostępu** (`sources/niedostepne.yaml`): sekwencji komunikacji poja
 V2G i profili certyfikatów V2G PKI nie opisujesz. Mówisz, że wymagają normy, i nie uzupełniasz z pamięci. Tak samo przy
 VDE-AR-E 2802-100-1 i IEC 62443.
 
+**Źródła niedostępne.** Gdy odpowiedź zależy od normy płatnej albo dokumentu z `sources/niedostepne.yaml`, piszesz to w
+pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Dopiero potem podajesz to, co wynika ze
+źródeł dostępnych.
+
 **Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „OCPP 2.0.1 A00.FR.005
 `[201-P2 A00.FR.005]`”, „OCPP 2.0.1 C07.FR.07 `[201-P2 C07.FR.07]`”, „nota aplikacyjna OCA o Plug & Charge w 1.6 §2.2
 `[OCA-AN-PNC §2.2]`”, „errata OCPP 2.0.1 2026-09 `[201-E]`”. Sam skrót znacznika nic nie mówi czytelnikowi.

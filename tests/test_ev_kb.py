@@ -79,6 +79,26 @@ class TestUnavailable(unittest.TestCase):
         self.assertTrue(any(h["file"] == "sources/niedostepne.yaml" for h in hits))
 
 
+class TestUnavailableNotice(unittest.TestCase):
+    def test_matches_paid_norms_but_not_years_or_registered_docs(self):
+        names = lambda q: [m["nazwa"] for m in ev_kb.unavailable_matches(q)]   # noqa: E731
+        self.assertTrue(any("ISO 15118" in n for n in names("sekwencja SLAC w ISO 15118-2")))
+        self.assertTrue(any("2030.5" in n for n in names("IEEE 2030.5 w DER")))
+        self.assertEqual(names("plan na rok 2030"), [])
+        self.assertEqual(names("OCPP 2.0.1 K01.FR.50 i AFIR art. 5 ust. 4"), [])
+
+    def test_check_reports_unavailable_norm_as_error(self):
+        sources = ev_kb.load_sources()
+        r = ev_kb.check_tag("ISO 15118-2 §8.3", sources, Path("/nonexistent"), {})
+        self.assertEqual(r.status, "NIEDOSTEPNE")
+        self.assertEqual(ev_kb.check_tag("XYZ9 §1", sources, Path("/nonexistent"), {}).status, "NIEZNANY_DOKUMENT")
+        self.assertIn("normą płatną", ev_kb.unavailable_notice(ev_kb.unavailable_matches("ISO 15118")))
+
+    def test_every_skill_has_unavailable_rule(self):
+        for p in sorted((ROOT / "skills").glob("*/SKILL.md")):
+            self.assertIn("**Źródła niedostępne.**", p.read_text(encoding="utf-8"), p.parent.name)
+
+
 class TestTags(unittest.TestCase):
     def setUp(self):
         self.sources = ev_kb.load_sources()

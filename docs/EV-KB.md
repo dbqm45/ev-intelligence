@@ -16,6 +16,9 @@ Wszystkie polecenia mają `--json`. Katalog kopii: `--docs`, `EV_KB_DOCS` albo `
 ## Statusy `check`
 - `OK`: dokument w rejestrze, a każda sprawdzalna część lokalizatora jest w tekście (poza spisem treści).
 - `NIEZNANY_DOKUMENT`: identyfikatora nie ma w `sources/*.yaml`. **Błąd.**
+- `NIEDOSTEPNE`: znacznik wskazuje normę albo dokument z `sources/niedostepne.yaml` (np. ISO 15118). **Błąd.**
+  `search`, `cite` i `check` (także w MCP) zwracają wtedy pole `unavailable` z komunikatem, który odpowiedź ma podać
+  w pierwszym zdaniu.
 - `NIE_ZNALEZIONO`: sekcji, artykułu, ustępu lub wymagania nie ma w tekście. **Błąd.**
 - `BRAK_TEKSTU`: brak lokalnej kopii; błąd tylko z `--require-text`.
 - `NIESPRAWDZONE`: lokalizator, którego narzędzie nie umie sprawdzić (np. „tabela F”).
