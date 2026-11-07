@@ -1,0 +1,75 @@
+{
+ "skill": "ev-billing-tariff-expert",
+ "scenarios": [
+  {
+   "id": "step-size-cala-sesja",
+   "expect": "trigger",
+   "prompt": "Taryfa OCPI 2.3.0: czas ładowania (TIME) 5 EUR/h przed 17:00 i 7 EUR/h po 17:00, oba składniki ze step_size 600. Kierowca ładował 6 minut przed 17:00 i 22 minuty po 17:00. Ile minut po 17:00 rozliczamy i jaki jest koszt czasu? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["\\b24 ?min"],
+     ["\\b30 ?min"],
+     ["3[,.]30"],
+     ["step_size[^.\\n]{0,80}(1\\b|jeden|one)|step_size\\s*=\\s*1"]
+    ],
+    "none": [
+     "rozlicz\\w* 30 ?min\\w* po 17"
+    ]
+   }
+  },
+  {
+   "id": "pierwszenstwo-elementow",
+   "expect": "trigger",
+   "prompt": "Silnik wyceny dla taryf OCPI 2.3.0. Taryfa ma dwa elementy z ENERGY: pierwszy z ograniczeniem start_time 17:00 i end_time 22:00 (0,60 EUR/kWh), drugi z ograniczeniem day_of_week SATURDAY, SUNDAY (0,40 EUR/kWh). Ile kosztuje energia we wtorek o 10:00 i jak to naprawić? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["pierwsz\\w*[^.\\n]{0,80}(element|pasując)|first[^.\\n]{0,40}element"],
+     ["bez (opłat|koszt\\w*)|nic nie kosztuje|darmow\\w*|0[,.]00|no cost|za darmo|bezpłatn\\w*"],
+     ["bez ogranicze\\w*|bez restrykcji|without restrictions|domyśln\\w*|default"]
+    ],
+    "none": [
+     "0[,.]40 EUR[^.\\n]{0,40}wtor"
+    ]
+   }
+  },
+  {
+   "id": "afir-cena-ad-hoc",
+   "expect": "trigger",
+   "prompt": "Ustalamy cennik ad hoc dla publicznych ładowarek w UE: DC 150 kW oraz AC 22 kW, wszystkie zainstalowane w 2025 roku. Jakie składniki ceny wolno stosować według AFIR i jak je pokazać przed sesją? Czy możemy mieć inną cenę dla klientów jednego MSP? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["kWh"],
+     ["minut\\w*"],
+     ["kolejno\\w*|order"],
+     ["dyskrymin\\w*|discriminat\\w*"],
+     ["art\\.? 5"]
+    ],
+    "none": [
+     "AFIR nie reguluje cen"
+    ]
+   }
+  },
+  {
+   "id": "totalcost-ocpp201",
+   "expect": "trigger",
+   "prompt": "Ładowarka OCPP 2.0.1 po zakończeniu transakcji pokazuje kierowcy koszt 0,00, gdy CSMS nie przyśle totalCost w TransactionEventResponse. Czy to poprawne i co powinna wyświetlić stacja, gdy kosztu nie zna? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["totalCost"],
+     ["0[,.]00"],
+     ["nie oznacza|does not imply|nie znaczy"],
+     ["TotalCostFallbackMessage"]
+    ],
+    "none": [
+     "brak totalCost oznacza (bezpłatn|darmow)"
+    ]
+   }
+  },
+  {
+   "id": "credentials-handshake",
+   "expect": "no-trigger",
+   "prompt": "Rejestrujemy nowego partnera OCPI 2.2.1. Jak przebiega wymiana tokenów credentials A, B i C i kiedy token A przestaje działać?",
+   "neighbor": "ev-ocpi-roaming-expert"
+  }
+ ]
+}

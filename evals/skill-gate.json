@@ -1,4 +1,8 @@
 {
+ "ev-billing-tariff-expert": {
+  "fingerprint": "c5f692b065c17780",
+  "offline": "2026-11-07"
+ },
  "ev-charging-operations-expert": {
   "fingerprint": "4d6bef7a352a411e",
   "offline": "2026-11-07"
@@ -20,7 +24,7 @@
   "offline": "2026-11-07"
  },
  "ev-ocpi-roaming-expert": {
-  "fingerprint": "a9ba76a4e3244cf8",
+  "fingerprint": "545439350a2177b7",
   "offline": "2026-11-07"
  },
  "ev-ocpp-expert": {

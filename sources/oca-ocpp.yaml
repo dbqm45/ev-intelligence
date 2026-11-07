@@ -40,6 +40,7 @@ packages:
       - {id: "201-P4", file: OCPP-2.0.1_edition4_part4_ocpp-j-specification.pdf, date: 2025-12-03, sha256: 63eff96483d453b79b299e0a40b054d106f28dfc9a6c175f1d97d82fbeba47b3}
       - {id: "201-P5", file: OCPP-2.0.1_edition4_part5_certification_profiles.pdf, date: 2025-12-03, sha256: cc6ad34dc23a8498dd1d7f0e871f74ee29bc38d9610aa7a954a7acdde099f39c}
       - {id: "201-P6", file: OCPP-2.0.1_edition4_part6-testcases.pdf, date: 2025-12-03, sha256: e091bb13907f85b0897a8d2d08416e97bd781f00ef25119f08c5264c21c84b3b}
+      - {id: "201-APP", file: OCPP-2.0.1_edition4_part2_appendices_v15.pdf, title: "Part 2 Appendices v1.5 (komponenty i zmienne standardowe)", date: 2025-12-03, sha256: 3a8a97133ed904047b128a9bbb906e110f899d42b9f99423c2df27e0327338b3}
       - {id: "201-CSV", file: Appendices_CSV_v1.5.zip, title: "Appendices CSV v1.5 (komponenty i zmienne Device Model)", date: 2025-12-03, sha256: ed42805cea7328cc3f5a5c5d885e38abe46645bf87f7e06da14f90cd5c660577}
       - {id: "201-E", file: OCPP-2.0.1_edition4_errata_2026-09.pdf, date: 2026-10-07, sha256: 65827b28394462db57fe6d1b7520ed7f12e7127a2a5d071a5962c9547e9398dd}
 
