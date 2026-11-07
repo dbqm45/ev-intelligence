@@ -11,7 +11,7 @@
             "ConnectionTimeOut"
           ],
           [
-            "Accepted[^.\\n]{0,80}(nie oznacza|nie znaczy|≠|to nie)|przyj\\w* (polecenia|żądania)[^.\\n]{0,40}nie"
+            "Accepted[^.\\n]{0,80}(nie oznacza|nie znaczy|≠|to nie)|przyj\\w* (polecenia|żądania)[^.\\n]{0,40}nie|Accepted[^.\\n]{0,80}oznacza (tylko|jedynie)"
           ],
           [
             "StatusNotification|TriggerMessage"
