@@ -21,6 +21,7 @@ Chapter 2. Certification profiles
 The CDR object describes the charging session.
 I. Tariff And Cost
 I03.FR.04   To indicate a free transaction, the CSMS SHALL set totalCost to 0.00.
+K01.FR.101  When field maxOfflineDuration is present
 E13 - Transaction-related message not accepted by CSMS
 F02 - Start Transaction remotely
 Article 5
@@ -98,6 +99,8 @@ class TestLocate(unittest.TestCase):
     def test_requirement_and_block(self):
         self.assertEqual(self.status("I03.FR.04"), ["OK"])
         self.assertEqual(self.status("I03.FR.05"), ["NIE_ZNALEZIONO"])
+        self.assertEqual(self.status("K01.FR.101"), ["OK"])
+        self.assertEqual(self.status("K01.FR.10"), ["NIE_ZNALEZIONO"])
         self.assertEqual(self.status("I"), ["OK"])
 
     def test_eu_article_paragraph_annex(self):

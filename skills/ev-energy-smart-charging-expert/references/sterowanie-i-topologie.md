@@ -1,7 +1,7 @@
 # Topologie sterowania, limity zewnętrzne, OCPI ChargingProfiles, AFIR, OCPP 2.1
 
 Źródła: `[16]`, `[201-P2 K]`, `[201-APP]`, OCPI 2.3.0 `[OCPI230 §14]`, AFIR skonsolidowany `[AFIR]`, OCPP 2.1 część 0
-`[21-P0]`. Zdania **Wniosek** to rekomendacje.
+`[21-P0]` i część 2 `[21-P2]`. Zdania **Wniosek** to rekomendacje.
 
 ## Spis treści
 1. Cztery typy sterowania w OCPP
@@ -126,13 +126,12 @@ Według listy zmian OCPP 2.1 `[21-P0 rozdz. 2]`:
   K21–K22 priorytet ładowania nadpisujący profil na żądanie użytkownika; K23–K27 topologie z EMS;
 - blok Q (przepływ dwukierunkowy, V2X): Q01–Q04 sterowanie centralne, Q05–Q06 zewnętrzne, Q07–Q08 regulacja
   częstotliwości centralna i lokalna, Q09 lokalne równoważenie z V2X, Q10–Q12 stan bezczynności, offline i wznowienie;
-- sterowanie DER: stacja i pojazd jako rozproszone źródła energii (U01–U05); według opisu bloku po stronie sieci IEC
+- sterowanie DER: stacja i pojazd jako rozproszone źródła energii (w części 0 U01–U05, w części 2 R01–R05); według opisu bloku po stronie sieci IEC
   61850 i IEEE 2030.5, po stronie pojazdu ISO 15118-20 Amendment 1 `[21-P0 rozdz. 3]`;
 - blok J: nowe wielkości pomiarowe dla ładowania dwukierunkowego i lokalizacja pomiaru `Upstream`.
 
-Szczegóły wymagań bloków K, Q i DER z części 2 OCPP 2.1 **nie są opracowane**. Części 2 OCPP 2.1 nie ma jeszcze w
-rejestrze źródeł. Niespójność w części 0: blok ma nagłówek „R DER Control”, a przypadki użycia oznaczenia U01–U05
-`[21-P0 rozdz. 2]`.
+Bloki Q (V2X) i R (DER) z części 2 OCPP 2.1 opisuje `references/v2x-der-ocpp21.md`. Niespójność oznaczeń z części 0
+(nagłówek „R DER Control” z U01–U05) rozstrzyga część 2: przypadki mają numery R01–R05 `[21-P2 R01]`.
 
 ## 9. Czego baza nie obejmuje
 - ISO 15118-2/-20 i IEC 61851 (normy płatne): treść komunikacji pojazd–ładowarka i sygnału Control Pilot. Bloki K15–K17

@@ -3,17 +3,17 @@ name: ev-energy-smart-charging-expert
 description: Użyj przy smart charging i zarządzaniu mocą ładowania EV — profile OCPP, stack level, load balancing, limit przyłącza, EMS/DSO, OCPI ChargingProfiles, V2G, AFIR.
 metadata:
   przeglad: "2027-02-07"
-  katalog: "Użyj przy projektowaniu i sprawdzaniu sterowania mocą ładowania — profile ładowania OCPP 1.6 i 2.0.1 (ChargePointMaxProfile / ChargingStationMaxProfile, TxDefaultProfile, TxProfile, ChargingStationExternalConstraints), rodzaje Absolute, Recurring, Relative, stack level i różnica wyboru profilu między wersjami, harmonogram złożony i GetCompositeSchedule, jednostki A i W, fazy i przeliczenie mocy na prąd, zachowanie offline i po restarcie, równoważenie w stacji, sterowanie centralne i Local Controller, limity zewnętrzne z EMS, HEMS i DSO (NotifyChargingLimit, LimitChangeSignificance), priorytet ładowania, moduł ChargingProfiles w OCPI 2.3.0 dla eMSP i SCSP, wymogi AFIR (smart recharging, punkt digitally-connected, ocena ładowania dwukierunkowego) i przegląd zmian OCPP 2.1 (V2X, DER). Każdy fakt z cytatem ze źródła oficjalnego. Nie do składni komunikatów OCPP i błędów RPC (ev-ocpp-expert), architektury modułów CPMS (ev-cpms-architect), wymagań sprzętowych AFIR i ISO 15118 w aneksie II (ev-evse-hardware-expert) ani taryf i wyceny (ev-billing-tariff-expert)."
-  slowa: "smart charging, inteligentne ładowanie, zarządzanie mocą, load balancing, równoważenie obciążenia, DLM, dynamic load management, limit przyłącza, moc przyłączeniowa, ChargingProfile, SetChargingProfile, ClearChargingProfile, GetCompositeSchedule, composite schedule, harmonogram złożony, stackLevel, stack level, ChargePointMaxProfile, ChargingStationMaxProfile, TxDefaultProfile, TxProfile, ChargingStationExternalConstraints, Absolute, Recurring, Relative, chargingRateUnit, A czy W, numberPhases, phaseToUse, minChargingRate, przełączanie faz, Phases3to1, SmartChargingCtrlr, ProfileStackLevel, ChargeProfileMaxStackLevel, offline smart charging, Local Controller, kontroler lokalny, EMS, HEMS, DSO, OSD, limit zewnętrzny, NotifyChargingLimit, LimitChangeSignificance, chargingPriority, priorytet ładowania, OCPI ChargingProfiles, ActiveChargingProfile, SCSP, agregator, smart recharging AFIR, digitally-connected, V2G, V2X, ładowanie dwukierunkowe, bidirectional, DER, OCPP 2.1 blok Q, PV, magazyn energii, peak shaving"
+  katalog: "Użyj przy projektowaniu i sprawdzaniu sterowania mocą ładowania — profile ładowania OCPP 1.6 i 2.0.1 (ChargePointMaxProfile / ChargingStationMaxProfile, TxDefaultProfile, TxProfile, ChargingStationExternalConstraints), rodzaje Absolute, Recurring, Relative, stack level i różnica wyboru profilu między wersjami, harmonogram złożony i GetCompositeSchedule, jednostki A i W, fazy i przeliczenie mocy na prąd, zachowanie offline i po restarcie, równoważenie w stacji, sterowanie centralne i Local Controller, limity zewnętrzne z EMS, HEMS i DSO (NotifyChargingLimit, LimitChangeSignificance), priorytet ładowania, moduł ChargingProfiles w OCPI 2.3.0 dla eMSP i SCSP, wymogi AFIR (smart recharging, punkt digitally-connected, ocena ładowania dwukierunkowego) oraz OCPP 2.1: ładowanie dwukierunkowe V2X (setpoint, dischargeLimit, operationMode, profile dynamiczne, FCR i aFRR, równoważenie z budynkiem, maxOfflineDuration) i sterowanie DER (SetDERControl, NotifyDERAlarm). Każdy fakt z cytatem ze źródła oficjalnego. Nie do składni komunikatów OCPP i błędów RPC (ev-ocpp-expert), architektury modułów CPMS (ev-cpms-architect), wymagań sprzętowych AFIR i ISO 15118 w aneksie II (ev-evse-hardware-expert) ani taryf i wyceny (ev-billing-tariff-expert)."
+  slowa: "smart charging, inteligentne ładowanie, zarządzanie mocą, load balancing, równoważenie obciążenia, DLM, dynamic load management, limit przyłącza, moc przyłączeniowa, ChargingProfile, SetChargingProfile, ClearChargingProfile, GetCompositeSchedule, composite schedule, harmonogram złożony, stackLevel, stack level, ChargePointMaxProfile, ChargingStationMaxProfile, TxDefaultProfile, TxProfile, ChargingStationExternalConstraints, Absolute, Recurring, Relative, chargingRateUnit, A czy W, numberPhases, phaseToUse, minChargingRate, przełączanie faz, Phases3to1, SmartChargingCtrlr, ProfileStackLevel, ChargeProfileMaxStackLevel, offline smart charging, Local Controller, kontroler lokalny, EMS, HEMS, DSO, OSD, limit zewnętrzny, NotifyChargingLimit, LimitChangeSignificance, chargingPriority, priorytet ładowania, OCPI ChargingProfiles, ActiveChargingProfile, SCSP, agregator, smart recharging AFIR, digitally-connected, V2G, V2X, V2H, V2B, ładowanie dwukierunkowe, rozładowanie, bidirectional, setpoint, dischargeLimit, operationMode, CentralSetpoint, LocalLoadBalancing, LocalFrequency, FCR, aFRR, regulacja częstotliwości, profil dynamiczny, UpdateDynamicSchedule, maxOfflineDuration, invalidAfterOfflineDuration, allowedEnergyTransfer, NotifyEVChargingNeeds, DER, SetDERControl, NotifyDERAlarm, kodeks sieciowy, grid code, OCPP 2.1 blok Q, blok R, PV, magazyn energii, peak shaving"
 ---
 
 # Energy & Smart Charging Expert — sterowanie mocą ładowania
 
 Skill odpowiada, **ile mocy dostanie pojazd i kto o tym decyduje**: profile OCPP, ich łączenie, limity przyłącza,
-sygnały zewnętrzne, profile z roamingu i wymogi AFIR. Taksonomia: D08.01–D08.03, D08.06 (przegląd). Sieć: brak.
+sygnały zewnętrzne, profile z roamingu i wymogi AFIR. Taksonomia: D08.01–D08.03, D08.06 (V2X i DER w OCPP 2.1). Sieć: brak.
 
 **Zasada źródeł.** Fakty mają znacznik `[dokument §]` i pochodzą z `sources/*.yaml`: OCPP 1.6 i 2.0.1 (OCA), OCPI 2.3.0
-(EVRF), AFIR (wersja skonsolidowana), OCPP 2.1 część 0. **ISO 15118 i IEC 61851 (płatne), protokoły sieci i budynku
+(EVRF), AFIR (wersja skonsolidowana), OCPP 2.1 części 0 i 2 z erratą 2026-09. **ISO 15118 i IEC 61851 (płatne), protokoły sieci i budynku
 (EEBUS, OpenADR, IEC 61850, Modbus), przyłączenie do sieci i rynek energii nie są opracowane.** Wtedy mówisz, czego
 brakuje, i nie odpowiadasz z pamięci.
 
@@ -25,7 +25,8 @@ brakuje, i nie odpowiadasz z pamięci.
 | Plik | Kiedy |
 |---|---|
 | `references/profile-ocpp.md` | cele i rodzaje profili, stack level (1.6 vs 2.0.1), harmonogram złożony, A/W i fazy, zmiana i usuwanie, offline, zmienne, rozbieżności dokumentów |
-| `references/sterowanie-i-topologie.md` | równoważenie w stacji, sterowanie centralne, Local Controller, limity zewnętrzne (EMS, DSO), wielu aktorów, priorytet, OCPI ChargingProfiles, AFIR, OCPP 2.1 |
+| `references/sterowanie-i-topologie.md` | równoważenie w stacji, sterowanie centralne, Local Controller, limity zewnętrzne (EMS, DSO), wielu aktorów, priorytet, OCPI ChargingProfiles, AFIR, przegląd OCPP 2.1 |
+| `references/v2x-der-ocpp21.md` | OCPP 2.1: setpoint i limity rozładowania, tryby V2X, autoryzacja V2X, profile dynamiczne, EMS, FCR/aFRR, równoważenie z budynkiem, offline (`maxOfflineDuration`), DER (SetDERControl), errata |
 
 ## Procedura
 1. **Kontekst:** wersja OCPP, AC czy DC, liczba EVSE i stacji na wspólnym przyłączu, kto ustala limity (CSMS, Local
@@ -39,6 +40,8 @@ brakuje, i nie odpowiadasz z pamięci.
 5. **Awaria łączności:** co stacja zrobi offline i po restarcie `[201-P2 K06.FR.02]` `[201-P2 K01.FR.27]`. Profil
    ograniczenia przyłącza ma być zapisany na stacji, a nie tylko wysyłany per transakcja.
 6. **Inni aktorzy:** limity zewnętrzne, profile z OCPI, priorytety (`references/sterowanie-i-topologie.md`).
+   Przy V2X (OCPP 2.1): tryb pracy, zakres od `dischargeLimit` do `limit`, profil zapasowy `ChargingOnly` na niższym
+   stack level i `maxOfflineDuration` (`references/v2x-der-ocpp21.md`).
 7. **Luki:** ISO 15118, protokoły sieci, prawo przyłączeniowe wymieniasz jako nieopracowane.
 
 ## Przykład
@@ -71,10 +74,13 @@ Fakty:
 - Kilka stron wysyłających profile naraz daje minimum, czyli wolniejsze ładowanie niż potrzeba `[OCPI230 §14.1]`.
 - Profil z OCPI dotyczy tylko sesji w toku i jest asynchroniczny: odpowiedź `ACCEPTED` od CPO nie znaczy, że EVSE go
   przyjęło `[OCPI230 §14.3]`.
+- V2X bez profilu zapasowego: po `maxOfflineDuration` stacja ładuje bez limitu („charging only”) `[21-P2 Q11]`. Profil
+  `ChargingOnly` na niższym stack level jest obowiązkowym elementem projektu sesji V2X (**Wniosek**).
+- `setpoint` poza zakresem od `dischargeLimit` do `limit` → odrzucenie profilu (V2X.05) `[21-P2 Q §2.5]`.
 - Nazwy zmiennych w wymaganiach 2.0.1 różnią się od Device Model (`RateUnit`, `NotifyChargingLimitWithSchedules`).
   W implementacji obowiązują nazwy z załącznika (`references/profile-ocpp.md`, sekcja 9).
 
 ## Źródła
 `sources/oca-ocpp.yaml` (16 §3.13, §5.7, §5.16, §7.8–7.14, §9.4; 16E; S16; 201-P2 blok K; 201-APP §3.1.16; 201-CSV;
-201-E; 21-P0), `sources/evrf-ocpi.yaml` (OCPI230 §14), `sources/eu-afir.yaml` (AFIR art. 2, 5, 14, 15). Pobrane
+201-E; 21-P0; 21-P2 bloki K, Q, R; 21-APP; 21-E), `sources/evrf-ocpi.yaml` (OCPI230 §14), `sources/eu-afir.yaml` (AFIR art. 2, 5, 14, 15). Pobrane
 2026-11-07.

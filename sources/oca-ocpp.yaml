@@ -50,6 +50,8 @@ packages:
     sha256: 2774ada26a709e3bf8680ee6721b3b215b8bc345dc6d8979b4c6b3d77f3a1f69
     documents:
       - {id: "21-P0", file: OCPP-2.1_edition2_part0_introduction.pdf, date: 2025-12-03, sha256: 88cc395e0030a3c07b1907c87d2ed399089b1f778a719302d9993522fae06e78}
+      - {id: "21-P2", file: OCPP-2.1_edition2_part2_specification.pdf, date: 2025-12-03, sha256: 264a0d16c45cfe28236dc8683df88ef44e78b19fd09f082a7815d689dd2a2ae7}
+      - {id: "21-APP", file: OCPP-2.1_edition2_part2_appendices_v21.pdf, title: "Part 2 Appendices v2.1 (komponenty i zmienne standardowe)", date: 2025-12-03, sha256: f9e48d3d3ee9102086e88c05aa46e0bf36c644f1a591b5a0c4d3fd157f3e4165}
       - {id: "21-P3", file: OCPP-2.1_part3_JSON_schemas.zip, title: "Schematy JSON („OCPP 2.1 Edition 1”, 181 plików)", date: 2025-01-23, sha256: af012407f31f6e24600068c0f96759115a40eadcacb48e0a10eae8ccaf1cc499}
       - {id: "21-P4", file: OCPP-2.1_edition2_part4_ocpp-j-specification.pdf, date: 2025-12-03, sha256: c91b1d2b5c2adb7b4e1843dfade66effaaa33f3e802af3286a659567dfbd9a2f}
       - {id: "21-E", file: OCPP-2.1_edition2_errata_2026-09.pdf, date: 2026-10-07, sha256: f07e284f6f810179b8d0b56093c6d3e816fb57a62a8fc034a023496c3c0269fa}

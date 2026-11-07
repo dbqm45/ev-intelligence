@@ -273,7 +273,7 @@ def locate(rest: str, text: str) -> list[PartResult]:
             found = _find_line(lines, re.compile(r"^\s*" + part + r"\s*$"))
         # Wymaganie OCPP 2.x: I03.FR.04, F02.FR.07; przypadek użycia: E13, F02
         if not checked:
-            m = re.search(r"\b([A-Z]\d{2}\.FR\.\d{2})\b", part) or \
+            m = re.search(r"\b([A-Z]\d{2}\.FR\.\d{2,3})\b", part) or \
                 re.match(r"^([A-Z]\d{2})(?:\s*[–-]\s*([A-Z]\d{2}))?(?:\s|$)", part)
             if m:
                 checked = True
