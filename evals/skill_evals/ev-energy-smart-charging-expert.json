@@ -1,0 +1,75 @@
+{
+ "skill": "ev-energy-smart-charging-expert",
+ "scenarios": [
+  {
+   "id": "composite-schedule-cele",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 2.0.1 z dwoma EVSE. Mamy ChargingStationMaxProfile 32 A na evseId 0, TxDefaultProfile 16 A na evseId 0 i dla transakcji na EVSE 1 TxProfile 20 A. Jaki limit obowiązuje EVSE 1 i co oznacza limit 32 A przy dwóch ładujących autach? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["\\b20 ?A"],
+     ["TxProfile[^.\\n]{0,120}(zastępuje|nadpisuje|overrul\\w*|ma pierwszeństwo|wypiera|zamiast)|(zastępuje|nadpisuje|overrul\\w*)[^.\\n]{0,60}TxDefaultProfile"],
+     ["łączn\\w*|wszystkich EVSE|wszystkie EVSE|combined|razem|sum\\w*"],
+     ["najniższ\\w*|minimum|lowest|min\\("]
+    ],
+    "none": [
+     "limit EVSE 1 (wynosi|to) 16 ?A"
+    ]
+   }
+  },
+  {
+   "id": "watty-na-prad-fazy",
+   "expect": "trigger",
+   "prompt": "CSMS wysyła do ładowarki AC (OCPP 2.0.1) profil z chargingRateUnit W i limitem 11000, bez pola numberPhases. Jaki prąd na fazę ustawi stacja i dlaczego dla AC lepiej używać A? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["\\b3 faz\\w*|numberPhases\\s*=\\s*3|trzy faz\\w*|3 phases"],
+     ["15[,.]9"],
+     ["230"],
+     ["K01\\.FR\\.(49|50)"]
+    ],
+    "none": [
+     "47[,.]8 ?A"
+    ]
+   }
+  },
+  {
+   "id": "offline-bez-profili",
+   "expect": "trigger",
+   "prompt": "Parking z przyłączem 100 kW i 10 ładowarkami OCPP 2.0.1 sterowanymi centralnie z CSMS przez TxProfile. Co się stanie z mocą, gdy ładowarki stracą łączność z CSMS w trakcie i przed transakcją, i jak się przed tym zabezpieczyć? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["K06|K07"],
+     ["bez ogranicze\\w*|no constraints|jakby nie było ogranicze\\w*|as if no constraints|pełn\\w* moc\\w*|bez limitu"],
+     ["ChargingStationMaxProfile|TxDefaultProfile"],
+     ["trwał\\w*|persistent|restart\\w*|reboot"]
+    ],
+    "none": [
+     "stacja (sama )?wstrzyma ładowanie po utracie łączności"
+    ]
+   }
+  },
+  {
+   "id": "limit-zewnetrzny-ems",
+   "expect": "trigger",
+   "prompt": "Domowy EMS ogranicza moc ładowarki OCPP 2.0.1 przez Modbus, bo pracuje pompa ciepła. Skąd CSMS się o tym dowie i czy CSMS może ten limit nadpisać albo usunąć? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["ChargingStationExternalConstraints"],
+     ["NotifyChargingLimit"],
+     ["LimitChangeSignificance"],
+     ["nie (może|wolno|jest w stanie)[^.\\n]{0,80}(nadpis|usun|skasow|wysła|ustaw|zmieni)|SHALL NOT|K01\\.FR\\.(22|62)|K10\\.FR\\.0[89]"]
+    ],
+    "none": [
+     "CSMS (może|powinien) (wysłać|ustawić) (profil )?ChargingStationExternalConstraints"
+    ]
+   }
+  },
+  {
+   "id": "callerror-format",
+   "expect": "no-trigger",
+   "prompt": "Jak wygląda ramka CALLERROR w OCPP-J 1.6 i jakie kody błędów są dozwolone?",
+   "neighbor": "ev-ocpp-expert"
+  }
+ ]
+}

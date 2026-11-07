@@ -8,11 +8,15 @@
   "offline": "2026-11-07"
  },
  "ev-cpms-architect": {
-  "fingerprint": "a9a631c826887c5d",
+  "fingerprint": "052c7e9d6d6bcb5e",
   "offline": "2026-11-07"
  },
  "ev-domain-expert": {
   "fingerprint": "1e74982694fa52e2",
+  "offline": "2026-11-07"
+ },
+ "ev-energy-smart-charging-expert": {
+  "fingerprint": "c2a632e596e33cb2",
   "offline": "2026-11-07"
  },
  "ev-evse-diagnostics-expert": {

@@ -113,6 +113,6 @@ docker build --secret id=pip_ca,src=/ścieżka/ca.crt -f deploy/Dockerfile -t ev
 - **Nie sprawdzono:** certyfikatu publicznego dla prawdziwej domeny i połączenia z konektora w claude.ai, bo wymaga to
   maszyny z publicznym adresem.
 
-Źródła: dokumentacja Caddy z repozytorium `caddyserver/website` (`src/docs/markdown/automatic-https.md`: wymagania
-nazwy, wyzwanie HTTP na porcie 80, trwały katalog danych; `caddyfile/directives/log.md`: logi dostępu tylko po
-skonfigurowaniu), pobrana 2026-11-07. Konektory i MCP: źródła w `docs/EV-KB-MCP.md`.
+Źródła: dokumentacja Caddy `https://caddyserver.com/docs/automatic-https` (wymagania nazwy, wyzwanie HTTP na porcie 80,
+trwały katalog danych) i `https://caddyserver.com/docs/caddyfile/directives/log` (logi dostępu tylko po
+skonfigurowaniu), sprawdzona 2026-11-07, także w repozytorium źródłowym `caddyserver/website`. Konektory i MCP: źródła w `docs/EV-KB-MCP.md`.
