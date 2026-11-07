@@ -24,4 +24,7 @@
 - Struktura i bramki: `docs/SKILLS-WORKFLOW.md`. Przed oddaniem: `python3 tools/factory_check.py --tf ../tf`.
 - Taksonomia (źródło prawdy): `taxonomy/taxonomy.yaml`; po zmianie `python3 tools/render_taxonomy.py`.
 - Ewaluacja na modelu jest płatna: tylko za zgodą człowieka.
+- **Commity:** Conventional Commits z opisem po angielsku (`feat(ocpi): add OICP 2.3 reference`); każdy commit trafia na
+  main, a wersję i CHANGELOG liczy CI (`docs/RELEASING.md`). Hook: `git config core.hooksPath .githooks`.
+  `VERSION` i nagłówków `CHANGELOG.md` nie zmieniasz ręcznie, poza wydaniem ręcznym.
 - Sprawy odłożone (decyzje właściciela, niedziałające hosty, źródła do przejrzenia): `docs/DO-ZROBIENIA.md`.

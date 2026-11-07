@@ -96,7 +96,8 @@ wiedzy** z takich dokumentów, a tylko stwierdza zgodność albo jej brak i wska
 - **Licencje treści:** `ev_cite` zwraca dosłowne fragmenty dokumentów, jeśli serwer ma lokalne kopie (`.cache/ev-kb`).
   Dokumenty OCA i EVRF są na CC BY-ND 4.0 (według rejestru `sources/*.yaml`). Zasady ponownego wykorzystania EUR-Lex są
   w rejestrze oznaczone „[niesprawdzone]”. Bez kopii serwer podaje tylko metadane i treść skilli.
-- **Wersja wiedzy:** serwer czyta repozytorium, z którego działa. Aktualizacja = `git pull` i restart.
+- **Wersja wiedzy:** serwer podaje wersję wydania z `VERSION` (SemVer, docs/RELEASING.md) i commit. Aktualizacja =
+  `git pull` (albo nowy obraz z tagu `vX.Y.Z`) i restart.
 
 ## Testy
 `tests/test_ev_kb_mcp.py`: klient SDK w procesie (lista narzędzi, adnotacje, instrukcje, wyniki, ochrona ścieżek w

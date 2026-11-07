@@ -52,7 +52,21 @@ nigdy treści dokumentu ani własnych przypuszczeń o niej."""
 INSTRUCTIONS_LIMIT = 4096   # Claude Code ucina dłuższe instrukcje serwera (code.claude.com/docs/en/mcp.md, tool search)
 
 
+def release_version(root: Path = ROOT) -> str:
+    """Wersja wydania z pliku VERSION (SemVer, docs/RELEASING.md); pusty napis, gdy pliku nie ma."""
+    try:
+        return (root / "VERSION").read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
 def knowledge_version(root: Path = ROOT) -> str:
+    """Wersja wydania i commit repozytorium wiedzy, np. „0.1.0 (1dcf72b0a1b2)”."""
+    rel, commit = release_version(root), commit_version(root)
+    return f"{rel} ({commit})" if rel else commit
+
+
+def commit_version(root: Path = ROOT) -> str:
     """Commit repozytorium wiedzy (gdy jest git) — żeby odpowiedź dało się przypisać do wersji bazy."""
     if os.environ.get("EV_KB_VERSION"):                  # obraz kontenera nie ma .git; wersję podaje build
         return os.environ["EV_KB_VERSION"][:12]

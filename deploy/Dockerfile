@@ -21,6 +21,7 @@ COPY skills/ /app/skills/
 COPY knowledge/ /app/knowledge/
 COPY sources/ /app/sources/
 COPY taxonomy/ /app/taxonomy/
+COPY VERSION /app/VERSION
 COPY tools/ev_kb.py tools/ev_kb_mcp.py tools/ev_kb_poufne.py /app/tools/
 
 ARG EV_KB_VERSION=nieznana

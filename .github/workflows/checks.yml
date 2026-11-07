@@ -1,0 +1,63 @@
+# Sprawdzenia bez modelu: testy, cytaty, taksonomia, Conventional Commits. Job `factory` uruchamia pełną bramkę tf
+# (tools/factory_check.py): bramki leżą w repozytorium dbqm45/tf, które jest prywatne, więc job potrzebuje sekretu
+# TF_READ_TOKEN (fine-grained token tylko do odczytu Contents tego repozytorium). Bez sekretu job się pomija.
+name: checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install -r deploy/requirements.lock
+      - run: python3 -m unittest discover tests
+      - run: python3 tools/ev_kb.py check skills knowledge
+      - run: python3 tools/render_taxonomy.py --check
+      - name: Commity od ostatniego tagu zgodne z Conventional Commits
+        run: |
+          git fetch --tags --unshallow -q origin 2>/dev/null || git fetch --tags -q origin
+          last=$(git tag --list 'v*' --sort=-v:refname | head -1)
+          [ -n "$last" ] || exit 0
+          for c in $(git rev-list --no-merges "$last..HEAD"); do
+            git log -1 --format=%B "$c" > msg.txt
+            python3 scripts/check_commit_message.py --file msg.txt || { echo "::error::commit $c"; exit 1; }
+          done
+
+  factory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TF_READ_TOKEN: ${{ secrets.TF_READ_TOKEN }}
+    steps:
+      - name: Bez sekretu TF_READ_TOKEN pomijam bramkę tf
+        if: env.TF_READ_TOKEN == ''
+        run: echo "::notice::Brak sekretu TF_READ_TOKEN — pełna bramka tf uruchamiana tylko lokalnie (docs/RELEASING.md)"
+      - uses: actions/checkout@v7
+        if: env.TF_READ_TOKEN != ''
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        if: env.TF_READ_TOKEN != ''
+        with:
+          repository: dbqm45/tf
+          token: ${{ secrets.TF_READ_TOKEN }}
+          path: .work/tf
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        if: env.TF_READ_TOKEN != ''
+        with:
+          python-version: "3.13"
+      - if: env.TF_READ_TOKEN != ''
+        run: pip install -r deploy/requirements.lock
+      - if: env.TF_READ_TOKEN != ''
+        run: python3 tools/factory_check.py --tf .work/tf
