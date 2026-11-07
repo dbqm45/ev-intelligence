@@ -28,7 +28,7 @@ class FakeMessages:
 class TestSkillEval(unittest.TestCase):
     def runner(self, route_to, answer, budget=10.0):
         client = NS(messages=FakeMessages(route_to, answer))
-        return se.Runner(client, "claude-haiku-5-5", budget), client.messages
+        return se.Runner(se.SdkBackend(client, "claude-haiku-5-5"), budget), client.messages
 
     def test_grade(self):
         checks = {"all": [["kWh"], ["minut\\w*", "czas"]], "none": ["nie wymaga"]}

@@ -61,7 +61,6 @@ bramka nie sprawdza jego istnienia ani routingu.
 ## Ewaluacja na modelu: `tools/skill_eval.py`
 
 ```bash
-pip install -r requirements-eval.txt                       # SDK anthropic (tylko dla ewaluacji)
 python3 tools/skill_eval.py --dry-run                      # plan: liczba scenariuszy i wywołań API, bez kosztu
 python3 tools/skill_eval.py --model sonnet --budget 5 --yes --skills ev-ocpi-roaming-expert --label oicp
 python3 tools/skill_eval.py --model sonnet --budget 5 --yes --holdout --label holdout
@@ -73,9 +72,15 @@ Dla każdego scenariusza:
 2. **odpowiedź** (tylko `trigger`): system to `SKILL.md` z plikami `references/`, a odpowiedź musi spełnić
    `checks.all` (każda grupa: co najmniej jeden wzorzec) i nie może pasować do żadnego wzorca z `checks.none`.
 
-Koszt liczy się z `usage` każdej odpowiedzi i cennika w skrypcie. Przebieg zatrzymuje się po przekroczeniu `--budget`.
+**Backendy:**
+- `--backend cli` (domyślny): wywołania przez Claude Code CLI (`claude -p`) z logowaniem użytkownika, **bez klucza
+  API**. Bez narzędzi, z własnym promptem systemowym, w pustym katalogu tymczasowym. Koszt to `total_cost_usd` z CLI,
+  czyli wycena według cennika; przy subskrypcji przebieg zużywa limit planu, a nie generuje faktury.
+- `--backend sdk`: SDK `anthropic` z kluczem API (`pip install -r requirements-eval.txt`; `ANTHROPIC_API_KEY` albo
+  profil `ant auth login`). Koszt z `usage` odpowiedzi i cennika w skrypcie.
+ Przebieg zatrzymuje się po przekroczeniu `--budget`.
 Bez `--yes` nic nie jest wysyłane. Odmowa modelu (`refusal`) to wynik scenariusza, bez przełączania na inny model.
-Wyniki: `docs/evals/<data>-<model>-<label>.jsonl` i `.md`. Klucz API: zmienna `ANTHROPIC_API_KEY` albo profil `ant auth login`.
+Wyniki: `docs/evals/<data>-<model>-<label>.jsonl` i `.md`.
 
 ## Ograniczenia
 

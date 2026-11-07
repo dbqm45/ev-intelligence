@@ -10,9 +10,10 @@ Dla każdego scenariusza z evals/skill_evals/<skill>.json (albo holdout/ z --hol
 
   python3 tools/skill_eval.py --dry-run [--skills a,b]                    # bez API: liczba wywołań, rozmiar promptów
   python3 tools/skill_eval.py --model sonnet --budget 5 --yes [--skills a,b] [--holdout] [--label opis]
+        [--backend cli|sdk]   # cli (domyślnie): `claude -p` z logowaniem użytkownika, bez klucza API; sdk: klucz API
 
 Wynik: docs/evals/<data>-<model>-<label>.jsonl (rekord na scenariusz) i .md (podsumowanie). Budżet w USD liczony z
-`usage` odpowiedzi i cennika niżej; przebieg zatrzymuje się, gdy go przekroczy. Zależność: requirements-eval.txt.
+`usage` odpowiedzi i cennika niżej; przebieg zatrzymuje się, gdy go przekroczy. Zależność backendu sdk: requirements-eval.txt.
 Bez fallbacku na inny model: odmowa (`stop_reason == "refusal"`) to wynik scenariusza, a nie powód zmiany modelu.
 """
 from __future__ import annotations
@@ -90,39 +91,84 @@ def text_of(response) -> str:
     return "".join(b.text for b in response.content if b.type == "text")
 
 
-class Runner:
-    def __init__(self, client, model: str, budget: float, effort: str | None = None):
-        self.client, self.model, self.budget, self.effort, self.spent = client, model, budget, effort, 0.0
+class SdkBackend:
+    """Claude API przez SDK anthropic (klucz API: ANTHROPIC_API_KEY albo profil `ant auth login`)."""
 
-    def call(self, system: str, prompt: str, output_format: dict | None = None):
-        if self.spent >= self.budget:
-            raise BudgetExceeded(f"budżet {self.budget:.2f} USD wyczerpany")
+    def __init__(self, client, model: str, effort: str | None = None):
+        self.client, self.model, self.effort = client, model, effort
+
+    def __call__(self, system: str, prompt: str, schema: dict | None) -> tuple[str, str, float]:
         kwargs: dict = {"model": self.model, "max_tokens": 16000, "cache_control": {"type": "ephemeral"},
                         "system": system, "messages": [{"role": "user", "content": prompt}]}
-        oc = {}
+        oc: dict = {}
         if self.effort:
             oc["effort"] = self.effort
-        if output_format:
-            oc["format"] = output_format
+        if schema:
+            oc["format"] = {"type": "json_schema", "schema": schema}
         if oc:
             kwargs["output_config"] = oc
         r = self.client.messages.create(**kwargs)
-        self.spent += cost(self.model, r.usage)
-        return r
+        text = "" if r.stop_reason == "refusal" else text_of(r)
+        return text, r.stop_reason, cost(self.model, r.usage)
+
+
+class CliBackend:
+    """Claude Code CLI (`claude -p`) z logowaniem użytkownika — bez klucza API. Bez narzędzi, z własnym promptem
+    systemowym, w pustym katalogu (żeby nie wczytać CLAUDE.md tego repozytorium). Koszt: total_cost_usd z CLI
+    (wycena cennikowa; przy subskrypcji to zużycie limitu planu, a nie faktura)."""
+
+    def __init__(self, model: str, effort: str | None = None, exe: str = "claude", timeout: int = 600):
+        self.model, self.effort, self.exe, self.timeout = model, effort, exe, timeout
+
+    def __call__(self, system: str, prompt: str, schema: dict | None) -> tuple[str, str, float]:
+        import subprocess
+        import tempfile
+        cmd = [self.exe, "-p", prompt, "--model", self.model, "--output-format", "json", "--tools", "",
+               "--no-session-persistence", "--system-prompt", system]
+        if self.effort:
+            cmd += ["--effort", self.effort]
+        if schema:
+            cmd += ["--json-schema", json.dumps(schema)]
+        with tempfile.TemporaryDirectory() as cwd:
+            r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=self.timeout)
+        try:
+            d = json.loads(r.stdout)
+        except json.JSONDecodeError as exc:
+            raise BackendError(f"CLI: {(r.stderr or r.stdout)[-300:]}") from exc
+        if d.get("is_error"):
+            raise BackendError(f"CLI: {str(d.get('result'))[:300]}")
+        text = json.dumps(d["structured_output"]) if schema and d.get("structured_output") else str(d.get("result") or "")
+        stop = "refusal" if d.get("stop_reason") == "refusal" else "end_turn"
+        return ("" if stop == "refusal" else text), stop, float(d.get("total_cost_usd") or 0.0)
+
+
+class Runner:
+    def __init__(self, backend, budget: float):
+        self.backend, self.budget, self.spent = backend, budget, 0.0
+
+    def call(self, system: str, prompt: str, schema: dict | None = None) -> tuple[str, str]:
+        if self.spent >= self.budget:
+            raise BudgetExceeded(f"budżet {self.budget:.2f} USD wyczerpany")
+        text, stop, usd = self.backend(system, prompt, schema)
+        self.spent += usd
+        return text, stop
 
     def route(self, cat: list[dict], prompt: str) -> tuple[str, str]:
         names = [c["name"] for c in cat] + ["none"]
         system = ROUTER_SYSTEM + "\n".join(f"- {c['name']}: {c['description']}" for c in cat)
-        fmt = {"type": "json_schema", "schema": {"type": "object", "properties": {"skill": {"type": "string",
-               "enum": names}}, "required": ["skill"], "additionalProperties": False}}
-        r = self.call(system, prompt, fmt)
-        if r.stop_reason == "refusal":
-            return "", "refusal"
-        return json.loads(text_of(r)).get("skill", ""), r.stop_reason
+        schema = {"type": "object", "properties": {"skill": {"type": "string", "enum": names}},
+                  "required": ["skill"], "additionalProperties": False}
+        text, stop = self.call(system, prompt, schema)
+        if stop == "refusal":
+            return "", stop
+        return json.loads(text).get("skill", ""), stop
 
     def answer(self, skill: str, prompt: str) -> tuple[str, str]:
-        r = self.call(skill_context(skill) + ANSWER_RULES, prompt)
-        return ("" if r.stop_reason == "refusal" else text_of(r)), r.stop_reason
+        return self.call(skill_context(skill) + ANSWER_RULES, prompt)
+
+
+class BackendError(Exception):
+    pass
 
 
 class BudgetExceeded(Exception):
@@ -157,6 +203,8 @@ def evaluate(runner: Runner, items: list[tuple[str, dict]], cat: list[dict]) -> 
             rec["error"] = str(exc)
             results.append(rec)
             break
+        except BackendError as exc:
+            rec["error"], rec["ok"] = str(exc), False
         except rate_err as exc:
             rec["error"], rec["ok"] = f"429 rate limit ({exc.message})", False
         except status_err as exc:
@@ -199,6 +247,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--budget", type=float, default=1.0, help="limit kosztu w USD")
     ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"])
     ap.add_argument("--label", default="run", help="opis przebiegu w nazwie pliku wyniku")
+    ap.add_argument("--backend", default="cli", choices=["cli", "sdk"],
+                    help="cli: `claude -p` z logowaniem użytkownika (bez klucza); sdk: SDK anthropic z kluczem API")
     ap.add_argument("--yes", action="store_true", help="potwierdzenie płatnego przebiegu (po zgodzie człowieka)")
     ap.add_argument("--dry-run", action="store_true", help="bez API: plan przebiegu")
     a = ap.parse_args(argv)
@@ -221,8 +271,12 @@ def main(argv: list[str] | None = None) -> int:
     if model not in PRICES:
         print(f"✗ brak cennika dla {model}; dopisz go w PRICES")
         return 1
-    import anthropic
-    runner = Runner(anthropic.Anthropic(), model, a.budget, a.effort)
+    if a.backend == "sdk":
+        import anthropic
+        backend = SdkBackend(anthropic.Anthropic(), model, a.effort)
+    else:
+        backend = CliBackend(model, a.effort)
+    runner = Runner(backend, a.budget)
     results = evaluate(runner, items, catalog())
     OUT.mkdir(parents=True, exist_ok=True)
     stem = OUT / f"{dt.date.today().isoformat()}-{a.model}-{a.label}"
