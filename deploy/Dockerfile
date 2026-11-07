@@ -21,12 +21,13 @@ COPY skills/ /app/skills/
 COPY knowledge/ /app/knowledge/
 COPY sources/ /app/sources/
 COPY taxonomy/ /app/taxonomy/
-COPY tools/ev_kb.py tools/ev_kb_mcp.py /app/tools/
+COPY tools/ev_kb.py tools/ev_kb_mcp.py tools/ev_kb_poufne.py /app/tools/
 
 ARG EV_KB_VERSION=nieznana
 ENV EV_KB_VERSION=${EV_KB_VERSION} \
     EV_KB_ROOT=/app \
     EV_KB_DOCS=/docs \
+    EV_KB_POUFNE=/poufne \
     PORT=8765
 
 RUN useradd --system --uid 10001 --home-dir /nonexistent --shell /usr/sbin/nologin evkb

@@ -17,6 +17,8 @@ services:
     # Opcjonalne kopie dokumentów źródłowych dla ev_cite (tylko odczyt). Zobacz docs/DEPLOY.md, „Licencje”.
     # volumes:
     #   - ${EV_KB_DOCS_HOST:-../.cache/ev-kb}:/docs:ro
+    # Teksty źródeł poufnych (np. eMIP) dla ev_confidential_check — tylko werdykt, nigdy w obrazie:
+    #   - ${EV_KB_POUFNE_HOST:-../.cache/ev-kb-poufne}:/poufne:ro
     expose: ["8765"]
     restart: unless-stopped
 

@@ -168,7 +168,7 @@ niezarejestrowane:
     klucze: [emip]
     temat: "protokół roamingowy Gireve, domena D01.04"
     przywolana_w: [ev-ocpi-roaming-expert]
-    uwaga: "Pliki są publicznie do pobrania z www.gireve.com/download/, ale licencja (rozdz. 1.4 Confidentiality) zobowiązuje do ścisłej poufności i zakazuje ujawniania protokołu osobom trzecim w jakiejkolwiek formie. Treści nie opracowujemy do decyzji właściciela projektu (docs/DO-ZROBIENIA.md). Pobrane 2026-11-07, SHA-256: ProtocolDescription 1e52701050904d38c5ec4c4550fdf30c0820b19553fd01d0966a0ca309587db1, ImplementationGuide 7ce72da8e4efdc79a5e756d7b9740b74be7175548e155e38f211a074af2c111d."
+    uwaga: "Pliki są publicznie do pobrania (www.gireve.com/download/), ale licencja (rozdz. 1.4 Confidentiality) zakazuje ujawniania protokołu osobom trzecim w jakiejkolwiek formie. Decyzja właściciela (2026-11-07): poziom źródeł poufnych — rejestr sources/poufne/gireve-emip.yaml, tekst tylko lokalnie, narzędzie ev_confidential_check zwraca wyłącznie werdykt i link."
 
 hosty_zablokowane:
   - host: modelcontextprotocol.io

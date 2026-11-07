@@ -14,6 +14,7 @@ Wszystkie tylko czytają (`readOnlyHint: true`, `openWorldHint: false`). Wynik j
 | `ev_search(query)` | fragmenty wiedzy ze znacznikami źródeł; pusta lista = baza tego nie obejmuje |
 | `ev_cite(tag)` | dokument z rejestru (URL, data, SHA-256, licencja) i fragment sekcji z lokalnej kopii |
 | `ev_check(text)` | kontrola znaczników `[ID §…]` w tekście, np. w opisie PR albo w odpowiedzi modelu |
+| `ev_confidential_check(terms, source)` | źródła poufne wewnętrznie (np. `emip`): tylko werdykt WYSTEPUJE / NIE_WYSTEPUJE dla do 10 nazw komunikatów, pól lub wartości, z informacją o poufności i linkiem do wydawcy; bez treści (opis niżej) |
 
 **Jedno połączenie zamiast instalowania skilli.** Skille nie są instalowane w kliencie. Serwer czyta je z
 repozytorium, więc po `git pull` na serwerze każdy klient ma od razu aktualną wiedzę i nie trzeba śledzić, co gdzie
@@ -74,6 +75,21 @@ Gotowe pliki wdrożenia (Docker, Caddy z HTTPS) i procedura: `docs/DEPLOY.md`. Z
 
 OAuth (logowanie każdej osoby osobno) nie jest zaimplementowany. Jest potrzebny, gdy dostęp mają mieć różne osoby z
 osobnymi uprawnieniami.
+
+## Źródła poufne wewnętrznie
+Dotyczy dokumentów, które mamy legalnie, ale których licencja zakazuje ujawniania treści osobom trzecim (pierwszy
+przypadek: eMIP, licencja Gireve, rozdz. 1.4). Decyzja właściciela projektu (2026-11-07): baza **nie przekazuje
+wiedzy** z takich dokumentów, a tylko stwierdza zgodność albo jej brak i wskazuje, gdzie pobrać dokument.
+- Rejestr: `sources/poufne/*.yaml`. Te dokumenty nie są w rejestrze cytowalnym, więc znacznik `[EMIP-PD …]` w skillu
+  to błąd `check`.
+- Tekst leży tylko w `.cache/ev-kb-poufne/` (albo w katalogu z `EV_KB_POUFNE`), poza gitem i obrazem kontenera.
+  Indeksowanie: `python3 tools/ev_kb_poufne.py index PLIK…` (plik musi mieć SHA-256 z rejestru).
+- `ev_confidential_check` zwraca tylko werdykt dla każdego terminu, bez fragmentów, numerów sekcji i liczby wystąpień.
+  Limity: 10 terminów w wywołaniu, 30 na minutę na proces (ochrona przed odtwarzaniem treści serią pytań).
+- Werdykt deterministyczny dotyczy tylko występowania nazw. Ocena zgodności całego opisu wymagałaby modelu po stronie
+  serwera (klucz API, koszt), żeby treść nie trafiała do modelu pytającego. To decyzja na później.
+- Ograniczenie: to interpretacja licencji, nie opinia prawna. Przy użyciu komercyjnym warto mieć pisemne potwierdzenie
+  wydawcy.
 
 ## Decyzje przed uruchomieniem publicznym
 - **Hosting:** gdzie działa serwer (np. mała maszyna albo kontener z HTTPS), kto za to płaci i kto go utrzymuje.

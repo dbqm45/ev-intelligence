@@ -13,7 +13,7 @@ Transporty:
                    nagłówek `Authorization: Bearer <token>` albo adres `/<token>/mcp`.
                    Szczegóły i licencje: docs/EV-KB-MCP.md.
 
-Zmienne: EV_KB_TOKEN (token HTTP), EV_KB_ALLOWED_HOSTS / EV_KB_ALLOWED_ORIGINS (domena za proxy), PORT, EV_KB_VERSION (wersja wiedzy w obrazie), EV_KB_ROOT (katalog repozytorium z wiedzą; domyślnie to repozytorium), EV_KB_DOCS (kopie dokumentów).
+Zmienne: EV_KB_TOKEN (token HTTP), EV_KB_ALLOWED_HOSTS / EV_KB_ALLOWED_ORIGINS (domena za proxy), PORT, EV_KB_VERSION (wersja wiedzy w obrazie), EV_KB_ROOT (katalog repozytorium z wiedzą; domyślnie to repozytorium), EV_KB_DOCS (kopie dokumentów), EV_KB_POUFNE (teksty źródeł poufnych; tylko werdykt).
 """
 from __future__ import annotations
 
@@ -27,6 +27,7 @@ from typing import Any
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ev_kb  # noqa: E402
+import ev_kb_poufne  # noqa: E402
 
 try:
     from mcp.server.mcpserver import MCPServer
@@ -44,7 +45,9 @@ RULES = """Zasady: (1) nic z pamięci — fakty o protokołach, normach i regula
 znacznikiem [ID §sekcja] oraz nazwą dokumentu słowami; (2) kolejność: ev_route → ev_skill (procedura, pułapki,
 references) → ev_search / ev_cite → ev_check gotowego tekstu; (3) rekomendacje oznaczaj „Wniosek”; (4) czego baza nie
 obejmuje, mów wprost; (5) gdy odpowiedź zależy od normy płatnej lub dokumentu niedostępnego (pole `unavailable`
-w wynikach, status NIEDOSTEPNE), napisz to w pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego."""
+w wynikach, status NIEDOSTEPNE), napisz to w pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego;
+(6) źródła poufne (np. eMIP): tylko ev_confidential_check — podajesz werdykt, informację o poufności i link do wydawcy,
+nigdy treści dokumentu ani własnych przypuszczeń o niej."""
 
 INSTRUCTIONS_LIMIT = 4096   # Claude Code ucina dłuższe instrukcje serwera (code.claude.com/docs/en/mcp.md, tool search)
 
@@ -158,6 +161,14 @@ def ev_cite(tag: str) -> dict[str, Any]:
         return {"tag": tag, "status": "NIEZNANY_DOKUMENT", "known_ids": sorted(sources)}
     r = ev_kb.check_tag(tag, sources, _docs(), {})
     return {"source": ev_kb.asdict(sources[doc_id]), "result": ev_kb.asdict(r)}
+
+
+@server.tool(title="Sprawdzenie w źródle poufnym", annotations=READ_ONLY)
+def ev_confidential_check(terms: list[str], source: str = "emip") -> dict[str, Any]:
+    """Czy nazwy komunikatów, pól lub wartości występują w dokumencie poufnym wewnętrznie (np. source="emip").
+    Zwraca tylko werdykt WYSTEPUJE / NIE_WYSTEPUJE dla każdego terminu (do 10 terminów, limit na minutę), bez treści,
+    fragmentów i numerów sekcji, oraz `notice` z linkiem do wydawcy, które trzeba przekazać w odpowiedzi."""
+    return ev_kb_poufne.verify(terms, source, ROOT)
 
 
 @server.tool(title="Kontrola znaczników", annotations=READ_ONLY)

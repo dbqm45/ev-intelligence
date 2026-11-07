@@ -34,7 +34,7 @@ class TestServer(unittest.TestCase):
                 return c.instructions, (await c.list_tools()).tools
         instructions, tools = run(go())
         self.assertIn("nic z pamięci", instructions)
-        self.assertEqual(sorted(t.name for t in tools), ["ev_check", "ev_cite", "ev_route", "ev_search", "ev_skill"])
+        self.assertEqual(sorted(t.name for t in tools), ["ev_check", "ev_cite", "ev_confidential_check", "ev_route", "ev_search", "ev_skill"])
         for t in tools:
             self.assertTrue(t.annotations.read_only_hint, t.name)
 

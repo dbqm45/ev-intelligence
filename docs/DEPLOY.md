@@ -92,6 +92,9 @@ bez fragmentu tekstu (`BRAK_TEKSTU`), a reszta narzędzi działa normalnie. Odbl
 `compose.yaml` sprawia, że serwer zwraca dosłowne fragmenty dokumentów. Przed tym trzeba zdecydować o licencjach:
 dokumenty OCA i EVRF mają według rejestru CC BY-ND 4.0, a zasady EUR-Lex są oznaczone „[niesprawdzone]”.
 
+Teksty źródeł poufnych (np. eMIP) montuje się osobnym wolumenem `/poufne` (`EV_KB_POUFNE`). Serwer zwraca z nich tylko
+werdykt `ev_confidential_check`, nigdy treść; zasady w `docs/EV-KB-MCP.md`, „Źródła poufne wewnętrznie”.
+
 ## Koszt
 Zależy od wybranego dostawcy maszyny i domeny; nie jest tu szacowany. Serwer jest lekki: obraz ma ok. 240 MB i nie
 potrzebuje bazy danych.

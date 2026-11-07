@@ -254,4 +254,4 @@ których OICP nie przewiduje (jeden CDR na SessionID), uzgadniasz poza protokoł
 - Dynamic Pricing Functional Guide;
 - typy danych części EMP poza wybranymi;
 - załączniki z diagramami;
-- eMIP (Gireve) i OCHP: hosty `www.gireve.com` i `www.ochp.eu` są niedostępne (`sources/niedostepne.yaml`).
+- eMIP (Gireve): licencja z klauzulą poufności, tylko werdykt `ev_confidential_check`; OCHP: `ochp.md`.

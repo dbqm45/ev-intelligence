@@ -363,8 +363,15 @@ UNAVAILABLE_NOTICE = ("Tej części nie da się sprawdzić w źródłach: {nazwa
                       "(sources/niedostepne.yaml). Powiedz to na początku odpowiedzi i nie uzupełniaj z pamięci.")
 
 
+CONFIDENTIAL_NOTICE = ("{nazwa} jest dokumentem poufnym: licencja zakazuje ujawniania treści. Baza nie opisuje go w "
+                       "skillach; zgodność nazw komunikatów i pól sprawdzisz tylko werdyktem narzędzia "
+                       "ev_confidential_check (tools/ev_kb_poufne.py). Powiedz to na początku odpowiedzi i nie "
+                       "uzupełniaj treści z pamięci.")
+
+
 def unavailable_notice(missing: list[dict]) -> str:
-    return " ".join(UNAVAILABLE_NOTICE.format(nazwa=m["nazwa"], opis=DOSTEP_OPIS.get(m.get("dostep", ""), "niedostępny"))
+    return " ".join(CONFIDENTIAL_NOTICE.format(nazwa=m["nazwa"]) if m.get("dostep") == "licencja_poufna" else
+                    UNAVAILABLE_NOTICE.format(nazwa=m["nazwa"], opis=DOSTEP_OPIS.get(m.get("dostep", ""), "niedostępny"))
                     for m in missing)
 
 

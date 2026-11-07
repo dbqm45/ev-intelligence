@@ -10,10 +10,9 @@ historii w commicie.
 - **Płatna ewaluacja na modelu:** tylko za zgodą (CLAUDE.md). Nowe scenariusze w ev-product-designer
   (`terminal-dostepnosc`, `liczba-punktow-pl`) nie mają jeszcze przebiegu.
 
-- **eMIP (Gireve):** licencja specyfikacji wymaga ścisłej poufności i zakazuje ujawniania protokołu osobom trzecim
-  „in any form whatsoever”. Baza jest udostępniana przez MCP, więc opisanie eMIP w skillach może naruszać licencję.
-  Opcje: (a) nie opracowujemy eMIP (domyślnie); (b) tylko informacja publiczna bez treści protokołu; (c) zgoda Gireve na
-  piśmie albo opinia prawna. Pliki i SHA: `sources/niedostepne.yaml`.
+- **eMIP (Gireve), poziom 2:** dziś `ev_confidential_check` sprawdza tylko występowanie nazw. Ocena zgodności całego
+  opisu (werdykt i kategoria problemu bez treści) wymaga modelu po stronie serwera: klucz API, koszt, Twoja zgoda.
+  Do rozważenia też pisemne potwierdzenie Gireve przy użyciu komercyjnym.
 
 ## Hosty, które nie działają
 | Host | Objaw | Co daje | Co zrobić |

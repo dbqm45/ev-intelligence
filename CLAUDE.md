@@ -16,6 +16,10 @@
 - Odpowiedź, która zależy od takiej normy lub dokumentu, mówi o tym w pierwszym zdaniu (która norma, dlaczego nie da
   się sprawdzić). Narzędzia `ev_kb` / MCP zwracają wtedy pole `unavailable` i status `NIEDOSTEPNE`.
 
+- **Źródła poufne wewnętrznie** (licencja zakazuje ujawniania treści, np. eMIP): rejestr `sources/poufne/*.yaml`, tekst
+  tylko lokalnie, sprawdzanie wyłącznie werdyktem `tools/ev_kb_poufne.py` / `ev_confidential_check`. Ich treści nie
+  wpisujesz do skills/, knowledge/, commitów ani opisów PR. W odpowiedzi podajesz werdykt, informację o poufności i link.
+
 ## Praca ze skillami
 - Struktura i bramki: `docs/SKILLS-WORKFLOW.md`. Przed oddaniem: `python3 tools/factory_check.py --tf ../tf`.
 - Taksonomia (źródło prawdy): `taxonomy/taxonomy.yaml`; po zmianie `python3 tools/render_taxonomy.py`.
