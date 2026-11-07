@@ -75,6 +75,7 @@ Fakty 2.0.1:
 - alarm podnosisz po upływie kilku interwałów (`interval` z `BootNotification` + margines), osobno dla zerwanego
   WebSocketu (zdarzenie natychmiastowe) i dla „cichej” stacji;
 - po ponownym połączeniu weryfikujesz stan przez `StatusNotification` (1.6: wymagane po Boot `[16E §3.22]`).
+  Nie wywołujesz do tego `BootNotification`: po `Accepted` CSMS SHALL NOT go żądać (errata 1.6 §3.40 `[16E §3.40]`).
 
 ## 4. Komunikaty transakcyjne, kolejka offline, ponawianie
 Fakty 1.6:

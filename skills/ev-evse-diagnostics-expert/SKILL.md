@@ -17,6 +17,10 @@ Taksonomia: D21 (implementation intelligence), D13.01 (zgodność). Sieć: brak 
 (`knowledge/implementation-intelligence/`). Nie przypisujesz producentowi zachowania z pamięci ani z forów: bez dowodu
 jest to „hipoteza”.
 
+**Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „errata OCPP 1.6
+§3.18 `[16E §3.18]`”, „specyfikacja OCPI 2.3.0 §4.4 `[OCPI230 §4.4]`”, „AFIR art. 5 ust. 10”, „rozporządzenie
+wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie mówi czytelnikowi.
+
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|

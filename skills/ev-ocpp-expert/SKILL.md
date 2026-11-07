@@ -19,6 +19,10 @@ Taksonomia: D01.01. Sieć: brak.
 wymagań, a nie tekst normy. Czego nie ma w tych dokumentach, tego nie podajesz z pamięci: piszesz, że źródło tego nie
 określa.
 
+**Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „errata OCPP 1.6
+§3.18 `[16E §3.18]`”, „specyfikacja OCPI 2.3.0 §4.4 `[OCPI230 §4.4]`”, „AFIR art. 5 ust. 10”, „rozporządzenie
+wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie mówi czytelnikowi.
+
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
@@ -91,6 +95,8 @@ Co z tym zrobić w CSMS?”
   w 2.0.1 tak samo przy `MessageAttemptsTransactionEvent` `[201-P2 E13]`. Skutek to utrata danych sesji.
 - Brak `transactionId` w 1.6 (nie dotarł `StartTransaction.conf`): stacja wysyła komunikaty transakcji
   z `transactionId = -1`, a CSMS SHALL odpowiadać, jakby identyfikator był ważny `[16E §3.18]`.
+- `TriggerMessage(BootNotification)` do zaakceptowanej stacji 1.6: CSMS SHALL NOT żądać nowego `BootNotification`, dopóki
+  stacja sama go nie wyśle (errata 1.6 §3.40 `[16E §3.40]`). Stan pobierasz `TriggerMessage(StatusNotification)`.
 - Wykrywanie offline wyłącznie po `Heartbeat`: przy 1.6J heartbeat nie jest obowiązkowy, a stacja MAY go pominąć, gdy
   wysłała inny komunikat; CSMS SHOULD uznać dostępność po każdym PDU `[16 §4.6]`.
 - `meterStart` jest w **Wh** `[16 §6.45 StartTransaction.req]`. `unit` w `SampledValue` domyślnie `Wh` dla measurandów

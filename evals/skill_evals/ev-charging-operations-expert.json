@@ -113,10 +113,40 @@
    }
   },
   {
+   "id": "raport-uptime-dla-inwestora",
+   "expect": "trigger",
+   "prompt": "Zarząd chce dla inwestora miesięczny raport dostępności naszej sieci ładowania w UE. Czy AFIR określa minimalny uptime albo sposób jego liczenia, i z jakich danych w NOC najlepiej go liczyć? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "(nie|brak)[^.\\n]{0,80}(uptime|progu dostępności|poziomu dostępności)|uptime[^.\\n]{0,80}(nie|brak)"
+     ],
+     [
+      "SLA|umow\\w*"
+     ],
+     [
+      "status\\w*|StatusNotification"
+     ],
+     [
+      "non-operational|operacyjn\\w*|2025/655"
+     ]
+    ],
+    "none": [
+     "AFIR wymaga (uptime|dostępności) (na poziomie )?9\\d ?%"
+    ]
+   }
+  },
+  {
    "id": "model-danych-cpms",
    "expect": "no-trigger",
    "neighbor": "ev-cpms-architect",
    "prompt": "Jaki model danych Location, EVSE i Connector przyjąć w CPMS, żeby w jednym systemie trzymać stacje własne po OCPP i stacje partnerów widziane przez OCPI?"
+  },
+  {
+   "id": "api-nap-projekt",
+   "expect": "no-trigger",
+   "neighbor": "ev-cpms-architect",
+   "prompt": "Projektujemy w CPMS moduł API, który udostępnia dane statyczne i dynamiczne AFIR dla krajowego punktu dostępowego. Jaki format danych i jaką częstotliwość aktualizacji musi zapewnić ten moduł?"
   }
  ]
 }

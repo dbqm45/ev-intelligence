@@ -111,6 +111,30 @@
    }
   },
   {
+   "id": "odswiez-dane-trigger-boot",
+   "expect": "trigger",
+   "prompt": "Projektujemy w panelu CSMS dla stacji OCPP 1.6J przycisk „Odśwież dane urządzenia”, który wysyła TriggerMessage z requestedMessage BootNotification do stacji już zaakceptowanej, żeby pobrać aktualną wersję firmware. Czy specyfikacja na to pozwala i skąd inaczej wziąć te dane? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "errat\\w*"
+     ],
+     [
+      "SHALL ?NOT|nie (wolno|może|powinien|należy)|zakaz\\w*"
+     ],
+     [
+      "Accepted"
+     ],
+     [
+      "FirmwareStatusNotification|po (restarcie|ponownym uruchomieniu|aktualizacji)|sam\\w* (go )?wyśl\\w*|następn\\w* BootNotification|kolejn\\w* BootNotification"
+     ]
+    ],
+    "none": [
+     "(specyfikacja|OCPP) (na to )?pozwala bez (ograniczeń|zastrzeżeń)"
+    ]
+   }
+  },
+  {
    "id": "dobor-domen-zadania",
    "expect": "no-trigger",
    "neighbor": "ev-domain-expert",

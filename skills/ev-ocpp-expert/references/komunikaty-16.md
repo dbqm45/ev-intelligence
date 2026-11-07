@@ -64,6 +64,9 @@ zgłasza kluczem `SupportedFeatureProfiles` `[16 §3.3]`. Kierunki komunikatów 
 
 - `StartTransactionResponse` wymaga `idTagInfo` i `transactionId`: identyfikator nadaje CS `[S16]`.
 - `RemoteStartTransaction`: wymagany tylko `idTag`; `connectorId` i `chargingProfile` opcjonalne `[S16]` `[16 §5.11]`.
+- `TriggerMessage(BootNotification)`: wartość istnieje w schemacie, ale po wysłaniu `BootNotification.conf` ze statusem
+  `Accepted` CS SHALL NOT żądać nowego `BootNotification`, dopóki stacja sama go nie wyśle (errata 1.6 §3.40
+  `[16E §3.40]`). Stan złączy odświeżasz przez `TriggerMessage(StatusNotification)`.
 - `BootNotification` `Pending`: kanał komunikacji „SHOULD NOT be closed by either the Charge Point or the Central
   System” `[16 §4.2]`.
 

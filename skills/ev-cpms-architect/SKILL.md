@@ -3,8 +3,8 @@ name: ev-cpms-architect
 description: Użyj przy projekcie lub ocenie CPMS/CSMS — brama OCPP, onboarding stacji, topologie, model statusów, sesje, ładowarki własne vs roamingowe, wymogi AFIR.
 metadata:
   przeglad: "2027-02-07"
-  katalog: "Użyj przy projektowaniu albo ocenie architektury i modułów CPMS/CSMS — warstwa połączeń OCPP-J (identyfikacja stacji, uwierzytelnianie, ponowne łączenie i restart CSMS), onboarding i provisioning (BootNotification Pending/Accepted/Rejected), topologie z lokalnym proxy, kontrolerem, EMS i DSO, model statusów i dostępności (offline vs niedostępna vs awaria), sesje i transakcje z kolejkami offline, ładowarki własne (OCPP) vs zewnętrzne (OCPI), dane AFIR dla NAP i wymagania cenowe, separacja tenantów. Każde ograniczenie z cytatem ze specyfikacji OCA, EVRF albo AFIR, decyzje projektowe oznaczone jako wniosek. Nie do szczegółów komunikatów OCPP (ev-ocpp-expert), mechaniki OCPI (ev-ocpi-roaming-expert) ani doboru domen dla zadania (ev-domain-expert)."
-  slowa: "CPMS, CSMS, architektura CPMS, projekt CPMS, moduł CPMS, backend ładowarek, brama OCPP, WebSocket gateway, restart CSMS, reconnect storm, tysiące połączeń, ponowne łączenie ładowarek, identyfikator stacji w URL, onboarding ładowarki, provisioning, dopuszczenie stacji, BootNotification Pending, model statusów, status ładowarki w CPMS, offline niedostępna awaria, dostępność stacji, ładowarki roamingowe, stacje partnerów, ładowarki zewnętrzne, własne vs roamingowe, local controller, local proxy, EMS, DSO, topologia sieci ładowarek, AFIR, dane dla NAP, dane statyczne i dynamiczne, cena ad hoc, multi-tenancy, tenant, white-label, uprawnienia operatora, model danych Location EVSE Connector"
+  katalog: "Użyj przy projektowaniu albo ocenie architektury i modułów CPMS/CSMS — warstwa połączeń OCPP-J (identyfikacja stacji, uwierzytelnianie, ponowne łączenie i restart CSMS), onboarding i provisioning (BootNotification Pending/Accepted/Rejected), topologie z lokalnym proxy, kontrolerem, EMS i DSO, model statusów i dostępności (offline vs niedostępna vs awaria), sesje i transakcje z kolejkami offline, ładowarki własne (OCPP) vs zewnętrzne (OCPI), projekt publikacji danych AFIR do NAP (API, format, częstotliwość, jakość) i wymagania cenowe, separacja tenantów. Każde ograniczenie z cytatem ze specyfikacji OCA, EVRF albo AFIR, decyzje projektowe oznaczone jako wniosek. Nie do szczegółów komunikatów OCPP (ev-ocpp-expert), mechaniki OCPI (ev-ocpi-roaming-expert), KPI dostępności i raportów operacyjnych NOC (ev-charging-operations-expert) ani doboru domen dla zadania (ev-domain-expert)."
+  slowa: "CPMS, CSMS, architektura CPMS, projekt CPMS, moduł CPMS, backend ładowarek, brama OCPP, WebSocket gateway, restart CSMS, reconnect storm, tysiące połączeń, ponowne łączenie ładowarek, identyfikator stacji w URL, onboarding ładowarki, provisioning, dopuszczenie stacji, BootNotification Pending, model statusów, status ładowarki w CPMS, offline niedostępna awaria, dostępność stacji, ładowarki roamingowe, stacje partnerów, ładowarki zewnętrzne, własne vs roamingowe, local controller, local proxy, EMS, DSO, topologia sieci ładowarek, AFIR, dane dla NAP, dane statyczne i dynamiczne, cena ad hoc, multi-tenancy, tenant, white-label, uprawnienia operatora, model danych Location EVSE Connector, API do NAP, publikacja danych dynamicznych, DATEX II, częstotliwość aktualizacji danych AFIR, moduł danych dla krajowego punktu dostępowego"
 ---
 
 # CPMS Architect — projekt systemu zarządzania ładowaniem
@@ -16,6 +16,10 @@ tu łączysz je z wymaganiami prawnymi w projekt modułu. Taksonomia: D05.01–D
 - **ograniczenia** z dokumentów OCA, EVRF i AFIR (`sources/*.yaml`), ze znacznikiem `[dokument §]`;
 - **wnioski**, czyli decyzje projektowe wyprowadzone z tych ograniczeń, oznaczone słowem **Wniosek**.
 Nie dodajesz „dobrych praktyk branżowych” bez źródła.
+
+**Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „errata OCPP 1.6
+§3.18 `[16E §3.18]`”, „specyfikacja OCPI 2.3.0 §4.4 `[OCPI230 §4.4]`”, „AFIR art. 5 ust. 10”, „rozporządzenie
+wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie mówi czytelnikowi.
 
 ## Czytaj references, gdy…
 | Plik | Kiedy |

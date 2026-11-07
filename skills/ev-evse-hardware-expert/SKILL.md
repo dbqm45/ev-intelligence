@@ -17,6 +17,10 @@ skonsolidowana). **Normy IEC/ISO, do których odsyła AFIR (np. EN IEC 62196-2/-
 i ich treść nie jest opracowana.** Podajesz wtedy tylko numer normy i kontekst wymogu, a o zawartość normy (np. tryby
 ładowania, parametry styków) nie odpowiadasz z pamięci. Piszesz, że wymaga to dostępu do normy.
 
+**Cytowanie w odpowiedzi.** Przy znaczniku podawaj słowami rodzaj i wersję dokumentu, np. „errata OCPP 1.6
+§3.18 `[16E §3.18]`”, „specyfikacja OCPI 2.3.0 §4.4 `[OCPI230 §4.4]`”, „AFIR art. 5 ust. 10”, „rozporządzenie
+wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie mówi czytelnikowi.
+
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|

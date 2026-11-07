@@ -1,10 +1,10 @@
 {
  "ev-charging-operations-expert": {
-  "fingerprint": "16dc165a94b6849b",
+  "fingerprint": "06c67f2dade4f360",
   "offline": "2026-11-07"
  },
  "ev-cpms-architect": {
-  "fingerprint": "6873ef6735fce26c",
+  "fingerprint": "a9a631c826887c5d",
   "offline": "2026-11-07"
  },
  "ev-domain-expert": {
@@ -12,19 +12,19 @@
   "offline": "2026-11-07"
  },
  "ev-evse-diagnostics-expert": {
-  "fingerprint": "d70f0619b7d86fed",
+  "fingerprint": "8271562d1d1cf13b",
   "offline": "2026-11-07"
  },
  "ev-evse-hardware-expert": {
-  "fingerprint": "14589f6cbb1aa1df",
+  "fingerprint": "5f7228726545ad8e",
   "offline": "2026-11-07"
  },
  "ev-ocpi-roaming-expert": {
-  "fingerprint": "3bfd0ae9cc16e497",
+  "fingerprint": "a9ba76a4e3244cf8",
   "offline": "2026-11-07"
  },
  "ev-ocpp-expert": {
-  "fingerprint": "b8581f24eae4b093",
+  "fingerprint": "d9a3f909510bb2ec",
   "offline": "2026-11-07"
  }
 }
