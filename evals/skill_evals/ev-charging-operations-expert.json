@@ -1,0 +1,58 @@
+{
+ "skill": "ev-charging-operations-expert",
+ "scenarios": [
+  {
+   "id": "online-sesja-nie-startuje",
+   "expect": "trigger",
+   "prompt": "Zgłoszenie do NOC: ładowarka jest online w panelu, złącze pokazuje Available, kierowca przykłada kartę RFID i nic się nie dzieje. Stacja na OCPP 1.6J. W jakiej kolejności to diagnozować, zanim ktoś zrobi restart? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["Authorize|idTagInfo"],
+     ["Invalid|Blocked|Expired|ConcurrentTx"],
+     ["StatusNotification|Preparing|SuspendedEVSE|errorCode"],
+     ["ConnectionTimeOut|kabel|podłącz"],
+     ["(restart|reset)[^.\\n]{0,160}(przerw|zatrzym|stop|kończ|transakcj)|na końcu|ostatni\\w*"],
+     ["GetDiagnostics|TriggerMessage|log"]
+    ],
+    "none": ["(najpierw|zacznij od|od razu) (zrób |wykonaj )?(restart|reset)"]
+   }
+  },
+  {
+   "id": "priorytety-alarmow",
+   "expect": "trigger",
+   "prompt": "Ustawiamy priorytety alarmów w NOC dla stacji OCPP 2.0.1: które zdarzenia ze stacji mają budzić dyżurnego w nocy, a które mogą czekać do rana? Czy protokół daje coś gotowego? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["severity|ważnoś\\w*|poziom\\w*"],
+     ["Danger|Hardware Failure|0-9|0 ?[-–] ?9"],
+     ["NotifyEvent|SetMonitoringLevel|SetVariableMonitoring"],
+     ["SecurityEventNotification|Tamper|zdarze\\w* bezpieczeństwa"],
+     ["Faulted"]
+    ],
+    "none": ["OCPP nie (ma|definiuje) (żadnych )?poziom\\w* (ważności|severity)"]
+   }
+  },
+  {
+   "id": "restart-stacji-z-sesjami",
+   "expect": "trigger",
+   "prompt": "Na stacji z czterema punktami ładowania jedno EVSE zgłasza Faulted, a na pozostałych trzech trwa ładowanie. Operator chce zdalnie zrestartować urządzenie. Jak to zrobić, żeby nie przerwać sesji innym kierowcom, dla 2.0.1 i 1.6? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["OnIdle"],
+     ["Immediate"],
+     ["Scheduled"],
+     ["evseId|pojedyncz\\w* EVSE|jednego EVSE|tylko (to|jedno) EVSE"],
+     ["Soft|Hard"],
+     ["(przerw|zatrzym|stop|kończ)\\w*[^.\\n]{0,80}transakcj"]
+    ],
+    "none": ["(Soft|miękki) reset nie (przerywa|zatrzymuje|kończy) transakcj"]
+   }
+  },
+  {
+   "id": "model-danych-cpms",
+   "expect": "no-trigger",
+   "neighbor": "ev-cpms-architect",
+   "prompt": "Jaki model danych Location, EVSE i Connector przyjąć w CPMS, żeby w jednym systemie trzymać stacje własne po OCPP i stacje partnerów widziane przez OCPI?"
+  }
+ ]
+}
