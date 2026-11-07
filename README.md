@@ -12,3 +12,4 @@ Kluczowe założenia:
 - **Wiedza praktyczna** (edge cases, vendor quirks, mapowania między protokołami) jako główny wyróżnik.
 
 📄 Podsumowanie koncepcji i plan realizacji: [docs/PLAN.md](docs/PLAN.md)
+📚 Mapa wiedzy (taksonomia v1.0): [taxonomy/TAXONOMY.md](taxonomy/TAXONOMY.md) · [pełne drzewo](taxonomy/TAXONOMY-TREE.md)

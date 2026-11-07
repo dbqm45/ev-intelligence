@@ -1,0 +1,1302 @@
+# EV Knowledge Taxonomy — źródło prawdy (canonical).
+# Opis zasad: taxonomy/TAXONOMY.md · Widok drzewa generowany: taxonomy/TAXONOMY-TREE.md
+# Regeneracja widoku: python3 tools/render_taxonomy.py
+#
+# Konwencje:
+#   id        — stały identyfikator (Dnn / Dnn.mm); nigdy nie jest używany ponownie
+#   key       — nazwa katalogu w knowledge/<domain.key>/<subdomain.key>/
+#   priority  — mvp (Etap 1) | p2 (Etap 4) | p3 (później / na żądanie)
+#   verify    — true = status wersji/numeru normy wymaga potwierdzenia w źródle pierwotnym (Etap 0.6)
+
+taxonomy:
+  id: ev-intelligence-taxonomy
+  version: 1.0.0
+  status: draft
+  date: 2026-11-07
+  language: pl
+
+facets:
+  actor:
+    description: Kogo dotyczy wiedza (perspektywa roli).
+    values: [cpo, emsp, hub, cpms-vendor, evse-manufacturer, ev-oem, dso, tso, energy-supplier,
+             aggregator, site-host, fleet-operator, driver, installer, field-technician,
+             noc-operator, customer-support, payment-provider, regulator, investor]
+  lifecycle:
+    description: Etap cyklu życia infrastruktury lub produktu.
+    values: [plan, design, procure, deploy, commission, operate, maintain, settle, decommission]
+  layer:
+    description: Warstwa techniczna.
+    values: [physical-electrical, vehicle, device, field-communication, backend, inter-system, business, regulatory]
+  knowledge_type:
+    description: Rodzaj wiedzy (zgodnie z EV Knowledge Standard).
+    values: [normative, vendor, expert, implementation, product]
+  source_class:
+    description: Klasa źródła.
+    values: [A, B, C, D]
+  confidence:
+    values: [official, verified, observed, hypothesis]
+  region:
+    description: Zasięg geograficzny / jurysdykcja.
+    values: [global, eu, pl, de, nl, fr, be, at, it, es, nordics, uk, ch, us, other]
+  segment:
+    description: Kontekst ładowania — patrz domena D19.
+    values: [public-ac, public-dc, hpc-corridor, destination, workplace, residential, multi-family,
+             fleet-depot, heavy-duty, bus, lev, wireless, battery-swap, mobile]
+
+relation_types:
+  depends_on: Domena/temat wymaga wiedzy z innego obszaru, by być zrozumiałym.
+  maps_to: Obiekt lub komunikat odpowiada obiektowi w innym protokole/modelu.
+  constrains: Regulacja lub norma nakłada wymagania na inny obszar.
+  implements: Urządzenie/system realizuje funkcję standardu.
+  affects: Zmiana w jednym obszarze ma konsekwencje w drugim.
+  supersedes: Nowsza wersja zastępuje starszą.
+
+# Rejestr skilli, do których odwołują się domeny (szczegóły: standards/SKILLS-ARCHITECTURE.md — Etap 0.3)
+skills:
+  ev-domain-expert: {name: EV Domain Expert, role: router, stage: mvp}
+  ocpp-expert: {name: OCPP Expert, stage: mvp}
+  ocpi-roaming-expert: {name: OCPI / Roaming Expert, stage: mvp}
+  cpms-architect: {name: CPMS Architect, stage: mvp}
+  evse-hardware-expert: {name: EVSE Hardware Expert, stage: mvp}
+  evse-diagnostics-expert: {name: EVSE Diagnostics Expert, stage: mvp}
+  charging-operations-expert: {name: Charging Operations Expert, stage: mvp}
+  ev-integration-architect: {name: EV Integration Architect, stage: p2}
+  ev-billing-tariff-expert: {name: EV Billing & Tariff Expert, stage: p2}
+  energy-smart-charging-expert: {name: Energy & Smart Charging Expert, stage: p2}
+  iso15118-pki-expert: {name: ISO 15118 & PKI Expert, stage: p2}
+  compliance-expert: {name: Compliance Expert, stage: p2}
+  ev-product-designer: {name: EV Product Designer, stage: p2}
+
+domains:
+
+  # ───────────────────────────── Fundamenty ─────────────────────────────
+  - id: D00
+    key: foundations
+    name: Fundamenty, terminologia i model domenowy
+    name_en: Foundations, terminology & domain model
+    description: Wspólny język i model, do którego mapowane są wszystkie protokoły i systemy.
+    priority: mvp
+    cross_cutting: true
+    skills: [ev-domain-expert]
+    subdomains:
+      - id: D00.01
+        key: glossary
+        name: Słownik terminologii
+        priority: mvp
+        topics:
+          - Definicje pojęć i ich synonimy (Charge Point / Station / EVSE / Connector / Outlet)
+          - Różnice znaczeń tego samego terminu między OCPP, OCPI, OICP, ISO 15118 i IEC
+          - Terminologia PL ↔ EN, nazwy stosowane w przepisach krajowych
+          - Pojęcia mylone (offline vs unavailable vs faulted, session vs transaction, tariff vs price)
+      - id: D00.02
+        key: canonical-model
+        name: Kanoniczny model domenowy
+        priority: mvp
+        topics:
+          - Hierarchia fizyczna (Site/Location → Station/ChargePoint → EVSE → Connector)
+          - Encje transakcyjne (Token, Authorization, Session, Transaction, MeterValue, CDR)
+          - Encje handlowe (Tariff, PriceComponent, Contract, Party, Agreement)
+          - Encje operacyjne (Alarm, Incident, WorkOrder, MaintenanceWindow, Firmware)
+          - Encje energetyczne (ChargingProfile, PowerLimit, Schedule, GridConnection)
+          - Mapowanie modelu kanonicznego na OCPP, OCPI, OICP i model wewnętrzny CPMS
+      - id: D00.03
+        key: actors-roles
+        name: Aktorzy i role rynkowe
+        priority: mvp
+        topics:
+          - CPO, eMSP/MSP, hub, CSMS/CPMS vendor, site host, charge point owner
+          - Role energetyczne (DSO, TSO, sprzedawca, agregator, BRP)
+          - Role łączone (CPO+eMSP, white-label, platform operator)
+          - Macierz odpowiedzialności i przepływów danych między rolami
+      - id: D00.04
+        key: identifiers
+        name: Identyfikatory i rejestry
+        priority: mvp
+        verify: true
+        topics:
+          - EVSE ID, Operator ID, Provider ID (formaty eMI3 / ISO 15118)
+          - Contract ID / EMAID, PCID, VIN, RFID UID
+          - OCPI country_code + party_id, rejestry ID krajowe i ich operatorzy
+          - Unikalność, normalizacja i walidacja identyfikatorów w CPMS
+      - id: D00.05
+        key: ecosystem-map
+        name: Mapa ekosystemu i organizacji standaryzacyjnych
+        priority: mvp
+        topics:
+          - Open Charge Alliance, EVRoaming Foundation, CharIN, Hubject, Gireve, e-clearing.net
+          - ISO, IEC, CEN-CENELEC, ETSI, SAE, OpenADR Alliance, EEBus Initiative, S.A.F.E.
+          - Instytucje UE i krajowe (Komisja Europejska, regulatorzy energii, NAP)
+          - Relacje między standardami — który dokument nadpisuje / odwołuje się do którego
+
+  # ───────────────────────────── Protokoły ─────────────────────────────
+  - id: D01
+    key: protocols
+    name: Protokoły i standardy komunikacji
+    name_en: Communication protocols & standards
+    description: Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system↔energia.
+    priority: mvp
+    skills: [ocpp-expert, ocpi-roaming-expert, iso15118-pki-expert]
+    depends_on: [D00]
+    subdomains:
+      - id: D01.01
+        key: ocpp
+        name: OCPP (EVSE ↔ CSMS)
+        priority: mvp
+        verify: true
+        topics:
+          - Wersje 1.5, 1.6J (Edition 2), 2.0.1, 2.1 — różnice, erraty, niekompatybilność 1.6 ↔ 2.x
+          - Status OCPP 2.0.1 jako normy IEC 63584
+          - Architektura (WebSocket, JSON-RPC-like, SOAP w 1.5/1.6S), sub-protokoły, kolejkowanie
+          - Profile/Functional Blocks (Core, Smart Charging, Firmware, Reservation, Local Auth List…)
+          - Komunikaty — warunki użycia, odpowiedzi, timeouty, retry
+          - Konfiguracja (Configuration Keys 1.6) vs Device Model (2.x: Components/Variables)
+          - Cykl życia transakcji 1.6 vs 2.x (TransactionEvent), offline behavior, kolejka transakcji
+          - Security profiles, certyfikaty, logi bezpieczeństwa
+          - DataTransfer i rozszerzenia producentów
+          - Zgodność i certyfikacja (OCTT, profile certyfikacyjne)
+      - id: D01.02
+        key: ocpi
+        name: OCPI (CPO ↔ eMSP / hub)
+        priority: mvp
+        verify: true
+        topics:
+          - Wersje 2.1.1, 2.2, 2.2.1, 2.3.0 oraz prace nad 3.0 — różnice i ścieżki migracji
+          - Role (CPO, eMSP, Hub, NAP, NSP, SCSP) i moduły Credentials/Versions
+          - Locations, EVSE, Connector — model i aktualizacje
+          - Tariffs, Tokens, Sessions, CDRs, Commands, ChargingProfiles, HubClientInfo
+          - Push vs pull, paginacja, routing przez hub, nagłówki OCPI-to/from
+          - Signed data / signed meter values, korekty CDR (credit CDR)
+          - Rozszerzenia (np. płatności ad hoc / DirectPayment) i rekomendacje branżowe
+      - id: D01.03
+        key: oicp
+        name: OICP (Hubject)
+        priority: p2
+        verify: true
+        topics:
+          - Wersje OICP, architektura CPO/EMP ↔ Hubject
+          - EVSE Data/Status, Authorization, Charge Detail Records, Pricing, Plug & Charge
+          - Różnice modelu danych OICP vs OCPI i mapowanie
+      - id: D01.04
+        key: emip
+        name: eMIP (Gireve)
+        priority: p3
+        verify: true
+        topics:
+          - Architektura i obiekty eMIP, różnice względem OCPI
+          - Rola Gireve i współistnienie eMIP z OCPI
+      - id: D01.05
+        key: ochp
+        name: OCHP i inne protokoły roamingowe
+        priority: p3
+        verify: true
+        topics:
+          - OCHP / OCHPdirect (e-clearing.net) — status i zastosowanie
+          - Protokoły historyczne i lokalne, migracje do OCPI
+      - id: D01.06
+        key: iso-15118
+        name: ISO 15118 (EV ↔ EVSE, high-level communication)
+        priority: p2
+        verify: true
+        topics:
+          - Części -1, -2, -3, -8, -10, -20 i -20 vs -2 (BPT, WPT, dynamic mode)
+          - Sekwencje komunikacji (SLAC, SDP, TLS, sesja V2G)
+          - Plug & Charge — kontrakty, certyfikaty, rola backendu i OCPP
+          - Integracja ISO 15118 z OCPP 2.x (certyfikaty, autoryzacja, profile ładowania)
+      - id: D01.07
+        key: din-70121
+        name: DIN SPEC 70121
+        priority: p2
+        topics:
+          - Zakres i ograniczenia względem ISO 15118-2
+          - Autocharge (MAC jako identyfikator) — mechanizm, ryzyka
+      - id: D01.08
+        key: other-ev-evse
+        name: Inne systemy komunikacji EV ↔ EVSE
+        priority: p3
+        verify: true
+        topics:
+          - CHAdeMO (wersje, CAN, V2X)
+          - GB/T, ChaoJi
+          - SAE J1772, SAE J3400 (NACS) i komunikacja
+          - MCS — Megawatt Charging System (CharIN, SAE J3271, ISO/IEC)
+      - id: D01.09
+        key: energy-protocols
+        name: Protokoły zarządzania energią
+        priority: p2
+        verify: true
+        topics:
+          - OSCP (Open Smart Charging Protocol)
+          - OpenADR 2.0 / 3.0
+          - IEEE 2030.5
+          - EEBus (SHIP/SPINE) — integracja z HEMS
+          - IEC 61850 w kontekście stacji i magazynów
+      - id: D01.10
+        key: field-protocols
+        name: Komunikacja polowa i urządzeń
+        priority: p2
+        topics:
+          - Modbus RTU/TCP — liczniki, falowniki, BESS, rejestry
+          - SunSpec
+          - MQTT — architektura, QoS, bezpieczeństwo, zastosowania w EMS/IoT
+          - M-Bus / DLMS-COSEM w pomiarach
+          - CAN w urządzeniach DC
+      - id: D01.11
+        key: emerging-standards
+        name: Standardy w przygotowaniu
+        priority: p3
+        verify: true
+        topics:
+          - IEC 63110 (zarządzanie infrastrukturą ładowania)
+          - IEC 63119 (wymiana informacji roamingowych)
+          - Nowe wersje OCPP/OCPI/ISO — projekty, konsultacje, zapowiedzi
+
+  # ───────────────────────── Elektrotechnika ─────────────────────────
+  - id: D02
+    key: electrical
+    name: Normy elektrotechniczne i fizyka ładowania
+    name_en: Electrical standards & charging physics
+    description: Warstwa fizyczna — tryby ładowania, złącza, instalacja, ochrona, jakość energii.
+    priority: p2
+    skills: [evse-hardware-expert]
+    depends_on: [D00]
+    subdomains:
+      - id: D02.01
+        key: iec-61851
+        name: IEC 61851 — systemy ładowania przewodowego
+        priority: p2
+        verify: true
+        topics:
+          - Tryby ładowania 1–4, stany pilotowe A–F, sygnał CP i PP
+          - Części -1, -21-x, -23, -24, -25 — zakres
+          - Sygnalizacja PWM, ograniczenie prądu, wake-up
+      - id: D02.02
+        key: connectors
+        name: Złącza i gniazda (IEC 62196 i inne)
+        priority: p2
+        topics:
+          - Type 1, Type 2, CCS1, CCS2, CHAdeMO, GB/T, NACS, MCS
+          - Kable przytwierdzone vs gniazda, blokady, chłodzenie kabli
+          - Mapowanie typów złączy na wartości enum w OCPP/OCPI
+      - id: D02.03
+        key: installation
+        name: Instalacja elektryczna i ochrona
+        priority: p2
+        verify: true
+        topics:
+          - IEC 60364-7-722 i wymagania krajowe
+          - RCD typ A/B, detekcja DC 6 mA, zabezpieczenia nadprądowe, przepięciowe
+          - Uziemienie, PEN fault detection, układy sieci TN/TT/IT
+      - id: D02.04
+        key: power-electronics
+        name: Podstawy energoelektroniki i ładowania DC
+        priority: p3
+        topics:
+          - AC vs DC, prostowniki, moduły mocy, sprawność
+          - Architektury 400 V / 800 V, napięcia i prądy graniczne
+          - Chłodzenie, derating termiczny
+      - id: D02.05
+        key: power-quality
+        name: Jakość energii i EMC
+        priority: p3
+        topics:
+          - Współczynnik mocy, THD, harmoniczne, asymetria faz
+          - Wymagania EMC i stopnie ochrony IP/IK
+
+  # ───────────────────────────── Hardware ─────────────────────────────
+  - id: D03
+    key: hardware
+    name: Urządzenia, komponenty i producenci
+    name_en: Hardware, components & manufacturers
+    description: Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa.
+    priority: mvp
+    skills: [evse-hardware-expert, evse-diagnostics-expert]
+    depends_on: [D00, D01, D02]
+    subdomains:
+      - id: D03.01
+        key: device-categories
+        name: Kategorie urządzeń
+        priority: mvp
+        topics:
+          - AC wallbox, AC słupek, DC kompakt, DC fast, HPC
+          - Ładowarki modułowe, systemy satelitarne (power cabinet + dispensers)
+          - Ładowarki z magazynem energii, mobilne
+      - id: D03.02
+        key: components
+        name: Komponenty
+        priority: p2
+        topics:
+          - Kontrolery komunikacyjne i ładowania, modemy LTE/Ethernet/Wi-Fi
+          - Liczniki energii (AC/DC, MID, Eichrecht), czytniki RFID, wyświetlacze
+          - Terminale płatnicze, moduły mocy, styczniki, chłodzenie, zabezpieczenia
+      - id: D03.03
+        key: device-cards
+        name: Karty techniczne urządzeń
+        priority: mvp
+        topics:
+          - Szablon karty (identyfikacja, moc, złącza, komunikacja, OCPP, parametry, ograniczenia, diagnostyka, firmware)
+          - Karty rodzin urządzeń wiodących producentów
+          - Deklarowane vs zweryfikowane funkcje OCPP (capability matrix)
+      - id: D03.04
+        key: manufacturers
+        name: Producenci
+        priority: p2
+        topics:
+          - Profile producentów, portfolio, rynki, kanały wsparcia
+          - Dokumentacja i portale serwisowe, polityka aktualizacji
+      - id: D03.05
+        key: firmware
+        name: Firmware i cykl życia oprogramowania urządzeń
+        priority: mvp
+        topics:
+          - Wersjonowanie, release notes, kompatybilność z CPMS
+          - Procedury aktualizacji zdalnej i rollbacku
+          - Znane problemy wersji (link do D21)
+      - id: D03.06
+        key: hardware-diagnostics
+        name: Kody błędów i diagnostyka sprzętowa
+        priority: mvp
+        topics:
+          - Kody błędów OCPP (ErrorCode, vendorErrorCode) vs kody producentów
+          - Logi, alarmy, zdarzenia Device Model
+          - Mapowanie kodów na przyczyny i działania
+      - id: D03.07
+        key: procurement
+        name: Wybór, zakup i TCO urządzeń
+        priority: p3
+        topics:
+          - Kryteria wyboru, wymagania przetargowe, gwarancje, SLA producenta
+          - TCO, koszty serwisu, dostępność części
+
+  # ─────────────────────────────── EV ───────────────────────────────
+  - id: D04
+    key: vehicle
+    name: Pojazd, bateria i interakcja EV–EVSE
+    name_en: Vehicle, battery & EV–EVSE interaction
+    description: Perspektywa pojazdu — co wpływa na przebieg sesji i kompatybilność.
+    priority: p2
+    skills: [evse-diagnostics-expert]
+    depends_on: [D01, D02]
+    subdomains:
+      - id: D04.01
+        key: battery-bms
+        name: Bateria i BMS
+        priority: p2
+        topics:
+          - Chemie ogniw, architektura pakietu, rola BMS
+          - SOC, SOH, limity temperaturowe, degradacja
+      - id: D04.02
+        key: charging-curves
+        name: Krzywe ładowania i preconditioning
+        priority: p2
+        topics:
+          - Krzywe mocy według modeli, wpływ temperatury i SOC
+          - Preconditioning, nawigacja do ładowarki
+          - Interpretacja „niskiej mocy” w zgłoszeniach klientów
+      - id: D04.03
+        key: compatibility
+        name: Kompatybilność pojazd–ładowarka
+        priority: p2
+        topics:
+          - Znane problemy kompatybilności (handshake, izolacja, timeouty)
+          - Testy interoperacyjności, macierze kompatybilności
+      - id: D04.04
+        key: vehicle-identification
+        name: Identyfikacja pojazdu i autoryzacja
+        priority: p2
+        topics:
+          - Plug & Charge vs Autocharge vs RFID vs aplikacja
+          - Dane z pojazdu dostępne dla EVSE/CSMS (SOC, departure time, energia)
+      - id: D04.05
+        key: oem-telematics
+        name: Telematyka i API producentów pojazdów
+        priority: p3
+        topics:
+          - API OEM (SOC, lokalizacja, harmonogramy), agregatory danych pojazdów
+          - Zastosowania w smart charging i flotach
+
+  # ─────────────────────────────── CPMS ───────────────────────────────
+  - id: D05
+    key: cpms
+    name: CPMS / CSMS i systemy zarządzania
+    name_en: CPMS / CSMS & management systems
+    description: Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
+    priority: mvp
+    skills: [cpms-architect, ev-integration-architect]
+    depends_on: [D00, D01, D03]
+    subdomains:
+      - id: D05.01
+        key: architecture
+        name: Architektura CPMS
+        priority: mvp
+        topics:
+          - Moduły referencyjne i granice odpowiedzialności
+          - Warstwa komunikacji OCPP (connection management, skalowanie WebSocket)
+          - Multi-tenancy, white-label, hierarchia organizacji
+      - id: D05.02
+        key: asset-management
+        name: Zarządzanie flotą urządzeń
+        priority: mvp
+        topics:
+          - Provisioning i onboarding ładowarek
+          - Zarządzanie konfiguracją i firmware w skali
+          - Inwentaryzacja, hierarchia lokalizacji, dane statyczne
+      - id: D05.03
+        key: session-management
+        name: Sesje, transakcje i autoryzacja
+        priority: mvp
+        topics:
+          - Maszyna stanów sesji (w tym przypadki brzegowe i odzyskiwanie)
+          - Remote start/stop, rezerwacje, lokalna lista autoryzacji, cache
+          - Obsługa transakcji offline i opóźnionych
+      - id: D05.04
+        key: status-availability
+        name: Statusy i dostępność
+        priority: mvp
+        topics:
+          - Model statusów (połączenie, EVSE, connector) i ich agregacja
+          - Offline vs unavailable vs faulted — reguły rozróżniania
+          - Wyliczanie dostępności (uptime) zgodnie z definicjami regulacyjnymi
+      - id: D05.05
+        key: external-assets
+        name: Ładowarki własne vs roamingowe / zewnętrzne
+        priority: mvp
+        topics:
+          - Zakres operacji dla urządzeń OCPP vs danych OCPI
+          - Synchronizacja statusów, lokalizacji, taryf, sesji; konflikty danych
+          - Wykrywanie braku aktualizacji danych zewnętrznych
+      - id: D05.06
+        key: users-permissions
+        name: Użytkownicy, role i uprawnienia
+        priority: p2
+        topics:
+          - RBAC/ABAC dla CPO, site hostów, serwisu, klientów flotowych
+          - Audyt działań operatorów
+      - id: D05.07
+        key: cpms-apis
+        name: API i integracje CPMS
+        priority: p2
+        topics:
+          - API publiczne i partnerskie, webhooks, eventy
+          - Integracje ERP, CRM, ticketing, BI, płatności
+      - id: D05.08
+        key: emsp-platform
+        name: Platforma eMSP
+        priority: p2
+        topics:
+          - Zarządzanie kontraktami i tokenami, aplikacja kierowcy
+          - Agregacja lokalizacji, ceny dla kierowcy, rozliczenia z CPO
+      - id: D05.09
+        key: reporting
+        name: Raportowanie
+        priority: p3
+        topics:
+          - Raporty operacyjne, finansowe, regulacyjne
+          - Raporty dla site hostów i klientów flotowych
+
+  # ───────────────────────────── Roaming ─────────────────────────────
+  - id: D06
+    key: roaming
+    name: Roaming i interoperacyjność
+    name_en: Roaming & interoperability
+    description: Współpraca między operatorami — umowy, dane, procesy, rozliczenia.
+    priority: mvp
+    skills: [ocpi-roaming-expert]
+    depends_on: [D00, D01, D05, D09]
+    subdomains:
+      - id: D06.01
+        key: models
+        name: Modele roamingu
+        priority: mvp
+        topics:
+          - Peer-to-peer vs hub, wielohubowość, routing
+          - Porównanie hubów (Hubject, Gireve, e-clearing.net i inne)
+      - id: D06.02
+        key: onboarding
+        name: Onboarding partnerów
+        priority: mvp
+        topics:
+          - Proces techniczny (credentials, wersje, testy) i biznesowy (umowy)
+          - Checklisty go-live, środowiska testowe
+      - id: D06.03
+        key: data-sync
+        name: Synchronizacja danych
+        priority: mvp
+        topics:
+          - Lokalizacje, EVSE, statusy — opóźnienia, jakość danych, deduplikacja
+          - Tokeny i whitelisty, autoryzacja real-time vs offline
+          - Taryfy w roamingu — prezentacja ceny kierowcy
+      - id: D06.04
+        key: settlement
+        name: Settlement i reconciliation
+        priority: mvp
+        topics:
+          - CDR — kompletność, walidacja, korekty, duplikaty
+          - Uzgadnianie sesji i CDR między stronami, spory
+          - Clearing i rozliczenia międzyoperatorskie
+      - id: D06.05
+        key: agreements
+        name: Umowy roamingowe
+        priority: p2
+        topics:
+          - Typowe warunki umów, modele cenowe B2B, SLA danych
+          - Odpowiedzialność za błędy, procedury reklamacyjne
+
+  # ───────────────────────────── Operacje ─────────────────────────────
+  - id: D07
+    key: operations
+    name: Operacje, utrzymanie i serwis
+    name_en: Charging operations & maintenance
+    description: Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
+    priority: mvp
+    skills: [charging-operations-expert, evse-diagnostics-expert]
+    depends_on: [D03, D05]
+    subdomains:
+      - id: D07.01
+        key: monitoring
+        name: Monitoring i NOC
+        priority: mvp
+        topics:
+          - Organizacja NOC, dyżury, poziomy wsparcia (L1/L2/L3)
+          - Alerty, progi, redukcja fałszywych alarmów
+          - Wykrywanie utraty komunikacji (Heartbeat, WebSocket, brak danych)
+      - id: D07.02
+        key: diagnostics
+        name: Diagnostyka zdalna
+        priority: mvp
+        topics:
+          - Drzewa diagnostyczne typowych problemów
+          - Kolejność działań (bez odruchowego restartu), zbieranie dowodów
+          - Narzędzia: logi, GetDiagnostics/GetLog, triggery, konfiguracja
+      - id: D07.03
+        key: incidents
+        name: Zarządzanie incydentami i eskalacjami
+        priority: mvp
+        topics:
+          - Klasyfikacja i priorytety, SLA reakcji i naprawy
+          - Eskalacje do producenta, serwisu, DSO, partnera roamingowego
+      - id: D07.04
+        key: field-service
+        name: Serwis terenowy i utrzymanie
+        priority: p2
+        topics:
+          - Dyspozytornia, work orders, przeglądy okresowe
+          - Części zamienne, logistyka, bezpieczeństwo prac
+          - Przeglądy i odbiory dozorowe (np. wymagania krajowe)
+      - id: D07.05
+        key: kpi-sla
+        name: KPI i SLA operatora
+        priority: p2
+        topics:
+          - Uptime, success rate sesji, MTTR, MTBF, utilization
+          - Definicje KPI zgodne z regulacjami i umowami
+      - id: D07.06
+        key: customer-support
+        name: Obsługa klienta (kierowcy)
+        priority: p2
+        topics:
+          - Hotline 24/7, typowe zgłoszenia, skrypty
+          - Reklamacje, zwroty, komunikacja w trakcie awarii
+
+  # ───────────────────────────── Energia ─────────────────────────────
+  - id: D08
+    key: energy
+    name: Energia, sieć i elastyczność
+    name_en: Energy, grid & flexibility
+    description: Zarządzanie mocą lokalnie i współpraca z systemem elektroenergetycznym.
+    priority: p2
+    skills: [energy-smart-charging-expert]
+    depends_on: [D01, D02, D05]
+    subdomains:
+      - id: D08.01
+        key: smart-charging
+        name: Smart charging
+        priority: p2
+        topics:
+          - Profile ładowania OCPP (stack levels, purposes, composite schedule)
+          - Strategie: równy podział, priorytety, departure time, koszt
+          - Lokalne vs centralne sterowanie, fallback przy utracie łączności
+      - id: D08.02
+        key: load-management
+        name: Load balancing i DLM
+        priority: p2
+        topics:
+          - Statyczny i dynamiczny load management, pomiar na przyłączu
+          - Algorytmy podziału mocy dla AC i DC
+      - id: D08.03
+        key: ems-der
+        name: EMS, PV, magazyny energii
+        priority: p2
+        topics:
+          - Integracja z EMS/BMS budynku, HEMS
+          - PV, BESS, peak shaving, autokonsumpcja
+      - id: D08.04
+        key: grid-connection
+        name: Przyłączenie do sieci
+        priority: p2
+        topics:
+          - Moc przyłączeniowa, warunki przyłączenia, czas i koszty
+          - Ograniczenia DSO, przyłącza elastyczne (flexible connection)
+      - id: D08.05
+        key: energy-market
+        name: Rynek energii i ceny
+        priority: p3
+        topics:
+          - Taryfy dystrybucyjne, opłaty mocowe, ceny dynamiczne / spot
+          - Sprzedaż energii na punkcie ładowania, wybór sprzedawcy
+      - id: D08.06
+        key: flexibility-dr
+        name: Elastyczność, demand response i V2G/V2X
+        priority: p3
+        topics:
+          - Demand response, rynki elastyczności, usługi systemowe, agregacja
+          - V2G, V2H, V2B — standardy, wymagania, modele biznesowe
+
+  # ───────────────────────────── Billing ─────────────────────────────
+  - id: D09
+    key: billing
+    name: Taryfy, rozliczenia i płatności
+    name_en: Tariffs, billing & payments
+    description: Od ceny przez CDR do faktury i płatności.
+    priority: p2
+    skills: [ev-billing-tariff-expert]
+    depends_on: [D00, D05, D10]
+    subdomains:
+      - id: D09.01
+        key: tariff-models
+        name: Modele taryfowe
+        priority: p2
+        topics:
+          - kWh, czas, opłata startowa, idle/blocking fee, parking
+          - Taryfy złożone, ograniczenia czasowe, dynamiczne, abonamenty
+          - Zaokrąglenia, min/max, prezentacja ceny
+      - id: D09.02
+        key: rating-cdr
+        name: Wycena sesji i CDR
+        priority: p2
+        topics:
+          - Silnik wyceny (rating), dane wejściowe, okresy taryfowe
+          - Generowanie CDR, walidacja, korekty
+      - id: D09.03
+        key: payments
+        name: Płatności
+        priority: p2
+        topics:
+          - Ad hoc: terminale, QR/web, preautoryzacja i jej zwolnienie
+          - RFID, aplikacje, karty flotowe, płatności cykliczne
+          - PCI DSS, PSD2/SCA, dostawcy płatności
+      - id: D09.04
+        key: invoicing-tax
+        name: Fakturowanie i podatki
+        priority: p2
+        topics:
+          - Faktury, noty, korekty, VAT w roamingu i transgranicznie
+          - Waluty i kursy, e-fakturowanie
+      - id: D09.05
+        key: disputes
+        name: Reklamacje i korekty
+        priority: p3
+        topics:
+          - Procesy reklamacyjne, zwroty, chargebacki
+          - Korelacja reklamacji z danymi sesji i pomiarów
+
+  # ───────────────────────────── Pomiary ─────────────────────────────
+  - id: D10
+    key: metering
+    name: Pomiary i metrologia prawna
+    name_en: Metering & legal metrology
+    description: Wiarygodność pomiaru energii jako podstawa rozliczeń.
+    priority: p2
+    skills: [ev-billing-tariff-expert, compliance-expert]
+    depends_on: [D02, D03]
+    subdomains:
+      - id: D10.01
+        key: mid
+        name: MID i zatwierdzenia typu
+        priority: p2
+        verify: true
+        topics:
+          - Dyrektywa MID, klasy dokładności, liczniki AC
+          - Liczniki DC i wymagania (np. normy dla pomiaru DC)
+      - id: D10.02
+        key: eichrecht
+        name: Eichrecht i wymagania krajowe
+        priority: p2
+        topics:
+          - Niemieckie prawo legalizacyjne — wymagania dla CPO i eMSP
+          - Odpowiedniki i wymagania w innych krajach (w tym PL)
+      - id: D10.03
+        key: signed-meter-values
+        name: Podpisane wartości pomiarowe
+        priority: p2
+        topics:
+          - OCMF, formaty podpisów, transparency software
+          - Przenoszenie podpisanych danych przez OCPP i OCPI
+      - id: D10.04
+        key: meter-data-quality
+        name: Jakość danych pomiarowych
+        priority: p3
+        topics:
+          - Luki, skoki, reset liczników, rozbieżności z CDR
+          - Reguły walidacji MeterValues
+
+  # ──────────────────────────── Security ────────────────────────────
+  - id: D11
+    key: security
+    name: Bezpieczeństwo i cyberbezpieczeństwo
+    name_en: Security & cybersecurity
+    description: Ochrona urządzeń, komunikacji, danych i procesów.
+    priority: p2
+    skills: [iso15118-pki-expert]
+    depends_on: [D01, D14]
+    subdomains:
+      - id: D11.01
+        key: ocpp-security
+        name: Bezpieczeństwo OCPP
+        priority: p2
+        topics:
+          - Security profiles 1–3, Basic Auth, TLS, mTLS
+          - Zarządzanie certyfikatami stacji, rotacja haseł
+          - Secure firmware update, podpisy firmware
+      - id: D11.02
+        key: pki
+        name: PKI w ekosystemie EV
+        priority: p2
+        topics:
+          - V2G PKI, root CA, Plug & Charge ecosystem, certificate pools
+          - Cykl życia certyfikatów, odwołania, OCSP
+      - id: D11.03
+        key: device-network-security
+        name: Bezpieczeństwo urządzeń i sieci
+        priority: p3
+        topics:
+          - Hardening, porty serwisowe, fizyczne zabezpieczenia
+          - Segmentacja sieci, APN prywatne, VPN
+      - id: D11.04
+        key: backend-security
+        name: Bezpieczeństwo backendu i API
+        priority: p3
+        topics:
+          - Uwierzytelnianie/autoryzacja API, zarządzanie sekretami
+          - Logowanie, audyt, wykrywanie anomalii
+      - id: D11.05
+        key: security-standards
+        name: Normy i ramy bezpieczeństwa
+        priority: p3
+        verify: true
+        topics:
+          - IEC 62443, ISO/IEC 27001
+          - EN 18031 (RED — wymagania cyber dla urządzeń radiowych)
+          - Zarządzanie podatnościami i ujawnianiem (CVD)
+
+  # ─────────────────────────── Regulacje ───────────────────────────
+  - id: D12
+    key: regulations
+    name: Regulacje i compliance
+    name_en: Regulations & compliance
+    description: Wymagania prawne UE i krajowe wpływające na produkty i procesy.
+    priority: p2
+    skills: [compliance-expert]
+    depends_on: [D00]
+    subdomains:
+      - id: D12.01
+        key: eu-afir
+        name: AFIR i akty wykonawcze
+        priority: p2
+        verify: true
+        topics:
+          - Cele rozmieszczenia infrastruktury, terminy
+          - Płatności ad hoc, przejrzystość cen, dane statyczne i dynamiczne
+          - Akty delegowane/wykonawcze — standardy techniczne, komunikacja, dane (NAP)
+      - id: D12.02
+        key: eu-energy-buildings
+        name: Energia i budynki (UE)
+        priority: p3
+        verify: true
+        topics:
+          - EPBD — wymagania dla budynków (pre-cabling, punkty ładowania)
+          - RED III — elementy dot. inteligentnego ładowania i dostępu do danych baterii
+          - Rynek energii elektrycznej — dyrektywy i rozporządzenia
+      - id: D12.03
+        key: eu-digital-cyber
+        name: Cyfrowe i cyber (UE)
+        priority: p3
+        verify: true
+        topics:
+          - NIS2, Cyber Resilience Act, akt delegowany RED
+          - RODO w kontekście sesji i danych kierowców
+          - Data Act, European Accessibility Act
+      - id: D12.04
+        key: eu-product-safety
+        name: Bezpieczeństwo produktów (UE)
+        priority: p3
+        topics:
+          - LVD, EMC, RED, oznakowanie CE, deklaracje zgodności
+          - Rozporządzenie bateryjne (w zakresie magazynów i pojazdów)
+      - id: D12.05
+        key: poland
+        name: Polska
+        priority: p2
+        verify: true
+        topics:
+          - Ustawa o elektromobilności i paliwach alternatywnych — obowiązki
+          - Dozór techniczny stacji ładowania (UDT) — odbiory, badania okresowe
+          - Ewidencja infrastruktury, raportowanie, rola URE
+          - Przepisy dotyczące cen, informowania konsumentów, fakturowania
+      - id: D12.06
+        key: other-countries
+        name: Inne kraje
+        priority: p3
+        topics:
+          - Niemcy (Eichrecht, Ladesäulenverordnung), Holandia, Francja, Wielka Brytania (regulacje dot. publicznych punktów ładowania)
+          - Szablon karty kraju — wymagania, organy, dane
+      - id: D12.07
+        key: public-funding
+        name: Programy wsparcia i dotacje
+        priority: p3
+        topics:
+          - Programy UE (np. instrumenty dla infrastruktury paliw alternatywnych)
+          - Programy krajowe i ich wymagania techniczne/raportowe
+
+  # ───────────────────── Testy i certyfikacja ─────────────────────
+  - id: D13
+    key: testing
+    name: Testy, zgodność i certyfikacja
+    name_en: Testing, conformance & certification
+    description: Jak udowodnić, że implementacja działa i jest zgodna.
+    priority: p2
+    skills: [ev-integration-architect, ocpp-expert]
+    depends_on: [D01, D03, D05]
+    subdomains:
+      - id: D13.01
+        key: protocol-conformance
+        name: Zgodność protokołów
+        priority: p2
+        topics:
+          - OCTT i certyfikacja OCA, plany testów
+          - Testy OCPI, środowiska testowe hubów
+          - ISO 15118 conformance (np. testy CharIN)
+      - id: D13.02
+        key: interoperability-events
+        name: Testy interoperacyjności
+        priority: p3
+        topics:
+          - Plugfesty i testivale, wnioski z wydarzeń
+          - Różnica: conformance vs interoperability testing
+      - id: D13.03
+        key: integration-testing
+        name: Testy integracyjne CPMS–EVSE
+        priority: p2
+        topics:
+          - Symulatory ładowarek i pojazdów, narzędzia open-source
+          - Katalog przypadków testowych i kryteria akceptacji
+          - Testy regresji po zmianie firmware
+      - id: D13.04
+        key: product-certification
+        name: Certyfikacja produktów
+        priority: p3
+        topics:
+          - Badania bezpieczeństwa, laboratoria, certyfikaty krajowe
+          - Certyfikacja pomiarów (MID/Eichrecht)
+
+  # ───────────────────────── Architektura IT ─────────────────────────
+  - id: D14
+    key: it-architecture
+    name: Architektura IT i integracje
+    name_en: IT architecture & integrations
+    description: Wzorce techniczne dla systemów w branży EV.
+    priority: p2
+    skills: [cpms-architect, ev-integration-architect]
+    depends_on: [D05]
+    subdomains:
+      - id: D14.01
+        key: communication-patterns
+        name: Wzorce komunikacji
+        priority: p2
+        topics:
+          - REST, WebSocket, webhooks, gRPC
+          - Idempotencja, retry, back-off, korelacja żądań
+      - id: D14.02
+        key: event-driven
+        name: Architektura zdarzeniowa
+        priority: p2
+        topics:
+          - Message brokers (Kafka, RabbitMQ, MQTT), event sourcing
+          - Kolejność zdarzeń, deduplikacja, outbox
+      - id: D14.03
+        key: data-storage
+        name: Przechowywanie danych
+        priority: p3
+        topics:
+          - Relacyjne (PostgreSQL), cache (Redis), szeregi czasowe
+          - Retencja danych, archiwizacja, partycjonowanie
+      - id: D14.04
+        key: scalability-reliability
+        name: Skalowalność i niezawodność
+        priority: p3
+        topics:
+          - Skalowanie połączeń WebSocket, sticky sessions, failover
+          - Multi-region, disaster recovery
+      - id: D14.05
+        key: observability
+        name: Observability
+        priority: p3
+        topics:
+          - Logi, metryki, tracing komunikacji OCPP/OCPI
+          - Monitoring syntetyczny, SLO
+      - id: D14.06
+        key: identity-gateway
+        name: IAM i API gateway
+        priority: p3
+        topics:
+          - IAM, SSO, multi-tenant identity
+          - API gateway, rate limiting, wersjonowanie API
+
+  # ────────────────────────── Dane i AI ──────────────────────────
+  - id: D15
+    key: data-analytics
+    name: Dane, analityka i AI
+    name_en: Data, analytics & AI
+    description: Wykorzystanie danych z sieci ładowania do decyzji i automatyzacji.
+    priority: p3
+    skills: [ev-product-designer]
+    depends_on: [D05, D07]
+    subdomains:
+      - id: D15.01
+        key: analytics-kpi
+        name: Analityka operacyjna i biznesowa
+        priority: p3
+        topics:
+          - Utilization, przychód na punkt, profil sesji, zachowania kierowców
+          - Benchmarki rynkowe
+      - id: D15.02
+        key: forecasting
+        name: Prognozowanie i optymalizacja
+        priority: p3
+        topics:
+          - Prognozy popytu i obciążenia, planowanie rozbudowy
+          - Optymalizacja cen
+      - id: D15.03
+        key: predictive-maintenance
+        name: Predykcyjne utrzymanie i wykrywanie anomalii
+        priority: p3
+        topics:
+          - Sygnały wczesnego ostrzegania z danych OCPP
+          - Modele anomalii sesji i komunikacji
+      - id: D15.04
+        key: open-data
+        name: Dane otwarte i udostępnianie danych
+        priority: p3
+        verify: true
+        topics:
+          - NAP, DATEX II, wymogi AFIR dot. danych
+          - Agregatory danych (mapy, nawigacje), jakość danych publicznych
+      - id: D15.05
+        key: ai-agents
+        name: AI i agenci w operacjach EV
+        priority: p3
+        topics:
+          - Zastosowania agentów AI w NOC, supportcie, projektowaniu
+          - Ryzyka, nadzór człowieka, ocena jakości
+
+  # ───────────────────────── Produkt i UX ─────────────────────────
+  - id: D16
+    key: product-ux
+    name: Produkt, UX i doświadczenie klienta
+    name_en: Product, UX & customer experience
+    description: Jak przełożyć wiedzę techniczną na dobre produkty dla różnych użytkowników.
+    priority: p3
+    skills: [ev-product-designer]
+    depends_on: [D05, D07]
+    subdomains:
+      - id: D16.01
+        key: personas-journeys
+        name: Persony i customer journeys
+        priority: p3
+        topics:
+          - Kierowca, operator NOC, technik, site host, fleet manager, administrator
+          - Ścieżki: znalezienie, start, ładowanie, płatność, problem
+      - id: D16.02
+        key: operator-ux
+        name: UX dla operatora i administratora
+        priority: p3
+        topics:
+          - Widoki NOC, diagnostyka, masowe operacje
+          - Wzorce UX dla statusów i alarmów
+      - id: D16.03
+        key: driver-ux
+        name: UX kierowcy
+        priority: p3
+        topics:
+          - Aplikacje, mapy, informacja o cenie, ekrany ładowarek
+          - Komunikaty o błędach zrozumiałe dla kierowcy
+      - id: D16.04
+        key: accessibility
+        name: Dostępność
+        priority: p3
+        topics:
+          - Dostępność fizyczna stanowisk (osoby z niepełnosprawnościami)
+          - Dostępność cyfrowa (aplikacje, terminale)
+      - id: D16.05
+        key: feature-benchmarks
+        name: Benchmarki funkcjonalne
+        priority: p3
+        topics:
+          - Porównanie funkcji CPMS/eMSP na rynku
+          - Katalog funkcji referencyjnych i ich wartość
+
+  # ─────────────────────── Biznes i rynek ───────────────────────
+  - id: D17
+    key: business
+    name: Modele biznesowe i rynek
+    name_en: Business models & market
+    description: Ekonomia i struktura rynku elektromobilności.
+    priority: p3
+    skills: [ev-product-designer]
+    depends_on: [D00]
+    subdomains:
+      - id: D17.01
+        key: business-models
+        name: Modele biznesowe
+        priority: p3
+        topics:
+          - CPO (własność, operacja, CPO-as-a-service), eMSP, hub
+          - SaaS, white-label, revenue share z site hostem
+      - id: D17.02
+        key: unit-economics
+        name: Ekonomika i finansowanie
+        priority: p3
+        topics:
+          - Unit economics stacji, CAPEX/OPEX, punkt rentowności
+          - Finansowanie, leasing, inwestorzy infrastrukturalni
+      - id: D17.03
+        key: market-landscape
+        name: Krajobraz rynku
+        priority: p3
+        topics:
+          - Główni gracze (CPO, eMSP, CPMS, producenci) per kraj
+          - Trendy, konsolidacja, dane rynkowe
+      - id: D17.04
+        key: partnerships
+        name: Partnerstwa i sprzedaż B2B
+        priority: p3
+        topics:
+          - Site host, retail, flota, OEM, energetyka
+          - Przetargi publiczne i ich wymagania
+
+  # ───────────────────── Rozwój lokalizacji ─────────────────────
+  - id: D18
+    key: site-deployment
+    name: Rozwój lokalizacji i wdrażanie infrastruktury
+    name_en: Site development & deployment
+    description: Od wyboru miejsca do uruchomienia stacji.
+    priority: p3
+    skills: [charging-operations-expert]
+    depends_on: [D02, D08, D12]
+    subdomains:
+      - id: D18.01
+        key: site-selection
+        name: Wybór lokalizacji
+        priority: p3
+        topics:
+          - Analiza ruchu, popytu, konkurencji, mocy dostępnej
+          - Umowy z właścicielami terenu
+      - id: D18.02
+        key: permitting
+        name: Pozwolenia i formalności
+        priority: p3
+        topics:
+          - Procedury budowlane i przyłączeniowe, zgłoszenia, dozór
+      - id: D18.03
+        key: construction
+        name: Budowa i instalacja
+        priority: p3
+        topics:
+          - Prace budowlane, posadowienie, okablowanie, oznakowanie, ochrona przed uszkodzeniami
+      - id: D18.04
+        key: commissioning
+        name: Uruchomienie i odbiór
+        priority: p3
+        topics:
+          - Checklisty uruchomienia, onboarding do CPMS, testy odbiorcze
+          - Przekazanie do eksploatacji i publikacja w roamingu
+
+  # ───────────────────── Segmenty ładowania ─────────────────────
+  - id: D19
+    key: segments
+    name: Segmenty i konteksty ładowania
+    name_en: Charging segments & use contexts
+    description: Specyfika różnych zastosowań — wymagania i różnice względem ładowania publicznego.
+    priority: p3
+    skills: [ev-domain-expert]
+    depends_on: [D00]
+    subdomains:
+      - id: D19.01
+        key: public
+        name: Ładowanie publiczne (AC, DC, korytarze HPC)
+        priority: p2
+        topics:
+          - Wymagania, oczekiwania kierowców, specyfika korytarzy TEN-T
+      - id: D19.02
+        key: home-multifamily
+        name: Domowe i budynki wielorodzinne
+        priority: p3
+        topics:
+          - Wallboxy domowe, rozliczenia we wspólnotach, zarządzanie mocą budynku
+      - id: D19.03
+        key: workplace-destination
+        name: Miejsce pracy i destination
+        priority: p3
+        topics:
+          - Rozliczanie pracowników, refundacja ładowania domowego, hotele, retail
+      - id: D19.04
+        key: fleet-depot
+        name: Floty i zajezdnie
+        priority: p2
+        topics:
+          - Harmonogramy, priorytety pojazdów, integracja z systemami flotowymi
+          - Karty flotowe, raportowanie kosztów
+      - id: D19.05
+        key: heavy-duty-bus
+        name: Ciężarówki i autobusy (w tym MCS, pantografy)
+        priority: p3
+        verify: true
+        topics:
+          - MCS, ładowanie pantografowe, depot vs opportunity charging
+      - id: D19.06
+        key: lev
+        name: Pojazdy lekkie (LEV, jednoślady)
+        priority: p3
+        topics:
+          - Złącza i standardy LEV, wymiana baterii
+      - id: D19.07
+        key: alternative-charging
+        name: Alternatywne metody ładowania
+        priority: p3
+        topics:
+          - Ładowanie bezprzewodowe (SAE J2954, ISO 15118-20 WPT)
+          - Battery swapping, ładowarki mobilne, ładowanie dynamiczne
+
+  # ───────────────────────────── ESG ─────────────────────────────
+  - id: D20
+    key: sustainability
+    name: Zrównoważony rozwój i ESG
+    name_en: Sustainability & ESG
+    description: Środowiskowy wymiar ładowania — źródła energii, emisje, raportowanie.
+    priority: p3
+    skills: [compliance-expert]
+    depends_on: [D08, D12]
+    subdomains:
+      - id: D20.01
+        key: green-energy
+        name: Zielona energia i gwarancje pochodzenia
+        priority: p3
+        topics:
+          - Gwarancje pochodzenia, PPA, informowanie o źródle energii
+      - id: D20.02
+        key: credits
+        name: Mechanizmy kredytów emisyjnych w transporcie
+        priority: p3
+        verify: true
+        topics:
+          - Krajowe mechanizmy (np. THG-Quote w Niemczech), mechanizmy kredytowe RED III
+      - id: D20.03
+        key: reporting-esg
+        name: Raportowanie ESG
+        priority: p3
+        topics:
+          - CSRD/ESRS w kontekście operatorów, ślad węglowy infrastruktury
+      - id: D20.04
+        key: circularity
+        name: Cykl życia i gospodarka obiegu zamkniętego
+        priority: p3
+        topics:
+          - Refurbishment, recykling, wymiana komponentów
+
+  # ───────────── Implementation Intelligence (klasa D) ─────────────
+  - id: D21
+    key: implementation-intelligence
+    name: EV Implementation Intelligence
+    name_en: Implementation intelligence
+    description: Wiedza praktyczna z wdrożeń — kluczowy wyróżnik. Zawsze z modelem, firmware i źródłem obserwacji.
+    priority: mvp
+    cross_cutting: true
+    skills: [evse-diagnostics-expert, ev-integration-architect]
+    depends_on: [D01, D03, D05]
+    subdomains:
+      - id: D21.01
+        key: vendor-quirks
+        name: Odstępstwa i osobliwości producentów
+        priority: mvp
+        topics:
+          - Różnice „standard vs implementacja” per model/firmware
+          - Niestandardowe DataTransfer, nietypowe sekwencje komunikatów
+      - id: D21.02
+        key: compatibility-matrix
+        name: Macierz kompatybilności
+        priority: p2
+        topics:
+          - CPMS × EVSE × firmware × funkcja — status zweryfikowany/obserwowany
+          - EV × EVSE — znane problemy
+      - id: D21.03
+        key: workarounds-configs
+        name: Obejścia i sprawdzone konfiguracje
+        priority: mvp
+        topics:
+          - Rekomendowane ustawienia konfiguracji per model
+          - Obejścia problemów z oceną ryzyka
+      - id: D21.04
+        key: case-library
+        name: Biblioteka przypadków produkcyjnych
+        priority: p2
+        topics:
+          - Zanonimizowane incydenty — objawy, przyczyna, rozwiązanie, lekcje
+          - Anti-patterns projektowe i operacyjne
+
+  # ───────────────────────── Use cases ─────────────────────────
+  - id: D22
+    key: use-cases
+    name: Katalog przypadków użycia
+    name_en: Use case catalogue
+    description: Scenariusze end-to-end łączące wiele domen — test wartości całej bazy.
+    priority: mvp
+    cross_cutting: true
+    skills: [ev-domain-expert]
+    depends_on: [D01, D05, D06, D07]
+    subdomains:
+      - id: D22.01
+        key: session-lifecycle
+        name: Cykl życia sesji
+        priority: mvp
+        topics:
+          - Remote start z obsługą timeoutów i przyjęcia bez startu
+          - Sesja offline i późne dosłanie transakcji
+          - Sesja roamingowa end-to-end (token → sesja → CDR → rozliczenie)
+      - id: D22.02
+        key: connectivity
+        name: Łączność i dostępność
+        priority: mvp
+        topics:
+          - Wykrywanie utraty Heartbeat i obsługa incydentu
+          - Ładowarka online, ale sesja nie startuje
+      - id: D22.03
+        key: onboarding
+        name: Onboarding
+        priority: mvp
+        topics:
+          - Onboarding nowej ładowarki do CPMS
+          - Onboarding partnera roamingowego
+      - id: D22.04
+        key: energy-scenarios
+        name: Scenariusze energetyczne
+        priority: p2
+        topics:
+          - DLM na lokalizacji z ograniczonym przyłączem
+          - Podział mocy DC między złącza
+      - id: D22.05
+        key: settlement-scenarios
+        name: Scenariusze rozliczeniowe
+        priority: p2
+        topics:
+          - Reconciliation sesji i CDR
+          - Taryfa z idle fee w roamingu
+          - Płatność ad hoc zgodna z AFIR

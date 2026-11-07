@@ -119,7 +119,7 @@ Cel: ustalić „reguły gry”, zanim powstanie treść. Bez tego za pół roku
 
 | # | Zadanie | Rezultat (plik) |
 |---|---------|-----------------|
-| 0.1 | **EV Knowledge Taxonomy v1.0** — pełna mapa domen, poddomen i zależności, także mniej oczywistych obszarów | `taxonomy/TAXONOMY.md` + `taxonomy/taxonomy.yaml` |
+| 0.1 | **EV Knowledge Taxonomy v1.0** — pełna mapa domen, poddomen i zależności, także mniej oczywistych obszarów · ✅ draft gotowy (23 domeny), czeka na D0 | [`taxonomy/TAXONOMY.md`](../taxonomy/TAXONOMY.md) + `taxonomy/taxonomy.yaml` |
 | 0.2 | **EV Knowledge Standard** — szablon dokumentu, metadane, klasy źródeł A–D, poziomy pewności, zasady cytowania, wersjonowanie, statusy | `standards/KNOWLEDGE-STANDARD.md`, `templates/knowledge-doc.md` |
 | 0.3 | **EV Skills Architecture** — budowa skilla, zależności, router, konwencje nazw, sposób odwoływania się do wiedzy | `standards/SKILLS-ARCHITECTURE.md`, `templates/SKILL.md` |
 | 0.4 | **Słownik terminologii** (ok. 150 pojęć, synonimy i różnice między protokołami) | `glossary/GLOSSARY.md` |
@@ -247,10 +247,10 @@ ev-intelligence/
 ├── taxonomy/
 ├── glossary/
 ├── data-model/                  ← model kanoniczny + mapowania OCPP/OCPI
-├── knowledge/
-│   ├── protocols/{ocpp,ocpi,oicp,iso-15118,...}
-│   ├── hardware/  cpms/  roaming/  operations/  energy/
-│   ├── billing/   security/  regulations/  it-architecture/  product/
+├── knowledge/                   ← knowledge/<domena.key>/<poddomena.key>/ wg taxonomy.yaml
+│   ├── foundations/  protocols/{ocpp,ocpi,oicp,iso-15118,...}
+│   ├── hardware/  cpms/  roaming/  operations/  energy/  billing/  metering/
+│   ├── security/  regulations/  testing/  it-architecture/  ...
 │   └── implementation-intelligence/   ← vendor quirks (klasa D)
 ├── skills/
 │   ├── ev-domain-expert/SKILL.md
