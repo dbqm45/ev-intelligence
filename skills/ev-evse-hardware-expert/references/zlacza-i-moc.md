@@ -65,6 +65,15 @@ Oficjalnej tabeli mapowania OCPP ↔ OCPI dla typów złączy w sprawdzonych dok
   - `EVSE.AllowReset`: czy EVSE da się resetować osobno.
 - AFIR: „power output” to teoretyczna moc maksymalna punktu, stacji lub puli w kW `[AFIR art. 2]`. Normal power ≤ 22 kW,
   high-power > 22 kW `[AFIR art. 2]`.
-- Klasy sprawozdawcze `[AFIR Annex III]`:
-  - AC: < 7,4 kW (1-fazowy), 7,4–22 kW (3-fazowy), > 22 kW;
-  - DC: < 50 kW, 50–150 kW, 150–350 kW („Level 1 Ultra-fast”), ≥ 350 kW („Level 2 Ultra-fast”).
+- Klasy sprawozdawcze dla publicznych punktów (AFIR aneks III pkt 2 `[AFIR Annex III]`, nazwy podkategorii dosłownie):
+| Kategoria | Podkategoria | Moc maksymalna |
+|---|---|---|
+| Category 1 (AC) | `Slow AC recharging point, single-phase` | P < 7,4 kW |
+| Category 1 (AC) | `Medium-speed AC recharging point, triple-phase` | 7,4 kW ≤ P ≤ 22 kW |
+| Category 1 (AC) | `Fast AC recharging point, triple-phase` | P > 22 kW |
+| Category 2 (DC) | `Slow DC recharging point` | P < 50 kW |
+| Category 2 (DC) | `Fast DC recharging point` | 50 kW ≤ P < 150 kW |
+| Category 2 (DC) | `Level 1 - Ultra-fast DC recharging point` | 150 kW ≤ P < 350 kW |
+| Category 2 (DC) | `Level 2 - Ultra-fast DC recharging point` | P ≥ 350 kW |
+  Tabela przypisuje AC < 7,4 kW i 7,4–22 kW do definicji „normal-power”, a AC > 22 kW do „high-power”. Dane raportuje się
+  osobno dla pojazdów lekkich i ciężkich: liczba punktów i stacji per podkategoria oraz łączna moc stacji (pkt 3).

@@ -7,14 +7,28 @@
    "prompt": "Instalujemy w 2026 roku publiczną ładowarkę DC 150 kW przy autostradzie TEN-T w UE. Jakie wymagania sprzętowe z AFIR musi spełnić: złącze, komunikacja z pojazdem, kabel, płatność? Podaj daty. Odpowiedz zwięźle.",
    "checks": {
     "all": [
-     ["Combo 2|CCS2|62196-3"],
-     ["8 (stycznia|January) 2026|2026-01-08|08\\.01\\.2026"],
-     ["15118-20"],
-     ["1 (stycznia|January) 2027|2027-01-01|01\\.01\\.2027"],
-     ["kabel\\w*[^.\\n]{0,40}(na stałe|stał\\w*|zamocowan\\w*|fixed)|fixed (recharging )?cable"],
-     ["czytnik\\w* kart|card reader|zbliżeniow\\w*|contactless"]
+     [
+      "Combo 2|CCS2|62196-3"
+     ],
+     [
+      "8 (stycznia|January) 2026|2026-01-08|08\\.01\\.2026"
+     ],
+     [
+      "15118-20"
+     ],
+     [
+      "1 (stycznia|January) 2027|2027-01-01|01\\.01\\.2027"
+     ],
+     [
+      "kabel\\w*[^.\\n]{0,40}(na stałe|stał\\w*|zamocowan\\w*|fixed)|fixed (recharging )?cable"
+     ],
+     [
+      "czytnik\\w* kart|card reader|zbliżeniow\\w*|contactless"
+     ]
     ],
-    "none": ["AFIR nie (określa|wymaga) (typu )?złącz"]
+    "none": [
+     "AFIR nie (określa|wymaga) (typu )?złącz"
+    ]
    }
   },
   {
@@ -23,16 +37,34 @@
    "prompt": "Opisujemy w CPMS sprzęt: punkt AC z gniazdem Type 2 oraz punkt DC z kablem CCS2. Jak zapisać typy złączy w OCPP 2.0.1 i w OCPI 2.3.0, żeby dane były spójne, i jakie parametry mocy podać? Odpowiedz zwięźle.",
    "checks": {
     "all": [
-     ["sType2"],
-     ["cCCS2"],
-     ["IEC_62196_T2\\b"],
-     ["IEC_62196_T2_COMBO"],
-     ["SOCKET"],
-     ["CABLE"],
-     ["max_electric_power|max_amperage|max_voltage"],
-     ["AC_3_PHASE|AC_1_PHASE|power_type|\\bDC\\b"]
+     [
+      "sType2"
+     ],
+     [
+      "cCCS2"
+     ],
+     [
+      "IEC_62196_T2\\b"
+     ],
+     [
+      "IEC_62196_T2_COMBO"
+     ],
+     [
+      "SOCKET"
+     ],
+     [
+      "CABLE"
+     ],
+     [
+      "max_electric_power|max_amperage|max_voltage"
+     ],
+     [
+      "AC_3_PHASE|AC_1_PHASE|power_type|\\bDC\\b"
+     ]
     ],
-    "none": ["OCPP 1\\.6 (przesyła|ma|definiuje) typ złącza"]
+    "none": [
+     "OCPP 1\\.6 (przesyła|ma|definiuje) typ złącza"
+    ]
    }
   },
   {
@@ -41,15 +73,58 @@
    "prompt": "Tworzymy w CPMS kartę techniczną modelu ładowarki dla nowych urządzeń (OCPP 1.6J i 2.0.1). Jakie dane sprzętowe można pobrać automatycznie z protokołu, a które trzeba uzupełnić ręcznie pod wymagania danych AFIR? Odpowiedz zwięźle.",
    "checks": {
     "all": [
-     ["BootNotification"],
-     ["firmware"],
-     ["(numer\\w* )?seryjn\\w*|serialNumber|SerialNumber"],
-     ["iccid|imsi|modem"],
-     ["Device Model|GetBaseReport|GetVariables"],
-     ["SupplyPhases|EVSE\\.Power|ConnectorType"],
-     ["AFIR|art\\. 20|NAP"]
+     [
+      "BootNotification"
+     ],
+     [
+      "firmware"
+     ],
+     [
+      "(numer\\w* )?seryjn\\w*|serialNumber|SerialNumber"
+     ],
+     [
+      "iccid|imsi|modem"
+     ],
+     [
+      "Device Model|GetBaseReport|GetVariables"
+     ],
+     [
+      "SupplyPhases|EVSE\\.Power|ConnectorType"
+     ],
+     [
+      "AFIR|art\\. 20|NAP"
+     ]
     ],
-    "none": ["OCPP 1\\.6 (raportuje|przesyła) moc (maksymaln\\w* )?EVSE"]
+    "none": [
+     "OCPP 1\\.6 (raportuje|przesyła) moc (maksymaln\\w* )?EVSE"
+    ]
+   }
+  },
+  {
+   "id": "klasy-mocy-ac5-dc120",
+   "expect": "trigger",
+   "prompt": "W sprawozdaniu AFIR o infrastrukturze publicznej mamy punkt AC 5 kW jednofazowy i punkt DC 120 kW. Do jakich kategorii i podkategorii mocy je przypisać? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "Slow AC|wolny\\w* AC"
+     ],
+     [
+      "7,4|7\\.4"
+     ],
+     [
+      "Fast DC|szybki\\w* DC"
+     ],
+     [
+      "50[^.\\n]{0,30}150"
+     ],
+     [
+      "Annex III|aneks\\w* III|załącznik\\w* III"
+     ]
+    ],
+    "none": [
+     "DC 120 kW (to|jest) (Ultra-fast|ultraszybk\\w*)"
+    ]
    }
   },
   {

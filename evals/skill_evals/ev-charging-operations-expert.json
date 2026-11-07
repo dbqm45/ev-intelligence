@@ -137,6 +137,33 @@
    }
   },
   {
+   "id": "noc-severity1-jedno-evse",
+   "expect": "trigger",
+   "prompt": "Jestem dyżurnym NOC, jest 3 w nocy. Stacja OCPP 2.0.1 przysłała NotifyEvent z severity 1 dla jednego EVSE, a na dwóch pozostałych EVSE trwa ładowanie. Co mam zrobić teraz, a co może poczekać do rana? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "Hardware Failure"
+     ],
+     [
+      "ChangeAvailability|Inoperative"
+     ],
+     [
+      "OnIdle|evseId|jednego EVSE|tylko (to|tego) EVSE"
+     ],
+     [
+      "(nie|bez)[^.\\n]{0,60}(Immediate|całej stacji|resetu? całej)|Immediate[^.\\n]{0,80}(przerw|kończ|zatrzym)"
+     ],
+     [
+      "serwis\\w*|eskal\\w*"
+     ]
+    ],
+    "none": [
+     "(od razu|natychmiast) (zrób|wyślij|wykonaj) Reset(Request)?\\(?Immediate"
+    ]
+   }
+  },
+  {
    "id": "model-danych-cpms",
    "expect": "no-trigger",
    "neighbor": "ev-cpms-architect",

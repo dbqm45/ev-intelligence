@@ -1,6 +1,6 @@
 {
  "ev-charging-operations-expert": {
-  "fingerprint": "06c67f2dade4f360",
+  "fingerprint": "4d6bef7a352a411e",
   "offline": "2026-11-07"
  },
  "ev-cpms-architect": {
@@ -16,7 +16,7 @@
   "offline": "2026-11-07"
  },
  "ev-evse-hardware-expert": {
-  "fingerprint": "5f7228726545ad8e",
+  "fingerprint": "5d03b3ab307ac7b1",
   "offline": "2026-11-07"
  },
  "ev-ocpi-roaming-expert": {
@@ -24,7 +24,7 @@
   "offline": "2026-11-07"
  },
  "ev-ocpp-expert": {
-  "fingerprint": "d9a3f909510bb2ec",
+  "fingerprint": "564c3d27ac466d60",
   "offline": "2026-11-07"
  }
 }

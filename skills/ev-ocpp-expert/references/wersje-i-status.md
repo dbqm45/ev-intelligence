@@ -44,6 +44,17 @@ Gdy CSMS nie zgadza się na żaden z zaproponowanych podprotokołów, „MUST co
 without a Sec-WebSocket-Protocol header and then immediately close the WebSocket connection” `[J16 §3.2]`.
 Nieznany identyfikator stacji w ścieżce URL → CSMS SHOULD odpowiedzieć HTTP 404 i przerwać połączenie `[J16 §3.2]`.
 
+## Identyfikator stacji w URL połączenia
+- URL połączenia = endpoint OCPP-J + `/` + identyfikator stacji, kodowany procentowo zgodnie z RFC 3986 (np. „RDAM 123”
+  → `…/ocppj/RDAM%20123`) (OCPP-J 1.6 §3.1.1 `[J16 §3.1.1]`).
+- 1.6 z dodatkiem bezpieczeństwa: przy Basic Auth nazwa użytkownika SHALL być równa identyfikatorowi stacji z URL
+  (A00.FR.204), hasło jest w kluczu `AuthorizationKey` (A00.FR.205), a Central System SHALL sprawdzić zgodność identyfikatora i klucza
+  z nagłówkiem autoryzacji (A00.FR.207) (Security Whitepaper ed. 4 §2.3.1 `[SWP4 §2.3.1]`).
+- 2.0.1: identyfikator ma typ `identifierString`, **bez znaku `:`** (bo jest nazwą użytkownika Basic Auth, a `:` oddziela
+  ją od hasła), **maks. 48 znaków**. Zalecane jest, by CSMS nie polegał wyłącznie na URL, tylko sprawdzał tożsamość
+  względem danych uwierzytelniających (OCPP 2.0.1 część 4 §3.1.1 `[201-P4 §3.1.1]`).
+- OCPP-J 1.6 §3.1.1 nie podaje limitu długości ani zakazu `:` `[J16 §3.1.1]`.
+
 ## Licencja
 Dokumenty i schematy OCA są udostępniane na licencji **Creative Commons Attribution-NoDerivatives 4.0** (nota
 w `[16]`, `[16E]`, `[J16E]`, `[SWP4]`, `[201-P0]` oraz w nagłówkach schematów `[21-P3]`). Wniosek dla repozytorium:

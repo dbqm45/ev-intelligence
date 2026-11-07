@@ -135,6 +135,33 @@
    }
   },
   {
+   "id": "identyfikator-stacji-url-auth",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 1.6J z profilem bezpieczeństwa Basic Auth ma identyfikator „RDAM 123”. Jak będzie wyglądać jej URL połączenia, czego CSMS ma użyć jako nazwy użytkownika i co musi sprawdzić? Jakie dodatkowe ograniczenia identyfikatora wprowadza OCPP 2.0.1? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "%20"
+     ],
+     [
+      "(nazw\\w* użytkownika|username)[^.\\n]{0,80}(identyfikator|identity)|(identyfikator|identity)[^.\\n]{0,80}(nazw\\w* użytkownika|username)"
+     ],
+     [
+      "AuthorizationKey|hasł\\w*"
+     ],
+     [
+      "48"
+     ],
+     [
+      "dwukrop\\w*|`:`|\":\""
+     ]
+    ],
+    "none": [
+     "identyfikator (stacji )?może (zawierać|mieć) dowolne znaki bez kodowania"
+    ]
+   }
+  },
+  {
    "id": "dobor-domen-zadania",
    "expect": "no-trigger",
    "neighbor": "ev-domain-expert",

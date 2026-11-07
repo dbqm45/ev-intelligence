@@ -3,8 +3,8 @@ name: ev-ocpp-expert
 description: Użyj przy OCPP 1.6J, 2.0.1 i 2.1 między ładowarką a CSMS — komunikaty, statusy, transakcje, zdalny start, Heartbeat, konfiguracja, różnice wersji.
 metadata:
   przeglad: "2027-02-07"
-  katalog: "Użyj przy pytaniach i decyzjach projektowych dotyczących protokołu OCPP (1.6J, 2.0.1, 2.1) między stacją ładowania a CSMS/CPMS — kiedy wolno użyć komunikatu, jakie odpowiedzi i statusy są możliwe, timeouty i ponawianie, cykl BootNotification i Heartbeat, transakcje 1.6 vs TransactionEvent, zdalny start i stop, konfiguracja (klucze 1.6, Device Model 2.x), kody błędów RPC, profile bezpieczeństwa, różnice wersji, nowe komunikaty 2.1. Każdy fakt z cytatem ze specyfikacji OCA. Nie do wyboru domen i skilli dla zadania przekrojowego (ev-domain-expert), roamingu OCPI (ev-ocpi-roaming-expert) ani zachowań konkretnego modelu ładowarki odbiegających od standardu (ev-evse-diagnostics-expert)."
-  slowa: "OCPP, OCPP 1.6, OCPP 1.6J, OCPP 2.0.1, OCPP 2.1, IEC 63584, CSMS, Central System, CALL, CALLRESULT, CALLERROR, BootNotification, Heartbeat, HeartbeatInterval, StatusNotification, StartTransaction, StopTransaction, TransactionEvent, seqNo, triggerReason, transactionId, RemoteStartTransaction, RequestStartTransaction, remoteStartId, RemoteStopTransaction, MeterValues, measurand, Authorize, idTag, idToken, ChangeConfiguration, GetConfiguration, SetVariables, GetVariables, Device Model, ConnectionTimeOut, EVConnectionTimeOut, AuthorizeRemoteTxRequests, AuthorizeRemoteStart, TxStartPoint, TriggerMessage, Security Whitepaper, profil bezpieczeństwa, zdalny start nie działa, sesja nie startuje po poleceniu, ładowarka przestała wysyłać Heartbeat, wykrywanie offline, różnice 1.6 i 2.0.1, migracja na 2.0.1, ramka OCPP, errata OCPP"
+  katalog: "Użyj przy pytaniach i decyzjach projektowych dotyczących protokołu OCPP (1.6J, 2.0.1, 2.1) między stacją ładowania a CSMS/CPMS — kiedy wolno użyć komunikatu, jakie odpowiedzi i statusy są możliwe, timeouty i ponawianie, cykl BootNotification i Heartbeat, transakcje 1.6 vs TransactionEvent, zdalny start i stop, konfiguracja (klucze 1.6, Device Model 2.x), kody błędów RPC, profile bezpieczeństwa, różnice wersji, nowe komunikaty 2.1. Każdy fakt z cytatem ze specyfikacji OCA. Nie do wyboru domen i skilli dla zadania przekrojowego (ev-domain-expert), roamingu OCPI (ev-ocpi-roaming-expert) zachowań konkretnego modelu ładowarki odbiegających od standardu (ev-evse-diagnostics-expert) ani decyzji dyżurnego NOC, co zrobić teraz ze stacją (ev-charging-operations-expert)."
+  slowa: "OCPP, OCPP 1.6, OCPP 1.6J, OCPP 2.0.1, OCPP 2.1, IEC 63584, CSMS, Central System, CALL, CALLRESULT, CALLERROR, BootNotification, Heartbeat, HeartbeatInterval, StatusNotification, StartTransaction, StopTransaction, TransactionEvent, seqNo, triggerReason, transactionId, RemoteStartTransaction, RequestStartTransaction, remoteStartId, RemoteStopTransaction, MeterValues, measurand, Authorize, idTag, idToken, ChangeConfiguration, GetConfiguration, SetVariables, GetVariables, Device Model, ConnectionTimeOut, EVConnectionTimeOut, AuthorizeRemoteTxRequests, AuthorizeRemoteStart, TxStartPoint, TriggerMessage, Security Whitepaper, profil bezpieczeństwa, identyfikator stacji, URL połączenia, chargePointId, Basic Auth nazwa użytkownika, zdalny start nie działa, sesja nie startuje po poleceniu, ładowarka przestała wysyłać Heartbeat, wykrywanie offline, różnice 1.6 i 2.0.1, migracja na 2.0.1, ramka OCPP, errata OCPP"
 ---
 
 # OCPP Expert — stacja ładowania ↔ CSMS
@@ -26,7 +26,7 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/wersje-i-status.md` | wersje, edycje, IEC 63584, licencja, podprotokół WebSocket, zgodność wersji |
+| `references/wersje-i-status.md` | wersje, edycje, IEC 63584, licencja, podprotokół WebSocket, identyfikator stacji w URL, zgodność wersji |
 | `references/ramki-i-bledy.md` | ramki RPC, kody CALLERROR, jedno CALL naraz, timeout |
 | `references/komunikaty-16.md` | katalog 1.6 z kierunkiem, statusy, kody błędów złącza, klucze konfiguracji |
 | `references/komunikaty-201.md` | katalog 2.0.1 wg bloków, `TransactionEvent`, zmienne Device Model, nowe akcje 2.1 |
@@ -95,6 +95,8 @@ Co z tym zrobić w CSMS?”
   w 2.0.1 tak samo przy `MessageAttemptsTransactionEvent` `[201-P2 E13]`. Skutek to utrata danych sesji.
 - Brak `transactionId` w 1.6 (nie dotarł `StartTransaction.conf`): stacja wysyła komunikaty transakcji
   z `transactionId = -1`, a CSMS SHALL odpowiadać, jakby identyfikator był ważny `[16E §3.18]`.
+- Identyfikator stacji w URL: kodowanie procentowe; w 2.0.1 bez `:` i maks. 48 znaków; przy Basic Auth to nazwa użytkownika,
+  którą CSMS weryfikuje (szczegóły i cytaty: `references/wersje-i-status.md`).
 - `TriggerMessage(BootNotification)` do zaakceptowanej stacji 1.6: CSMS SHALL NOT żądać nowego `BootNotification`, dopóki
   stacja sama go nie wyśle (errata 1.6 §3.40 `[16E §3.40]`). Stan pobierasz `TriggerMessage(StatusNotification)`.
 - Wykrywanie offline wyłącznie po `Heartbeat`: przy 1.6J heartbeat nie jest obowiązkowy, a stacja MAY go pominąć, gdy
