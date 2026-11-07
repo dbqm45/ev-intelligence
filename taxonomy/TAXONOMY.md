@@ -161,7 +161,8 @@ Poddomeny z flagą `verify: true` zawierają nazwy wersji, numery norm albo stat
 - aktualnych wersji OICP i eMIP, statusu OCHP;
 - części ISO 15118 i ich statusu, numerów norm MCS;
 - statusu IEC 63110 i IEC 63119, OpenADR 3.0, EN 18031;
-- zakresu aktów wykonawczych AFIR, EPBD, RED III, przepisów krajowych PL (UDT, URE);
+- zakresu aktów wykonawczych AFIR — częściowo sprawdzone: wersja skonsolidowana AFIR (zmiany 2025/656, 2025/671) i
+  rozporządzenie 2025/655 (`sources/eu-afir.yaml`); pozostają EPBD, RED III, przepisy krajowe PL (UDT, URE);
 - formatów identyfikatorów (eMI3 / ISO 15118) i operatorów rejestrów ID.
 
 ## 9. Zarządzanie zmianami
