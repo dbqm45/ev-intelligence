@@ -10,6 +10,11 @@ historii w commicie.
 - **Płatna ewaluacja na modelu:** tylko za zgodą (CLAUDE.md). Nowe scenariusze w ev-product-designer
   (`terminal-dostepnosc`, `liczba-punktow-pl`) nie mają jeszcze przebiegu.
 
+- **Do sprawdzenia: ryzyko licencyjne eMIP przy `ev_confidential_check`.** Nawet werdykt „WYSTEPUJE” to minimalna
+  informacja o protokole przekazana pytającemu, a seria pytań tak/nie może częściowo odtworzyć treść (limity: 10
+  terminów na wywołanie, 30 na minutę). To interpretacja licencji Gireve (rozdz. 1.4 Confidentiality), nie opinia
+  prawna. Przed użyciem przez osoby spoza organizacji albo komercyjnym: pisemne potwierdzenie Gireve albo opinia
+  prawna; do tego czasu rozważyć wyłączenie narzędzia dla tokenów zewnętrznych.
 - **eMIP (Gireve), poziom 2:** dziś `ev_confidential_check` sprawdza tylko występowanie nazw. Ocena zgodności całego
   opisu (werdykt i kategoria problemu bez treści) wymaga modelu po stronie serwera: klucz API, koszt, Twoja zgoda.
   Do rozważenia też pisemne potwierdzenie Gireve przy użyciu komercyjnym.
