@@ -1,0 +1,25 @@
+# Rejestr źródeł: dane i dokumentacja rejestrów publicznych w Polsce — klasa A (prowadzący rejestr z mocy ustawy).
+# EIPA prowadzi Prezes UDT [PL-EMOB art. 42]. Strona statystyk jest dynamiczna: SHA-256 dotyczy migawki z dnia pobrania;
+# przy aktualizacji pobierz ponownie i dopisz nowy wpis z nową datą (stare liczby zostają przypisane do starej migawki).
+# Pełne dane EIPA dla czytelników (API odczytu) wymagają rejestracji konta e-mailem — nie zrobione, decyzja właściciela.
+
+source_class: A
+owner: Urząd Dozoru Technicznego (EIPA)
+licence: "[niesprawdzone] warunki ponownego wykorzystania danych EIPA — na stronach nie znaleziono licencji; cytujemy z podaniem źródła"
+retrieved: 2026-11-07
+
+documents:
+  - id: EIPA-STAT
+    title: "EIPA — Statystyka (liczba lokalizacji, stacji i punktów ładowania oraz tankowania CNG/LNG, stan na koniec miesiąca od 31.12.2019), migawka 2026-11-07"
+    url: https://eipa.udt.gov.pl/stats
+    sha256_html: 3af08ab060d2d2ccd912351dcf7576587a2b9bb7be60256df859ddb7eb96dc1d
+    note: "Ostatni wiersz: 07.11.2026. Kolumny: punkty ładowania (lokalizacje, stacje, punkty), punkty tankowania CNG/LNG (lokalizacje, stacje, punkty). Strona nie definiuje kolumn poza nagłówkami."
+  - id: EIPA-OPIS
+    title: "EIPA — Ewidencja Infrastruktury Paliw Alternatywnych (Rejestr). Model danych i procesy, rev. 2.1"
+    url: https://eipa.udt.gov.pl/static/docs/EIPA-opis-systemu.pdf
+    sha256: 260bf4704a618d6cedb9ac776ab2215b9e7f1263f8153cd65bb32037d82c1982
+  - id: EIPA-API
+    title: "EIPA REST API 2.1 — specyfikacja OpenAPI dla operatorów ogólnodostępnych stacji ładowania i tankowania"
+    url: https://eipa.udt.gov.pl/static/docs/eipaOpenApi.json
+    sha256: 60a3d842db44af2ff3669059a2080b5fc5efd889689f89a41ec9d6dc563e4d98
+    note: "Link ze strony https://eipa.udt.gov.pl/operator/docs. Instrukcja obsługi (EIPA-instrukcja-obslugi-1205.pdf) pobrana, nieprzejrzana i niezarejestrowana."

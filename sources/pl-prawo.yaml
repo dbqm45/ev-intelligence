@@ -19,7 +19,13 @@ documents:
     sha256: 02afc3a05ad53c8f035176c59bb23f2408270ddcbc77907d0b7acab8e469ec62
     note: "Status w API: obowiązujący (2026-11-07); podstawa prawna art. 17 ust. 1 ustawy o elektromobilności."
 
+  - id: PL-DOST
+    title: "Ustawa z dnia 26 kwietnia 2024 r. o zapewnianiu spełniania wymagań dostępności niektórych produktów i usług przez podmioty gospodarcze (Dz.U. 2024 poz. 731)"
+    url: https://api.sejm.gov.pl/eli/acts/DU/2024/731/text.pdf
+    sha256: 8ff1001185f2b2bbb90f014b9ab41623d6cf438d27601fa42c0c3bced55f5eff
+    note: "Wdraża dyrektywę (UE) 2019/882 (EAA). Status w API: obowiązujący, wejście w życie 2025-06-28 (stan 2026-11-07). Tekst pierwotny; tekstu jednolitego nie sprawdzano."
+
 not_yet_reviewed:
   - "Rozporządzenie w sprawie wzorów zgłoszeń do EIPA (Dz.U. 2022 poz. 1511) i stawki opłat za numer EIPA (Dz.U. 2025 poz. 1630)."
-  - "Specyfikacja usługi sieciowej EIPA (BIP UDT, art. 42 ust. 9 ustawy)."
+  - "Specyfikacja usługi sieciowej EIPA w BIP UDT (art. 42 ust. 9 ustawy): bip.udt.gov.pl zablokowany. Dokumentacja API z eipa.udt.gov.pl jest w pl-dane.yaml (EIPA-API); tożsamości z wersją w BIP nie sprawdzono."
   - "Krajowe ramy polityki (M.P. 2025 poz. 1128)."

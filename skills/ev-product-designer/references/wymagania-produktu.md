@@ -1,8 +1,9 @@
 # Wymagania produktu wynikające z przepisów i protokołów
 
 Źródła: AFIR `[AFIR]`, ustawa o elektromobilności `[PL-EMOB]` i rozporządzenie `[PL-R1316]`, OCPP 2.0.1 część 2
-`[201-P2]`, OCPI 2.3.0 `[OCPI230]`. Każde wymaganie ma znacznik. Zdania **Wniosek** to propozycje projektowe, a nie
-wymagania. Czego źródła nie określają (UX, ekonomika, rynek), opisuje sekcja 7.
+`[201-P2]`, OCPI 2.3.0 `[OCPI230]`, dyrektywa 2019/882 `[EAA]` i ustawa o dostępności `[PL-DOST]`, EIPA
+`[EIPA-STAT]` `[EIPA-OPIS]` `[EIPA-API]`. Każde wymaganie ma znacznik. Zdania **Wniosek** to propozycje projektowe, a nie
+wymagania. Czego źródła nie określają (UX, ekonomika, większość danych rynkowych), opisuje sekcja 7.
 
 ## Spis treści
 1. Ścieżka kierowcy: znalezienie stacji
@@ -10,6 +11,7 @@ wymagania. Czego źródła nie określają (UX, ekonomika, rynek), opisuje sekcj
 3. Informacja o cenie i koszcie
 4. Problem i pomoc
 5. Dostępność
+5a. Dane rynkowe: Polska (EIPA)
 6. Produkt operatora i partnera
 7. Czego źródła nie określają
 
@@ -80,8 +82,57 @@ Panel ostrzega przed drugim `AlwaysFront`, bo zastąpi pierwszy.
   najechaniem nie może utrudniać dostępu `[PL-R1316 § 8]`, a sposób umieszczenia instrukcji uwzględnia potrzeby osób
   niepełnosprawnych `[PL-R1316 § 11]`.
 - AFIR: krajowe ramy polityki obejmują środki zapewniające dostępność punktów dla osób starszych, z ograniczoną
-  mobilnością i z niepełnosprawnościami według wymagań dyrektywy (UE) 2019/882 `[AFIR art. 14 ust. 2]`. Treść tej
-  dyrektywy (European Accessibility Act) nie jest opracowana.
+  mobilnością i z niepełnosprawnościami według wymagań dyrektywy (UE) 2019/882 `[AFIR art. 14 ust. 2]`.
+- **Dyrektywa 2019/882 (EAA), zakres:** produkty wprowadzone do obrotu po 28.06.2025, w tym **terminale płatnicze**
+  (urządzenie, którego głównym celem jest płatność instrumentem płatniczym w fizycznym punkcie sprzedaży)
+  `[EAA art. 2]` `[EAA art. 3]`; usługi dla konsumentów, w tym **usługi handlu elektronicznego** (na odległość, przez
+  strony i aplikacje, na żądanie konsumenta w celu zawarcia umowy) `[EAA art. 2]`. Usługi ładowania nie są wymienione
+  wprost.
+- **Polska (transpozycja):** ustawa o zapewnianiu spełniania wymagań dostępności `[PL-DOST art. 3]`:
+  - obejmuje terminale płatnicze w fizycznym punkcie sprzedaży i usługi handlu elektronicznego;
+  - nie dotyczy usług mikroprzedsiębiorców `[PL-DOST art. 4]` ani produktów wprowadzonych do obrotu przed wejściem
+    ustawy w życie `[PL-DOST art. 84]`;
+  - terminal ma syntezę mowy w języku interfejsu i wejście na przewodowy stereofoniczny zestaw słuchawkowy. Funkcje
+    dostępności działają bez wcześniejszej aktywacji. Klawisze mają kontrast i są wyczuwalne dotykiem. Gdy reakcja
+    jest wymagana w określonym czasie, terminal informuje o tym więcej niż jednym kanałem zmysłowym i pozwala
+    wydłużyć czas `[PL-DOST art. 9]`;
+  - w e-commerce dostępne są m.in. identyfikacja, bezpieczeństwo i płatność `[PL-DOST art. 18]`;
+  - terminale używane przed wejściem ustawy w życie mogą działać do końca okresu ekonomicznej użyteczności, najwyżej
+    20 lat `[PL-DOST art. 85 ust. 3]`.
+- **Wymagania ogólne dla produktów** `[EAA Annex I]`: informacja więcej niż jednym kanałem zmysłowym, alternatywa dla
+  koloru i sygnałów dźwiękowych, unikanie dużego zasięgu i siły, alternatywa dla biometrii, wystarczający i elastyczny
+  czas na interakcję. Dla terminali samoobsługowych dyrektywa wymaga zamiany tekstu na mowę i słuchawek osobistych.
+- **Wyjątki:** wymagania obowiązują, o ile nie zmieniają zasadniczo charakteru produktu i nie stanowią
+  nieproporcjonalnego obciążenia. Ocenę podmiot dokumentuje i przechowuje 5 lat `[EAA art. 14]`.
+- **Rozbieżność:** dyrektywa wymaga „personal headsets” `[EAA Annex I]`, a ustawa polska mówi o „przewodowym
+  stereofonicznym zestawie słuchawkowym” `[PL-DOST art. 9]`. **Rozstrzygnięcie:** w PL obowiązuje brzmienie ustawy.
+- **Wniosek:** terminal kartowy w ładowarce wprowadzonej do obrotu po 28.06.2025 to terminal płatniczy w rozumieniu
+  EAA i ustawy, więc jego interfejs (wyświetlacz, klawisze, dźwięk) projektujesz według art. 9 ustawy. To, czy
+  aplikacja MSP jest usługą handlu elektronicznego, zależy od tego, czy w niej zawierasz umowę. To interpretacja, nie
+  opinia prawna. Normy zharmonizowane do EAA nie są opracowane.
+
+## 5a. Dane rynkowe: Polska (EIPA)
+Liczby z publicznej statystyki EIPA, stan na koniec roku; migawka strony z 7.11.2026 `[EIPA-STAT]`:
+
+| Data | Lokalizacje | Stacje | Punkty ładowania |
+|---|---|---|---|
+| 31.12.2021 | 1537 | 1883 | 3582 |
+| 31.12.2022 | 2020 | 2514 | 4819 |
+| 31.12.2023 | 3026 | 3721 | 7089 |
+| 31.12.2024 | 4630 | 5573 | 10596 |
+| 31.12.2025 | 6186 | 7427 | 14930 |
+| 07.11.2026 | 6693 | 8297 | 16563 |
+
+- Model danych EIPA: baza (Charging Pool) → stacja → punkt ładowania → złącza. Dozorem UDT objęte są stacje
+  `[EIPA-OPIS]`. Do EIPA trafiają ceny i metody płatności takie, jak dla użytkownika bez umowy ze sprzedawcą
+  `[EIPA-OPIS]`.
+- API dla operatorów (REST 2.1): bazy, stacje, punkty, złącza, ceny i status punktu, słowniki metod płatności i
+  uwierzytelnienia `[EIPA-API]`.
+- Strona statystyk nie definiuje kolumn poza nagłówkami i nie podaje wykorzystania stacji, przychodów ani liczby
+  pojazdów.
+
+**Wniosek:** w latach 2021–2025 liczba punktów w EIPA wzrosła ok. 4,2 razy (3582 → 14930). Do liczenia wskaźnika „kW
+na pojazd” (AFIR art. 3) potrzebne są jeszcze dane o rejestracjach, których baza nie ma.
 
 ## 6. Produkt operatora i partnera
 - Statusy, alarmy, działania zdalne i KPI dostępności: skille `ev-cpms-architect` i `ev-charging-operations-expert`.
@@ -98,9 +149,9 @@ Bez źródeł oficjalnych w bazie (piszesz to wprost, nie uzupełniasz z pamięc
 - wzorce UX, persony i ścieżki klienta jako praktyka projektowa (D16.01–D16.03): powyższe sekcje dają tylko wymagania;
 - benchmarki funkcji CPMS i eMSP (D16.05);
 - modele biznesowe, ekonomika stacji (CAPEX, OPEX, czas zwrotu), finansowanie, krajobraz rynku (D17);
-- statystyki rynku, wykorzystanie stacji, prognozy popytu, predykcyjne utrzymanie, AI w operacjach (D15.01–D15.03,
-  D15.05);
-- dyrektywa (UE) 2019/882 o dostępności.
+- statystyki rynku poza liczbą infrastruktury w PL (rejestracje pojazdów, dane UE i innych krajów), wykorzystanie
+  stacji, prognozy popytu, predykcyjne utrzymanie, AI w operacjach (D15.01–D15.03, D15.05);
+- normy zharmonizowane do dyrektywy 2019/882.
 
-Do takich tematów potrzebne są dane własne użytkownika albo nowe źródła (np. statystyki instytucji UE lub krajowych
-regulatorów), które najpierw trafiają do `sources/*.yaml`.
+Kandydaci na źródła (hosty zablokowane w sesji, `sources/niedostepne.yaml`): EAFO, Eurostat, rejestr BNetzA, IEA,
+CEPiK w dane.gov.pl. Pełne dane EIPA dla czytelników wymagają rejestracji konta.

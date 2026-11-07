@@ -10,3 +10,8 @@ documents:
     url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014L0032
     sha256_html: b311643f7fed7a9041d230466a4721e73ec09d4274f2cce90751442b07abc540
     note: "Wersji skonsolidowanej nie sprawdzano. Załącznik V = MI-003 (liczniki energii elektrycznej czynnej)."
+  - id: EAA
+    title: "Directive (EU) 2019/882 of 17 April 2019 on the accessibility requirements for products and services (European Accessibility Act) — tekst pierwotny (EN)"
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32019L0882
+    sha256_html: 6729a09ddc97cc334a548c5e09975c8e3ed4ee29155d1b2eec05df0c6791cd8d
+    note: "Wersji skonsolidowanej nie sprawdzano. Przywołana przez AFIR art. 14 ust. 2 lit. i. Normy zharmonizowane (art. 15) nieopracowane. Transpozycja PL: PL-DOST."
