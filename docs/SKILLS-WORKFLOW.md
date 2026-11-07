@@ -56,8 +56,26 @@ bramka nie sprawdza jego istnienia ani routingu.
    - procedura, `## Przykład`, `## Pułapki`, `## Źródła` z datą.
 5. **Cytaty:** `python3 tools/ev_kb.py check skills/<nazwa>` (opis: `docs/EV-KB.md`).
 6. **Bramka:** `python3 tools/skill_check.py --skills <nazwa>`, aż do `PASS`.
-7. **Ewaluacja na modelu** (płatna) **tylko za zgodą człowieka**. Własny runner ewaluacji jest w przygotowaniu
-   (`docs/DO-ZROBIENIA.md`).
+7. **Ewaluacja na modelu** (płatna) **tylko za zgodą człowieka** — `tools/skill_eval.py`, opis niżej.
+
+## Ewaluacja na modelu: `tools/skill_eval.py`
+
+```bash
+pip install -r requirements-eval.txt                       # SDK anthropic (tylko dla ewaluacji)
+python3 tools/skill_eval.py --dry-run                      # plan: liczba scenariuszy i wywołań API, bez kosztu
+python3 tools/skill_eval.py --model sonnet --budget 5 --yes --skills ev-ocpi-roaming-expert --label oicp
+python3 tools/skill_eval.py --model sonnet --budget 5 --yes --holdout --label holdout
+```
+
+Dla każdego scenariusza:
+1. **routing**: model dostaje katalog skilli (nazwa i `description`) i wybiera jeden skill albo `none` (structured
+   output). `trigger` jest zaliczony, gdy wybrał ten skill; `no-trigger`, gdy wybrał cokolwiek innego;
+2. **odpowiedź** (tylko `trigger`): system to `SKILL.md` z plikami `references/`, a odpowiedź musi spełnić
+   `checks.all` (każda grupa: co najmniej jeden wzorzec) i nie może pasować do żadnego wzorca z `checks.none`.
+
+Koszt liczy się z `usage` każdej odpowiedzi i cennika w skrypcie. Przebieg zatrzymuje się po przekroczeniu `--budget`.
+Bez `--yes` nic nie jest wysyłane. Odmowa modelu (`refusal`) to wynik scenariusza, bez przełączania na inny model.
+Wyniki: `docs/evals/<data>-<model>-<label>.jsonl` i `.md`. Klucz API: zmienna `ANTHROPIC_API_KEY` albo profil `ant auth login`.
 
 ## Ograniczenia
 

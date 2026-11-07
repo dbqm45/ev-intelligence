@@ -7,8 +7,6 @@ historii w commicie.
 - **Konto czytelnika EIPA:** pełne dane EIPA (status i ceny punktów przez API odczytu) wymagają rejestracji konta
   e-mailem na eipa.udt.gov.pl. Bez zgody właściciela nie zakładamy konta. Po założeniu: pobrać dane, dodać je do
   `sources/pl-dane.yaml` i uzupełnić `skills/ev-product-designer/references/rynek-dane.md`.
-- **Własny runner ewaluacji na modelu** (zamiast `factory/skill_gate.py --model` z tf): wybór skilla przez model i
-  sprawdzenia `checks.all` / `checks.none` na odpowiedzi; uruchamianie płatne, tylko za zgodą.
 - **Płatna ewaluacja na modelu:** tylko za zgodą (CLAUDE.md). Nowe scenariusze w ev-product-designer
   (`terminal-dostepnosc`, `liczba-punktow-pl`) nie mają jeszcze przebiegu.
 

@@ -1,0 +1,3 @@
+# Zależności ewaluacji na modelu (tools/skill_eval.py). Serwer MCP ich nie potrzebuje.
+anthropic==1.17.0
+PyYAML==6.0.3
