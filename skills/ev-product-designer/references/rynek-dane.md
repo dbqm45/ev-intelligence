@@ -1,7 +1,7 @@
 # Dane rynkowe: infrastruktura, flota, struktura cen
 
 Źródła: EIPA `[EIPA-STAT]` `[EIPA-OPIS]` `[EIPA-API]`, Eurostat `[ESTAT-EQR]` `[ESTAT-EQS]` `[ESTAT-ESMS]`, EAFO
-`[EAFO-PL-PKT]` `[EAFO-EU-KAT]` `[EAFO-CENY]`, Bundesnetzagentur `[BNETZA-LIS]`. Wszystkie to migawki z 7.11.2026.
+`[EAFO-PL-PKT]` `[EAFO-EU-KAT]` `[EAFO-CENY]`, Bundesnetzagentur `[BNETZA-LIS]` `[BNETZA-LSR]`. Wszystkie to migawki z 7.11.2026.
 Liczby podajesz zawsze z datą i źródłem, bo zbiory są aktualizowane. Zdania **Wniosek** to obliczenia i interpretacja.
 
 ## Spis treści
@@ -87,6 +87,24 @@ Obowiązek zgłoszenia dotyczy publicznych punktów powyżej 3,7 kW uruchomionyc
 są ujęte w całości `[BNETZA-LIS]`. Dane mają licencję CC BY 4.0 z uznaniem autorstwa „Bundesnetzagentur.de”
 `[BNETZA-KARTE]`.
 
+**Metody płatności i klucze publiczne (lista BNetzA z 1.09.2026)** `[BNETZA-LSR]`:
+- lista ma 116443 urządzenia, w tym 85288 zwykłych i 31155 szybkich. Obejmuje tylko operatorów z zakończoną procedurą
+  zgłoszenia, więc jest mniejsza niż zestawienie (119416);
+- metody płatności (kolumna `Bezahlsysteme`) według mocy nominalnej urządzenia i daty uruchomienia (liczby policzone
+  z pliku):
+
+| Grupa | Urządzenia | Z kartą (NFC albo czytnik, kredytowa albo debetowa) | Z Plug & Charge |
+|---|---|---|---|
+| ≥ 50 kW, uruchomione od 13.04.2024 | 15735 | 15069 (95,8%) | 2569 (16,3%) |
+| ≥ 50 kW, uruchomione przed 13.04.2024 | 15771 | 4428 (28,1%) | 1161 (7,4%) |
+| < 50 kW, uruchomione od 13.04.2024 | 27593 | 7512 (27,2%) | 926 (3,4%) |
+
+- 34924 urządzenia (30,0%) mają klucz publiczny licznika co najmniej dla jednego punktu (kolumny `Public Key1…6`).
+
+**Wniosek:** po 13.04.2024 (data stosowania AFIR) płatność kartą w nowych urządzeniach ≥ 50 kW stała się w Niemczech
+prawie powszechna, a w urządzeniach < 50 kW dominują metody online i RFID. AFIR art. 5 ust. 1 dopuszcza poniżej 50 kW
+także np. QR. Dane to deklaracje operatorów; rzeczywistej dostępności terminala lista nie potwierdza.
+
 ## 5. Struktura cen ładowania (EAFO, dane z 2024 r.)
 - Składniki ceny ad hoc i eMSP według EAFO: energia (kWh), czas (minuty lub godziny podłączenia albo zajęcia miejsca),
   opłata stała za sesję, inne opłaty (roaming, kary za postój). W większości umów eMSP dochodzi abonament
@@ -115,6 +133,5 @@ wymaganiach decyduje AFIR art. 5 (skill `ev-billing-tariff-expert`).
 - moc zainstalowana w PL;
 - aktualne ceny (2026) według kraju;
 - dane IEA (www.iea.org odpowiada 403);
-- pełna lista punktów BNetzA (data.bundesnetzagentur.de zablokowany);
 - pełne dane EIPA dla czytelników (wymagają rejestracji konta);
 - CEPiK (dane.gov.pl): nieprzejrzany.

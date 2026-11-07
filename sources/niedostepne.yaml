@@ -122,12 +122,12 @@ normy_platne:
     uwaga: "Treść OCPP 2.1 mamy z bezpłatnej publikacji OCA (21-P0, 21-P2, 21-P4, 21-E). Zgodności tekstu IEC z wydaniem OCA nie sprawdzano."
 
 niezarejestrowane:
-  - dokument: "Eichrecht poza MessEG § 33: MessEV (Mess- und Eichverordnung), w tym załącznik 7; wymagania PTB; baza BNetzA kluczy publicznych"
+  - dokument: "Eichrecht poza MessEG § 33: MessEV (Mess- und Eichverordnung), w tym załącznik 7; wymagania PTB"
     dostep: niezarejestrowana
-    temat: "Eichrecht: kategorie rozwiązań, okresy ważności legalizacji, publikacja kluczy"
+    temat: "Eichrecht: kategorie rozwiązań, okresy ważności legalizacji, podstawa obowiązku publikacji kluczy"
     przywolana_przez: ["OCA-AN-SMV §2.2, §2.2.5 (odnośniki EICH_A7, BNetzA)"]
     przywolana_w: [ev-billing-tariff-expert, ev-domain-expert, ev-compliance-expert]
-    uwaga: "MID (2014/32/UE) i MessEG § 33 są zarejestrowane (eu-inne.yaml, de-prawo.yaml)."
+    uwaga: "MID (2014/32/UE), MessEG § 33 i rejestr BNetzA z kluczami publicznymi (BNETZA-LSR) są zarejestrowane."
   - dokument: "Ustawa Prawo o miarach (PL) i przepisy wykonawcze o prawnej kontroli metrologicznej"
     dostep: niezarejestrowana
     temat: "czy i jakie liczniki muszą mieć stacje ładowania w PL (MID art. 3 zostawia to państwom)"
@@ -166,9 +166,6 @@ hosty_zablokowane:
   - host: modelcontextprotocol.io
     data: 2026-11-07
     obejscie: "specyfikacja MCP z oficjalnego repozytorium github.com/modelcontextprotocol/modelcontextprotocol"
-  - host: data.bundesnetzagentur.de
-    data: 2026-11-07
-    obejscie: "pełna lista punktów BNetzA (CSV/XLSX); zestawienie 'LIS in Zahlen' z www.bundesnetzagentur.de jest w de-dane.yaml"
   - host: www.iea.org
     data: 2026-11-07
     obejscie: "brak — HTTP 403 mimo odblokowania; Global EV Outlook"

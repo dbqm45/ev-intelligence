@@ -1,5 +1,4 @@
 # Rejestr źródeł: dane Bundesnetzagentur (rejestr punktów ładowania wg Ladesäulenverordnung) — klasa A.
-# Pełna lista punktów (CSV/XLSX) leży na data.bundesnetzagentur.de — host zablokowany (2026-11-07).
 
 source_class: A
 owner: Bundesnetzagentur
@@ -16,3 +15,8 @@ documents:
     title: "Bundesnetzagentur — Ladesäulenkarte (strona z warunkami wykorzystania danych)"
     url: https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html
     sha256_html: c52182304cdf77390f0eecf4b54d498d1b38c6a76f0241db41e478e441f700bd
+  - id: BNETZA-LSR
+    title: "Ladesäulenregister Bundesnetzagentur — lista urządzeń ładowania, letzte Aktualisierung 01.09.2026 (CSV)"
+    url: https://data.bundesnetzagentur.de/Bundesnetzagentur/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenregister_BNetzA_2026-09-01.csv
+    sha256: cdd8e38f1fa7e8512bd97caa8cf77e9f875436be1f8fe3fe1f2bd9789a504c5b
+    note: "55 MB, nie indeksujemy (cytuj bez lokalizatora). Kolumny m.in. Art der Ladeeinrichtung, Nennleistung, Inbetriebnahmedatum, Bezahlsysteme, Steckertypen, EVSE-ID i Public Key dla każdego punktu. Według nagłówka pliku lista obejmuje tylko operatorów z zakończoną procedurą zgłoszenia, więc liczba urządzeń w Niemczech jest większa. Zestawienia w skillach policzone skryptem z tego pliku."

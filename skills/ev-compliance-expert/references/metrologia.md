@@ -64,8 +64,10 @@ wartości pomiarowych aż do faktury. Kategorie rozwiązań i szczegóły (MessE
   poza zakresem OCPP `[OCA-AN-SMV §2.2]`.
 - Kodowania: najczęściej OCMF i EDL; nota ich nie narzuca `[OCA-AN-SMV §2.2.1]`.
 - Klucz publiczny jest właściwy dla licznika; zmienia się tylko przy wymianie lub modyfikacji licznika. Bundesnetzagentur
-  wymaga publikacji uruchomionych stacji z kluczami publicznymi (baza niedostępna) `[OCA-AN-SMV §2.2.5]`
-  `[OCA-AN-SMV §2.2.6]`.
+  wymaga publikacji uruchomionych stacji z kluczami publicznymi `[OCA-AN-SMV §2.2.5]` `[OCA-AN-SMV §2.2.6]`.
+- Rejestr BNetzA (lista z 1.09.2026) ma kolumny `EVSE-ID` i `Public Key` dla każdego punktu. Klucz ma co najmniej
+  jeden punkt w 34924 ze 116443 urządzeń (30,0%) `[BNETZA-LSR]`. Podstawy prawnej obowiązku podania klucza (MessEV,
+  PTB) baza nadal nie zawiera.
 - Według noty niemiecki Eichrecht wymaga w CDR podpisanych wartości z początku i końca transakcji. Wartości pośrednie
   są obowiązkowe przy zmianie taryfy w trakcie transakcji `[OCA-AN-SMV §2.3.3]`.
 - Koszt liczy się zwykle z czasów w podpisanych danych (od pierwszej do ostatniej wartości podpisanej), a nie z
@@ -100,5 +102,5 @@ do weryfikacji przez kierowcę. Szczegóły w skillu `ev-billing-tariff-expert`.
 - Prawo o miarach i przepisy o prawnej kontroli metrologicznej liczników są niezarejestrowane.
 
 ## 7. Czego nie opracowano
-MessEV i wymagania PTB, OCMF (S.A.F.E.), baza BNetzA, Prawo o miarach, wersja skonsolidowana MID, normy dla liczników
+MessEV i wymagania PTB, OCMF (S.A.F.E.), Prawo o miarach, wersja skonsolidowana MID, normy dla liczników
 DC. Wszystko w `sources/niedostepne.yaml`.
