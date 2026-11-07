@@ -1,0 +1,18 @@
+# Rejestr źródeł: dane Bundesnetzagentur (rejestr punktów ładowania wg Ladesäulenverordnung) — klasa A.
+# Pełna lista punktów (CSV/XLSX) leży na data.bundesnetzagentur.de — host zablokowany (2026-11-07).
+
+source_class: A
+owner: Bundesnetzagentur
+licence: "CC BY 4.0, uznanie autorstwa: Bundesnetzagentur.de (BNETZA-KARTE, 'Hinweis zur Datennutzung')"
+retrieved: 2026-11-07
+
+documents:
+  - id: BNETZA-LIS
+    title: "Ladeinfrastruktur (LIS) in Zahlen — Stand: 01. September 2026 (XLSX)"
+    url: "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/_DL/Ladesaeuleninfrastruktur.xlsx?__blob=publicationFile&v=36"
+    sha256: 866de63203c03b40e981ccc1158a09c8d47f9671597c8431021ca0ef3662fcae
+    note: "Arkusz XLSX — tools/ev_kb.py go nie indeksuje; cytuj bez lokalizatora. Obowiązek zgłoszenia: publiczne punkty > 3,7 kW uruchomione od 17.03.2016; punkty > 22 kW kompletne."
+  - id: BNETZA-KARTE
+    title: "Bundesnetzagentur — Ladesäulenkarte (strona z warunkami wykorzystania danych)"
+    url: https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html
+    sha256_html: c52182304cdf77390f0eecf4b54d498d1b38c6a76f0241db41e478e441f700bd

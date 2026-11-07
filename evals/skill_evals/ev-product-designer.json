@@ -113,6 +113,27 @@
       }
     },
     {
+      "id": "liczba-punktow-pl",
+      "expect": "trigger",
+      "prompt": "Do prezentacji produktu potrzebuję liczby publicznych punktów ładowania w Polsce i liczby aut elektrycznych we flocie, z podaniem źródła. Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "EIPA"
+          ],
+          [
+            "Eurostat"
+          ],
+          [
+            "20(25|26)"
+          ]
+        ],
+        "none": [
+          "(około|ok\\.) ?\\d+ ?tys\\.? punktów(?![^.]*EIPA)"
+        ]
+      }
+    },
+    {
       "id": "callerror-201",
       "expect": "no-trigger",
       "prompt": "Jakie kody błędów CALLERROR są dozwolone w OCPP 2.0.1 i czym różni się FormatViolation od FormationViolation?",

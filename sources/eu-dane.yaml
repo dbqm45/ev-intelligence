@@ -1,0 +1,52 @@
+# Rejestr źródeł: dane statystyczne instytucji UE — klasa A (Eurostat, European Alternative Fuels Observatory Komisji).
+# Zbiory się zmieniają: SHA-256 dotyczy migawki z dnia pobrania. Przy aktualizacji pobierz ponownie i dodaj nowy wpis
+# z nową datą (liczby w skillach zostają przypisane do starej migawki).
+
+source_class: A
+owner: Unia Europejska (Eurostat; Komisja Europejska — EAFO)
+licence: "[niesprawdzone] zasady ponownego wykorzystania danych Eurostatu i EAFO — strony z warunkami nie zostały pobrane"
+retrieved: 2026-11-07
+
+documents:
+  - id: ESTAT-EQR
+    title: "Eurostat road_eqr_carpda — New passenger cars by type of motor energy (PL, EU27_2020; Electricity, plug-in hybrids, Total; od 2019), migawka 2026-11-07"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/road_eqr_carpda?format=JSON&lang=EN&geo=PL&geo=EU27_2020&mot_nrg=ELC&mot_nrg=TOTAL&mot_nrg=ELC_PET_PI&mot_nrg=ELC_DIE_PI&sinceTimePeriod=2019"
+    sha256: 7a580c36d11ae0823fb2d94b8f93ff107c5e404d088ab7eebd948bc268257912
+    note: "Aktualizacja danych zbioru wg API: 2026-10-06. Flaga 'i' = value imputed by Eurostat or other receiving agencies."
+  - id: ESTAT-EQS
+    title: "Eurostat road_eqs_carpda — Passenger cars by type of motor energy (stan floty; PL, EU27_2020; od 2019), migawka 2026-11-07"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/road_eqs_carpda?format=JSON&lang=EN&geo=PL&geo=EU27_2020&mot_nrg=ELC&mot_nrg=TOTAL&mot_nrg=ELC_PET_PI&mot_nrg=ELC_DIE_PI&leg_form=TOTAL&sinceTimePeriod=2019"
+    sha256: a04d92e836e59277511ddc2c0bd8f7796de2e28917be15ca4a3e980cc6eb4549
+    note: "Flagi: 'i' (imputed), 'b' (break in time series)."
+  - id: ESTAT-ESMS
+    title: "Eurostat — Road transport equipment (road_eqs) — metadane ESMS"
+    url: https://ec.europa.eu/eurostat/cache/metadata/en/road_eqs_esms.htm
+    sha256_html: a97b56f178f6626b9157a709c42038fb75ab5c091191a696f7654f1b674a2189
+    note: "Opisuje uzupełnianie luk danymi EAFO i ACEA (flaga 'i'). Definicji kategorii 'Electricity' (glosariusz) nie pobrano."
+  - id: EAFO-PL-PKT
+    title: "EAFO — Poland, Infrastructure: recharging points (AFIR), AC i DC, kwartalnie od 2020 (CSV wykresu), migawka 2026-11-07"
+    url: https://alternative-fuels-observatory.ec.europa.eu/sites/default/files/csv/poland/recharging_points_afir.csv
+    sha256: a0400c6bce3dc9d446b71feb35d8f0e4c7decf7f15d14cf7509d1430d492de7f
+    note: "Strona: https://alternative-fuels-observatory.ec.europa.eu/transport-mode/road/poland/infrastructure (data odniesienia infrastruktury: wrzesień 2026)."
+  - id: EAFO-EU-KAT
+    title: "EAFO — Country comparison: publicly accessible recharging points by AFIR category per Member State (CSV wykresu), migawka 2026-11-07"
+    url: https://alternative-fuels-observatory.ec.europa.eu/sites/default/files/csv/european-union-eu27/countries_overview_of_recharging_stations.csv
+    sha256: e11026cf0e865dc4e2d38f3b2344d617557ba41f8259edd47189d60d9d930a25
+    note: "Strona: .../transport-mode/road/european-union-eu27/country-comparison; data odniesienia infrastruktury: wrzesień 2026."
+  - id: EAFO-CENY
+    title: "EAFO — Electric vehicle recharging prices (strona z opisem składników cen ad hoc i eMSP)"
+    url: https://alternative-fuels-observatory.ec.europa.eu/markets-and-policy/market-and-consumer-insights/electric-vehicle-recharging-prices
+    sha256_html: 7756178f94b22d842ca3fc06582a969290b91e6a3908b1fa133ef5be8a65d467
+    note: "Dane od Eco-Movement, 'Latest update of the data: 2024.01.16'. Tekst odnosi się do dyrektywy 2014/94 i 'proposed' AFIR, czyli sprzed stosowania AFIR."
+  - id: EAFO-CENY-CPO
+    title: "EAFO — Composition of pricing schemes of CPOs (ENERGY, FLAT, TIME) per country (CSV)"
+    url: https://alternative-fuels-observatory.ec.europa.eu/sites/default/files/csv/other-graphs/recharging_prices_composition_of_CPOs.csv
+    sha256: db3f84c7f19dfd863efc08070066c6a44316314a4983fe638126e85bb985632c
+  - id: EAFO-CENY-MSP
+    title: "EAFO — Composition of pricing schemes of eMSPs (ENERGY, FLAT, TIME) per country (CSV)"
+    url: https://alternative-fuels-observatory.ec.europa.eu/sites/default/files/csv/other-graphs/recharging_prices_composition_of_MSPs.csv
+    sha256: c8b51ed7b87929033c9e6903f5d97a0ef916082897a2d26fbb8020730ec8ab71
+  - id: EAFO-ABON
+    title: "EAFO — Average monthly eMSP subscription fee per country (CSV)"
+    url: https://alternative-fuels-observatory.ec.europa.eu/sites/default/files/csv/other-graphs/recharging_prices_average_msp_subscription_fee.csv
+    sha256: 32e77c259baa70fd20c5830a44dca279b47d3abc6814c1dbe44d1f1c3fe785a1

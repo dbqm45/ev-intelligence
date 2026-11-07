@@ -1,9 +1,8 @@
 # Wymagania produktu wynikające z przepisów i protokołów
 
 Źródła: AFIR `[AFIR]`, ustawa o elektromobilności `[PL-EMOB]` i rozporządzenie `[PL-R1316]`, OCPP 2.0.1 część 2
-`[201-P2]`, OCPI 2.3.0 `[OCPI230]`, dyrektywa 2019/882 `[EAA]` i ustawa o dostępności `[PL-DOST]`, EIPA
-`[EIPA-STAT]` `[EIPA-OPIS]` `[EIPA-API]`. Każde wymaganie ma znacznik. Zdania **Wniosek** to propozycje projektowe, a nie
-wymagania. Czego źródła nie określają (UX, ekonomika, większość danych rynkowych), opisuje sekcja 7.
+`[201-P2]`, OCPI 2.3.0 `[OCPI230]`, dyrektywa 2019/882 `[EAA]` i ustawa o dostępności `[PL-DOST]`. Każde wymaganie ma znacznik. Zdania **Wniosek** to propozycje projektowe, a nie
+wymagania. Czego źródła nie określają (UX, ekonomika, wykorzystanie stacji), opisuje sekcja 7.
 
 ## Spis treści
 1. Ścieżka kierowcy: znalezienie stacji
@@ -11,7 +10,7 @@ wymagania. Czego źródła nie określają (UX, ekonomika, większość danych r
 3. Informacja o cenie i koszcie
 4. Problem i pomoc
 5. Dostępność
-5a. Dane rynkowe: Polska (EIPA)
+5a. Dane rynkowe
 6. Produkt operatora i partnera
 7. Czego źródła nie określają
 
@@ -111,28 +110,8 @@ Panel ostrzega przed drugim `AlwaysFront`, bo zastąpi pierwszy.
   aplikacja MSP jest usługą handlu elektronicznego, zależy od tego, czy w niej zawierasz umowę. To interpretacja, nie
   opinia prawna. Normy zharmonizowane do EAA nie są opracowane.
 
-## 5a. Dane rynkowe: Polska (EIPA)
-Liczby z publicznej statystyki EIPA, stan na koniec roku; migawka strony z 7.11.2026 `[EIPA-STAT]`:
-
-| Data | Lokalizacje | Stacje | Punkty ładowania |
-|---|---|---|---|
-| 31.12.2021 | 1537 | 1883 | 3582 |
-| 31.12.2022 | 2020 | 2514 | 4819 |
-| 31.12.2023 | 3026 | 3721 | 7089 |
-| 31.12.2024 | 4630 | 5573 | 10596 |
-| 31.12.2025 | 6186 | 7427 | 14930 |
-| 07.11.2026 | 6693 | 8297 | 16563 |
-
-- Model danych EIPA: baza (Charging Pool) → stacja → punkt ładowania → złącza. Dozorem UDT objęte są stacje
-  `[EIPA-OPIS]`. Do EIPA trafiają ceny i metody płatności takie, jak dla użytkownika bez umowy ze sprzedawcą
-  `[EIPA-OPIS]`.
-- API dla operatorów (REST 2.1): bazy, stacje, punkty, złącza, ceny i status punktu, słowniki metod płatności i
-  uwierzytelnienia `[EIPA-API]`.
-- Strona statystyk nie definiuje kolumn poza nagłówkami i nie podaje wykorzystania stacji, przychodów ani liczby
-  pojazdów.
-
-**Wniosek:** w latach 2021–2025 liczba punktów w EIPA wzrosła ok. 4,2 razy (3582 → 14930). Do liczenia wskaźnika „kW
-na pojazd” (AFIR art. 3) potrzebne są jeszcze dane o rejestracjach, których baza nie ma.
+## 5a. Dane rynkowe
+Liczby infrastruktury i floty (PL, UE, DE) oraz struktura cen: `references/rynek-dane.md`.
 
 ## 6. Produkt operatora i partnera
 - Statusy, alarmy, działania zdalne i KPI dostępności: skille `ev-cpms-architect` i `ev-charging-operations-expert`.
@@ -148,10 +127,8 @@ jawnie.
 Bez źródeł oficjalnych w bazie (piszesz to wprost, nie uzupełniasz z pamięci):
 - wzorce UX, persony i ścieżki klienta jako praktyka projektowa (D16.01–D16.03): powyższe sekcje dają tylko wymagania;
 - benchmarki funkcji CPMS i eMSP (D16.05);
-- modele biznesowe, ekonomika stacji (CAPEX, OPEX, czas zwrotu), finansowanie, krajobraz rynku (D17);
-- statystyki rynku poza liczbą infrastruktury w PL (rejestracje pojazdów, dane UE i innych krajów), wykorzystanie
-  stacji, prognozy popytu, predykcyjne utrzymanie, AI w operacjach (D15.01–D15.03, D15.05);
+- ekonomika stacji (CAPEX, OPEX, czas zwrotu), finansowanie, przychody i marże (D17);
+- wykorzystanie stacji, prognozy popytu, predykcyjne utrzymanie, AI w operacjach (D15.02, D15.03, D15.05);
 - normy zharmonizowane do dyrektywy 2019/882.
 
-Kandydaci na źródła (hosty zablokowane w sesji, `sources/niedostepne.yaml`): EAFO, Eurostat, rejestr BNetzA, IEA,
-CEPiK w dane.gov.pl. Pełne dane EIPA dla czytelników wymagają rejestracji konta.
+Dane rynkowe, które są w bazie (liczba punktów, flota, struktura cen z 2024 r.): `references/rynek-dane.md`.

@@ -153,9 +153,9 @@ niezarejestrowane:
     uwaga: "Sama dyrektywa (EAA) i ustawa PL (PL-DOST) są zarejestrowane."
   - dokument: "Dane rynkowe i ekonomika stacji (wykorzystanie, przychody, CAPEX/OPEX, krajobraz rynku)"
     dostep: niezarejestrowana
-    temat: "D15.01, D15.02, D17 — brak źródeł oficjalnych w bazie poza liczbą infrastruktury w PL (EIPA-STAT)"
+    temat: "D15.02, D17 — ekonomika i wykorzystanie stacji bez źródeł oficjalnych"
     przywolana_w: [ev-product-designer]
-    uwaga: "Kandydaci: EAFO, Eurostat (road_eqr_carpda, road_eqr_zev), rejestr BNetzA (CC BY 4.0), IEA Global EV Outlook (dane: licencja non-CC), CEPiK w dane.gov.pl — hosty zablokowane. Pełne dane EIPA dla czytelników wymagają rejestracji konta e-mailem."
+    uwaga: "Zarejestrowane: EIPA, Eurostat, EAFO, BNetzA (pl-dane, eu-dane, de-dane). Brak: wykorzystanie, przychody, CAPEX/OPEX, aktualne ceny; IEA (403); CEPiK nieprzejrzany; pełne dane EIPA wymagają rejestracji konta."
   - dokument: "Specyfikacje CHAdeMO, OpenADR, EEBUS, SunSpec, Modbus"
     dostep: niezarejestrowana
     temat: "komunikacja z pojazdem (CHAdeMO), z siecią i urządzeniami budynku"
@@ -166,30 +166,12 @@ hosty_zablokowane:
   - host: modelcontextprotocol.io
     data: 2026-11-07
     obejscie: "specyfikacja MCP z oficjalnego repozytorium github.com/modelcontextprotocol/modelcontextprotocol"
-  - host: alternative-fuels-observatory.ec.europa.eu
+  - host: data.bundesnetzagentur.de
     data: 2026-11-07
-    obejscie: "brak — EAFO (dane AFIR o infrastrukturze i rejestracjach)"
-  - host: ec.europa.eu
-    data: 2026-11-07
-    obejscie: "brak — Eurostat (rejestracje pojazdów); EUR-Lex działa (eur-lex.europa.eu)"
-  - host: transport.ec.europa.eu
-    data: 2026-11-07
-    obejscie: "brak — dokumenty DG MOVE"
-  - host: data.europa.eu
-    data: 2026-11-07
-    obejscie: "brak"
-  - host: www.bundesnetzagentur.de
-    data: 2026-11-07
-    obejscie: "brak — Ladesäulenregister"
+    obejscie: "pełna lista punktów BNetzA (CSV/XLSX); zestawienie 'LIS in Zahlen' z www.bundesnetzagentur.de jest w de-dane.yaml"
   - host: www.iea.org
     data: 2026-11-07
-    obejscie: "brak — Global EV Outlook; iea.blob.core.windows.net odpowiada"
-  - host: dane.gov.pl
+    obejscie: "brak — HTTP 403 mimo odblokowania; Global EV Outlook"
+  - host: commission.europa.eu
     data: 2026-11-07
-    obejscie: "brak — CEPiK (też api.dane.gov.pl)"
-  - host: bip.udt.gov.pl
-    data: 2026-11-07
-    obejscie: "dokumentacja API z eipa.udt.gov.pl (EIPA-API)"
-  - host: www.gov.pl
-    data: 2026-11-07
-    obejscie: "brak"
+    obejscie: "brak — nota prawna Komisji (warunki ponownego wykorzystania danych)"
