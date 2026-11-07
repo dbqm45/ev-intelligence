@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Validate EV Intelligence skills with the quality gates of the tf factory — without adopting its layout.
+"""OPTIONAL interoperability check with the tf factory. Not required: the project gate is tools/skill_check.py.
+
+Validate EV Intelligence skills with the quality gates of the tf factory — without adopting its layout.
 
 The repository keeps its own structure (skills/<name>/, evals/skill_evals/<name>.json, taxonomy/). This script
 assembles a throw-away workspace with the tf *core only* (no domain packs), registers the `ev-` skill prefix there,

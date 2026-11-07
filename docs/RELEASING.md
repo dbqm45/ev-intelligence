@@ -1,7 +1,7 @@
 # Wersjonowanie i wydania EV Intelligence
 
-Mechanizm działa jak w tf (claude-team-factory): skrypty są skopiowane do `scripts/` (licencja MIT) i niczego nie
-pobierają z tf. Baza ma jeden
+Mechanizm jest jednorazową kopią wersjonowania z tf (claude-team-factory, licencja MIT): skrypty leżą w `scripts/` i
+działają bez tf. Baza ma jeden
 numer wersji zgodny z [Semantic Versioning 2.0.0](https://semver.org/lang/pl/) w pliku `VERSION`. Wydaną wersję
 oznacza tag git `vX.Y.Z`, a do każdego tagu powstaje GitHub Release z wpisem z `CHANGELOG.md`. Serwer MCP podaje wersję
 w instrukcjach (`Wersja wiedzy: 0.1.0 (<commit>)`), więc odpowiedź da się przypisać do wydania bazy.
@@ -53,7 +53,7 @@ Po każdym pushu na `main` workflow `release` (`.github/workflows/release.yml`):
 1. **Liczy wersję** (`python3 scripts/release.py --ci`) z commitów od ostatniego tagu. Bez `feat`, `fix`, `perf` i zmian
    niezgodnych nie ma nowej wersji. Inaczej zapisuje `VERSION` i wpis na górze `CHANGELOG.md` (sekcje *Breaking*,
    *Added*, *Fixed*).
-2. **Sprawdza** bazę (testy, `tools/ev_kb.py check skills knowledge`) i commituje `chore(release): X.Y.Z` jako
+2. **Sprawdza** bazę (`tools/skill_check.py`) i commituje `chore(release): X.Y.Z` jako
    `github-actions[bot]`. Ten push nie uruchamia kolejnego wydania.
 3. **Taguje** `vX.Y.Z` i tworzy **GitHub Release** z wpisem CHANGELOG (`python3 scripts/release_notes.py X.Y.Z`).
 
@@ -67,7 +67,7 @@ commit `chore(release)`, więc przed kolejnym merge'em gałąź roboczą trzeba 
 
 Gdy wynik z commitów trzeba nadpisać (źle oznaczony commit, przeredagowany CHANGELOG, świadome `1.0.0`):
 1. `python3 scripts/release.py --dry-run`, potem `python3 scripts/release.py minor` (albo `major`, `patch`, `X.Y.Z`).
-2. Przejrzyj `CHANGELOG.md`, uruchom `python3 -m unittest discover tests` i `python3 tools/ev_kb.py check skills knowledge`.
+2. Przejrzyj `CHANGELOG.md`, uruchom `python3 tools/skill_check.py`.
 3. Commit `chore(release): X.Y.Z` i merge na `main`. Workflow otaguje wersję.
 
 **Wydanej wersji się nie zmienia.** Tagu nie przesuwamy ani nie usuwamy; błąd naprawia kolejna wersja.

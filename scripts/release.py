@@ -83,7 +83,7 @@ def main(argv: list[str]) -> int:
         return 0
     print(f"""✓ Wersja {version} zapisana. Dalej:
   1. Przejrzyj CHANGELOG.md (przeredaguj wpisy dla użytkowników, dodaj Changed/Deprecated, jeśli trzeba).
-  2. python3 -m unittest discover tests && python3 tools/ev_kb.py check skills knowledge
+  2. python3 tools/skill_check.py
   3. git switch -c release/v{version} && git commit -am "chore(release): {version}"
   4. Push i PR „chore(release): {version}”. Po merge workflow Release taguje v{version}.""")
     return 0

@@ -1,4 +1,4 @@
-# Sprawdzenia bez modelu i bez sekretów: testy, cytaty, taksonomia, Conventional Commits od ostatniego tagu.
+# Sprawdzenia bez modelu i bez sekretów: bramka skilli (tools/skill_check.py) i Conventional Commits od ostatniego tagu.
 name: checks
 on:
   pull_request:
@@ -18,9 +18,7 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -r deploy/requirements.lock
-      - run: python3 -m unittest discover tests
-      - run: python3 tools/ev_kb.py check skills knowledge
-      - run: python3 tools/render_taxonomy.py --check
+      - run: python3 tools/skill_check.py
       - name: Commity od ostatniego tagu zgodne z Conventional Commits
         run: |
           git fetch --tags --unshallow -q origin 2>/dev/null || git fetch --tags -q origin

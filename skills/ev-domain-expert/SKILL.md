@@ -13,9 +13,16 @@ Skill nie odpowiada merytorycznie. Ustala, **których obszarów wiedzy dotyczy z
 kolejności i czego baza jeszcze nie ma. Źródło prawdy w repozytorium: `taxonomy/taxonomy.yaml`. Skill ma własne kopie (generowane, nie edytuj):
 drzewo `references/taksonomia-drzewo.md` i zasady `references/taksonomia-zasady.md` (granice: sekcja 5). Sieć: brak.
 
+**Zasada źródeł.** Skill nie podaje faktów o protokołach ani przepisach. Domeny, poddomeny, priorytety i flagi
+bierzesz wyłącznie z taksonomii, a fakty dostarczają wskazane skille ze znacznikami `[dokument §sekcja]`
+(`sources/*.yaml`). Czego taksonomia nie zawiera, nazywasz luką, a nie uzupełniasz z pamięci.
+
 **Źródła niedostępne.** Gdy odpowiedź zależy od normy płatnej albo dokumentu z `sources/niedostepne.yaml`, piszesz to w
 pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Dopiero potem podajesz to, co wynika ze
 źródeł dostępnych.
+
+**Cytowanie w odpowiedzi.** Poddomenę podajesz z identyfikatorem i nazwą, np. „D01.01 OCPP”, a skill pełną nazwą,
+np. `ev-ocpp-expert`. Sam identyfikator nic nie mówi czytelnikowi.
 
 ## Procedura
 1. **Rozpoznaj zadanie.** Wypisz rzeczowniki z zadania (komunikaty, obiekty, role, procesy), np. `Heartbeat`, `CDR`,
@@ -66,6 +73,13 @@ Założenia: <wersja protokołu, rola, rynek>
    Przy fałszywych alarmach od konkretnego modelu dochodzi `ev-evse-diagnostics-expert` (D21).
 5. Luki: D01.01 ma flagę ⚠️ (wersja 2.1). D21 zawiera tylko wiedzę z wdrożeń — jeśli nie ma wpisu dla modelu,
    napisz to wprost.
+
+## Pułapki
+- Odpowiedź merytoryczna zamiast routingu: skill wskazuje domeny i skille, a fakty zostawia im.
+- Pominięcie luk: poddomena z priorytetem P2/P3 albo skill bez treści oznacza, że baza tego nie obejmuje, i trzeba to
+  napisać wprost.
+- Ręczna edycja plików `taksonomia-drzewo.md` i `taksonomia-zasady.md` w references: to pliki generowane z `taxonomy/taxonomy.yaml`
+  (`python3 tools/render_taxonomy.py`).
 
 ## Źródła
 - `taxonomy/taxonomy.yaml` v1.0.0 i `taxonomy/TAXONOMY.md` (EV Intelligence, 2026-11-07).

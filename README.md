@@ -13,4 +13,4 @@ Kluczowe założenia:
 
 📄 Podsumowanie koncepcji i plan realizacji: [docs/PLAN.md](docs/PLAN.md)
 📚 Mapa wiedzy (taksonomia v1.0): [taxonomy/TAXONOMY.md](taxonomy/TAXONOMY.md) · [pełne drzewo](taxonomy/TAXONOMY-TREE.md)
-🧪 Budowa i walidacja skilli: [docs/SKILLS-WORKFLOW.md](docs/SKILLS-WORKFLOW.md) — `python3 tools/factory_check.py --tf ../tf`
+🧪 Budowa i walidacja skilli: [docs/SKILLS-WORKFLOW.md](docs/SKILLS-WORKFLOW.md) — `python3 tools/skill_check.py`

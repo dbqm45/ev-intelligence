@@ -1,46 +1,50 @@
-# Budowa i walidacja skilli (z narzędziami fabryki tf)
+# Budowa i walidacja skilli
 
-EV Intelligence ma **własną strukturę**. Z fabryki [`dbqm45/tf`](https://github.com/dbqm45/tf) korzystamy wyłącznie
-jako z **narzędzi kontroli jakości**: reguł struktury skilla, formatu scenariuszy, bramki jakości, regresji
-podpowiedzi, lintera polszczyzny i audytu bezpieczeństwa. Nie instalujemy nakładek fabryki (np. `pack-ev`)
-i nie przejmujemy jej układu katalogów.
+EV Intelligence ma własną strukturę i własną bramkę jakości (`tools/skill_check.py`). Projekt **nie zależy** od fabryki
+tf: bramka działa bez sieci i bez innych repozytoriów. Projekt może współdziałać z tf: tf korzysta z wiedzy przez serwer
+MCP, a `tools/factory_check.py` to opcjonalna kontrola zgodności z formatem skilli tf, gdy obok jest jej klon.
 
 ## Zasada źródeł
 
 Każdy fakt w skillu pochodzi ze źródła oficjalnego zapisanego w `sources/*.yaml` i ma znacznik
-`[dokument §sekcja]`. Nic z pamięci modelu (szczegóły: `CLAUDE.md`). Bramka fabryki tego **nie** sprawdza; robi to
-autor, porównując każde zdanie z tekstem dokumentu.
+`[dokument §sekcja]`. Nic z pamięci modelu (szczegóły: `CLAUDE.md`). Bramka sprawdza, czy znacznik wskazuje dokument
+z rejestru i istniejącą sekcję. Czy zdanie wiernie oddaje treść, sprawdza autor, czytając fragment z `ev_kb cite`.
 
 ## Układ w tym repozytorium
 
 ```
 skills/<nazwa>/SKILL.md            ← skill (prefiks ev-), opcjonalnie references/ i scripts/
-evals/skill_evals/<nazwa>.json     ← scenariusze ewaluacji (format fabryki)
+evals/skill_evals/<nazwa>.json     ← scenariusze ewaluacji
 evals/skill_evals/holdout/…        ← zamknięty zbiór pomiarowy (opcjonalnie; autor zmian go nie czyta)
-evals/skill-gate.json              ← rejestr bramki (odcisk treści + data) — zapisuje go factory_check.py
+evals/skill-gate.json              ← rejestr bramki (odcisk treści + data) — zapisuje go skill_check.py
 taxonomy/taxonomy.yaml → skills    ← rejestr skilli; każdy skill musi tu być
 ```
 
-## Jak działa `tools/factory_check.py`
-
-1. Sprawdza lokalnie taksonomię (`render_taxonomy.py --check`) i spójność rejestru: skill ↔ taksonomia ↔ scenariusze.
-   Uruchamia też testy jednostkowe skryptów skilli (`python3 -m unittest discover tests`).
-2. W `.work/factory/` (ignorowane przez git) instaluje **sam rdzeń** fabryki z językiem `pl` i bez nakładek.
-3. Rejestruje tam wymiar `ev-`, kopiuje nasze skille, scenariusze, `taxonomy/` i `knowledge/` (żeby działały odwołania).
-4. Uruchamia: `build.py check`, `run_skill_evals.py --validate`, a dla każdego skilla `skill_gate.py`. Bramka obejmuje
-   strukturę, scenariusze, trafność podpowiedzi, regresję wszystkich skilli, polszczyznę, odwołania i audyt.
-5. Zapisuje wynik bramki do `evals/skill-gate.json` i kończy linią `RESULT: PASS|FAIL`.
+## Bramka: `tools/skill_check.py`
 
 ```bash
-python3 tools/factory_check.py --tf ../tf                       # wszystkie skille
-python3 tools/factory_check.py --tf ../tf --skills ev-ocpp-expert --fast
+python3 tools/skill_check.py                         # wszystkie skille
+python3 tools/skill_check.py --skills ev-ocpp-expert
+python3 tools/skill_check.py --strict-routing        # ostrzeżenia routingu jako błędy
 ```
 
-Fabrykę wskazujesz przez `--tf`, zmienną `TF_DIR` albo klon w `../tf`.
+| Krok | Co sprawdza |
+|---|---|
+| taxonomy | `render_taxonomy.py --check`: pliki generowane zgodne z `taxonomy.yaml` |
+| registry | skill w `taxonomy.yaml → skills`, prefiks `ev-`, plik scenariuszy |
+| unit tests | `python3 -m unittest discover tests` |
+| citations | `ev_kb.py check skills knowledge`: dokument w rejestrze, sekcja w lokalnej kopii (gdy jest) |
+| structure | frontmatter (`name` = katalog, `description` ≤170 znaków i „Użyj…”, `metadata.katalog` z „Nie do …”, `metadata.slowa`, `metadata.przeglad` jako data), akapity **Zasada źródeł**, **Źródła niedostępne**, **Cytowanie w odpowiedzi**, sekcje Procedura, Przykład, Pułapki, Źródła, zgodność listy `references/` z plikami |
+| scenarios | JSON, unikalne `id`, ≥2 `trigger` z `checks.all` (poprawne wyrażenia regularne), ≥1 `no-trigger` z `neighbor` |
+| routing | ostrzeżenie, gdy `ev_kb route` nie daje skilla w pierwszej trójce dla jego scenariusza `trigger` albo stawia go przed sąsiadem w `no-trigger` |
+
+Wynik kończy linia `RESULT: PASS|FAIL`. Przy PASS bramka zapisuje odcisk treści skilla w `evals/skill-gate.json`.
+CI (`.github/workflows/checks.yml`) uruchamia ją przy każdym pushu.
+
+Sąsiad (`neighbor`) spoza prefiksu `ev-` oznacza skill zewnętrzny (np. w kliencie, który korzysta z bazy przez MCP);
+bramka nie sprawdza jego istnienia ani routingu.
 
 ## Kolejność pracy nad nowym skillem
-
-Zasady pochodzą z `core/skills/core-skill-authoring/SKILL.md` w tf. Czytaj je stamtąd, nie kopiuj.
 
 1. **Luka:** 2–3 prawdziwe zadania bez skilla. Zapisz, czego modelowi brakuje.
 2. **Wpis w taksonomii:** nazwa `ev-…` w `taxonomy.yaml → skills` i w polu `skills` właściwych domen.
@@ -49,17 +53,14 @@ Zasady pochodzą z `core/skills/core-skill-authoring/SKILL.md` w tf. Czytaj je s
 4. **Treść:**
    - `description` ≤170 znaków w formie „Użyj, gdy … — …”;
    - `metadata.katalog` z granicami („Nie do …”), `metadata.slowa`, `metadata.przeglad`;
-   - procedura, `## Przykład`, `## Źródła` z datą.
-5. **Cytaty:** `python3 tools/ev_kb.py check skills/<nazwa>` (opis: `docs/EV-KB.md`). Z lokalnymi kopiami dokumentów
-   sprawdza też, czy sekcje istnieją. `factory_check.py` robi to samo dla wszystkich skilli.
-6. **Bramka:** `python3 tools/factory_check.py --skills <nazwa>`, aż do `PASS`.
-7. **Ewaluacja na modelu** (płatna, ok. $0,10–0,30 za scenariusz i model) **tylko za zgodą człowieka**:
-   `python3 tools/factory_check.py --skills <nazwa> --model haiku,sonnet --budget 2 --yes`.
+   - procedura, `## Przykład`, `## Pułapki`, `## Źródła` z datą.
+5. **Cytaty:** `python3 tools/ev_kb.py check skills/<nazwa>` (opis: `docs/EV-KB.md`).
+6. **Bramka:** `python3 tools/skill_check.py --skills <nazwa>`, aż do `PASS`.
+7. **Ewaluacja na modelu** (płatna) **tylko za zgodą człowieka**. Własny runner ewaluacji jest w przygotowaniu
+   (`docs/DO-ZROBIENIA.md`).
 
 ## Ograniczenia
 
-- Ostrzeżenie „nie jest używany przez żadną rolę ani personę” jest oczekiwane: nie używamy ról fabryki.
-- Bramka bez modelu sprawdza formę, routing i bezpieczeństwo, **nie poprawność merytoryczną**. Tę mierzy dopiero
-  ewaluacja na modelu i nasze testy wiedzy (Etap 2 planu).
-- Repozytorium tf jest prywatne. Automatyczna kontrola tego repozytorium na GitHubie wymaga dostępu do tf
-  (np. tokenu w sekretach). Na razie kontrolę uruchamiamy lokalnie.
+- Bramka bez modelu sprawdza formę, cytaty i routing słów kluczowych, **nie poprawność merytoryczną**. Tę mierzy dopiero
+  ewaluacja na modelu i testy wiedzy.
+- Routing w bramce to dopasowanie słów (`ev_kb route`), a nie wybór skilla przez model.

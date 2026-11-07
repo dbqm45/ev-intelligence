@@ -38,4 +38,4 @@ potem:
 python3 tools/ev_kb.py index ~/pobrane/OCPI-2.3.0.pdf ~/pobrane/OCPP-2.0.1_all_files/*.pdf
 ```
 
-Bez kopii `check` sprawdza tylko rejestr. `factory_check.py` uruchamia `check skills knowledge` w każdym przebiegu.
+Bez kopii `check` sprawdza tylko rejestr. `skill_check.py` uruchamia `check skills knowledge` w każdym przebiegu.

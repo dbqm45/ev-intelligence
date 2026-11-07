@@ -1,7 +1,7 @@
 name: release
 
 # Kopia workflow z tf (MIT) dostosowana do EV Intelligence: wersja w VERSION, wpisy w CHANGELOG.md, kontrola =
-# testy i cytaty; niczego nie pobiera z tf. Każdy merge do main, który wymaga nowej wersji (feat, fix, perf lub zmiana niezgodna od ostatniego tagu vX.Y.Z),
+# tools/skill_check.py; niczego nie pobiera z tf. Każdy merge do main, który wymaga nowej wersji (feat, fix, perf lub zmiana niezgodna od ostatniego tagu vX.Y.Z),
 # kończy się wydaniem bez ręcznych kroków (docs/RELEASING.md):
 #   1. prepare: `python3 scripts/release.py --ci` liczy wersję z Conventional Commits, zapisuje VERSION
 #      i wpis CHANGELOG.md; job commituje to jako "chore(release): X.Y.Z" na main. Wersję ustawioną
@@ -54,8 +54,7 @@ jobs:
           fi
           python3 scripts/release.py --ci
           [ -z "$(git status --porcelain)" ] && exit 0
-          python3 -m unittest discover tests
-          python3 tools/ev_kb.py check skills knowledge
+          python3 tools/skill_check.py
           version=$(tr -d '[:space:]' < VERSION)
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
