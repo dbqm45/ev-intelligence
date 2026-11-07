@@ -24,6 +24,7 @@ taxonomy/taxonomy.yaml → skills    ← rejestr skilli; każdy skill musi tu by
 ## Jak działa `tools/factory_check.py`
 
 1. Sprawdza lokalnie taksonomię (`render_taxonomy.py --check`) i spójność rejestru: skill ↔ taksonomia ↔ scenariusze.
+   Uruchamia też testy jednostkowe skryptów skilli (`python3 -m unittest discover tests`).
 2. W `.work/factory/` (ignorowane przez git) instaluje **sam rdzeń** fabryki z językiem `pl` i bez nakładek.
 3. Rejestruje tam wymiar `ev-`, kopiuje nasze skille, scenariusze, `taxonomy/` i `knowledge/` (żeby działały odwołania).
 4. Uruchamia: `build.py check`, `run_skill_evals.py --validate`, a dla każdego skilla `skill_gate.py`. Bramka obejmuje

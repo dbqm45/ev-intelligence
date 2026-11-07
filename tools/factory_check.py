@@ -7,6 +7,7 @@ copies our skills and scenarios in, and runs the factory's checks:
 
   1. taxonomy     — tools/render_taxonomy.py --check (local)
   2. registry     — every skills/<name> is listed in taxonomy.yaml → skills (local)
+     unit tests   — python3 -m unittest discover tests (scripts shipped with skills)
   3. build        — factory/build.py check (skill structure rules)
   4. scenarios    — .claude/tests/run_skill_evals.py --validate
   5. gate         — factory/skill_gate.py <skill> for each skill (free checks: structure, scenarios, hint routing,
@@ -99,7 +100,7 @@ def assemble(tf: Path, ws: Path, names: list[str]) -> None:
         sys.exit("✗ could not register the ev- facet in factory/config.yaml (factory format changed?)")
     cfg.write_text(text, encoding="utf-8")
     # skills reference repository files (taxonomy, knowledge) by repo-relative paths — make them resolvable
-    for shared in ("taxonomy", "knowledge", "sources"):
+    for shared in ("taxonomy", "knowledge", "sources", "tests"):
         if (ROOT / shared).is_dir():
             shutil.copytree(ROOT / shared, ws / shared)
     for name in names:
@@ -145,6 +146,9 @@ def main() -> int:
 
     ok = step("taxonomy (render_taxonomy --check)", [sys.executable, "tools/render_taxonomy.py", "--check"], ROOT)
     ok &= check_registry(names)
+    if (ROOT / "tests").is_dir():
+        ok &= step("unit tests (python3 -m unittest discover tests)",
+                   [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"], ROOT)
     if not names:
         print("No skills yet — only the taxonomy was checked.")
         return 0 if ok else 1

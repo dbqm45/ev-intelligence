@@ -1,0 +1,43 @@
+# Szablon wpisu rejestru odchyleń (D21.01) — wiedza klasy D (obserwacje z wdrożeń).
+# Plik wpisu: knowledge/implementation-intelligence/vendor-quirks/<producent>-<model>-<krótki-opis>.yaml
+# Zasady: skill ev-evse-diagnostics-expert (references/metoda.md). Bez modelu, firmware i dowodu wpis ma confidence: hypothesis.
+
+id: ""                         # np. vendorx-ac22-heartbeatinterval-2026-11
+title: ""                      # jedno zdanie: co odbiega od czego
+source_class: D
+knowledge_type: implementation
+confidentiality: internal      # public | internal | client-restricted (dane klienta/producenta pod NDA)
+
+device:
+  vendor: ""                   # z BootNotification (1.6 chargePointVendor / 2.0.1 vendorName)
+  model: ""                    # z BootNotification
+  firmware: ""                 # z BootNotification firmwareVersion — wymagane
+  hardware_revision: ""        # jeśli znane
+  ocpp_version: ""             # wynegocjowany podprotokół: ocpp1.6 | ocpp2.0.1 | ocpp2.1
+  certificate: ""              # numer certyfikatu OCA i profile, jeśli istnieje (lista certified products)
+
+observation:
+  expected:                    # wymaganie z dokumentu oficjalnego
+    requirement: ""            # cytat lub streszczenie
+    source: ""                 # np. "[201-P2 F02.FR.07]" albo "[16 §5.11]"
+  actual: ""                   # co stacja robi naprawdę
+  frame_check: ""              # wynik ocpp_frame_check.py (pierwsza linia + błędy), jeśli dotyczy
+  conditions: ""               # konfiguracja, topologia, sieć, warunki wystąpienia
+
+evidence:
+  - type: log                  # log | ramki | nagranie | zgłoszenie | pismo-producenta
+    ref: ""                    # ścieżka/identyfikator w systemie zgłoszeń (bez danych osobowych)
+    date: ""
+reproduction:
+  test_case: ""                # np. TC_F_02_CS (część 6) albo własny scenariusz
+  reproduced: false
+  occurrences: 0
+
+impact: ""                     # wpływ na CSMS, rozliczenia, kierowcę
+workaround:
+  description: ""
+  risk: ""                     # co może się zepsuć przy obejściu
+vendor_status: ""              # zgłoszone / potwierdzone / naprawione w firmware X / odrzucone
+confidence: hypothesis         # hypothesis | observed | confirmed-by-vendor
+recorded: ""                   # data wpisu
+last_verified: ""              # data ostatniej weryfikacji (np. po aktualizacji firmware)

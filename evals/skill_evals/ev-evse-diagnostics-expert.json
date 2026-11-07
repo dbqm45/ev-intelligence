@@ -1,0 +1,61 @@
+{
+ "skill": "ev-evse-diagnostics-expert",
+ "scenarios": [
+  {
+   "id": "deklaracja-vs-certyfikat",
+   "expect": "trigger",
+   "prompt": "Producent deklaruje, że jego nowa ładowarka obsługuje OCPP 2.0.1, ale u nas profile ładowania (smart charging) nie działają. Jak sprawdzić, czy to błąd urządzenia, czy nasz, i co producent faktycznie certyfikował? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["certyfik\\w*|certified"],
+     ["Smart Charging|profil\\w* C\\b|\\bC: Smart"],
+     ["Core"],
+     ["PICS"],
+     ["wersj\\w* (oprogramowania|firmware)|software version|firmware"],
+     ["test\\w* (case|przypad)|TC_|część 6|Part 6|testcases"]
+    ],
+    "none": ["deklaracja (zgodności|producenta) (z OCPP 2\\.0\\.1 )?(wystarczy|gwarantuje)"]
+   }
+  },
+  {
+   "id": "ramka-niezgodna",
+   "expect": "trigger",
+   "prompt": "Stacja 1.6J wysyła w odpowiedziach pola, których nasz CSMS nie rozpoznaje, a w logach widać podejrzane ramki. Jak udowodnić, czy to stacja łamie specyfikację, i jak to zapisać, żeby zespół mógł na tym polegać? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["schemat\\w*|schema"],
+     ["ocpp_frame_check|walidac\\w*|walidator"],
+     ["errat\\w*"],
+     ["model\\w*"],
+     ["firmware"],
+     ["dow[oó]d\\w*|log\\w*|surow\\w* ramk"],
+     ["D21|obserwac\\w*|observed"]
+    ],
+    "none": ["(to )?(na pewno|zawsze) (błąd|wina) (stacji|producenta)"]
+   }
+  },
+  {
+   "id": "rejestr-odchylen",
+   "expect": "trigger",
+   "prompt": "Chcemy prowadzić rejestr odstępstw i dziwnych zachowań konkretnych modeli ładowarek względem OCPP. Jakie pola musi mieć wpis, żeby nie mieszać obserwacji z wymaganiami normy? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["model"],
+     ["firmware"],
+     ["wersj\\w* OCPP|OCPP 1\\.6|2\\.0\\.1"],
+     ["dow[oó]d\\w*|log\\w*|ramk\\w*"],
+     ["odtworzen\\w*|powtarzaln\\w*|reprodu\\w*"],
+     ["klas\\w* D|observed|hipotez\\w*|poziom\\w* pewności"],
+     ["norm\\w*|specyfikac\\w*|sekcj\\w*"]
+    ],
+    "none": ["wystarczy (zapisać )?nazw\\w* producenta"]
+   }
+  },
+  {
+   "id": "trigger-reason-enum",
+   "expect": "no-trigger",
+   "neighbor": "ev-ocpp-expert",
+   "prompt": "Jakie wartości może mieć triggerReason w TransactionEvent w OCPP 2.0.1 i kiedy stacja wysyła Updated?"
+  }
+ ]
+}

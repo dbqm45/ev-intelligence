@@ -38,6 +38,8 @@ packages:
       - {id: "201-P2", file: OCPP-2.0.1_edition4_part2_specification.pdf, date: 2025-12-03, sha256: 2bd854c01abdf20290d016e05779f952655177f09fedff2149126921dd5557e2}
       - {id: "201-P3", file: OCPP-2.0.1_part3_JSON_schemas.zip, title: "Schematy JSON („OCPP 2.0.1 FINAL”, 128 plików, 64 akcje)", date: 2020-03-31, sha256: 6279c40b74929cce7fca439622194a8890a0d250de5665f3e4d80ef8529c51ce}
       - {id: "201-P4", file: OCPP-2.0.1_edition4_part4_ocpp-j-specification.pdf, date: 2025-12-03, sha256: 63eff96483d453b79b299e0a40b054d106f28dfc9a6c175f1d97d82fbeba47b3}
+      - {id: "201-P5", file: OCPP-2.0.1_edition4_part5_certification_profiles.pdf, date: 2025-12-03, sha256: cc6ad34dc23a8498dd1d7f0e871f74ee29bc38d9610aa7a954a7acdde099f39c}
+      - {id: "201-P6", file: OCPP-2.0.1_edition4_part6-testcases.pdf, date: 2025-12-03, sha256: e091bb13907f85b0897a8d2d08416e97bd781f00ef25119f08c5264c21c84b3b}
       - {id: "201-CSV", file: Appendices_CSV_v1.5.zip, title: "Appendices CSV v1.5 (komponenty i zmienne Device Model)", date: 2025-12-03, sha256: ed42805cea7328cc3f5a5c5d885e38abe46645bf87f7e06da14f90cd5c660577}
       - {id: "201-E", file: OCPP-2.0.1_edition4_errata_2026-09.pdf, date: 2026-10-07, sha256: 65827b28394462db57fe6d1b7520ed7f12e7127a2a5d071a5962c9547e9398dd}
 
@@ -55,3 +57,19 @@ news:
   - {id: OCA-N1, title: "OCPP 2.1 accepted by IEC as IEC 63584-210", date: 2025-09-02, url: "https://openchargealliance.org/ocpp-2-1-accepted-by-iec-as-iec-63584-210/"}
   - {id: OCA-N2, title: "OCPP 2.1 edition 1 is now officially published by IEC as IEC 63584-210: 2025", date: 2025-12-09, url: "https://openchargealliance.org/ocpp-2-1-edition-1-is-now-officially-published-by-iec-as-iec-63584-210-2025/"}
   - {id: OCA-DL, title: "Strona pobrań OCPP (lista aktualnych wydań)", date: 2026-11-07, url: "https://openchargealliance.org/my-oca/ocpp/"}
+
+certification:
+  - id: OCA-CERT
+    title: "OCA — Certification OCPP 2.0.1 (profile: Core obowiązkowy; Advanced Security, Smart Charging, ISO 15118 Support opcjonalne; procedura, PICS, laboratoria)"
+    url: https://openchargealliance.org/certificationocpp/certification-ocpp-2-0-1/
+    retrieved: 2026-11-07
+  - id: OCA-LIST
+    title: "OCA — Certified products (pola: OCPP version, product type, certificate type Full/Subset/Core/Security/Family, profile S/L/C/D/R/U/I, software version; osobno: Withdrawn certificates, verification page)"
+    url: https://openchargealliance.org/certified-companies/
+    retrieved: 2026-11-07
+    note: "Tabela ładowana skryptem — zawartości nie pobrano; sprawdzać ręcznie w przeglądarce."
+  - id: PICS-CS
+    title: "OCPP 2.0.1 PICS Charging Station 3.0.5 (Protocol Implementation Conformance Statement), 2026-09-29; dotyczy Edition 4 FINAL i Errata 2026-09"
+    url: https://openchargealliance.org/wp-content/uploads/2026/10/OCPP-2.0.1-PICS-CS-3.0.5.xlsx
+    sha256: ea5e9a224d2ba9dd93acfec5bcc5558f4c19ea024a4b019ce4d7f96b20b3a2c3
+    sheets: [Explanation, Hardware Feature set, Profile selection, Optional features, Additional questions, Other relevant settings, Vendor Specific Settings, Performance Measurement, Charging Station Testcases, Statement of Approval, OCPP family members]
