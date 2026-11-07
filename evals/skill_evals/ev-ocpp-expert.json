@@ -1,0 +1,96 @@
+{
+ "skill": "ev-ocpp-expert",
+ "scenarios": [
+  {
+   "id": "remote-start-accepted-bez-sesji",
+   "expect": "trigger",
+   "prompt": "Ładowarka na OCPP 1.6J odpowiedziała Accepted na RemoteStartTransaction, ale po dwóch minutach nadal nie ma StartTransaction i sesja nie ruszyła. Co to znaczy i jak CSMS ma to obsłużyć? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "ConnectionTimeOut"
+     ],
+     [
+      "Accepted[^.\\n]{0,80}(nie oznacza|nie znaczy|≠|to nie)|przyj\\w* (polecenia|żądania)[^.\\n]{0,40}nie"
+     ],
+     [
+      "StatusNotification|TriggerMessage"
+     ],
+     [
+      "(nie|bez)[^.\\n]{0,40}(ponaw|powtarza|retry)|podwójn\\w*|duplikat\\w*|drug\\w* (sesj|transakcj)"
+     ],
+     [
+      "kabel|wtyczk|podłącz|Preparing"
+     ]
+    ],
+    "none": [
+     "(od razu|natychmiast) (ponów|wyślij ponownie|powtórz) RemoteStartTransaction"
+    ]
+   }
+  },
+  {
+   "id": "korelacja-remote-start-201",
+   "expect": "trigger",
+   "prompt": "Przenosimy zdalny start z OCPP 1.6 na 2.0.1. Jak w 2.0.1 powiązać polecenie startu z transakcją, którą potem zgłosi stacja, i kto nadaje transactionId? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "RequestStartTransaction"
+     ],
+     [
+      "remoteStartId"
+     ],
+     [
+      "TransactionEvent"
+     ],
+     [
+      "stacj\\w*[^.\\n]{0,60}(nadaje|generuje|tworzy)|(nadaje|generuje)[^.\\n]{0,40}stacj|Charging Station[^.\\n]{0,40}(assign|nadaje)"
+     ],
+     [
+      "1\\.6[^.\\n]{0,120}(CSMS|Central System)[^.\\n]{0,60}(nadaw|nadaje|w odpowiedzi)|StartTransaction[^.\\n]{0,80}(odpowied|CALLRESULT|\\.conf)"
+     ]
+    ],
+    "none": [
+     "w (OCPP )?2\\.0\\.1 transactionId nadaje CSMS"
+    ]
+   }
+  },
+  {
+   "id": "heartbeat-wykrywanie-offline",
+   "expect": "trigger",
+   "prompt": "Projektuję w CSMS wykrywanie ładowarek offline. Czy wystarczy patrzeć, kiedy przyszedł ostatni Heartbeat, i jak dobrać próg? Mamy stacje OCPP 1.6J i 2.0.1. Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     [
+      "interval|HeartbeatInterval"
+     ],
+     [
+      "BootNotification"
+     ],
+     [
+      "dowoln\\w* (ramk|komunikat|wiadomo)|każd\\w* (ramk|komunikat|wiadomo)|jakikolwiek (komunikat|ramk)|ping|pong|WebSocket"
+     ],
+     [
+      "próg|wielokrotno|[2-3] ?(×|x|razy)|margines|tolerancj"
+     ],
+     [
+      "OCPPCommCtrlr|Device Model|SetVariables|ChangeConfiguration"
+     ],
+     [
+      "(nie jest|nieobowiązkow|not mandatory|MAY pomin|może pomin|pomija)"
+     ]
+    ],
+    "none": [
+     "brak Heartbeat(a)? (zawsze )?oznacza awari\\w* ładowarki",
+     "Heartbeat (jest )?(zawsze )?obowiązkow\\w* w (OCPP )?1\\.6J?"
+    ]
+   }
+  },
+  {
+   "id": "dobor-domen-zadania",
+   "expect": "no-trigger",
+   "neighbor": "ev-domain-expert",
+   "prompt": "Mamy w EV Intelligence nowe zadanie przekrojowe: moduł CPMS dla ładowarek roamingowych z rozliczeniem CDR. Które domeny taksonomii i które skille trzeba wczytać i w jakiej kolejności?"
+  }
+ ]
+}

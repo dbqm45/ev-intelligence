@@ -11,7 +11,8 @@
 taxonomy:
   id: ev-intelligence-taxonomy
   version: 1.0.0
-  status: draft
+  status: accepted
+  accepted: 2026-11-07
   date: 2026-11-07
   language: pl
 

@@ -1,0 +1,56 @@
+# Rejestr źródeł: OCPP (Open Charge Alliance) — klasa A (normatywne, właściciel protokołu).
+# Pliki NIE są w repozytorium (rozmiar; licencja CC BY-ND 4.0 pozwala na niezmienione kopie, ale trzymamy tylko odwołania).
+# Weryfikacja: pobierz pakiet z `url`, porównaj sha256, rozpakuj; cytaty w skillach wskazują `id` + sekcję.
+# Strona pobrań sprawdzona: 2026-11-07 (https://openchargealliance.org/my-oca/ocpp/).
+
+source_class: A
+owner: Open Charge Alliance
+licence: CC BY-ND 4.0 (nota w dokumentach i schematach) — cytujemy fakty z atrybucją, nie publikujemy zmienionych kopii
+retrieved: 2026-11-07
+
+packages:
+  - id: oca-ocpp16
+    title: OCPP 1.6 (all files & errata)
+    url: https://openchargealliance.org/download/7b06ab293c68fb6b4f4ae0960e502579c1c5516aa2b7acf0fdcedba585b9ea7f/
+    sha256: 2a1d80284ca60449e85951fc55bc0538b5d45bd6f97c6d9228745acacb52c11b
+    documents:
+      - {id: "16", file: "ocpp-1.6 edition 2.pdf", title: "Open Charge Point Protocol 1.6, edition 2 FINAL", date: 2017-09-28, sha256: 2dff43381502ca107b788d6aaeacc8ba329ff97a0e6dbc85401cec7d8ad7bd45}
+      - {id: "16E", file: ocpp-1.6-errata-sheet.pdf, title: "OCPP 1.6 Errata sheet 2025-04 (1.6 edition 2 i 1.6 FINAL)", date: 2025-04, sha256: 8fec6da49e35866eb3914c582507e9b6a0e3fdd86e52895353dbbb8bc1b45012}
+      - {id: "J16", file: ocpp-j-1.6-specification.pdf, title: "OCPP-J 1.6 specification (JSON over WebSocket)", sha256: 3e4a481d74f9d290cb27acae1f4461ba7ba4feaa8a4266ef6ac8fe55a6b3db1d}
+      - {id: "J16E", file: ocpp-j-1.6-errata-sheet.pdf, title: "OCPP 1.6-J Errata sheet 2025-04", date: 2025-04-30, sha256: da082ddab84718af03bad4c44366b894d9d47e2d232086692b1d925ad1bae69b}
+      - {id: "S16", file: "schemas/json/*.json", title: "Schematy JSON OCPP 1.6 (56 plików, 28 akcji)"}
+
+  - id: oca-ocpp16-security
+    title: OCPP 1.6 Security Whitepaper Edition 4
+    url: https://openchargealliance.org/download/cd0eabc67e9b6ef5b6df2367f94bb3dd88b4898c5a2b90de5a1f794e077eaac9/
+    sha256: 158b883e8ee712fd80fad3610b69fad355f7831d7a0ccdd996ce6b5452ce6859
+    documents:
+      - {id: "SWP4", file: "OCPP 1.6 security whitepaper edition 4.pdf", title: "Improved security for OCPP 1.6-J, edition 4", date: 2026-02-05, sha256: 18d6854e6018dd5b09d6e3ad87b839055c76c9b3537ccfacb7f57d46d37d5b7c}
+      - {id: "SWP4-S", file: "JSON_schemas.zip", title: "Schematy JSON komunikatów bezpieczeństwa 1.6 (22 pliki, 11 akcji)"}
+
+  - id: oca-ocpp201-ed4
+    title: OCPP 2.0.1 Edition 4 (all files)
+    url: https://openchargealliance.org/download/caaab79c63336ff203104d9940c8eba29adb7d324c384e0578f7f3b7265e03ac/
+    sha256: 9e025b7d0ef45deb221a7b0bb24b6eb0d199dce8927e1512a8aa75419f511a64
+    documents:
+      - {id: "201-P0", file: OCPP-2.0.1_edition4_part0_introduction.pdf, date: 2025-12-03, sha256: 9272f05c26120869a13dda24bea9233a66cf38228c89074764de71f67d8c8d4c}
+      - {id: "201-P2", file: OCPP-2.0.1_edition4_part2_specification.pdf, date: 2025-12-03, sha256: 2bd854c01abdf20290d016e05779f952655177f09fedff2149126921dd5557e2}
+      - {id: "201-P3", file: OCPP-2.0.1_part3_JSON_schemas.zip, title: "Schematy JSON („OCPP 2.0.1 FINAL”, 128 plików, 64 akcje)", date: 2020-03-31, sha256: 6279c40b74929cce7fca439622194a8890a0d250de5665f3e4d80ef8529c51ce}
+      - {id: "201-P4", file: OCPP-2.0.1_edition4_part4_ocpp-j-specification.pdf, date: 2025-12-03, sha256: 63eff96483d453b79b299e0a40b054d106f28dfc9a6c175f1d97d82fbeba47b3}
+      - {id: "201-CSV", file: Appendices_CSV_v1.5.zip, title: "Appendices CSV v1.5 (komponenty i zmienne Device Model)", date: 2025-12-03, sha256: ed42805cea7328cc3f5a5c5d885e38abe46645bf87f7e06da14f90cd5c660577}
+      - {id: "201-E", file: OCPP-2.0.1_edition4_errata_2026-09.pdf, date: 2026-10-07, sha256: 65827b28394462db57fe6d1b7520ed7f12e7127a2a5d071a5962c9547e9398dd}
+
+  - id: oca-ocpp21-ed2
+    title: OCPP 2.1 Edition 2 (all files)
+    url: https://openchargealliance.org/download/f6531d9fc45e3603186edb68e78b11c281b260f71af967330aaa611bda4888da/
+    sha256: 2774ada26a709e3bf8680ee6721b3b215b8bc345dc6d8979b4c6b3d77f3a1f69
+    documents:
+      - {id: "21-P0", file: OCPP-2.1_edition2_part0_introduction.pdf, date: 2025-12-03, sha256: 88cc395e0030a3c07b1907c87d2ed399089b1f778a719302d9993522fae06e78}
+      - {id: "21-P3", file: OCPP-2.1_part3_JSON_schemas.zip, title: "Schematy JSON („OCPP 2.1 Edition 1”, 181 plików)", date: 2025-01-23, sha256: af012407f31f6e24600068c0f96759115a40eadcacb48e0a10eae8ccaf1cc499}
+      - {id: "21-P4", file: OCPP-2.1_edition2_part4_ocpp-j-specification.pdf, date: 2025-12-03, sha256: c91b1d2b5c2adb7b4e1843dfade66effaaa33f3e802af3286a659567dfbd9a2f}
+      - {id: "21-E", file: OCPP-2.1_edition2_errata_2026-09.pdf, date: 2026-10-07, sha256: f07e284f6f810179b8d0b56093c6d3e816fb57a62a8fc034a023496c3c0269fa}
+
+news:
+  - {id: OCA-N1, title: "OCPP 2.1 accepted by IEC as IEC 63584-210", date: 2025-09-02, url: "https://openchargealliance.org/ocpp-2-1-accepted-by-iec-as-iec-63584-210/"}
+  - {id: OCA-N2, title: "OCPP 2.1 edition 1 is now officially published by IEC as IEC 63584-210: 2025", date: 2025-12-09, url: "https://openchargealliance.org/ocpp-2-1-edition-1-is-now-officially-published-by-iec-as-iec-63584-210-2025/"}
+  - {id: OCA-DL, title: "Strona pobrań OCPP (lista aktualnych wydań)", date: 2026-11-07, url: "https://openchargealliance.org/my-oca/ocpp/"}

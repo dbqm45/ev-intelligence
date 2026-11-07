@@ -1,6 +1,6 @@
 # EV Knowledge Taxonomy v1.0
 
-> Wersja: 1.0.0 · Status: **Draft do akceptacji (punkt decyzyjny D0)** · Data: 2026-11-07 · Etap planu: 0.1
+> Wersja: 1.0.0 · Status: **Zaakceptowana (D0, 2026-11-07)** · Etap planu: 0.1
 
 Taksonomia to mapa całej wiedzy EV Intelligence. Określa, **co istnieje, jak to dzielimy, gdzie co leży i jak obszary od siebie zależą**. Celowo jest szersza niż MVP, żeby za pół roku fundament nie okazał się za wąski. Głęboka treść powstaje jednak tylko tam, gdzie wskazuje priorytet.
 
@@ -154,7 +154,8 @@ Priorytet to decyzja o **głębokości**, a nie o istnieniu. Domena P3 ma od raz
 
 Poddomeny z flagą `verify: true` zawierają nazwy wersji, numery norm albo statusy dokumentów, które **trzeba potwierdzić w źródle pierwotnym**. Zrobimy to w Etapie 0.6 (rejestr źródeł) i w comiesięcznym monitoringu. Do tego czasu traktujemy je jako punkt wyjścia, a nie zweryfikowany fakt. Dotyczy to m.in.:
 
-- wersji OCPP 2.1 i statusu OCPP 2.0.1 jako IEC 63584;
+- ~~wersji OCPP 2.1 i statusu OCPP 2.0.1 jako IEC 63584~~ — sprawdzone w dokumentach OCA (`sources/oca-ocpp.yaml`,
+  `skills/ev-ocpp-expert/references/wersje-i-status.md`); numer części IEC 63584 dla 2.0.1 nadal nieustalony;
 - wersji OCPI 2.3.0 i statusu prac nad OCPI 3.0;
 - aktualnych wersji OICP i eMIP, statusu OCHP;
 - części ISO 15118 i ich statusu, numerów norm MCS;

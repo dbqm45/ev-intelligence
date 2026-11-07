@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED from taxonomy/taxonomy.yaml by tools/render_taxonomy.py — do not edit by hand. -->
 
-# EV Knowledge Taxonomy — drzewo (v1.0.0, draft, 2026-11-07)
+# EV Knowledge Taxonomy — drzewo (v1.0.0, accepted, 2026-11-07)
 
 **Domeny: 23 · poddomeny: 128 · tematy: 316.** Legenda: `MVP` = Etap 1, `P2` = Etap 4, `P3` = później; ⚠️ = wersje/numery do weryfikacji w źródle pierwotnym.
 

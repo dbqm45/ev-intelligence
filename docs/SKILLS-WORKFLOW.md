@@ -5,6 +5,12 @@ jako z **narzędzi kontroli jakości**: reguł struktury skilla, formatu scenari
 podpowiedzi, lintera polszczyzny i audytu bezpieczeństwa. Nie instalujemy nakładek fabryki (np. `pack-ev`)
 i nie przejmujemy jej układu katalogów.
 
+## Zasada źródeł
+
+Każdy fakt w skillu pochodzi ze źródła oficjalnego zapisanego w `sources/*.yaml` i ma znacznik
+`[dokument §sekcja]`. Nic z pamięci modelu (szczegóły: `CLAUDE.md`). Bramka fabryki tego **nie** sprawdza; robi to
+autor, porównując każde zdanie z tekstem dokumentu.
+
 ## Układ w tym repozytorium
 
 ```

@@ -99,7 +99,7 @@ def assemble(tf: Path, ws: Path, names: list[str]) -> None:
         sys.exit("✗ could not register the ev- facet in factory/config.yaml (factory format changed?)")
     cfg.write_text(text, encoding="utf-8")
     # skills reference repository files (taxonomy, knowledge) by repo-relative paths — make them resolvable
-    for shared in ("taxonomy", "knowledge"):
+    for shared in ("taxonomy", "knowledge", "sources"):
         if (ROOT / shared).is_dir():
             shutil.copytree(ROOT / shared, ws / shared)
     for name in names:
