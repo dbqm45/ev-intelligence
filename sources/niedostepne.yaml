@@ -31,8 +31,8 @@ normy_platne:
   - norma: "EN IEC 62196-2 (2017, 2022), EN IEC 62196-3 (2014, 2022), IEC 60884-1:2022"
     wydawca: IEC / CENELEC
     dostep: platna
-    temat: "złącza i gniazda (Type 2, Combo 2)"
-    przywolana_przez: ["AFIR Annex II pkt 1"]
+    temat: "złącza i gniazda (Type 2, Combo 2); w PL przywoływane jako PN-EN 62196-2/-3"
+    przywolana_przez: ["AFIR Annex II pkt 1", "PL-R1316 § 15–16"]
     przywolana_w: [ev-domain-expert, ev-evse-hardware-expert]
   - norma: "EN IEC 61980-1:2021, EN 50696:2021"
     wydawca: IEC / CENELEC
@@ -122,10 +122,21 @@ normy_platne:
     uwaga: "Treść OCPP 2.1 mamy z bezpłatnej publikacji OCA (21-P0, 21-P2, 21-P4, 21-E). Zgodności tekstu IEC z wydaniem OCA nie sprawdzano."
 
 niezarejestrowane:
-  - dokument: "Dyrektywa 2014/32/UE (MID) i przepisy krajowe o metrologii prawnej, w tym niemieckie Eichrecht"
+  - dokument: "Eichrecht poza MessEG § 33: MessEV (Mess- und Eichverordnung), w tym załącznik 7; wymagania PTB; baza BNetzA kluczy publicznych"
     dostep: niezarejestrowana
-    temat: "liczniki energii, rozliczenia"
-    przywolana_w: [ev-billing-tariff-expert, ev-domain-expert]
+    temat: "Eichrecht: kategorie rozwiązań, okresy ważności legalizacji, publikacja kluczy"
+    przywolana_przez: ["OCA-AN-SMV §2.2, §2.2.5 (odnośniki EICH_A7, BNetzA)"]
+    przywolana_w: [ev-billing-tariff-expert, ev-domain-expert, ev-compliance-expert]
+    uwaga: "MID (2014/32/UE) i MessEG § 33 są zarejestrowane (eu-inne.yaml, de-prawo.yaml)."
+  - dokument: "Ustawa Prawo o miarach (PL) i przepisy wykonawcze o prawnej kontroli metrologicznej"
+    dostep: niezarejestrowana
+    temat: "czy i jakie liczniki muszą mieć stacje ładowania w PL (MID art. 3 zostawia to państwom)"
+    przywolana_w: [ev-compliance-expert]
+  - dokument: "OCMF (Open Charge Metering Format, S.A.F.E.) i format EDL"
+    dostep: niezarejestrowana
+    temat: "kodowanie podpisanych wartości pomiarowych"
+    przywolana_przez: ["OCA-AN-SMV §2.2.2, §2.2.3", "OCPI230 §10.4.7"]
+    przywolana_w: [ev-billing-tariff-expert, ev-compliance-expert]
   - dokument: "Dyrektywa (UE) 2015/2366 (PSD2) i standard PCI DSS (PCI SSC)"
     dostep: niezarejestrowana
     temat: "płatności kartowe, SCA"

@@ -146,6 +146,17 @@ class TestLocate(unittest.TestCase):
         self.assertEqual(self.status("Annex II pkt 1.2"), ["OK"])
         self.assertEqual(self.status("Annex III"), ["NIE_ZNALEZIONO"])
 
+    def test_polish_and_german_acts(self):
+        pl = "Art. 41b. 1. Operator …\n 2. Wniosek …\nArt. 42. 1. Rejestr …\n 6. Operator …\nArt. 43. 1. Minister\n § 17. Urządzenia\n§ 33\n"
+        st = lambda r: [p.status for p in ev_kb.locate(r, pl)]   # noqa: E731
+        self.assertEqual(st("art. 42 ust. 6"), ["OK"])
+        self.assertEqual(st("art. 42 ust. 1"), ["OK"])
+        self.assertEqual(st("art. 42 ust. 9"), ["NIE_ZNALEZIONO"])
+        self.assertEqual(st("art. 41b ust. 2"), ["OK"])
+        self.assertEqual(st("§ 17"), ["OK"])
+        self.assertEqual(st("§ 33"), ["OK"])
+        self.assertEqual(st("§ 18"), ["NIE_ZNALEZIONO"])
+
     def test_guideline_part_point(self):
         self.assertEqual(self.status("cz. 2 pkt 6"), ["OK"])
         self.assertEqual(self.status("cz. 1 pkt 6"), ["NIE_ZNALEZIONO"])

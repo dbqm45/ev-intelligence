@@ -224,16 +224,24 @@ def locate(rest: str, text: str) -> list[PartResult]:
         found: int | None = None
         checked = False
         # Artykuł i ustęp (akty UE): art. 5 ust. 4 lit. f
-        m = re.match(r"^art\.\s*(\d+)(?:\s+ust\.\s*(\d+)(?:\s*[–-]\s*(\d+))?)?", part)
+        m = re.match(r"^art\.\s*(\d+[a-z]?)(?:\s+ust\.\s*(\d+[a-z]?)(?:\s*[–-]\s*(\d+[a-z]?))?)?", part)
         if m:
             checked = True
             a = _find_line(lines, re.compile(r"^\s*Article\s+" + m.group(1) + r"\s*$"))
+            art_next = re.compile(r"^\s*Article\s+\d+\s*$")
+            if a is None:                                   # akt polski: „Art. 42. 1. …”
+                a = _find_line(lines, re.compile(r"^\s*Art\.\s*" + m.group(1) + r"\.(\s|$)"))
+                art_next = re.compile(r"^\s*Art\.\s*\d+[a-z]*\.(\s|$)")
             if a is not None:
                 found = a
                 if m.group(2):
-                    nxt = _find_line(lines, re.compile(r"^\s*Article\s+\d+\s*$"), a + 1)
+                    nxt = _find_line(lines, art_next, a + 1)
+                    first = re.search(r"Art\.\s*\d+[a-z]*\.\s*(\d+)\.", lines[a])   # ust. 1 w wierszu artykułu
                     paras = [m.group(2)] + ([m.group(3)] if m.group(3) else [])
                     for p in paras:
+                        if first and first.group(1) == p:
+                            found = a
+                            continue
                         u = _find_line(lines, re.compile(r"^\s*" + p + r"\.\s*"), a + 1, nxt)
                         if u is None:
                             found = None
@@ -289,6 +297,8 @@ def locate(rest: str, text: str) -> list[PartResult]:
                 nums = [m.group(1)] + ([m.group(2)] if m.group(2) else [])
                 for num in nums:
                     found = _find_line(lines, _section_pattern(num))
+                    if found is None:                       # paragraf aktu PL/DE: „§ 17.” albo „§ 33”
+                        found = _find_line(lines, re.compile(r"^\s*§\s*" + re.escape(num) + r"\.?(\s|$)"))
                     if found is None:
                         break
         if not checked:
@@ -303,6 +313,7 @@ def locate(rest: str, text: str) -> list[PartResult]:
 # ───────────────────────────── źródła niedostępne ─────────────────────────────
 
 _UNAVAILABLE_NAMES = re.compile(r"\b(\d{4,5}(?:[-.]\d+)*|MID|PSD2|PCI DSS|Eichrecht|CHAdeMO|OpenADR|EEBUS|SunSpec|Modbus|"
+                                r"Prawo o miarach|MessEV|PTB|OCMF|EDL|BNetzA|"
                                 r"DATEX|DNP3|2014/32|2015/2366|2019/944)\b")
 
 

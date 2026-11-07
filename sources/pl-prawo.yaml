@@ -1,0 +1,25 @@
+# Rejestr źródeł: prawo polskie — klasa A (akty normatywne).
+# Pobrane przez API ELI Sejmu (api.sejm.gov.pl), PDF z podpisem Dziennika Ustaw. ISAP blokuje pobieranie automatyczne.
+# Weryfikacja: pobierz `url`, porównaj sha256; aktualność sprawdź w polu `references` aktu w API (akty zmieniające).
+
+source_class: A
+owner: Rzeczpospolita Polska (Dziennik Ustaw)
+licence: "[niesprawdzone] status prawnoautorski aktów normatywnych — do potwierdzenia; cytujemy z podaniem źródła"
+retrieved: 2026-11-07
+
+documents:
+  - id: PL-EMOB
+    title: "Ustawa z dnia 11 stycznia 2018 r. o elektromobilności i paliwach alternatywnych — tekst jednolity (Obwieszczenie Marszałka Sejmu z 1.09.2026, Dz.U. 2026 poz. 1243)"
+    url: https://api.sejm.gov.pl/eli/acts/DU/2026/1243/text.pdf
+    sha256: 821f2a7639a4a70cac05e52a8f0197e5c3a3f7c6aaf8c3351dc00320914a22b5
+    note: "Akt bazowy DU/2018/317 ma status IN_FORCE; po tekście jednolitym 2026/1243 API nie wskazuje dalszych aktów zmieniających (stan 2026-11-07). Ustawa wdraża m.in. dyrektywę 2014/94/UE, uchyloną przez AFIR art. 25 od 13.04.2024."
+  - id: PL-R1316
+    title: "Rozporządzenie Ministra Energii z dnia 26 czerwca 2019 r. w sprawie wymagań technicznych dla stacji ładowania i punktów ładowania stanowiących element infrastruktury ładowania drogowego transportu publicznego (Dz.U. 2019 poz. 1316)"
+    url: https://api.sejm.gov.pl/eli/acts/DU/2019/1316/text.pdf
+    sha256: 02afc3a05ad53c8f035176c59bb23f2408270ddcbc77907d0b7acab8e469ec62
+    note: "Status w API: obowiązujący (2026-11-07); podstawa prawna art. 17 ust. 1 ustawy o elektromobilności."
+
+not_yet_reviewed:
+  - "Rozporządzenie w sprawie wzorów zgłoszeń do EIPA (Dz.U. 2022 poz. 1511) i stawki opłat za numer EIPA (Dz.U. 2025 poz. 1630)."
+  - "Specyfikacja usługi sieciowej EIPA (BIP UDT, art. 42 ust. 9 ustawy)."
+  - "Krajowe ramy polityki (M.P. 2025 poz. 1128)."

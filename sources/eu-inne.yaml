@@ -1,0 +1,12 @@
+# Rejestr źródeł: inne akty UE — klasa A. Strony EUR-Lex.
+source_class: A
+owner: Unia Europejska (EUR-Lex)
+licence: "[niesprawdzone] zasady ponownego wykorzystania treści EUR-Lex — jak w eu-afir.yaml"
+retrieved: 2026-11-07
+
+documents:
+  - id: MID
+    title: "Directive 2014/32/EU of 26 February 2014 on the harmonisation of the laws of the Member States relating to the making available on the market of measuring instruments (recast) — tekst pierwotny (EN)"
+    url: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014L0032
+    sha256_html: b311643f7fed7a9041d230466a4721e73ec09d4274f2cce90751442b07abc540
+    note: "Wersji skonsolidowanej nie sprawdzano. Załącznik V = MI-003 (liczniki energii elektrycznej czynnej)."

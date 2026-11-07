@@ -1,0 +1,12 @@
+# Rejestr źródeł: prawo niemieckie — klasa A. Serwis gesetze-im-internet.de.
+source_class: A
+owner: Republika Federalna Niemiec
+licence: "[niesprawdzone]"
+retrieved: 2026-11-07
+
+documents:
+  - id: DE-MESSEG-33
+    title: "Mess- und Eichgesetz (MessEG) — § 33 Anforderungen an das Verwenden von Messwerten"
+    url: https://www.gesetze-im-internet.de/messeg/__33.html
+    sha256_html: c84e6185ac9ac52a9a963c38e624b6b537cc085e1e039859967e332f144c10db
+    note: "Pobrano tylko § 33. MessEV (w tym załącznik 7) i wymagania PTB nie są opracowane."

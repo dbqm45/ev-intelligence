@@ -1,0 +1,76 @@
+{
+ "skill": "ev-compliance-expert",
+ "scenarios": [
+  {
+   "id": "pl-nowa-stacja-obowiazki",
+   "expect": "trigger",
+   "prompt": "Uruchamiamy w Polsce ogólnodostępną stację ładowania DC 150 kW. Jakie mamy obowiązki wobec UDT, rejestru EIPA i dostawców usługi ładowania, zanim i po tym, jak ją uruchomimy? Jakie grożą kary? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["badani\\w* (techniczn\\w* )?wstępn\\w*|przed oddaniem do eksploatacji"],
+     ["numer\\w* EIPA|art\\. ?41b"],
+     ["dostawc\\w* usług\\w* ładowania"],
+     ["art\\. ?45|kar\\w* pieniężn\\w*"],
+     ["Combo 2|62196-3"]
+    ],
+    "none": [
+     "badani\\w* okresow\\w* UDT (co|raz na) \\d"
+    ]
+   }
+  },
+  {
+   "id": "eipa-cena-godzina-vs-minuta",
+   "expect": "trigger",
+   "prompt": "Ceny usług ładowania przekazujemy do EIPA w ciągu godziny od zmiany, tak jak mówi ustawa o elektromobilności. Czy to wystarczy, czy AFIR wymaga czegoś więcej? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["godzin\\w*"],
+     ["minut\\w*"],
+     ["2025/655|AFIR-655"],
+     ["art\\. ?42 ust\\. ?6"]
+    ],
+    "none": [
+     "(godzina|w ciągu godziny) (w pełni )?wystarcz\\w* (też|także|również) (dla|wobec) AFIR"
+    ]
+   }
+  },
+  {
+   "id": "mid-czy-wymagany-pl",
+   "expect": "trigger",
+   "prompt": "Czy licznik energii w ogólnodostępnej ładowarce AC w Polsce musi mieć zatwierdzenie typu według dyrektywy MID? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["MI-003"],
+     ["art\\. ?3|opcjonaln\\w*|państw\\w* członkowsk\\w*"],
+     ["Prawo o miarach|niedostępn\\w*|nie (da się|mogę) (tego )?sprawdzić|niezarejestr\\w*|prawo krajow\\w*"]
+    ],
+    "none": [
+     "(tak|zawsze),? (licznik )?musi mieć (zatwierdzenie|certyfikat) MID"
+    ]
+   }
+  },
+  {
+   "id": "eichrecht-podpisane-wartosci",
+   "expect": "trigger",
+   "prompt": "Wchodzimy z ładowarkami OCPP 2.0.1 na rynek niemiecki. Co stacja i CSMS muszą przesyłać i przechowywać, żeby rozliczenia były zgodne z Eichrecht? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["signedMeterValue|SignedMeterValue|podpisan\\w* wartoś\\w*"],
+     ["OCMF|EDL"],
+     ["§ ?33|MessEG"],
+     ["PublicKey|klucz\\w* publiczn\\w*"],
+     ["MessEV|niedostępn\\w*|nie (jest |są )?opracowan\\w*|niezarejestr\\w*"]
+    ],
+    "none": [
+     "OCPP (sam )?zapewnia pełną zgodność z Eichrecht"
+    ]
+   }
+  },
+  {
+   "id": "limit-stacji-profil",
+   "expect": "no-trigger",
+   "prompt": "Jak ustawić ChargingStationMaxProfile w OCPP 2.0.1, żeby ograniczyć stację do 32 A na fazę?",
+   "neighbor": "ev-energy-smart-charging-expert"
+  }
+ ]
+}
