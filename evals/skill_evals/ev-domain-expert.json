@@ -1,0 +1,54 @@
+{
+ "skill": "ev-domain-expert",
+ "scenarios": [
+  {
+   "id": "heartbeat-dobor-domen",
+   "expect": "trigger",
+   "prompt": "Mamy zadanie w EV Intelligence: zaprojektować w CPMS mechanizm wykrywania ładowarek, które przestały wysyłać Heartbeat, razem z obsługą incydentu. Które obszary bazy wiedzy (domeny taksonomii) i które skille trzeba użyć i w jakiej kolejności? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["D01\\.01|D01"],
+     ["D07\\.01|D07"],
+     ["D05\\.04|D05"],
+     ["ev-ocpp-expert|OCPP Expert"],
+     ["ev-charging-operations-expert|Charging Operations Expert|ev-evse-diagnostics-expert"],
+     ["D22\\.02|D22|przypad\\w* użycia|use case"]
+    ],
+    "none": ["wystarczy (jeden|pojedynczy) skill"]
+   }
+  },
+  {
+   "id": "luka-p3-refundacja",
+   "expect": "trigger",
+   "prompt": "Klient pyta, czy nasza baza wiedzy EV Intelligence pomoże zaprojektować refundację ładowania domowego dla pracowników firmy. Jakie domeny tego dotyczą i czy mamy już do tego skill i treść? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["D19\\.03|D19"],
+     ["P3|niski priorytet|później"],
+     ["luk\\w*|brak\\w*|nie ma(my)? jeszcze|nie obejmuje|nie ma treści|niezweryfikowan"]
+    ],
+    "none": ["mamy (już )?(gotowy|pełny) skill do refundacji"]
+   }
+  },
+  {
+   "id": "norma-vs-praktyka",
+   "expect": "trigger",
+   "prompt": "Producent ładowarki deklaruje zgodność z OCPP 2.0.1, a z wdrożenia wiemy, że jego firmware wysyła statusy w nietypowej kolejności. Gdzie w taksonomii EV Intelligence zapisać każdą z tych informacji i jak je oznaczyć? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["D03\\.03|D03"],
+     ["D21\\.01|D21|Implementation Intelligence"],
+     ["vendor|producenck\\w*|klas\\w* B|\\bB\\b"],
+     ["implementation|implementacyjn\\w*|klas\\w* D|obserw\\w*|observed"]
+    ],
+    "none": ["to (jest )?wymóg (normy|standardu) OCPP"]
+   }
+  },
+  {
+   "id": "dobor-persony",
+   "expect": "no-trigger",
+   "neighbor": "core-problem-routing",
+   "prompt": "Mam w zespole kilka person i agentów. Kto z zespołu powinien przejąć ten problem i w jakim składzie mają pracować? Pomóż dobrać skład."
+  }
+ ]
+}

@@ -54,17 +54,17 @@ relation_types:
 # Rejestr skilli, do których odwołują się domeny (szczegóły: standards/SKILLS-ARCHITECTURE.md — Etap 0.3)
 skills:
   ev-domain-expert: {name: EV Domain Expert, role: router, stage: mvp}
-  ocpp-expert: {name: OCPP Expert, stage: mvp}
-  ocpi-roaming-expert: {name: OCPI / Roaming Expert, stage: mvp}
-  cpms-architect: {name: CPMS Architect, stage: mvp}
-  evse-hardware-expert: {name: EVSE Hardware Expert, stage: mvp}
-  evse-diagnostics-expert: {name: EVSE Diagnostics Expert, stage: mvp}
-  charging-operations-expert: {name: Charging Operations Expert, stage: mvp}
+  ev-ocpp-expert: {name: OCPP Expert, stage: mvp}
+  ev-ocpi-roaming-expert: {name: OCPI / Roaming Expert, stage: mvp}
+  ev-cpms-architect: {name: CPMS Architect, stage: mvp}
+  ev-evse-hardware-expert: {name: EVSE Hardware Expert, stage: mvp}
+  ev-evse-diagnostics-expert: {name: EVSE Diagnostics Expert, stage: mvp}
+  ev-charging-operations-expert: {name: Charging Operations Expert, stage: mvp}
   ev-integration-architect: {name: EV Integration Architect, stage: p2}
   ev-billing-tariff-expert: {name: EV Billing & Tariff Expert, stage: p2}
-  energy-smart-charging-expert: {name: Energy & Smart Charging Expert, stage: p2}
-  iso15118-pki-expert: {name: ISO 15118 & PKI Expert, stage: p2}
-  compliance-expert: {name: Compliance Expert, stage: p2}
+  ev-energy-smart-charging-expert: {name: Energy & Smart Charging Expert, stage: p2}
+  ev-iso15118-pki-expert: {name: ISO 15118 & PKI Expert, stage: p2}
+  ev-compliance-expert: {name: Compliance Expert, stage: p2}
   ev-product-designer: {name: EV Product Designer, stage: p2}
 
 domains:
@@ -135,7 +135,7 @@ domains:
     name_en: Communication protocols & standards
     description: Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system↔energia.
     priority: mvp
-    skills: [ocpp-expert, ocpi-roaming-expert, iso15118-pki-expert]
+    skills: [ev-ocpp-expert, ev-ocpi-roaming-expert, ev-iso15118-pki-expert]
     depends_on: [D00]
     subdomains:
       - id: D01.01
@@ -257,7 +257,7 @@ domains:
     name_en: Electrical standards & charging physics
     description: Warstwa fizyczna — tryby ładowania, złącza, instalacja, ochrona, jakość energii.
     priority: p2
-    skills: [evse-hardware-expert]
+    skills: [ev-evse-hardware-expert]
     depends_on: [D00]
     subdomains:
       - id: D02.01
@@ -309,7 +309,7 @@ domains:
     name_en: Hardware, components & manufacturers
     description: Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa.
     priority: mvp
-    skills: [evse-hardware-expert, evse-diagnostics-expert]
+    skills: [ev-evse-hardware-expert, ev-evse-diagnostics-expert]
     depends_on: [D00, D01, D02]
     subdomains:
       - id: D03.01
@@ -374,7 +374,7 @@ domains:
     name_en: Vehicle, battery & EV–EVSE interaction
     description: Perspektywa pojazdu — co wpływa na przebieg sesji i kompatybilność.
     priority: p2
-    skills: [evse-diagnostics-expert]
+    skills: [ev-evse-diagnostics-expert]
     depends_on: [D01, D02]
     subdomains:
       - id: D04.01
@@ -421,7 +421,7 @@ domains:
     name_en: CPMS / CSMS & management systems
     description: Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
     priority: mvp
-    skills: [cpms-architect, ev-integration-architect]
+    skills: [ev-cpms-architect, ev-integration-architect]
     depends_on: [D00, D01, D03]
     subdomains:
       - id: D05.01
@@ -500,7 +500,7 @@ domains:
     name_en: Roaming & interoperability
     description: Współpraca między operatorami — umowy, dane, procesy, rozliczenia.
     priority: mvp
-    skills: [ocpi-roaming-expert]
+    skills: [ev-ocpi-roaming-expert]
     depends_on: [D00, D01, D05, D09]
     subdomains:
       - id: D06.01
@@ -548,7 +548,7 @@ domains:
     name_en: Charging operations & maintenance
     description: Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
     priority: mvp
-    skills: [charging-operations-expert, evse-diagnostics-expert]
+    skills: [ev-charging-operations-expert, ev-evse-diagnostics-expert]
     depends_on: [D03, D05]
     subdomains:
       - id: D07.01
@@ -604,7 +604,7 @@ domains:
     name_en: Energy, grid & flexibility
     description: Zarządzanie mocą lokalnie i współpraca z systemem elektroenergetycznym.
     priority: p2
-    skills: [energy-smart-charging-expert]
+    skills: [ev-energy-smart-charging-expert]
     depends_on: [D01, D02, D05]
     subdomains:
       - id: D08.01
@@ -706,7 +706,7 @@ domains:
     name_en: Metering & legal metrology
     description: Wiarygodność pomiaru energii jako podstawa rozliczeń.
     priority: p2
-    skills: [ev-billing-tariff-expert, compliance-expert]
+    skills: [ev-billing-tariff-expert, ev-compliance-expert]
     depends_on: [D02, D03]
     subdomains:
       - id: D10.01
@@ -746,7 +746,7 @@ domains:
     name_en: Security & cybersecurity
     description: Ochrona urządzeń, komunikacji, danych i procesów.
     priority: p2
-    skills: [iso15118-pki-expert]
+    skills: [ev-iso15118-pki-expert]
     depends_on: [D01, D14]
     subdomains:
       - id: D11.01
@@ -795,7 +795,7 @@ domains:
     name_en: Regulations & compliance
     description: Wymagania prawne UE i krajowe wpływające na produkty i procesy.
     priority: p2
-    skills: [compliance-expert]
+    skills: [ev-compliance-expert]
     depends_on: [D00]
     subdomains:
       - id: D12.01
@@ -864,7 +864,7 @@ domains:
     name_en: Testing, conformance & certification
     description: Jak udowodnić, że implementacja działa i jest zgodna.
     priority: p2
-    skills: [ev-integration-architect, ocpp-expert]
+    skills: [ev-integration-architect, ev-ocpp-expert]
     depends_on: [D01, D03, D05]
     subdomains:
       - id: D13.01
@@ -905,7 +905,7 @@ domains:
     name_en: IT architecture & integrations
     description: Wzorce techniczne dla systemów w branży EV.
     priority: p2
-    skills: [cpms-architect, ev-integration-architect]
+    skills: [ev-cpms-architect, ev-integration-architect]
     depends_on: [D05]
     subdomains:
       - id: D14.01
@@ -1090,7 +1090,7 @@ domains:
     name_en: Site development & deployment
     description: Od wyboru miejsca do uruchomienia stacji.
     priority: p3
-    skills: [charging-operations-expert]
+    skills: [ev-charging-operations-expert]
     depends_on: [D02, D08, D12]
     subdomains:
       - id: D18.01
@@ -1183,7 +1183,7 @@ domains:
     name_en: Sustainability & ESG
     description: Środowiskowy wymiar ładowania — źródła energii, emisje, raportowanie.
     priority: p3
-    skills: [compliance-expert]
+    skills: [ev-compliance-expert]
     depends_on: [D08, D12]
     subdomains:
       - id: D20.01
@@ -1220,7 +1220,7 @@ domains:
     description: Wiedza praktyczna z wdrożeń — kluczowy wyróżnik. Zawsze z modelem, firmware i źródłem obserwacji.
     priority: mvp
     cross_cutting: true
-    skills: [evse-diagnostics-expert, ev-integration-architect]
+    skills: [ev-evse-diagnostics-expert, ev-integration-architect]
     depends_on: [D01, D03, D05]
     subdomains:
       - id: D21.01

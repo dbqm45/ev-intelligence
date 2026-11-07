@@ -126,6 +126,7 @@ Cel: ustalić „reguły gry”, zanim powstanie treść. Bez tego za pół roku
 | 0.5 | **Kanoniczny model domenowy v0** — encje i relacje | `data-model/canonical-model.md` + `data-model/schema/*.yaml` |
 | 0.6 | **Rejestr źródeł** z oceną licencji (co wolno cytować / streszczać / nie wolno) | `SOURCES.md` |
 | 0.7 | Struktura repozytorium + lint metadanych (prosty skrypt walidujący frontmatter) | katalogi, `tools/validate_metadata.py`, CI |
+| 0.8 | **Walidacja skilli narzędziami fabryki tf** (bramka jakości, scenariusze, audyt) bez przejmowania jej struktury · ✅ działa, pilotaż `ev-domain-expert` przeszedł bramkę | [`docs/SKILLS-WORKFLOW.md`](SKILLS-WORKFLOW.md), `tools/factory_check.py` |
 
 Proponowany frontmatter każdego dokumentu wiedzy:
 
@@ -254,7 +255,7 @@ ev-intelligence/
 │   └── implementation-intelligence/   ← vendor quirks (klasa D)
 ├── skills/
 │   ├── ev-domain-expert/SKILL.md
-│   ├── ocpp-expert/{SKILL.md, references/}
+│   ├── ev-ocpp-expert/{SKILL.md, references/}
 │   └── ...
 ├── use-cases/
 ├── evals/

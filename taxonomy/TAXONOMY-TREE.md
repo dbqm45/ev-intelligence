@@ -9,27 +9,27 @@
 | ID | Domena | Priorytet | Poddomeny | Skille | Zależy od |
 |----|--------|-----------|-----------|--------|-----------|
 | D00 | [Fundamenty, terminologia i model domenowy](#d00--foundations) *(przekrojowa)* | MVP | 5 | `ev-domain-expert` | — |
-| D01 | [Protokoły i standardy komunikacji](#d01--protocols) | MVP | 11 | `ocpp-expert`, `ocpi-roaming-expert`, `iso15118-pki-expert` | D00 |
-| D02 | [Normy elektrotechniczne i fizyka ładowania](#d02--electrical) | P2 | 5 | `evse-hardware-expert` | D00 |
-| D03 | [Urządzenia, komponenty i producenci](#d03--hardware) | MVP | 7 | `evse-hardware-expert`, `evse-diagnostics-expert` | D00, D01, D02 |
-| D04 | [Pojazd, bateria i interakcja EV–EVSE](#d04--vehicle) | P2 | 5 | `evse-diagnostics-expert` | D01, D02 |
-| D05 | [CPMS / CSMS i systemy zarządzania](#d05--cpms) | MVP | 9 | `cpms-architect`, `ev-integration-architect` | D00, D01, D03 |
-| D06 | [Roaming i interoperacyjność](#d06--roaming) | MVP | 5 | `ocpi-roaming-expert` | D00, D01, D05, D09 |
-| D07 | [Operacje, utrzymanie i serwis](#d07--operations) | MVP | 6 | `charging-operations-expert`, `evse-diagnostics-expert` | D03, D05 |
-| D08 | [Energia, sieć i elastyczność](#d08--energy) | P2 | 6 | `energy-smart-charging-expert` | D01, D02, D05 |
+| D01 | [Protokoły i standardy komunikacji](#d01--protocols) | MVP | 11 | `ev-ocpp-expert`, `ev-ocpi-roaming-expert`, `ev-iso15118-pki-expert` | D00 |
+| D02 | [Normy elektrotechniczne i fizyka ładowania](#d02--electrical) | P2 | 5 | `ev-evse-hardware-expert` | D00 |
+| D03 | [Urządzenia, komponenty i producenci](#d03--hardware) | MVP | 7 | `ev-evse-hardware-expert`, `ev-evse-diagnostics-expert` | D00, D01, D02 |
+| D04 | [Pojazd, bateria i interakcja EV–EVSE](#d04--vehicle) | P2 | 5 | `ev-evse-diagnostics-expert` | D01, D02 |
+| D05 | [CPMS / CSMS i systemy zarządzania](#d05--cpms) | MVP | 9 | `ev-cpms-architect`, `ev-integration-architect` | D00, D01, D03 |
+| D06 | [Roaming i interoperacyjność](#d06--roaming) | MVP | 5 | `ev-ocpi-roaming-expert` | D00, D01, D05, D09 |
+| D07 | [Operacje, utrzymanie i serwis](#d07--operations) | MVP | 6 | `ev-charging-operations-expert`, `ev-evse-diagnostics-expert` | D03, D05 |
+| D08 | [Energia, sieć i elastyczność](#d08--energy) | P2 | 6 | `ev-energy-smart-charging-expert` | D01, D02, D05 |
 | D09 | [Taryfy, rozliczenia i płatności](#d09--billing) | P2 | 5 | `ev-billing-tariff-expert` | D00, D05, D10 |
-| D10 | [Pomiary i metrologia prawna](#d10--metering) | P2 | 4 | `ev-billing-tariff-expert`, `compliance-expert` | D02, D03 |
-| D11 | [Bezpieczeństwo i cyberbezpieczeństwo](#d11--security) | P2 | 5 | `iso15118-pki-expert` | D01, D14 |
-| D12 | [Regulacje i compliance](#d12--regulations) | P2 | 7 | `compliance-expert` | D00 |
-| D13 | [Testy, zgodność i certyfikacja](#d13--testing) | P2 | 4 | `ev-integration-architect`, `ocpp-expert` | D01, D03, D05 |
-| D14 | [Architektura IT i integracje](#d14--it-architecture) | P2 | 6 | `cpms-architect`, `ev-integration-architect` | D05 |
+| D10 | [Pomiary i metrologia prawna](#d10--metering) | P2 | 4 | `ev-billing-tariff-expert`, `ev-compliance-expert` | D02, D03 |
+| D11 | [Bezpieczeństwo i cyberbezpieczeństwo](#d11--security) | P2 | 5 | `ev-iso15118-pki-expert` | D01, D14 |
+| D12 | [Regulacje i compliance](#d12--regulations) | P2 | 7 | `ev-compliance-expert` | D00 |
+| D13 | [Testy, zgodność i certyfikacja](#d13--testing) | P2 | 4 | `ev-integration-architect`, `ev-ocpp-expert` | D01, D03, D05 |
+| D14 | [Architektura IT i integracje](#d14--it-architecture) | P2 | 6 | `ev-cpms-architect`, `ev-integration-architect` | D05 |
 | D15 | [Dane, analityka i AI](#d15--data-analytics) | P3 | 5 | `ev-product-designer` | D05, D07 |
 | D16 | [Produkt, UX i doświadczenie klienta](#d16--product-ux) | P3 | 5 | `ev-product-designer` | D05, D07 |
 | D17 | [Modele biznesowe i rynek](#d17--business) | P3 | 4 | `ev-product-designer` | D00 |
-| D18 | [Rozwój lokalizacji i wdrażanie infrastruktury](#d18--site-deployment) | P3 | 4 | `charging-operations-expert` | D02, D08, D12 |
+| D18 | [Rozwój lokalizacji i wdrażanie infrastruktury](#d18--site-deployment) | P3 | 4 | `ev-charging-operations-expert` | D02, D08, D12 |
 | D19 | [Segmenty i konteksty ładowania](#d19--segments) | P3 | 7 | `ev-domain-expert` | D00 |
-| D20 | [Zrównoważony rozwój i ESG](#d20--sustainability) | P3 | 4 | `compliance-expert` | D08, D12 |
-| D21 | [EV Implementation Intelligence](#d21--implementation-intelligence) *(przekrojowa)* | MVP | 4 | `evse-diagnostics-expert`, `ev-integration-architect` | D01, D03, D05 |
+| D20 | [Zrównoważony rozwój i ESG](#d20--sustainability) | P3 | 4 | `ev-compliance-expert` | D08, D12 |
+| D21 | [EV Implementation Intelligence](#d21--implementation-intelligence) *(przekrojowa)* | MVP | 4 | `ev-evse-diagnostics-expert`, `ev-integration-architect` | D01, D03, D05 |
 | D22 | [Katalog przypadków użycia](#d22--use-cases) *(przekrojowa)* | MVP | 5 | `ev-domain-expert` | D01, D05, D06, D07 |
 
 ## D00 · foundations
@@ -1131,15 +1131,15 @@ Scenariusze end-to-end łączące wiele domen — test wartości całej bazy.
 | Skill | Nazwa | Etap | Domeny |
 |-------|-------|------|--------|
 | `ev-domain-expert` | EV Domain Expert | MVP | D00, D19, D22 |
-| `ocpp-expert` | OCPP Expert | MVP | D01, D13 |
-| `ocpi-roaming-expert` | OCPI / Roaming Expert | MVP | D01, D06 |
-| `cpms-architect` | CPMS Architect | MVP | D05, D14 |
-| `evse-hardware-expert` | EVSE Hardware Expert | MVP | D02, D03 |
-| `evse-diagnostics-expert` | EVSE Diagnostics Expert | MVP | D03, D04, D07, D21 |
-| `charging-operations-expert` | Charging Operations Expert | MVP | D07, D18 |
+| `ev-ocpp-expert` | OCPP Expert | MVP | D01, D13 |
+| `ev-ocpi-roaming-expert` | OCPI / Roaming Expert | MVP | D01, D06 |
+| `ev-cpms-architect` | CPMS Architect | MVP | D05, D14 |
+| `ev-evse-hardware-expert` | EVSE Hardware Expert | MVP | D02, D03 |
+| `ev-evse-diagnostics-expert` | EVSE Diagnostics Expert | MVP | D03, D04, D07, D21 |
+| `ev-charging-operations-expert` | Charging Operations Expert | MVP | D07, D18 |
 | `ev-integration-architect` | EV Integration Architect | P2 | D05, D13, D14, D21 |
 | `ev-billing-tariff-expert` | EV Billing & Tariff Expert | P2 | D09, D10 |
-| `energy-smart-charging-expert` | Energy & Smart Charging Expert | P2 | D08 |
-| `iso15118-pki-expert` | ISO 15118 & PKI Expert | P2 | D01, D11 |
-| `compliance-expert` | Compliance Expert | P2 | D10, D12, D20 |
+| `ev-energy-smart-charging-expert` | Energy & Smart Charging Expert | P2 | D08 |
+| `ev-iso15118-pki-expert` | ISO 15118 & PKI Expert | P2 | D01, D11 |
+| `ev-compliance-expert` | Compliance Expert | P2 | D10, D12, D20 |
 | `ev-product-designer` | EV Product Designer | P2 | D15, D16, D17 |
