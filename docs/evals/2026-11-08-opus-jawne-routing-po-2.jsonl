@@ -1,0 +1,9 @@
+{"skill": "ev-integration-architect", "id": "ocpi-po-awarii-bez-kolejki", "expect": "trigger", "routed_to": "ev-integration-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0314}
+{"skill": "ev-integration-architect", "id": "migracja-ocpp201-sp2", "expect": "trigger", "routed_to": "ev-integration-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0644}
+{"skill": "ev-integration-architect", "id": "wiele-zlaczy-jeden-evse", "expect": "trigger", "routed_to": "ev-integration-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0959}
+{"skill": "ev-integration-architect", "id": "rozszerzenia-ocpp201", "expect": "trigger", "routed_to": "ev-integration-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.1275}
+{"skill": "ev-integration-architect", "id": "koszt-z-taryfy", "expect": "no-trigger", "routed_to": "ev-billing-tariff-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.1562}
+{"skill": "ev-evse-diagnostics-expert", "id": "deklaracja-vs-certyfikat", "expect": "trigger", "routed_to": "ev-evse-diagnostics-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.1855}
+{"skill": "ev-evse-diagnostics-expert", "id": "ramka-niezgodna", "expect": "trigger", "routed_to": "ev-evse-diagnostics-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.2149}
+{"skill": "ev-evse-diagnostics-expert", "id": "rejestr-odchylen", "expect": "trigger", "routed_to": "ev-evse-diagnostics-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.244}
+{"skill": "ev-evse-diagnostics-expert", "id": "trigger-reason-enum", "expect": "no-trigger", "routed_to": "ev-ocpp-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.2727}
