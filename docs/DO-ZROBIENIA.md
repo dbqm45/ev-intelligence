@@ -1,15 +1,14 @@
 # Do zrobienia później
 
-Sprawy odłożone przez właściciela projektu. Stan na 2026-11-07. Po załatwieniu sprawy usuń wpis albo przenieś go do
+Sprawy odłożone przez właściciela projektu. Stan na 2026-11-08. Po załatwieniu sprawy usuń wpis albo przenieś go do
 historii w commicie.
 
 ## Decyzje właściciela
 - **Konto czytelnika EIPA:** pełne dane EIPA (status i ceny punktów przez API odczytu) wymagają rejestracji konta
   e-mailem na eipa.udt.gov.pl. Bez zgody właściciela nie zakładamy konta. Po założeniu: pobrać dane, dodać je do
   `sources/pl-dane.yaml` i uzupełnić `skills/ev-product-designer/references/rynek-dane.md`.
-- **Płatna ewaluacja na modelu:** tylko za zgodą (CLAUDE.md). Nowe scenariusze w ev-product-designer
-  (`terminal-dostepnosc`, `liczba-punktow-pl`) nie mają jeszcze przebiegu.
-
+- **Płatna ewaluacja na modelu:** tylko za zgodą (CLAUDE.md). Przebiegi Opus 5.5 z 2026-11-07/08 objęły wszystkie
+  13 skilli (`docs/evals/`).
 - **Do sprawdzenia: ryzyko licencyjne eMIP przy `ev_confidential_check`.** Nawet werdykt „WYSTEPUJE” to minimalna
   informacja o protokole przekazana pytającemu, a seria pytań tak/nie może częściowo odtworzyć treść (limity: 10
   terminów na wywołanie, 30 na minutę). To interpretacja licencji Gireve (rozdz. 1.4 Confidentiality), nie opinia
@@ -18,7 +17,13 @@ historii w commicie.
 - **eMIP (Gireve), poziom 2:** dziś `ev_confidential_check` sprawdza tylko występowanie nazw. Ocena zgodności całego
   opisu (werdykt i kategoria problemu bez treści) wymaga modelu po stronie serwera: klucz API, koszt, Twoja zgoda.
   Do rozważenia też pisemne potwierdzenie Gireve przy użyciu komercyjnym.
-
+- **Scenariusze holdout dla 6 skilli bez zbioru zamkniętego:** `ev-compliance-expert`, `ev-product-designer`,
+  `ev-integration-architect`, `ev-iso15118-pki-expert`, `ev-energy-smart-charging-expert`, `ev-billing-tariff-expert`.
+  Pisze je **inny agent niż autor skilli** (osobna sesja albo subagent bez dostępu do `skills/` i
+  `evals/skill_evals/*.json`): dostaje tylko taksonomię (`taxonomy/taxonomy.yaml`, poddomeny skilla), opis zakresu
+  (`description` i `metadata.katalog`) oraz format scenariusza z `docs/SKILLS-WORKFLOW.md`. Sprawdzenia `checks` opiera
+  na źródłach z `sources/*.yaml`, nie na treści skilla. Wynik trafia do `evals/skill_evals/holdout/<skill>.json`; autor
+  skilli go nie czyta, a poprawki po ewaluacji holdout robi bez oglądania promptów (tylko na podstawie zbiorczego wyniku).
 
 ## Hosty, które nie działają
 | Host | Objaw | Co daje | Co zrobić |
