@@ -1,0 +1,11 @@
+{"skill": "ev-product-designer", "id": "cena-przed-sesja", "expect": "trigger", "routed_to": "ev-product-designer", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0316}
+{"skill": "ev-product-designer", "id": "komunikaty-na-stacji", "expect": "trigger", "routed_to": "ev-product-designer", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0634}
+{"skill": "ev-product-designer", "id": "mapa-publish", "expect": "trigger", "routed_to": "ev-product-designer", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0935}
+{"skill": "ev-product-designer", "id": "ekonomika-luka", "expect": "trigger", "routed_to": "ev-product-designer", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.1233}
+{"skill": "ev-product-designer", "id": "terminal-dostepnosc", "expect": "trigger", "routed_to": "ev-product-designer", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.1546}
+{"skill": "ev-product-designer", "id": "liczba-punktow-pl", "expect": "trigger", "routed_to": "ev-product-designer", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.1851}
+{"skill": "ev-product-designer", "id": "callerror-201", "expect": "no-trigger", "routed_to": "ev-ocpp-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.2158}
+{"skill": "ev-cpms-architect", "id": "model-statusow-wlasne-i-roaming", "expect": "trigger", "routed_to": "ev-cpms-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.2453}
+{"skill": "ev-cpms-architect", "id": "brama-po-restarcie", "expect": "trigger", "routed_to": "ev-cpms-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.2774}
+{"skill": "ev-cpms-architect", "id": "onboarding-pending", "expect": "trigger", "routed_to": "ev-ocpp-expert", "route_stop": "end_turn", "route_ok": false, "ok": false, "spent_usd": 0.3115}
+{"skill": "ev-cpms-architect", "id": "ocpi-credentials", "expect": "no-trigger", "routed_to": "ev-ocpi-roaming-expert", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.3404}
