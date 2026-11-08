@@ -3,6 +3,13 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.4] — 2026-11-08
+### Added
+- **taxonomy:** assign skill owners to subdomains (taxonomy 1.1.0)
+### Fixed
+- **skills:** fill content gaps found by the holdout audit
+- **skills:** split testing scope between integration and diagnostics
+
 ## [0.1.3] — 2026-11-08
 ### Added
 - **eval:** add dev set and routing-only mode to the evaluation runner
