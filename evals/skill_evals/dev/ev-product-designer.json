@@ -1,0 +1,47 @@
+{
+  "skill": "ev-product-designer",
+  "scenarios": [
+    {
+      "id": "price-screen-before-start",
+      "expect": "trigger",
+      "prompt": "Projektuję ekran w aplikacji przed startem ładowania. Co prawnie musimy pokazać kierowcy o cenie, zanim zacznie, i czy dotyczy to też stacji partnerów z roamingu?"
+    },
+    {
+      "id": "station-card-partner-hidden",
+      "expect": "trigger",
+      "prompt": "Jakie informacje pokazać na karcie stacji na mapie — godziny otwarcia, udogodnienia, telefon? Skąd brać te dane od partnerów i jak nie pokazywać stacji, których partner nie chce widzieć w naszej aplikacji?"
+    },
+    {
+      "id": "display-three-languages-fault",
+      "expect": "trigger",
+      "prompt": "Na wyświetlaczu ładowarki chcemy komunikaty po polsku, angielsku i niemiecku, a przy awarii komunikat ma przykryć reklamę. Jak to zaprojektować od strony produktu?"
+    },
+    {
+      "id": "terminal-accessibility-tender",
+      "expect": "trigger",
+      "prompt": "Robimy specyfikację przetargową na nowe stacje. Czy terminal płatniczy musi być dostępny dla osób niewidomych i co konkretnie wpisać do wymagań?"
+    },
+    {
+      "id": "adhoc-no-contract-stories",
+      "expect": "trigger",
+      "prompt": "Zamień mi wymóg ładowania bez wcześniejszej umowy z dostawcą na user stories z kryteriami akceptacji dla zespołu aplikacji i ekranu stacji."
+    },
+    {
+      "id": "pitch-deck-market-numbers",
+      "expect": "trigger",
+      "prompt": "Do pitch decku potrzebuję aktualnej liczby publicznych punktów ładowania w Polsce i w Niemczech oraz liczby aut elektrycznych na drogach — z datą i źródłem, bo inwestor sprawdza."
+    },
+    {
+      "id": "start-fee-plus-minutes-calc",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Jak policzyć koszt sesji, gdy taryfa ma opłatę startową 3 zł i cenę za minutę naliczaną dopiero po 45 minutach, a sesja trwała 70 minut?"
+    },
+    {
+      "id": "taxi-app-onboarding",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Jak zaprojektować onboarding w aplikacji do zamawiania taksówek, żeby użytkownik dodał kartę płatniczą przy pierwszym przejeździe?"
+    }
+  ]
+}

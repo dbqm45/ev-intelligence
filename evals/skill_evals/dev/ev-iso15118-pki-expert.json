@@ -1,0 +1,47 @@
+{
+  "skill": "ev-iso15118-pki-expert",
+  "scenarios": [
+    {
+      "id": "profile3-back-to-2",
+      "expect": "trigger",
+      "prompt": "Czy można stację z profilu 3 przełączyć z powrotem na profil 2, bo wygasł jej certyfikat klienta? Jak to zabezpieczyć, żeby nikt tego nie nadużył?"
+    },
+    {
+      "id": "charger-cert-o-cn-issuer",
+      "expect": "trigger",
+      "prompt": "Jakie wartości powinny być w polach O i CN certyfikatu ładowarki i kto powinien go podpisywać — nasza CA operatora czy CA producenta?"
+    },
+    {
+      "id": "firmware-signature-check",
+      "expect": "trigger",
+      "prompt": "Jak w OCPP 2.0.1 ładowarka sprawdza, że firmware naprawdę pochodzi od producenta? Jakich algorytmów podpisu wolno użyć i co się dzieje, gdy podpis się nie zgadza?"
+    },
+    {
+      "id": "pnc-on-16j",
+      "expect": "trigger",
+      "prompt": "Mamy kilkaset ładowarek na 1.6J i biznes chce Plug & Charge. Da się to zrobić bez przechodzenia na 2.0.1?"
+    },
+    {
+      "id": "contract-cert-no-internet",
+      "expect": "trigger",
+      "prompt": "Przy Plug & Charge stacja traci internet. Czy może przyjąć certyfikat umowy kierowcy bez sprawdzenia statusu online i od czego to zależy w konfiguracji?"
+    },
+    {
+      "id": "audit-tls-minimum",
+      "expect": "trigger",
+      "prompt": "Audytor bezpieczeństwa pyta, jakie wersje TLS i jakie zestawy szyfrów obsługuje nasz endpoint OCPP i czy to zgodne ze specyfikacją. Co musimy mieć jako minimum?"
+    },
+    {
+      "id": "v2h-discharge-setpoint",
+      "expect": "no-trigger",
+      "neighbor": "ev-energy-smart-charging-expert",
+      "prompt": "W OCPP 2.1 auto przez ISO 15118-20 może oddawać energię do domu. Jak ustawić setpoint rozładowania i limit oddawanej mocy dla V2H?"
+    },
+    {
+      "id": "station-id-slash-in-url",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Ładowarka nie łączy się — URL mamy wss://csms.example/ocpp/ i identyfikator stacji dopisany na końcu. Czy ten identyfikator może zawierać znak '/' albo spację?"
+    }
+  ]
+}

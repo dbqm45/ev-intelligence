@@ -1,0 +1,47 @@
+{
+  "skill": "ev-billing-tariff-expert",
+  "scenarios": [
+    {
+      "id": "step-size-per-period-dispute",
+      "expect": "trigger",
+      "prompt": "Mamy taryfę OCPI z dwoma składnikami: energia 1,89 zł/kWh i czas postoju naliczany co 15 minut. Partner upiera się, że zaokrąglenie do pełnego kwadransa robi się w każdym okresie ładowania osobno, ja uważam, że raz na całą sesję. Kto ma rację?"
+    },
+    {
+      "id": "blocking-fee-adhoc-dc",
+      "expect": "trigger",
+      "prompt": "Jestem PM-em w CPO. Chcemy dorzucić opłatę za blokowanie stanowiska po zakończeniu ładowania na HPC dla klientów płacących kartą na miejscu. Czy przy cenie ad hoc wolno nam to zrobić i w jakiej kolejności te składniki ceny trzeba podać?"
+    },
+    {
+      "id": "cdr-total-mismatch",
+      "expect": "trigger",
+      "prompt": "W CDR od CPO total_cost to 47,20 zł, a jak sam przeliczam z okresów ładowania i taryfy, wychodzi mi 45,90. Taryfa ma cenę minimalną 10 zł i stawkę za postój po godzinie. Gdzie mogę robić błąd w przeliczeniu?"
+    },
+    {
+      "id": "tariff-swap-during-session",
+      "expect": "trigger",
+      "prompt": "operator podmienił cały cennik o 14:00, a klient ładował od 13:30 do 15:10 — wg której taryfy mamy policzyć tę sesję? i czy w CDR ma być widać obie?"
+    },
+    {
+      "id": "ocpp201-running-cost-offline",
+      "expect": "trigger",
+      "prompt": "Ładowarki na OCPP 2.0.1, cenę liczy CSMS. Jak co kilka minut przesyłać na stację aktualny koszt sesji i co stacja ma pokazać kierowcy, kiedy straci połączenie i nie wie, ile naliczyć?"
+    },
+    {
+      "id": "preauth-amount-card-terminal",
+      "expect": "trigger",
+      "prompt": "Integrator terminala na stacji DC pyta, jaką kwotę zablokować na karcie klienta przed ładowaniem ad hoc i jak potem rozliczyć różnicę po zakończeniu. Czy moduł płatności z OCPI 2.3 coś tu określa?"
+    },
+    {
+      "id": "tariff-push-2001-error",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpi-roaming-expert",
+      "prompt": "Robimy push taryf do eMSP przez PUT na ich endpoint tariffs i dostajemy status_code 2001. Czy przejść na pull z paginacją, czy to błąd w naszym body?"
+    },
+    {
+      "id": "mid-meter-legal-sale",
+      "expect": "no-trigger",
+      "neighbor": "ev-compliance-expert",
+      "prompt": "Czy licznik w ładowarce DC musi mieć zatwierdzenie typu zgodne z MID, żeby legalnie sprzedawać energię za kWh w Polsce, i jak to wygląda w Niemczech?"
+    }
+  ]
+}

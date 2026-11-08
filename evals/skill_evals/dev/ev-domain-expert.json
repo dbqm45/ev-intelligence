@@ -1,0 +1,47 @@
+{
+  "skill": "ev-domain-expert",
+  "scenarios": [
+    {
+      "id": "depot-fleet-where-to-start",
+      "expect": "trigger",
+      "prompt": "Dostałem zadanie: zaprojektować od zera usługę ładowania dla floty dostawczaków w zajezdni, z rozliczaniem kierowców i sterowaniem mocą. Od których obszarów wiedzy zacząć i w jakiej kolejności?"
+    },
+    {
+      "id": "inductive-pantograph-coverage",
+      "expect": "trigger",
+      "prompt": "Czy w waszej bazie wiedzy jest cokolwiek o ładowaniu indukcyjnym i pantografach dla autobusów? Jeśli nie, to w którym miejscu taksonomii by to trafiło?"
+    },
+    {
+      "id": "classify-three-kinds-of-knowledge",
+      "expect": "trigger",
+      "prompt": "Mam trzy informacje do zapisania: wymóg z normy, deklarację z dokumentacji producenta i coś, co technik zaobserwował na budowie. Jak je rozróżnić i gdzie każdą odłożyć w bazie?"
+    },
+    {
+      "id": "cross-cutting-client-brief",
+      "expect": "trigger",
+      "prompt": "Klient chce: aplikację dla kierowców, roaming przez Hubject, ceny zależne od cen energii i pełną zgodność z AFIR. Jakie obszary to dotyka i które skille trzeba będzie wczytać, w jakiej kolejności?"
+    },
+    {
+      "id": "everyone-does-it-vs-spec",
+      "expect": "trigger",
+      "prompt": "Kolega z serwisu mówi, że 'wszystkie ładowarki tak robią', a specyfikacja mówi co innego. Jak w tej bazie odróżnia się normę od praktyki rynkowej i co wtedy ma pierwszeństwo?"
+    },
+    {
+      "id": "multi-unit-building-domain",
+      "expect": "trigger",
+      "prompt": "do której domeny w taksonomii pasuje temat 'ładowanie w bloku z rozliczeniem na lokatora'? i czy to jest w ogóle opracowane?"
+    },
+    {
+      "id": "team-staffing-cpms",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Potrzebuję dobrać skład zespołu do projektu CPMS: ilu backendowców, czy brać analityka biznesowego i kto powinien być Product Ownerem?"
+    },
+    {
+      "id": "trigger-reason-meaning",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Co oznacza triggerReason w TransactionEvent i kiedy stacja powinna wysłać ChargingStateChanged?"
+    }
+  ]
+}

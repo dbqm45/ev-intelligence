@@ -1,0 +1,47 @@
+{
+  "skill": "ev-evse-diagnostics-expert",
+  "scenarios": [
+    {
+      "id": "metervalues-schema-violation",
+      "expect": "trigger",
+      "prompt": "Mam zrzut ramek z logów: ładowarka w MeterValues wysyła timestamp bez strefy czasowej, a 'value' jako liczbę zamiast stringa. Czy to w ogóle przechodzi przez oficjalny schemat 1.6?"
+    },
+    {
+      "id": "verify-oca-certificate-firmware",
+      "expect": "trigger",
+      "prompt": "Producent twierdzi, że jego DC ma certyfikat OCA na 2.0.1 z Advanced Security. Jak to sprawdzić i czy ten certyfikat obejmuje wersję firmware, którą mamy zainstalowaną w terenie?"
+    },
+    {
+      "id": "getvariables-broke-after-fw",
+      "expect": "trigger",
+      "prompt": "Po aktualizacji firmware do 4.1 ładowarki jednego producenta przestały odpowiadać na GetVariables dla kontrolera próbkowania pomiarów. Wina ładowarki czy naszego CSMS? Jak to rozstrzygnąć?"
+    },
+    {
+      "id": "pics-local-list-assumption",
+      "expect": "trigger",
+      "prompt": "Co to dokładnie jest PICS i czy na podstawie tej deklaracji producenta mogę założyć, że stacja obsługuje lokalną listę autoryzacji?"
+    },
+    {
+      "id": "lab-repro-power-loss",
+      "expect": "trigger",
+      "prompt": "Chcę w labie odtworzyć problem z zerwaną transakcją po zaniku zasilania na konkretnym modelu ładowarki. Czy są oficjalne przypadki testowe OCA, które to pokrywają, i jak potem zapisać wynik?"
+    },
+    {
+      "id": "spec-text-vs-json-required",
+      "expect": "trigger",
+      "prompt": "W PDF-ie OCPP 2.0.1 tekst wymagania mówi, że pole jest opcjonalne, a w schemacie JSON jest required. Nasza ładowarka go nie wysyła i CSMS odrzuca ramkę. Kto tu ma rację?"
+    },
+    {
+      "id": "noc-three-faulted-same-model",
+      "expect": "no-trigger",
+      "neighbor": "ev-charging-operations-expert",
+      "prompt": "Dyżur: trzy stacje tego samego modelu od godziny w stanie awarii, klienci dzwonią. Co mam zrobić teraz — resetować zdalnie czy od razu serwis?"
+    },
+    {
+      "id": "ccs2-cable-ocpi-power",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-hardware-expert",
+      "prompt": "Jak w OCPI zapisać złącze CCS2 z przymocowanym kablem i jaką moc maksymalną podać dla EVSE 150 kW?"
+    }
+  ]
+}

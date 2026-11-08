@@ -1,0 +1,47 @@
+{
+  "skill": "ev-ocpp-expert",
+  "scenarios": [
+    {
+      "id": "heartbeat-offline-threshold",
+      "expect": "trigger",
+      "prompt": "Po jakim czasie bez Heartbeat uznać stację za offline? Interwał mamy 300 s, ale stacja wysyła inne komunikaty i heartbeat przychodzi rzadziej, niż ustawiliśmy."
+    },
+    {
+      "id": "remote-start-then-authorize-invalid",
+      "expect": "trigger",
+      "prompt": "Zdalny start z aplikacji: CSMS wysyła RequestStartTransaction, stacja odpowiada Accepted, ale potem robi Authorize i dostaje Invalid. Czemu stacja w ogóle autoryzuje coś, co sami zleciliśmy?"
+    },
+    {
+      "id": "start-stop-to-transactionevent",
+      "expect": "trigger",
+      "prompt": "Przechodzimy z 1.6 na 2.0.1. Jak się mapuje StartTransaction/StopTransaction na TransactionEvent i co z transactionId, który w 1.6 nadawał CSMS?"
+    },
+    {
+      "id": "boot-rejected-behaviour",
+      "expect": "trigger",
+      "prompt": "Co ładowarka może robić po tym, jak dostanie Rejected na BootNotification? Wolno jej wysłać cokolwiek innego, zanim spróbuje znowu?"
+    },
+    {
+      "id": "soft-vs-hard-spec-only",
+      "expect": "trigger",
+      "prompt": "Nie pytam, co robić na dyżurze, tylko o specyfikację: czym w 1.6 różni się reset Hard od Soft i co stacja ma zrobić z trwającą transakcją w każdym z przypadków?"
+    },
+    {
+      "id": "ocpp21-vs-201-messages",
+      "expect": "trigger",
+      "prompt": "co nowego w OCPP 2.1 względem 2.0.1, jeśli chodzi o same komunikaty? i czy stacja 2.0.1 dogada się z CSMS na 2.1?"
+    },
+    {
+      "id": "install-new-csms-root",
+      "expect": "no-trigger",
+      "neighbor": "ev-iso15118-pki-expert",
+      "prompt": "Jak zainstalować na stacji nowy certyfikat główny CSMS przed wymianą certyfikatu serwera, żeby stacje nie straciły połączenia?"
+    },
+    {
+      "id": "no-heartbeat-active-session-noc",
+      "expect": "no-trigger",
+      "neighbor": "ev-charging-operations-expert",
+      "prompt": "Jestem na nocnej zmianie. Stacja od 20 minut nie wysyła heartbeatów, a ma aktywną sesję klienta. Dzwonić do serwisu teraz czy czekać do rana?"
+    }
+  ]
+}

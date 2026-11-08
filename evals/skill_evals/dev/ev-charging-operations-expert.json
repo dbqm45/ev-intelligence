@@ -1,0 +1,47 @@
+{
+  "skill": "ev-charging-operations-expert",
+  "scenarios": [
+    {
+      "id": "night-earth-fault-mop",
+      "expect": "trigger",
+      "prompt": "Jest 2:40, mam dyżur. Stacja DC na MOP-ie zgłosiła awarię z błędem doziemienia na jednym złączu, drugie stoi wolne. Wyłączać całą stację czy tylko ten punkt, i czy budzić serwis teraz, czy to poczeka do rana?"
+    },
+    {
+      "id": "rfid-beep-nothing",
+      "expect": "trigger",
+      "prompt": "Kierowca dzwoni: przykłada kartę, ładowarka piszczy i nic się nie dzieje. W panelu stacja online, heartbeaty idą. Od czego zacząć, zanim wyślę technika?"
+    },
+    {
+      "id": "cable-locked-unlock-failed",
+      "expect": "trigger",
+      "prompt": "kabel został w gnieździe po skończonej sesji, klient stoi i się denerwuje, zdalne odblokowanie z panelu zwróciło UnlockFailed — co robię dalej??"
+    },
+    {
+      "id": "reset-without-killing-session",
+      "expect": "trigger",
+      "prompt": "Muszę zrestartować ładowarkę AC, bo zawiesił się czytnik kart, ale na drugim punkcie tej samej stacji ktoś właśnie ładuje. Jaki reset wybrać na 2.0.1, żeby nie przerwać mu sesji?"
+    },
+    {
+      "id": "monthly-availability-board",
+      "expect": "trigger",
+      "prompt": "Zarząd chce co miesiąc raport dostępności sieci, inwestor pyta, czy mamy 99%. Czy AFIR w ogóle coś tu wymaga i z jakich zdarzeń ze stacji to liczyć, żeby nikt nie podważył metodologii?"
+    },
+    {
+      "id": "roaming-customer-cannot-start",
+      "expect": "trigger",
+      "prompt": "Klienci jednego zewnętrznego eMSP od rana nie mogą uruchomić ładowania na naszych stacjach, nasi własni ładują bez problemu. Co mam sprawdzić po naszej stronie i w którym momencie eskalować do partnera?"
+    },
+    {
+      "id": "vendor-boot-order-quirk",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-diagnostics-expert",
+      "prompt": "Model jednego producenta z firmware 3.2.1 po restarcie wysyła StatusNotification dla connectorId 0 jeszcze przed BootNotification. Czy to łamie specyfikację i jak to udokumentować jako odchylenie tego modelu?"
+    },
+    {
+      "id": "reset-response-enum",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Jakie wartości może mieć status w odpowiedzi na Reset w OCPP 2.0.1 i czym to się różni od 1.6?"
+    }
+  ]
+}

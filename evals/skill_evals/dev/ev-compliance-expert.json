@@ -1,0 +1,47 @@
+{
+  "skill": "ev-compliance-expert",
+  "scenarios": [
+    {
+      "id": "udt-before-opening",
+      "expect": "trigger",
+      "prompt": "Stawiamy pierwszą ogólnodostępną stację 2×75 kW przy markecie. Kiedy trzeba ją zgłosić do UDT i czy bez badania możemy już wpuścić klientów?"
+    },
+    {
+      "id": "dso-as-operator",
+      "expect": "trigger",
+      "prompt": "Czy nasz lokalny OSD może sam być operatorem stacji ładowania? Słyszałem, że ustawa tego zabrania, ale są jakieś wyjątki."
+    },
+    {
+      "id": "eipa-late-prices-penalty",
+      "expect": "trigger",
+      "prompt": "Pytanie od działu prawnego: jakie kary grożą operatorowi, który nie aktualizuje cen w EIPA albo robi to z opóźnieniem, i który organ je nakłada?"
+    },
+    {
+      "id": "afir-duty-matrix",
+      "expect": "trigger",
+      "prompt": "Działamy jednocześnie jako CPO i eMSP. Potrzebuję rozpisanej tabeli, kto w AFIR za co odpowiada — państwo, operator punktu, dostawca usług mobilności — i gdzie AFIR odsyła do prawa krajowego."
+    },
+    {
+      "id": "eichrecht-what-to-store",
+      "expect": "trigger",
+      "prompt": "Wchodzimy na rynek niemiecki. Co nasz CSMS musi przechowywać i dawać kierowcy do wglądu, żeby rozliczenia były zgodne z Eichrecht — podpisane odczyty, klucz publiczny licznika, jak długo?"
+    },
+    {
+      "id": "help-phone-sticker-qr",
+      "expect": "trigger",
+      "prompt": "Czy polskie przepisy techniczne dla stacji ładowania wymagają numeru telefonu i instrukcji obsługi na samej stacji? Inwestor twierdzi, że wystarczy naklejka z kodem QR do strony."
+    },
+    {
+      "id": "annex2-dc-connectors",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-hardware-expert",
+      "prompt": "Które złącza wymaga aneks II AFIR w punktach DC powyżej 50 kW i czy kabel musi być na stałe przymocowany do ładowarki?"
+    },
+    {
+      "id": "forklift-udt-license",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Jakie uprawnienia UDT musi mieć magazynier obsługujący wózek widłowy i co ile trzeba je odnawiać?"
+    }
+  ]
+}

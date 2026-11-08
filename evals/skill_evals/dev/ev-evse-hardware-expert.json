@@ -1,0 +1,47 @@
+{
+  "skill": "ev-evse-hardware-expert",
+  "scenarios": [
+    {
+      "id": "type2-socket-chademo-cable",
+      "expect": "trigger",
+      "prompt": "Mamy ładowarkę z gniazdem Type 2 i CHAdeMO na kablu. Jak to poprawnie zmapować na typy złączy w OCPP 2.0.1 i w OCPI, żeby aplikacje pokazywały to dobrze?"
+    },
+    {
+      "id": "ac-32a-real-power-fields",
+      "expect": "trigger",
+      "prompt": "Ile realnie mocy daje punkt AC 32 A trójfazowy i jak zapisać napięcie, prąd i liczbę faz w danych punktu dla partnerów roamingowych?"
+    },
+    {
+      "id": "afir-power-category-report",
+      "expect": "trigger",
+      "prompt": "W sprawozdaniu AFIR trzeba podzielić punkty na kategorie mocy. Do której kategorii trafia DC 50 kW, a do której AC 22 kW?"
+    },
+    {
+      "id": "device-sheet-auto-pull",
+      "expect": "trigger",
+      "prompt": "Potrzebuję karty technicznej każdego urządzenia w CPMS: producent, model, numer seryjny, firmware, modem i karta SIM. Co z tego da się pobrać automatycznie z samej ładowarki, a co trzeba wpisać ręcznie?"
+    },
+    {
+      "id": "card-reader-required-150kw",
+      "expect": "trigger",
+      "prompt": "Czy nowa stacja DC 150 kW musi mieć czytnik kart płatniczych, czy wystarczy kod QR? Pytam od strony zamówienia sprzętu u producenta."
+    },
+    {
+      "id": "mcs-nacs-connector-types",
+      "expect": "trigger",
+      "prompt": "Czy w OCPI 2.3 są już typy złączy dla MCS do ciężarówek i dla NACS? Planujemy zajezdnię dla TIR-ów i nie wiem, jak to opisać w systemie."
+    },
+    {
+      "id": "overheat-connector-what-now",
+      "expect": "no-trigger",
+      "neighbor": "ev-charging-operations-expert",
+      "prompt": "Ładowarka zgłasza przegrzanie złącza i odmawia startu, klient czeka. Wysłać serwis czy najpierw spróbować zdalnego resetu?"
+    },
+    {
+      "id": "udt-periodic-inspection",
+      "expect": "no-trigger",
+      "neighbor": "ev-compliance-expert",
+      "prompt": "Jakie badania UDT musi przejść stacja DC przed uruchomieniem i co ile lat robi się badanie eksploatacyjne?"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "skill": "ev-integration-architect",
+  "scenarios": [
+    {
+      "id": "gateway-down-resync",
+      "expect": "trigger",
+      "prompt": "Nasza brama OCPP→OCPI leżała 3 godziny. Ładowarki trzymały zdarzenia w kolejce, a partnerzy OCPI mają nieaktualne statusy. Jak po powrocie zsynchronizować obie strony, żeby niczego nie zdublować ani nie zgubić?"
+    },
+    {
+      "id": "two-connectors-one-at-a-time",
+      "expect": "trigger",
+      "prompt": "Stacja na 1.6 ma dwa złącza (CCS i CHAdeMO), ale ładować może tylko jedno naraz. Jak to wystawić w OCPI — jeden EVSE z dwoma connectorami czy dwa EVSE?"
+    },
+    {
+      "id": "start-session-no-connector",
+      "expect": "trigger",
+      "prompt": "eMSP przysyła START_SESSION bez connector_id, a nasza ładowarka 1.6 wymaga connectorId w zdalnym starcie. Jak to obsłużyć po stronie translacji między protokołami?"
+    },
+    {
+      "id": "takeover-400-chargers-mixed",
+      "expect": "trigger",
+      "prompt": "Przejmujemy 400 ładowarek od innego operatora: część na 1.6 bez TLS, część na 2.0.1 z profilem 3. Jak zaplanować przepięcie na nasz CSMS, łącznie z kartami SIM i naklejkami QR na stacjach?"
+    },
+    {
+      "id": "vendor-extra-telemetry",
+      "expect": "trigger",
+      "prompt": "Producent chce przesyłać do nas temperatury modułów mocy. Lepiej DataTransfer, customData czy własny komponent w Device Model? Zależy nam, żeby nie popsuć interoperacyjności z innymi CSMS."
+    },
+    {
+      "id": "unknown-fields-policy",
+      "expect": "trigger",
+      "prompt": "partner OCPI dosyła pola spoza specyfikacji, a nasz parser po stronie OCPP z zasady odrzuca nieznane pola. jaką politykę przyjąć w bramie, żeby nie wywalać się na każdej nowości?"
+    },
+    {
+      "id": "cpms-mvp-modules",
+      "expect": "no-trigger",
+      "neighbor": "ev-cpms-architect",
+      "prompt": "Projektujemy CPMS od zera. Jakie moduły powinny wejść do MVP i jak podzielić odpowiedzialność między warstwę połączeń ze stacjami a moduł sesji?"
+    },
+    {
+      "id": "credentials-handshake-221",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpi-roaming-expert",
+      "prompt": "Jak przebiega wymiana tokenów przy rejestracji nowego partnera w OCPI 2.2.1 i który token wysyłamy po zakończeniu?"
+    }
+  ]
+}

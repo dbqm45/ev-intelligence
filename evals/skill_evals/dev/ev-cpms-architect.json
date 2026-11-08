@@ -1,0 +1,47 @@
+{
+  "skill": "ev-cpms-architect",
+  "scenarios": [
+    {
+      "id": "restart-thundering-herd",
+      "expect": "trigger",
+      "prompt": "Po restarcie naszego CSMS 8 tysięcy ładowarek łączy się praktycznie jednocześnie i gateway WebSocket pada. Jak zaprojektować warstwę połączeń, żeby to przetrwała?"
+    },
+    {
+      "id": "hold-new-charger-until-assigned",
+      "expect": "trigger",
+      "prompt": "Chcę, żeby nowa ładowarka po pierwszym podłączeniu nie mogła nic ładować, dopóki serwisant nie przypisze jej do lokalizacji w panelu. Jak to rozwiązać w procesie dopuszczania stacji?"
+    },
+    {
+      "id": "split-unavailable-status",
+      "expect": "trigger",
+      "prompt": "W naszym panelu mamy jeden status 'niedostępna' na wszystko. Jak to rozbić na brak łączności, wyłączenie przez operatora i awarię, żeby miało sens i dla NOC, i dla aplikacji kierowcy?"
+    },
+    {
+      "id": "own-and-partner-stations-one-model",
+      "expect": "trigger",
+      "prompt": "Kierownik projektu tu: w jednym CPMS chcemy mieć nasze stacje i stacje partnerów z roamingu. Czy to ma być ten sam model danych i jakie są ograniczenia, skoro cudzych nie kontrolujemy?"
+    },
+    {
+      "id": "nap-publication-design",
+      "expect": "trigger",
+      "prompt": "Musimy wystawić dane statyczne i dynamiczne o naszych stacjach dla krajowego punktu dostępowego. Jak to zaprojektować — kto kogo odpytuje, jak często odświeżać statusy, w jakim formacie?"
+    },
+    {
+      "id": "white-label-tenant-isolation",
+      "expect": "trigger",
+      "prompt": "Sprzedajemy CPMS jako white-label kilku operatorom. Jak odseparować dane i uprawnienia tenantów, zwłaszcza gdy dwie firmy mają stacje za jednym lokalnym kontrolerem na tym samym parkingu?"
+    },
+    {
+      "id": "move-1200-chargers-remotely",
+      "expect": "no-trigger",
+      "neighbor": "ev-integration-architect",
+      "prompt": "Przenosimy 1200 ładowarek z CSMS dostawcy A do naszego. Jak je przepiąć zdalnie, bez wysyłania techników na każdą lokalizację?"
+    },
+    {
+      "id": "share-250kw-connection",
+      "expect": "no-trigger",
+      "neighbor": "ev-energy-smart-charging-expert",
+      "prompt": "Mamy przyłącze 250 kW i dziesięć ładowarek DC na zajezdni. Jak CSMS ma na bieżąco dzielić moc między nie, żeby nie przekroczyć przyłącza?"
+    }
+  ]
+}

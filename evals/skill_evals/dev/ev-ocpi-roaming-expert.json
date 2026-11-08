@@ -1,0 +1,47 @@
+{
+  "skill": "ev-ocpi-roaming-expert",
+  "scenarios": [
+    {
+      "id": "versions-401-token-encoding",
+      "expect": "trigger",
+      "prompt": "Przy rejestracji z hubem dostajemy 401 na endpoint versions. Token A wysyłamy w nagłówku Authorization jako 'Token abc...'. Czy w 2.2.1 trzeba go jakoś kodować?"
+    },
+    {
+      "id": "locations-paging-incremental",
+      "expect": "trigger",
+      "prompt": "Pull Locations od CPO: X-Total-Count 12000, a dostajemy po 50 na stronę. Jak poprawnie przejść po wszystkich stronach i jak potem robić synchronizację przyrostową, żeby nie ciągnąć wszystkiego codziennie?"
+    },
+    {
+      "id": "command-accepted-no-result",
+      "expect": "trigger",
+      "prompt": "Wysyłamy START_SESSION, CPO odpowiada ACCEPTED, ale na nasz response_url nic potem nie przychodzi. Po jakim czasie uznać komendę za nieudaną i co powiedzieć klientowi w aplikacji?"
+    },
+    {
+      "id": "oicp-remote-auth-sessionid",
+      "expect": "trigger",
+      "prompt": "Integrujemy się z Hubjectem. Jak w OICP 2.3 działa zdalny start z aplikacji i czym się różni ich SessionID od identyfikatora sesji w OCPI?"
+    },
+    {
+      "id": "wrong-cdr-correction",
+      "expect": "trigger",
+      "prompt": "CPO wysłał nam błędny CDR, kierowca dostał za wysoki rachunek. Jak to poprawić zgodnie z OCPI — nowy CDR, CDR korygujący, czy da się nadpisać stary?"
+    },
+    {
+      "id": "ochp-cdr-acceptance-ttl",
+      "expect": "trigger",
+      "prompt": "Partner w Niemczech chce wymiany przez e-clearing.net. Jak tam wygląda akceptowanie i odrzucanie CDR-ów i jak długo jest ważny status live punktu?"
+    },
+    {
+      "id": "compute-session-price",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Taryfa ma opłatę stałą 2 zł, 1,90 zł/kWh i postój płatny po 2 godzinach. Ile zapłaci kierowca za sesję trwającą 2,5 h, w której pobrał 40 kWh?"
+    },
+    {
+      "id": "remote-start-missing-idtag",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Ładowarka odrzuca RemoteStartTransaction, bo w żądaniu nie ma idTag. Co CSMS musi wysłać i czy stacja może to zautoryzować sama?"
+    }
+  ]
+}

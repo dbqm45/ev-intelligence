@@ -1,0 +1,47 @@
+{
+  "skill": "ev-energy-smart-charging-expert",
+  "scenarios": [
+    {
+      "id": "default-vs-tx-profile-versions",
+      "expect": "trigger",
+      "prompt": "Na stacji siedzi profil domyślny dla transakcji na stack 0 z 32 A, a ja dokładam profil konkretnej transakcji na stack 1 z 16 A. Który wygrywa w 1.6, a który w 2.0.1? Ktoś mówił, że to się zmieniło między wersjami."
+    },
+    {
+      "id": "watts-or-amps-one-phase-cars",
+      "expect": "trigger",
+      "prompt": "Limit podawać w W czy w A? Mamy ładowarki AC jedno- i trójfazowe oraz auta, które ładują tylko na jednej fazie. Jak przeliczyć 11 kW na prąd, żeby nie przekroczyć zabezpieczenia przyłącza?"
+    },
+    {
+      "id": "dso-peak-signal-depot",
+      "expect": "trigger",
+      "prompt": "OSD chce ograniczać moc naszej zajezdni sygnałem w godzinach szczytu. Jak to wpiąć, żeby stacja wiedziała, że limit przyszedł z zewnątrz, i jak CSMS ma się o nim dowiedzieć?"
+    },
+    {
+      "id": "profile-after-reboot-fear",
+      "expect": "trigger",
+      "prompt": "co robi ładowarka z ograniczeniem mocy, jak straci łączność z backendem na kilka godzin albo się zrestartuje? boimy się, że po restarcie poleci pełną mocą i wywali zabezpieczenie w budynku"
+    },
+    {
+      "id": "fleet-fcr-discharge-cap",
+      "expect": "trigger",
+      "prompt": "Agregator chce używać aut naszej floty do regulacji częstotliwości. Co daje OCPP 2.1 w zakresie oddawania energii przez auto i jak ograniczyć, ile energii może oddać jeden pojazd?"
+    },
+    {
+      "id": "emsp-shift-to-cheap-hours",
+      "expect": "trigger",
+      "prompt": "Jesteśmy eMSP i chcemy przesuwać ładowanie naszych klientów na tańsze godziny, także na stacjach innych CPO. Czy przez OCPI da się wysłać ograniczenie mocy do trwającej sesji u CPO?"
+    },
+    {
+      "id": "peak-offpeak-ocpi-tariff",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Chcemy cenę za kWh zależną od pory dnia: 2,10 zł w dzień, 1,40 zł w nocy. Jak to zapisać w taryfie OCPI, żeby eMSP poprawnie liczyli koszt?"
+    },
+    {
+      "id": "formationviolation-rpc",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "SetChargingProfile wraca z CALLERROR FormationViolation. Co oznacza ten kod błędu RPC i jakie inne kody błędów są w OCPP-J?"
+    }
+  ]
+}
