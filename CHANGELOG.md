@@ -3,6 +3,13 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.3] — 2026-11-08
+### Added
+- **eval:** add dev set and routing-only mode to the evaluation runner
+### Fixed
+- **skills:** restore market data phrase in product designer description
+- **skills:** widen cpms and product descriptions after the dev routing run
+
 ## [0.1.2] — 2026-11-08
 ### Fixed
 - **operations:** add Faulted status as an alarm source in OCPP 2.0.1
