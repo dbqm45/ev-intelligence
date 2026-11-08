@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED from taxonomy/taxonomy.yaml by tools/render_taxonomy.py — do not edit by hand. -->
 
-# EV Knowledge Taxonomy — drzewo (v1.0.0, accepted, 2026-11-07)
+# EV Knowledge Taxonomy — drzewo (v1.1.0, accepted, 2026-11-08)
 
 **Domeny: 23 · poddomeny: 128 · tematy: 316.** Legenda: `MVP` = Etap 1, `P2` = Etap 4, `P3` = później; ⚠️ = wersje/numery do weryfikacji w źródle pierwotnym.
 
@@ -11,17 +11,17 @@
 | D00 | [Fundamenty, terminologia i model domenowy](#d00--foundations) *(przekrojowa)* | MVP | 5 | `ev-domain-expert` | — |
 | D01 | [Protokoły i standardy komunikacji](#d01--protocols) | MVP | 11 | `ev-ocpp-expert`, `ev-ocpi-roaming-expert`, `ev-iso15118-pki-expert` | D00 |
 | D02 | [Normy elektrotechniczne i fizyka ładowania](#d02--electrical) | P2 | 5 | `ev-evse-hardware-expert` | D00 |
-| D03 | [Urządzenia, komponenty i producenci](#d03--hardware) | MVP | 7 | `ev-evse-hardware-expert`, `ev-evse-diagnostics-expert` | D00, D01, D02 |
+| D03 | [Urządzenia, komponenty i producenci](#d03--hardware) | MVP | 7 | `ev-evse-hardware-expert`, `ev-evse-diagnostics-expert`, `ev-charging-operations-expert` | D00, D01, D02 |
 | D04 | [Pojazd, bateria i interakcja EV–EVSE](#d04--vehicle) | P2 | 5 | `ev-evse-diagnostics-expert` | D01, D02 |
-| D05 | [CPMS / CSMS i systemy zarządzania](#d05--cpms) | MVP | 9 | `ev-cpms-architect`, `ev-integration-architect` | D00, D01, D03 |
+| D05 | [CPMS / CSMS i systemy zarządzania](#d05--cpms) | MVP | 9 | `ev-cpms-architect`, `ev-integration-architect`, `ev-product-designer` | D00, D01, D03 |
 | D06 | [Roaming i interoperacyjność](#d06--roaming) | MVP | 5 | `ev-ocpi-roaming-expert` | D00, D01, D05, D09 |
-| D07 | [Operacje, utrzymanie i serwis](#d07--operations) | MVP | 6 | `ev-charging-operations-expert`, `ev-evse-diagnostics-expert` | D03, D05 |
+| D07 | [Operacje, utrzymanie i serwis](#d07--operations) | MVP | 6 | `ev-charging-operations-expert` | D03, D05 |
 | D08 | [Energia, sieć i elastyczność](#d08--energy) | P2 | 6 | `ev-energy-smart-charging-expert` | D01, D02, D05 |
 | D09 | [Taryfy, rozliczenia i płatności](#d09--billing) | P2 | 5 | `ev-billing-tariff-expert` | D00, D05, D10 |
 | D10 | [Pomiary i metrologia prawna](#d10--metering) | P2 | 4 | `ev-billing-tariff-expert`, `ev-compliance-expert` | D02, D03 |
 | D11 | [Bezpieczeństwo i cyberbezpieczeństwo](#d11--security) | P2 | 5 | `ev-iso15118-pki-expert` | D01, D14 |
 | D12 | [Regulacje i compliance](#d12--regulations) | P2 | 7 | `ev-compliance-expert` | D00 |
-| D13 | [Testy, zgodność i certyfikacja](#d13--testing) | P2 | 4 | `ev-integration-architect`, `ev-ocpp-expert` | D01, D03, D05 |
+| D13 | [Testy, zgodność i certyfikacja](#d13--testing) | P2 | 4 | `ev-evse-diagnostics-expert`, `ev-integration-architect`, `ev-compliance-expert` | D01, D03, D05 |
 | D14 | [Architektura IT i integracje](#d14--it-architecture) | P2 | 6 | `ev-cpms-architect`, `ev-integration-architect` | D05 |
 | D15 | [Dane, analityka i AI](#d15--data-analytics) | P3 | 5 | `ev-product-designer` | D05, D07 |
 | D16 | [Produkt, UX i doświadczenie klienta](#d16--product-ux) | P3 | 5 | `ev-product-designer` | D05, D07 |
@@ -29,7 +29,7 @@
 | D18 | [Rozwój lokalizacji i wdrażanie infrastruktury](#d18--site-deployment) | P3 | 4 | `ev-charging-operations-expert` | D02, D08, D12 |
 | D19 | [Segmenty i konteksty ładowania](#d19--segments) | P3 | 7 | `ev-domain-expert` | D00 |
 | D20 | [Zrównoważony rozwój i ESG](#d20--sustainability) | P3 | 4 | `ev-compliance-expert` | D08, D12 |
-| D21 | [EV Implementation Intelligence](#d21--implementation-intelligence) *(przekrojowa)* | MVP | 4 | `ev-evse-diagnostics-expert`, `ev-integration-architect` | D01, D03, D05 |
+| D21 | [EV Implementation Intelligence](#d21--implementation-intelligence) *(przekrojowa)* | MVP | 4 | `ev-evse-diagnostics-expert`, `ev-integration-architect`, `ev-charging-operations-expert` | D01, D03, D05 |
 | D22 | [Katalog przypadków użycia](#d22--use-cases) *(przekrojowa)* | MVP | 5 | `ev-domain-expert` | D01, D05, D06, D07 |
 
 ## D00 · foundations
@@ -95,6 +95,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/ocpp/`
 
+Skill: `ev-ocpp-expert`
+
 - Wersje 1.5, 1.6J (Edition 2), 2.0.1, 2.1 — różnice, erraty, niekompatybilność 1.6 ↔ 2.x
 - Status OCPP 2.0.1 jako normy IEC 63584
 - Architektura (WebSocket, JSON-RPC-like, SOAP w 1.5/1.6S), sub-protokoły, kolejkowanie
@@ -110,6 +112,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/ocpi/`
 
+Skill: `ev-ocpi-roaming-expert`
+
 - Wersje 2.1.1, 2.2, 2.2.1, 2.3.0 oraz prace nad 3.0 — różnice i ścieżki migracji
 - Role (CPO, eMSP, Hub, NAP, NSP, SCSP) i moduły Credentials/Versions
 - Locations, EVSE, Connector — model i aktualizacje
@@ -122,6 +126,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/oicp/`
 
+Skill: `ev-ocpi-roaming-expert`
+
 - Wersje OICP, architektura CPO/EMP ↔ Hubject
 - EVSE Data/Status, Authorization, Charge Detail Records, Pricing, Plug & Charge
 - Różnice modelu danych OICP vs OCPI i mapowanie
@@ -130,6 +136,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/emip/`
 
+Skill: `ev-ocpi-roaming-expert`
+
 - Architektura i obiekty eMIP, różnice względem OCPI
 - Rola Gireve i współistnienie eMIP z OCPI
 
@@ -137,12 +145,16 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/ochp/`
 
+Skill: `ev-ocpi-roaming-expert`
+
 - OCHP / OCHPdirect (e-clearing.net) — status i zastosowanie
 - Protokoły historyczne i lokalne, migracje do OCPI
 
 ### D01.06 ISO 15118 (EV ↔ EVSE, high-level communication) `P2` ⚠️
 
 `knowledge/protocols/iso-15118/`
+
+Skill: `ev-iso15118-pki-expert`
 
 - Części -1, -2, -3, -8, -10, -20 i -20 vs -2 (BPT, WPT, dynamic mode)
 - Sekwencje komunikacji (SLAC, SDP, TLS, sesja V2G)
@@ -153,12 +165,16 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/din-70121/`
 
+Skill: `ev-iso15118-pki-expert`
+
 - Zakres i ograniczenia względem ISO 15118-2
 - Autocharge (MAC jako identyfikator) — mechanizm, ryzyka
 
 ### D01.08 Inne systemy komunikacji EV ↔ EVSE `P3` ⚠️
 
 `knowledge/protocols/other-ev-evse/`
+
+Skill: brak skilla (luka w bazie)
 
 - CHAdeMO (wersje, CAN, V2X)
 - GB/T, ChaoJi
@@ -168,6 +184,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 ### D01.09 Protokoły zarządzania energią `P2` ⚠️
 
 `knowledge/protocols/energy-protocols/`
+
+Skill: brak skilla (luka w bazie)
 
 - OSCP (Open Smart Charging Protocol)
 - OpenADR 2.0 / 3.0
@@ -179,6 +197,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 
 `knowledge/protocols/field-protocols/`
 
+Skill: brak skilla (luka w bazie)
+
 - Modbus RTU/TCP — liczniki, falowniki, BESS, rejestry
 - SunSpec
 - MQTT — architektura, QoS, bezpieczeństwo, zastosowania w EMS/IoT
@@ -188,6 +208,8 @@ Fundament techniczny — komunikacja EV↔EVSE, EVSE↔CSMS, CPO↔eMSP, system�
 ### D01.11 Standardy w przygotowaniu `P3` ⚠️
 
 `knowledge/protocols/emerging-standards/`
+
+Skill: brak skilla (luka w bazie)
 
 - IEC 63110 (zarządzanie infrastrukturą ładowania)
 - IEC 63119 (wymiana informacji roamingowych)
@@ -248,6 +270,8 @@ Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa
 
 `knowledge/hardware/device-categories/`
 
+Skill: `ev-evse-hardware-expert`
+
 - AC wallbox, AC słupek, DC kompakt, DC fast, HPC
 - Ładowarki modułowe, systemy satelitarne (power cabinet + dispensers)
 - Ładowarki z magazynem energii, mobilne
@@ -255,6 +279,8 @@ Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa
 ### D03.02 Komponenty `P2`
 
 `knowledge/hardware/components/`
+
+Skill: `ev-evse-hardware-expert`
 
 - Kontrolery komunikacyjne i ładowania, modemy LTE/Ethernet/Wi-Fi
 - Liczniki energii (AC/DC, MID, Eichrecht), czytniki RFID, wyświetlacze
@@ -264,6 +290,8 @@ Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa
 
 `knowledge/hardware/device-cards/`
 
+Skill: `ev-evse-hardware-expert`
+
 - Szablon karty (identyfikacja, moc, złącza, komunikacja, OCPP, parametry, ograniczenia, diagnostyka, firmware)
 - Karty rodzin urządzeń wiodących producentów
 - Deklarowane vs zweryfikowane funkcje OCPP (capability matrix)
@@ -272,12 +300,16 @@ Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa
 
 `knowledge/hardware/manufacturers/`
 
+Skill: `ev-evse-hardware-expert`
+
 - Profile producentów, portfolio, rynki, kanały wsparcia
 - Dokumentacja i portale serwisowe, polityka aktualizacji
 
 ### D03.05 Firmware i cykl życia oprogramowania urządzeń `MVP`
 
 `knowledge/hardware/firmware/`
+
+Skill: `ev-evse-diagnostics-expert`
 
 - Wersjonowanie, release notes, kompatybilność z CPMS
 - Procedury aktualizacji zdalnej i rollbacku
@@ -287,6 +319,8 @@ Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa
 
 `knowledge/hardware/hardware-diagnostics/`
 
+Skill: `ev-charging-operations-expert`
+
 - Kody błędów OCPP (ErrorCode, vendorErrorCode) vs kody producentów
 - Logi, alarmy, zdarzenia Device Model
 - Mapowanie kodów na przyczyny i działania
@@ -294,6 +328,8 @@ Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa
 ### D03.07 Wybór, zakup i TCO urządzeń `P3`
 
 `knowledge/hardware/procurement/`
+
+Skill: `ev-evse-hardware-expert`
 
 - Kryteria wyboru, wymagania przetargowe, gwarancje, SLA producenta
 - TCO, koszty serwisu, dostępność części
@@ -350,6 +386,8 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 
 `knowledge/cpms/architecture/`
 
+Skill: `ev-cpms-architect`
+
 - Moduły referencyjne i granice odpowiedzialności
 - Warstwa komunikacji OCPP (connection management, skalowanie WebSocket)
 - Multi-tenancy, white-label, hierarchia organizacji
@@ -357,6 +395,8 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 ### D05.02 Zarządzanie flotą urządzeń `MVP`
 
 `knowledge/cpms/asset-management/`
+
+Skill: `ev-cpms-architect`
 
 - Provisioning i onboarding ładowarek
 - Zarządzanie konfiguracją i firmware w skali
@@ -366,6 +406,8 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 
 `knowledge/cpms/session-management/`
 
+Skill: `ev-cpms-architect`
+
 - Maszyna stanów sesji (w tym przypadki brzegowe i odzyskiwanie)
 - Remote start/stop, rezerwacje, lokalna lista autoryzacji, cache
 - Obsługa transakcji offline i opóźnionych
@@ -373,6 +415,8 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 ### D05.04 Statusy i dostępność `MVP`
 
 `knowledge/cpms/status-availability/`
+
+Skill: `ev-cpms-architect`
 
 - Model statusów (połączenie, EVSE, connector) i ich agregacja
 - Offline vs unavailable vs faulted — reguły rozróżniania
@@ -382,6 +426,8 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 
 `knowledge/cpms/external-assets/`
 
+Skill: `ev-cpms-architect`
+
 - Zakres operacji dla urządzeń OCPP vs danych OCPI
 - Synchronizacja statusów, lokalizacji, taryf, sesji; konflikty danych
 - Wykrywanie braku aktualizacji danych zewnętrznych
@@ -390,12 +436,16 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 
 `knowledge/cpms/users-permissions/`
 
+Skill: `ev-cpms-architect`
+
 - RBAC/ABAC dla CPO, site hostów, serwisu, klientów flotowych
 - Audyt działań operatorów
 
 ### D05.07 API i integracje CPMS `P2`
 
 `knowledge/cpms/cpms-apis/`
+
+Skill: `ev-integration-architect`
 
 - API publiczne i partnerskie, webhooks, eventy
 - Integracje ERP, CRM, ticketing, BI, płatności
@@ -404,12 +454,16 @@ Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
 
 `knowledge/cpms/emsp-platform/`
 
+Skill: `ev-product-designer`
+
 - Zarządzanie kontraktami i tokenami, aplikacja kierowcy
 - Agregacja lokalizacji, ceny dla kierowcy, rozliczenia z CPO
 
 ### D05.09 Raportowanie `P3`
 
 `knowledge/cpms/reporting/`
+
+Skill: `ev-cpms-architect`
 
 - Raporty operacyjne, finansowe, regulacyjne
 - Raporty dla site hostów i klientów flotowych
@@ -467,6 +521,8 @@ Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
 
 `knowledge/operations/monitoring/`
 
+Skill: `ev-charging-operations-expert`
+
 - Organizacja NOC, dyżury, poziomy wsparcia (L1/L2/L3)
 - Alerty, progi, redukcja fałszywych alarmów
 - Wykrywanie utraty komunikacji (Heartbeat, WebSocket, brak danych)
@@ -474,6 +530,8 @@ Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
 ### D07.02 Diagnostyka zdalna `MVP`
 
 `knowledge/operations/diagnostics/`
+
+Skill: `ev-charging-operations-expert`
 
 - Drzewa diagnostyczne typowych problemów
 - Kolejność działań (bez odruchowego restartu), zbieranie dowodów
@@ -483,12 +541,16 @@ Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
 
 `knowledge/operations/incidents/`
 
+Skill: `ev-charging-operations-expert`
+
 - Klasyfikacja i priorytety, SLA reakcji i naprawy
 - Eskalacje do producenta, serwisu, DSO, partnera roamingowego
 
 ### D07.04 Serwis terenowy i utrzymanie `P2`
 
 `knowledge/operations/field-service/`
+
+Skill: brak skilla (luka w bazie)
 
 - Dyspozytornia, work orders, przeglądy okresowe
 - Części zamienne, logistyka, bezpieczeństwo prac
@@ -498,12 +560,16 @@ Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
 
 `knowledge/operations/kpi-sla/`
 
+Skill: `ev-charging-operations-expert`
+
 - Uptime, success rate sesji, MTTR, MTBF, utilization
 - Definicje KPI zgodne z regulacjami i umowami
 
 ### D07.06 Obsługa klienta (kierowcy) `P2`
 
 `knowledge/operations/customer-support/`
+
+Skill: brak skilla (luka w bazie)
 
 - Hotline 24/7, typowe zgłoszenia, skrypty
 - Reklamacje, zwroty, komunikacja w trakcie awarii
@@ -610,12 +676,16 @@ Wiarygodność pomiaru energii jako podstawa rozliczeń.
 
 `knowledge/metering/mid/`
 
+Skill: `ev-compliance-expert`
+
 - Dyrektywa MID, klasy dokładności, liczniki AC
 - Liczniki DC i wymagania (np. normy dla pomiaru DC)
 
 ### D10.02 Eichrecht i wymagania krajowe `P2`
 
 `knowledge/metering/eichrecht/`
+
+Skill: `ev-compliance-expert`
 
 - Niemieckie prawo legalizacyjne — wymagania dla CPO i eMSP
 - Odpowiedniki i wymagania w innych krajach (w tym PL)
@@ -624,12 +694,16 @@ Wiarygodność pomiaru energii jako podstawa rozliczeń.
 
 `knowledge/metering/signed-meter-values/`
 
+Skill: `ev-compliance-expert`
+
 - OCMF, formaty podpisów, transparency software
 - Przenoszenie podpisanych danych przez OCPP i OCPI
 
 ### D10.04 Jakość danych pomiarowych `P3`
 
 `knowledge/metering/meter-data-quality/`
+
+Skill: `ev-billing-tariff-expert`
 
 - Luki, skoki, reset liczników, rozbieżności z CDR
 - Reguły walidacji MeterValues
@@ -747,6 +821,8 @@ Jak udowodnić, że implementacja działa i jest zgodna.
 
 `knowledge/testing/protocol-conformance/`
 
+Skill: `ev-evse-diagnostics-expert`
+
 - OCTT i certyfikacja OCA, plany testów
 - Testy OCPI, środowiska testowe hubów
 - ISO 15118 conformance (np. testy CharIN)
@@ -755,12 +831,16 @@ Jak udowodnić, że implementacja działa i jest zgodna.
 
 `knowledge/testing/interoperability-events/`
 
+Skill: `ev-integration-architect`
+
 - Plugfesty i testivale, wnioski z wydarzeń
 - {'Różnica': 'conformance vs interoperability testing'}
 
 ### D13.03 Testy integracyjne CPMS–EVSE `P2`
 
 `knowledge/testing/integration-testing/`
+
+Skill: `ev-integration-architect`
 
 - Symulatory ładowarek i pojazdów, narzędzia open-source
 - Katalog przypadków testowych i kryteria akceptacji
@@ -769,6 +849,8 @@ Jak udowodnić, że implementacja działa i jest zgodna.
 ### D13.04 Certyfikacja produktów `P3`
 
 `knowledge/testing/product-certification/`
+
+Skill: `ev-compliance-expert`
 
 - Badania bezpieczeństwa, laboratoria, certyfikaty krajowe
 - Certyfikacja pomiarów (MID/Eichrecht)
@@ -783,12 +865,16 @@ Wzorce techniczne dla systemów w branży EV.
 
 `knowledge/it-architecture/communication-patterns/`
 
+Skill: `ev-integration-architect`
+
 - REST, WebSocket, webhooks, gRPC
 - Idempotencja, retry, back-off, korelacja żądań
 
 ### D14.02 Architektura zdarzeniowa `P2`
 
 `knowledge/it-architecture/event-driven/`
+
+Skill: `ev-integration-architect`
 
 - Message brokers (Kafka, RabbitMQ, MQTT), event sourcing
 - Kolejność zdarzeń, deduplikacja, outbox
@@ -797,12 +883,16 @@ Wzorce techniczne dla systemów w branży EV.
 
 `knowledge/it-architecture/data-storage/`
 
+Skill: `ev-cpms-architect`
+
 - Relacyjne (PostgreSQL), cache (Redis), szeregi czasowe
 - Retencja danych, archiwizacja, partycjonowanie
 
 ### D14.04 Skalowalność i niezawodność `P3`
 
 `knowledge/it-architecture/scalability-reliability/`
+
+Skill: `ev-cpms-architect`
 
 - Skalowanie połączeń WebSocket, sticky sessions, failover
 - Multi-region, disaster recovery
@@ -811,12 +901,16 @@ Wzorce techniczne dla systemów w branży EV.
 
 `knowledge/it-architecture/observability/`
 
+Skill: `ev-cpms-architect`
+
 - Logi, metryki, tracing komunikacji OCPP/OCPI
 - Monitoring syntetyczny, SLO
 
 ### D14.06 IAM i API gateway `P3`
 
 `knowledge/it-architecture/identity-gateway/`
+
+Skill: `ev-cpms-architect`
 
 - IAM, SSO, multi-tenant identity
 - API gateway, rate limiting, wersjonowanie API
@@ -1059,12 +1153,16 @@ Wiedza praktyczna z wdrożeń — kluczowy wyróżnik. Zawsze z modelem, firmwar
 
 `knowledge/implementation-intelligence/vendor-quirks/`
 
+Skill: `ev-evse-diagnostics-expert`
+
 - Różnice „standard vs implementacja” per model/firmware
 - Niestandardowe DataTransfer, nietypowe sekwencje komunikatów
 
 ### D21.02 Macierz kompatybilności `P2`
 
 `knowledge/implementation-intelligence/compatibility-matrix/`
+
+Skill: `ev-integration-architect`
 
 - CPMS × EVSE × firmware × funkcja — status zweryfikowany/obserwowany
 - EV × EVSE — znane problemy
@@ -1073,12 +1171,16 @@ Wiedza praktyczna z wdrożeń — kluczowy wyróżnik. Zawsze z modelem, firmwar
 
 `knowledge/implementation-intelligence/workarounds-configs/`
 
+Skill: `ev-evse-diagnostics-expert`
+
 - Rekomendowane ustawienia konfiguracji per model
 - Obejścia problemów z oceną ryzyka
 
 ### D21.04 Biblioteka przypadków produkcyjnych `P2`
 
 `knowledge/implementation-intelligence/case-library/`
+
+Skill: `ev-charging-operations-expert`
 
 - Zanonimizowane incydenty — objawy, przyczyna, rozwiązanie, lekcje
 - Anti-patterns projektowe i operacyjne
@@ -1131,15 +1233,15 @@ Scenariusze end-to-end łączące wiele domen — test wartości całej bazy.
 | Skill | Nazwa | Etap | Domeny |
 |-------|-------|------|--------|
 | `ev-domain-expert` | EV Domain Expert | MVP | D00, D19, D22 |
-| `ev-ocpp-expert` | OCPP Expert | MVP | D01, D13 |
+| `ev-ocpp-expert` | OCPP Expert | MVP | D01 |
 | `ev-ocpi-roaming-expert` | OCPI / Roaming Expert | MVP | D01, D06 |
 | `ev-cpms-architect` | CPMS Architect | MVP | D05, D14 |
 | `ev-evse-hardware-expert` | EVSE Hardware Expert | MVP | D02, D03 |
-| `ev-evse-diagnostics-expert` | EVSE Diagnostics Expert | MVP | D03, D04, D07, D21 |
-| `ev-charging-operations-expert` | Charging Operations Expert | MVP | D07, D18 |
+| `ev-evse-diagnostics-expert` | EVSE Diagnostics Expert | MVP | D03, D04, D13, D21 |
+| `ev-charging-operations-expert` | Charging Operations Expert | MVP | D03, D07, D18, D21 |
 | `ev-integration-architect` | EV Integration Architect | P2 | D05, D13, D14, D21 |
 | `ev-billing-tariff-expert` | EV Billing & Tariff Expert | P2 | D09, D10 |
 | `ev-energy-smart-charging-expert` | Energy & Smart Charging Expert | P2 | D08 |
 | `ev-iso15118-pki-expert` | ISO 15118 & PKI Expert | P2 | D01, D11 |
-| `ev-compliance-expert` | Compliance Expert | P2 | D10, D12, D20 |
-| `ev-product-designer` | EV Product Designer | P2 | D15, D16, D17 |
+| `ev-compliance-expert` | Compliance Expert | P2 | D10, D12, D13, D20 |
+| `ev-product-designer` | EV Product Designer | P2 | D05, D15, D16, D17 |

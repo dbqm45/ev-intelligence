@@ -10,10 +10,10 @@
 
 taxonomy:
   id: ev-intelligence-taxonomy
-  version: 1.0.0
+  version: 1.1.0
   status: accepted
   accepted: 2026-11-07
-  date: 2026-11-07
+  date: 2026-11-08
   language: pl
 
 facets:
@@ -142,6 +142,7 @@ domains:
       - id: D01.01
         key: ocpp
         name: OCPP (EVSE ↔ CSMS)
+        skills: [ev-ocpp-expert]
         priority: mvp
         verify: true
         topics:
@@ -158,6 +159,7 @@ domains:
       - id: D01.02
         key: ocpi
         name: OCPI (CPO ↔ eMSP / hub)
+        skills: [ev-ocpi-roaming-expert]
         priority: mvp
         verify: true
         topics:
@@ -171,6 +173,7 @@ domains:
       - id: D01.03
         key: oicp
         name: OICP (Hubject)
+        skills: [ev-ocpi-roaming-expert]
         priority: p2
         verify: true
         topics:
@@ -180,6 +183,7 @@ domains:
       - id: D01.04
         key: emip
         name: eMIP (Gireve)
+        skills: [ev-ocpi-roaming-expert]
         priority: p3
         verify: true
         topics:
@@ -188,6 +192,7 @@ domains:
       - id: D01.05
         key: ochp
         name: OCHP i inne protokoły roamingowe
+        skills: [ev-ocpi-roaming-expert]
         priority: p3
         verify: true
         topics:
@@ -196,6 +201,7 @@ domains:
       - id: D01.06
         key: iso-15118
         name: ISO 15118 (EV ↔ EVSE, high-level communication)
+        skills: [ev-iso15118-pki-expert]
         priority: p2
         verify: true
         topics:
@@ -206,6 +212,7 @@ domains:
       - id: D01.07
         key: din-70121
         name: DIN SPEC 70121
+        skills: [ev-iso15118-pki-expert]
         priority: p2
         topics:
           - Zakres i ograniczenia względem ISO 15118-2
@@ -213,6 +220,7 @@ domains:
       - id: D01.08
         key: other-ev-evse
         name: Inne systemy komunikacji EV ↔ EVSE
+        skills: []
         priority: p3
         verify: true
         topics:
@@ -223,6 +231,7 @@ domains:
       - id: D01.09
         key: energy-protocols
         name: Protokoły zarządzania energią
+        skills: []
         priority: p2
         verify: true
         topics:
@@ -234,6 +243,7 @@ domains:
       - id: D01.10
         key: field-protocols
         name: Komunikacja polowa i urządzeń
+        skills: []
         priority: p2
         topics:
           - Modbus RTU/TCP — liczniki, falowniki, BESS, rejestry
@@ -244,6 +254,7 @@ domains:
       - id: D01.11
         key: emerging-standards
         name: Standardy w przygotowaniu
+        skills: []
         priority: p3
         verify: true
         topics:
@@ -310,12 +321,13 @@ domains:
     name_en: Hardware, components & manufacturers
     description: Karty techniczne urządzeń, możliwości OCPP, firmware, diagnostyka sprzętowa.
     priority: mvp
-    skills: [ev-evse-hardware-expert, ev-evse-diagnostics-expert]
+    skills: [ev-evse-hardware-expert, ev-evse-diagnostics-expert, ev-charging-operations-expert]
     depends_on: [D00, D01, D02]
     subdomains:
       - id: D03.01
         key: device-categories
         name: Kategorie urządzeń
+        skills: [ev-evse-hardware-expert]
         priority: mvp
         topics:
           - AC wallbox, AC słupek, DC kompakt, DC fast, HPC
@@ -324,6 +336,7 @@ domains:
       - id: D03.02
         key: components
         name: Komponenty
+        skills: [ev-evse-hardware-expert]
         priority: p2
         topics:
           - Kontrolery komunikacyjne i ładowania, modemy LTE/Ethernet/Wi-Fi
@@ -332,6 +345,7 @@ domains:
       - id: D03.03
         key: device-cards
         name: Karty techniczne urządzeń
+        skills: [ev-evse-hardware-expert]
         priority: mvp
         topics:
           - Szablon karty (identyfikacja, moc, złącza, komunikacja, OCPP, parametry, ograniczenia, diagnostyka, firmware)
@@ -340,6 +354,7 @@ domains:
       - id: D03.04
         key: manufacturers
         name: Producenci
+        skills: [ev-evse-hardware-expert]
         priority: p2
         topics:
           - Profile producentów, portfolio, rynki, kanały wsparcia
@@ -347,6 +362,7 @@ domains:
       - id: D03.05
         key: firmware
         name: Firmware i cykl życia oprogramowania urządzeń
+        skills: [ev-evse-diagnostics-expert]
         priority: mvp
         topics:
           - Wersjonowanie, release notes, kompatybilność z CPMS
@@ -355,6 +371,7 @@ domains:
       - id: D03.06
         key: hardware-diagnostics
         name: Kody błędów i diagnostyka sprzętowa
+        skills: [ev-charging-operations-expert]
         priority: mvp
         topics:
           - Kody błędów OCPP (ErrorCode, vendorErrorCode) vs kody producentów
@@ -363,6 +380,7 @@ domains:
       - id: D03.07
         key: procurement
         name: Wybór, zakup i TCO urządzeń
+        skills: [ev-evse-hardware-expert]
         priority: p3
         topics:
           - Kryteria wyboru, wymagania przetargowe, gwarancje, SLA producenta
@@ -422,12 +440,13 @@ domains:
     name_en: CPMS / CSMS & management systems
     description: Funkcje, moduły i wzorce architektoniczne systemów zarządzania ładowaniem.
     priority: mvp
-    skills: [ev-cpms-architect, ev-integration-architect]
+    skills: [ev-cpms-architect, ev-integration-architect, ev-product-designer]
     depends_on: [D00, D01, D03]
     subdomains:
       - id: D05.01
         key: architecture
         name: Architektura CPMS
+        skills: [ev-cpms-architect]
         priority: mvp
         topics:
           - Moduły referencyjne i granice odpowiedzialności
@@ -436,6 +455,7 @@ domains:
       - id: D05.02
         key: asset-management
         name: Zarządzanie flotą urządzeń
+        skills: [ev-cpms-architect]
         priority: mvp
         topics:
           - Provisioning i onboarding ładowarek
@@ -444,6 +464,7 @@ domains:
       - id: D05.03
         key: session-management
         name: Sesje, transakcje i autoryzacja
+        skills: [ev-cpms-architect]
         priority: mvp
         topics:
           - Maszyna stanów sesji (w tym przypadki brzegowe i odzyskiwanie)
@@ -452,6 +473,7 @@ domains:
       - id: D05.04
         key: status-availability
         name: Statusy i dostępność
+        skills: [ev-cpms-architect]
         priority: mvp
         topics:
           - Model statusów (połączenie, EVSE, connector) i ich agregacja
@@ -460,6 +482,7 @@ domains:
       - id: D05.05
         key: external-assets
         name: Ładowarki własne vs roamingowe / zewnętrzne
+        skills: [ev-cpms-architect]
         priority: mvp
         topics:
           - Zakres operacji dla urządzeń OCPP vs danych OCPI
@@ -468,6 +491,7 @@ domains:
       - id: D05.06
         key: users-permissions
         name: Użytkownicy, role i uprawnienia
+        skills: [ev-cpms-architect]
         priority: p2
         topics:
           - RBAC/ABAC dla CPO, site hostów, serwisu, klientów flotowych
@@ -475,6 +499,7 @@ domains:
       - id: D05.07
         key: cpms-apis
         name: API i integracje CPMS
+        skills: [ev-integration-architect]
         priority: p2
         topics:
           - API publiczne i partnerskie, webhooks, eventy
@@ -482,6 +507,7 @@ domains:
       - id: D05.08
         key: emsp-platform
         name: Platforma eMSP
+        skills: [ev-product-designer]
         priority: p2
         topics:
           - Zarządzanie kontraktami i tokenami, aplikacja kierowcy
@@ -489,6 +515,7 @@ domains:
       - id: D05.09
         key: reporting
         name: Raportowanie
+        skills: [ev-cpms-architect]
         priority: p3
         topics:
           - Raporty operacyjne, finansowe, regulacyjne
@@ -549,12 +576,13 @@ domains:
     name_en: Charging operations & maintenance
     description: Codzienna praca operatora — monitoring, incydenty, diagnostyka, serwis, KPI.
     priority: mvp
-    skills: [ev-charging-operations-expert, ev-evse-diagnostics-expert]
+    skills: [ev-charging-operations-expert]
     depends_on: [D03, D05]
     subdomains:
       - id: D07.01
         key: monitoring
         name: Monitoring i NOC
+        skills: [ev-charging-operations-expert]
         priority: mvp
         topics:
           - Organizacja NOC, dyżury, poziomy wsparcia (L1/L2/L3)
@@ -563,6 +591,7 @@ domains:
       - id: D07.02
         key: diagnostics
         name: Diagnostyka zdalna
+        skills: [ev-charging-operations-expert]
         priority: mvp
         topics:
           - Drzewa diagnostyczne typowych problemów
@@ -571,6 +600,7 @@ domains:
       - id: D07.03
         key: incidents
         name: Zarządzanie incydentami i eskalacjami
+        skills: [ev-charging-operations-expert]
         priority: mvp
         topics:
           - Klasyfikacja i priorytety, SLA reakcji i naprawy
@@ -578,6 +608,7 @@ domains:
       - id: D07.04
         key: field-service
         name: Serwis terenowy i utrzymanie
+        skills: []
         priority: p2
         topics:
           - Dyspozytornia, work orders, przeglądy okresowe
@@ -586,6 +617,7 @@ domains:
       - id: D07.05
         key: kpi-sla
         name: KPI i SLA operatora
+        skills: [ev-charging-operations-expert]
         priority: p2
         topics:
           - Uptime, success rate sesji, MTTR, MTBF, utilization
@@ -593,6 +625,7 @@ domains:
       - id: D07.06
         key: customer-support
         name: Obsługa klienta (kierowcy)
+        skills: []
         priority: p2
         topics:
           - Hotline 24/7, typowe zgłoszenia, skrypty
@@ -713,6 +746,7 @@ domains:
       - id: D10.01
         key: mid
         name: MID i zatwierdzenia typu
+        skills: [ev-compliance-expert]
         priority: p2
         verify: true
         topics:
@@ -721,6 +755,7 @@ domains:
       - id: D10.02
         key: eichrecht
         name: Eichrecht i wymagania krajowe
+        skills: [ev-compliance-expert]
         priority: p2
         topics:
           - Niemieckie prawo legalizacyjne — wymagania dla CPO i eMSP
@@ -728,6 +763,7 @@ domains:
       - id: D10.03
         key: signed-meter-values
         name: Podpisane wartości pomiarowe
+        skills: [ev-compliance-expert]
         priority: p2
         topics:
           - OCMF, formaty podpisów, transparency software
@@ -735,6 +771,7 @@ domains:
       - id: D10.04
         key: meter-data-quality
         name: Jakość danych pomiarowych
+        skills: [ev-billing-tariff-expert]
         priority: p3
         topics:
           - Luki, skoki, reset liczników, rozbieżności z CDR
@@ -865,12 +902,13 @@ domains:
     name_en: Testing, conformance & certification
     description: Jak udowodnić, że implementacja działa i jest zgodna.
     priority: p2
-    skills: [ev-integration-architect, ev-ocpp-expert]
+    skills: [ev-evse-diagnostics-expert, ev-integration-architect, ev-compliance-expert]
     depends_on: [D01, D03, D05]
     subdomains:
       - id: D13.01
         key: protocol-conformance
         name: Zgodność protokołów
+        skills: [ev-evse-diagnostics-expert]
         priority: p2
         topics:
           - OCTT i certyfikacja OCA, plany testów
@@ -879,6 +917,7 @@ domains:
       - id: D13.02
         key: interoperability-events
         name: Testy interoperacyjności
+        skills: [ev-integration-architect]
         priority: p3
         topics:
           - Plugfesty i testivale, wnioski z wydarzeń
@@ -886,6 +925,7 @@ domains:
       - id: D13.03
         key: integration-testing
         name: Testy integracyjne CPMS–EVSE
+        skills: [ev-integration-architect]
         priority: p2
         topics:
           - Symulatory ładowarek i pojazdów, narzędzia open-source
@@ -894,6 +934,7 @@ domains:
       - id: D13.04
         key: product-certification
         name: Certyfikacja produktów
+        skills: [ev-compliance-expert]
         priority: p3
         topics:
           - Badania bezpieczeństwa, laboratoria, certyfikaty krajowe
@@ -912,6 +953,7 @@ domains:
       - id: D14.01
         key: communication-patterns
         name: Wzorce komunikacji
+        skills: [ev-integration-architect]
         priority: p2
         topics:
           - REST, WebSocket, webhooks, gRPC
@@ -919,6 +961,7 @@ domains:
       - id: D14.02
         key: event-driven
         name: Architektura zdarzeniowa
+        skills: [ev-integration-architect]
         priority: p2
         topics:
           - Message brokers (Kafka, RabbitMQ, MQTT), event sourcing
@@ -926,6 +969,7 @@ domains:
       - id: D14.03
         key: data-storage
         name: Przechowywanie danych
+        skills: [ev-cpms-architect]
         priority: p3
         topics:
           - Relacyjne (PostgreSQL), cache (Redis), szeregi czasowe
@@ -933,6 +977,7 @@ domains:
       - id: D14.04
         key: scalability-reliability
         name: Skalowalność i niezawodność
+        skills: [ev-cpms-architect]
         priority: p3
         topics:
           - Skalowanie połączeń WebSocket, sticky sessions, failover
@@ -940,6 +985,7 @@ domains:
       - id: D14.05
         key: observability
         name: Observability
+        skills: [ev-cpms-architect]
         priority: p3
         topics:
           - Logi, metryki, tracing komunikacji OCPP/OCPI
@@ -947,6 +993,7 @@ domains:
       - id: D14.06
         key: identity-gateway
         name: IAM i API gateway
+        skills: [ev-cpms-architect]
         priority: p3
         topics:
           - IAM, SSO, multi-tenant identity
@@ -1221,12 +1268,13 @@ domains:
     description: Wiedza praktyczna z wdrożeń — kluczowy wyróżnik. Zawsze z modelem, firmware i źródłem obserwacji.
     priority: mvp
     cross_cutting: true
-    skills: [ev-evse-diagnostics-expert, ev-integration-architect]
+    skills: [ev-evse-diagnostics-expert, ev-integration-architect, ev-charging-operations-expert]
     depends_on: [D01, D03, D05]
     subdomains:
       - id: D21.01
         key: vendor-quirks
         name: Odstępstwa i osobliwości producentów
+        skills: [ev-evse-diagnostics-expert]
         priority: mvp
         topics:
           - Różnice „standard vs implementacja” per model/firmware
@@ -1234,6 +1282,7 @@ domains:
       - id: D21.02
         key: compatibility-matrix
         name: Macierz kompatybilności
+        skills: [ev-integration-architect]
         priority: p2
         topics:
           - CPMS × EVSE × firmware × funkcja — status zweryfikowany/obserwowany
@@ -1241,6 +1290,7 @@ domains:
       - id: D21.03
         key: workarounds-configs
         name: Obejścia i sprawdzone konfiguracje
+        skills: [ev-evse-diagnostics-expert]
         priority: mvp
         topics:
           - Rekomendowane ustawienia konfiguracji per model
@@ -1248,6 +1298,7 @@ domains:
       - id: D21.04
         key: case-library
         name: Biblioteka przypadków produkcyjnych
+        skills: [ev-charging-operations-expert]
         priority: p2
         topics:
           - Zanonimizowane incydenty — objawy, przyczyna, rozwiązanie, lekcje

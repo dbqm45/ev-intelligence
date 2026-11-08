@@ -521,7 +521,7 @@ def cmd_route(task: str, limit: int, root: Path = ROOT) -> dict:
                 domains.append({"score": s, "domain": d["id"], "domain_name": d.get("name"),
                                 "subdomain": sd.get("id"), "subdomain_name": sd.get("name"),
                                 "priority": sd.get("priority") or d.get("priority"),
-                                "skills": d.get("skills", [])})
+                                "skills": sd["skills"] if "skills" in sd else d.get("skills", [])})
     domains.sort(key=lambda x: (-x["score"], x["subdomain"] or x["domain"]))
     skills = []
     for path in sorted((root / "skills").glob("*/SKILL.md")):

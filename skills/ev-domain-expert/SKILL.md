@@ -36,13 +36,14 @@ np. `ev-ocpp-expert`. Sam identyfikator nic nie mówi czytelnikowi.
    - rzeczywiste zachowanie urządzenia → D21;
    - scenariusz end-to-end → D22.
    Dopisz domeny z `depends_on` tylko wtedy, gdy zadanie bez nich jest niezrozumiałe.
-4. **Dobierz skille.** Kolumna „Skille” w spisie domen i rejestr skilli na końcu `references/taksonomia-drzewo.md`. Kolejność:
+4. **Dobierz skille.** Właściciel poddomeny to linia „Skill:” pod poddomeną w `references/taksonomia-drzewo.md`;
+   gdy jej nie ma, kolumna „Skille” w spisie domen. Kolejność:
    - najpierw fundament (D00, D01);
    - potem system (D05);
    - potem proces (D07, D06);
    - na końcu scenariusz (D22).
 5. **Oznacz luki** — nigdy nie wypełniaj ich pamięcią modelu:
-   - poddomena `P2`/`P3` albo skill z `stage: p2` → „luka: brak opracowanej treści”;
+   - poddomena z „Skill: brak skilla” albo `P2`/`P3` bez skilla → „luka: brak opracowanej treści”;
    - flaga ⚠️ (`verify: true`) → wersje i daty do sprawdzenia w źródle pierwotnym.
 6. **Gdzie zapisać nową wiedzę.** Rozdziel informacje według rodzaju:
    - wymóg normy → `knowledge_type: normative`, klasa A;
@@ -82,4 +83,4 @@ Założenia: <wersja protokołu, rola, rynek>
   (`python3 tools/render_taxonomy.py`).
 
 ## Źródła
-- `taxonomy/taxonomy.yaml` v1.0.0 i `taxonomy/TAXONOMY.md` (EV Intelligence, 2026-11-07).
+- `taxonomy/taxonomy.yaml` v1.1.0 i `taxonomy/TAXONOMY.md` (EV Intelligence, 2026-11-08; właściciel poddomeny w polu `skills`).

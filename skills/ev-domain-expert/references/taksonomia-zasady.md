@@ -124,11 +124,19 @@ Wiele tematów leży na styku domen. Żeby uniknąć dziesięciu sprzecznych opi
 | Karta techniczna urządzenia (deklaracje producenta) | D03 | D21 |
 | Typy złączy (fizyka) | D02.02 | D01 (mapowanie enumów), D03 |
 | Podpisane wartości pomiarowe (OCMF) | D10.03 | D01, D09 |
-| Profile smart charging w OCPP (komunikaty) | D01.01 | D08.01 (strategie i algorytmy) |
+| Profile smart charging w OCPP: semantyka (stackLevel, purposes, composite schedule) i strategie | D08.01 | D01.01 (format komunikatów) |
+| Format i pola komunikatów profili ładowania | D01.01 | D08.01 |
 | Security profiles OCPP | D11.01 | D01.01 |
 | Wymóg prawny (np. płatność ad hoc z AFIR) | D12 | D09 (implementacja), D16 (UX) |
 | Definicja KPI dostępności | D07.05 | D05.04 (wyliczanie), D12 (definicja regulacyjna) |
 | Procedura dozoru / odbioru urządzeń | D12.05 (wymóg) | D07.04, D18.04 (proces) |
+| Diagnoza zgłoszenia na dyżurze (konkretna stacja, co zrobić teraz) | D07.02 | D03.06, D21 |
+| Zgodność konkretnego modelu/firmware z OCPP: certyfikat OCA, PICS, TC_* | D13.01 | D21.01 |
+| Testy wdrożeń, regresja po firmware, macierz kompatybilności | D13.03, D21.02 | D13.01 |
+| Moduły i dane CPMS kontra integracje z systemami zewnętrznymi | D05.01–D05.04, D14.03–D14.06 | D05.07, D14.01–D14.02 |
+
+Właściciela poddomeny (skill) wskazuje pole `skills` przy poddomenie w `taxonomy.yaml`; pusta lista oznacza, że baza nie ma
+skilla dla tego tematu.
 
 Zasada ogólna: **norma lub regulacja → D01/D02/D10/D12; jak to działa w urządzeniu → D03; jak to zaprojektować w systemie → D05/D14; jak tego używać w codziennej pracy → D07; co dzieje się naprawdę → D21; jak to połączyć → D22.**
 

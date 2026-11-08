@@ -78,6 +78,11 @@ def validate(data: dict) -> list[str]:
                 errors.append(f"{sid}: invalid priority '{s.get('priority')}'")
             if not s.get("topics"):
                 errors.append(f"{sid}: no topics")
+            for sk in s.get("skills", []) or []:   # właściciel poddomeny; [] = brak skilla (luka)
+                if sk not in skills:
+                    errors.append(f"{sid}: unknown skill '{sk}'")
+                elif sk not in d.get("skills", []):
+                    errors.append(f"{sid}: skill '{sk}' not listed in domain {did} skills")
     return errors
 
 
@@ -129,6 +134,10 @@ def render(data: dict) -> str:
             )
             lines.append("")
             lines.append(f"`knowledge/{d['key']}/{s['key']}/`")
+            if "skills" in s:
+                owner = ", ".join(f"`{x}`" for x in s["skills"]) or "brak skilla (luka w bazie)"
+                lines.append("")
+                lines.append(f"Skill: {owner}")
             lines.append("")
             lines += [f"- {t}" for t in s["topics"]]
             lines.append("")
