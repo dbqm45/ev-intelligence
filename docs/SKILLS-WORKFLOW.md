@@ -16,6 +16,7 @@ z rejestru i istniejącą sekcję. Czy zdanie wiernie oddaje treść, sprawdza a
 skills/<nazwa>/SKILL.md            ← skill (prefiks ev-), opcjonalnie references/ i scripts/
 evals/skill_evals/<nazwa>.json     ← scenariusze ewaluacji
 evals/skill_evals/holdout/…        ← zamknięty zbiór pomiarowy (opcjonalnie; autor zmian go nie czyta)
+evals/skill_evals/dev/…            ← zbiór roboczy routingu (pisze go inny agent; autor stroi na nim opisy)
 evals/skill-gate.json              ← rejestr bramki (odcisk treści + data) — zapisuje go skill_check.py
 taxonomy/taxonomy.yaml → skills    ← rejestr skilli; każdy skill musi tu być
 ```
@@ -64,7 +65,12 @@ bramka nie sprawdza jego istnienia ani routingu.
 python3 tools/skill_eval.py --dry-run                      # plan: liczba scenariuszy i wywołań API, bez kosztu
 python3 tools/skill_eval.py --model sonnet --budget 5 --yes --skills ev-ocpi-roaming-expert --label oicp
 python3 tools/skill_eval.py --model sonnet --budget 5 --yes --holdout --label holdout
+python3 tools/skill_eval.py --model opus --budget 3 --yes --set dev --routing-only --label dev   # tylko routing
 ```
+
+**Trzy zbiory:** jawne scenariusze (`skill_evals/*.json`) piszesz razem ze skillem; zbiór roboczy (`dev/`) i holdout
+(`holdout/`) pisze inny agent niż autor skilli, bez dostępu do ich treści. Opisy skilli stroisz na `dev`; holdout tylko
+mierzy wynik i autor nie czyta jego scenariuszy ani listy porażek (tylko zbiorczą tabelę).
 
 Dla każdego scenariusza:
 1. **routing**: model dostaje katalog skilli (nazwa i `description`) i wybiera jeden skill albo `none` (structured

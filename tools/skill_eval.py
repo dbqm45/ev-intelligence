@@ -62,8 +62,8 @@ def skill_context(name: str) -> str:
     return "".join(parts)
 
 
-def scenarios(names: list[str], holdout: bool) -> list[tuple[str, dict]]:
-    base = EVALS / "holdout" if holdout else EVALS
+def scenarios(names: list[str], holdout: bool, set_name: str = "") -> list[tuple[str, dict]]:
+    base = EVALS / set_name if set_name else (EVALS / "holdout" if holdout else EVALS)
     out = []
     for n in names:
         f = base / f"{n}.json"
@@ -184,7 +184,7 @@ def _api_errors():
         return (), (), ()
 
 
-def evaluate(runner: Runner, items: list[tuple[str, dict]], cat: list[dict]) -> list[dict]:
+def evaluate(runner: Runner, items: list[tuple[str, dict]], cat: list[dict], routing_only: bool = False) -> list[dict]:
     rate_err, status_err, conn_err = _api_errors()
     results = []
     for skill, s in items:
@@ -193,7 +193,7 @@ def evaluate(runner: Runner, items: list[tuple[str, dict]], cat: list[dict]) -> 
             chosen, stop = runner.route(cat, s["prompt"])
             rec["routed_to"], rec["route_stop"] = chosen, stop
             rec["route_ok"] = chosen == skill if s.get("expect") == "trigger" else chosen != skill
-            if s.get("expect") == "trigger":
+            if s.get("expect") == "trigger" and not routing_only:
                 answer, stop = runner.answer(skill, s["prompt"])
                 rec["answer_stop"] = stop
                 rec["checks"] = grade(answer, s.get("checks") or {})
@@ -244,6 +244,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--model", default="", help="opus | sonnet | haiku albo pełne ID modelu")
     ap.add_argument("--skills", default="", help="skille po przecinku (domyślnie wszystkie)")
     ap.add_argument("--holdout", action="store_true", help="scenariusze z evals/skill_evals/holdout/")
+    ap.add_argument("--set", default="", help="inny zbiór: podkatalog evals/skill_evals/<set>/ (np. dev)")
+    ap.add_argument("--routing-only", action="store_true", help="tylko routing (bez odpowiedzi i sprawdzeń treści)")
     ap.add_argument("--ids", default="", help="tylko scenariusze o tych id (po przecinku), np. po poprawce")
     ap.add_argument("--budget", type=float, default=1.0, help="limit kosztu w USD")
     ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"])
@@ -256,14 +258,14 @@ def main(argv: list[str] | None = None) -> int:
 
     all_names = sorted(p.parent.name for p in SKILLS.glob("*/SKILL.md"))
     names = [s.strip() for s in a.skills.split(",") if s.strip()] or all_names
-    items = scenarios(names, a.holdout)
+    items = scenarios(names, a.holdout, a.set)
     ids = {i.strip() for i in a.ids.split(",") if i.strip()}
     if ids:
         items = [(n, s) for n, s in items if s.get("id") in ids]
     trig = sum(1 for _, s in items if s.get("expect") == "trigger")
     if a.dry_run or not a.model:
         chars = sum(len(skill_context(n)) for n, s in items if s.get("expect") == "trigger")
-        print(f"Scenariusze: {len(items)} ({trig} trigger) · wywołania API: {len(items) + trig} · "
+        print(f"Scenariusze: {len(items)} ({trig} trigger) · wywołania API: {len(items) + (0 if a.routing_only else trig)} · "
               f"kontekst skilli w odpowiedziach: ~{chars // 1000} tys. znaków (z cache dla kolejnych scenariuszy)")
         if not a.model:
             print("Płatny przebieg: --model <opus|sonnet|haiku> --budget <USD> --yes (tylko za zgodą człowieka)")
@@ -281,7 +283,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         backend = CliBackend(model, a.effort)
     runner = Runner(backend, a.budget)
-    results = evaluate(runner, items, catalog())
+    results = evaluate(runner, items, catalog(), a.routing_only)
     OUT.mkdir(parents=True, exist_ok=True)
     stem = OUT / f"{dt.date.today().isoformat()}-{a.model}-{a.label}"
     stem.with_suffix(".jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in results),
