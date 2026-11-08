@@ -127,6 +127,31 @@
       "expect": "no-trigger",
       "neighbor": "ev-billing-tariff-expert",
       "prompt": "Taryfa OCPI ma składnik ENERGY 1,80 zł/kWh i PARKING_TIME 0,40 zł/min po zakończeniu ładowania. Kierowca pobrał 30 kWh i stał 25 minut po naładowaniu. Jak policzyć koszt tej sesji krok po kroku? Odpowiedz zwięźle."
+    },
+    {
+      "id": "ho-afir-minuta-status",
+      "expect": "trigger",
+      "prompt": "Nasz NOC zbiera statusy stacji i raz na 15 minut wysyła paczkę do API dla krajowego punktu dostępowego (NAP) zgodnie z AFIR. Szef pyta, czy to wystarczy do raportowania dostępności i czy AFIR wymaga konkretnego uptime. Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "minut\\w*"
+          ],
+          [
+            "2025/655"
+          ],
+          [
+            "(nie|brak)[^.\\n]{0,60}(uptime|dostępnoś\\w* (sieci|na poziomie))|uptime[^.\\n]{0,60}(nie|brak)"
+          ],
+          [
+            "SLA|umow\\w*"
+          ]
+        ],
+        "none": [
+          "AFIR wymaga (uptime|dostępności) (na poziomie )?9\\d ?%"
+        ]
+      },
+      "relabel_note": "Audyt 2026-11-08 (taksonomia 1.2.0, TAXONOMY §5): wymóg dostępności lub danych w AFIR → D12.01, właściciel ev-compliance-expert; KPI dostępności D07.05 tylko się odwołuje."
     }
   ]
 }

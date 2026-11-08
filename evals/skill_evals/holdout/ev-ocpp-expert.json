@@ -194,6 +194,30 @@
         ]
       },
       "relabel_note": "Audyt 2026-11-08: sedno to parametry komunikatu OCPP 2.0.1 (priorytety DisplayMessage, wybór języka przez stację) — D01.01 (TAXONOMY §5: komunikaty i parametry protokołu → D01), właściciel ev-ocpp-expert; D16.03 tylko się odwołuje."
+    },
+    {
+      "id": "ho-cpms-identyfikator-url",
+      "expect": "trigger",
+      "prompt": "Chcemy nadawać stacjom OCPP 2.0.1 identyfikatory w formacie 'PL:WAW:000123-KONTROLER-GLOWNY-STREFA-PARKINGOWA-A1'. Czy to poprawny identyfikator stacji w URL połączenia? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "dwukrop\\w*|\":\"|znak\\w* :|`:`"
+          ],
+          [
+            "48"
+          ],
+          [
+            "Basic|uwierzyteln\\w*|hasł\\w*"
+          ]
+        ],
+        "none": [
+          "(?<!nie )\\b(to\\s+)?jest\\s+poprawn\\w*\\s+identyfikator",
+          "\\btak\\b[^.\\n]{0,40}poprawn\\w*\\s+identyfikator"
+        ]
+      },
+      "audit_note": "Audyt 2026-11-08: wzorzec zakazany łapał też zaprzeczenie i zdania poboczne; zawężony do twierdzenia, że identyfikator jest poprawny (ten sam zakaz, 201-P4 §3.1.1).",
+      "relabel_note": "Audyt 2026-11-08 (taksonomia 1.2.0, TAXONOMY §5): identyfikator stacji w URL połączenia, nazwa użytkownika i format identity (OCPP-J) → D01.01, właściciel ev-ocpp-expert; D05.01 tylko się odwołuje."
     }
   ]
 }

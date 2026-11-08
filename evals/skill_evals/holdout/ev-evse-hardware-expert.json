@@ -64,7 +64,8 @@
         "none": [
           "(tak|można),? (ustaw|ustawić) (ją )?(już|od razu)"
         ]
-      }
+      },
+      "audit_note": "etykieta potwierdzona regułą D03.03"
     }
   ]
 }

@@ -30,7 +30,8 @@
         "none": [
           "SetNetworkProfile\\w*\\s+(w|dla)\\s+(OCPP\\s+)?2\\.0\\.1\\s+(zawiera|ustawia|obejmuje)(?:(?!\\bnie\\b).){0,30}basicAuthPassword"
         ]
-      }
+      },
+      "audit_note": "etykieta potwierdzona regułą D14.07"
     },
     {
       "id": "ho-int-rozszerzenia",
