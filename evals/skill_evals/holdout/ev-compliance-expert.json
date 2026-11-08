@@ -1,0 +1,130 @@
+{
+  "skill": "ev-compliance-expert",
+  "scenarios": [
+    {
+      "id": "ho-comp-osd-operator",
+      "expect": "trigger",
+      "prompt": "Jesteśmy operatorem systemu dystrybucyjnego i posiadamy kilka ogólnodostępnych stacji ładowania. Czy według polskiej ustawy o elektromobilności możemy być ich operatorem albo pozostać właścicielem i na jakich warunkach? Podaj podstawę prawną. Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "art\\.?\\s*3a"
+          ],
+          [
+            "nie mo(że|żemy|gą).{0,80}(operator|właściciel|dostawc)",
+            "zakaz\\w*.{0,80}(operator|właściciel|dostawc)"
+          ],
+          [
+            "przetarg"
+          ],
+          [
+            "Prezes\\w*\\s+URE",
+            "\\bURE\\b"
+          ],
+          [
+            "użytk\\w*\\s+własn",
+            "własn\\w+\\s+potrzeb"
+          ]
+        ],
+        "none": [
+          "OSD\\s+może\\s+(swobodnie\\s+|bez\\s+ograniczeń\\s+)?(być|pozostać)\\s+operatorem"
+        ]
+      }
+    },
+    {
+      "id": "ho-comp-udt-rozbudowa",
+      "expect": "trigger",
+      "prompt": "Rozbudowujemy istniejącą ogólnodostępną stację ładowania o dwa nowe punkty ładowania, a na innej stacji wymieniamy wyświetlacz na część o takich samych parametrach. Czy w którymś z tych przypadków potrzebne jest badanie UDT, jakiego rodzaju i w jakim terminie UDT je wykonuje? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "art\\.?\\s*16"
+          ],
+          [
+            "eksploatacyjn"
+          ],
+          [
+            "zwiększ\\w*\\s+liczby\\s+punktów",
+            "liczb\\w*\\s+punktów",
+            "nowe\\s+punkty.{0,60}(badani|wymag)"
+          ],
+          [
+            "(takich|tych)\\s+samych\\s+(parametr|charakterystyk)",
+            "identyczn\\w*\\s+parametr",
+            "wymian\\w*.{0,60}(częś|podzespoł)\\w*.{0,120}(nie\\s+wymaga|bez\\s+badania|wyłącz|nie\\s+podlega)"
+          ],
+          [
+            "30\\s+dni"
+          ]
+        ],
+        "none": [
+          "wymian\\w*\\s+wyświetlacza\\s+(?:(?!\\bnie\\b).){0,40}wymaga\\w*\\s+(nowego\\s+|ponownego\\s+)?badania",
+          "badani[ae]\\s+okresow\\w*\\s+co\\s+(rok|12\\s+miesięcy)"
+        ]
+      }
+    },
+    {
+      "id": "ho-comp-eichrecht-smv",
+      "expect": "trigger",
+      "prompt": "Wdrażamy w Niemczech ładowarki zgodne z Eichrecht, część na OCPP 1.6, część na 2.0.1. Jak według noty aplikacyjnej OCA włączyć przesyłanie podpisanych wartości pomiarowych do CSMS, w jakim komunikacie trafiają wartości start i stop i jakie pola ma podpisana wartość? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "SampledDataSignReadings"
+          ],
+          [
+            "StopTransaction",
+            "TransactionEvent\\w*\\W{0,3}\\(?\\s*(eventType\\s*=\\s*)?Ended"
+          ],
+          [
+            "signedMeterData"
+          ],
+          [
+            "encodingMethod"
+          ],
+          [
+            "PublicKeyWithSignedMeterValue",
+            "publicKey"
+          ]
+        ],
+        "none": [
+          "OCMF\\W+(jest\\s+|to\\s+)?(format\\w*\\s+)?(zdefiniowan|opracowan|stworzon)\\w*\\s+(przez|w)\\s+(OCA|Open\\s+Charge\\s+Alliance)"
+        ]
+      }
+    },
+    {
+      "id": "ho-comp-afir-cele-mocy",
+      "expect": "trigger",
+      "prompt": "Kto według AFIR odpowiada za cele mocy ogólnodostępnej infrastruktury ładowania dla lekkich pojazdów liczone od liczby zarejestrowanych aut i jakie są te wartości? Jakie wymagania dotyczą sieci bazowej TEN-T na koniec 2025 r.? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "państw\\w*\\s+członkowsk",
+            "Member\\s+States?"
+          ],
+          [
+            "1[,.]3\\s*kW"
+          ],
+          [
+            "0[,.]80?\\s*kW"
+          ],
+          [
+            "60\\s*km"
+          ],
+          [
+            "400\\s*kW"
+          ]
+        ],
+        "none": [
+          "operator\\w*\\s+(punktów\\s+ładowania\\s+)?(odpowiada\\w*|są\\s+odpowiedzialni|muszą\\s+zapewnić)(?:(?!\\bnie\\b).){0,40}1[,.]3\\s*kW"
+        ]
+      }
+    },
+    {
+      "id": "ho-comp-nt-wycena",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Taryfa OCPI ma składnik ENERGY 1,80 zł/kWh i PARKING_TIME 0,40 zł/min po zakończeniu ładowania. Kierowca pobrał 30 kWh i stał 25 minut po naładowaniu. Jak policzyć koszt tej sesji krok po kroku? Odpowiedz zwięźle."
+    }
+  ]
+}

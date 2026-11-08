@@ -1,0 +1,148 @@
+{
+  "skill": "ev-energy-smart-charging-expert",
+  "scenarios": [
+    {
+      "id": "ho-en-stack-201",
+      "expect": "trigger",
+      "prompt": "Na stacji OCPP 2.0.1 z dwoma EVSE mamy ChargingStationMaxProfile, TxDefaultProfile ustawiony na EVSE 0, dla jednej sesji TxProfile oraz limit z zewnętrznego systemu. Jak stacja wyznacza obowiązujący limit i jakie są zasady stackLevel? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "najniższ",
+            "\\bminimum\\b",
+            "lowest",
+            "mniejsz\\w*\\s+z"
+          ],
+          [
+            "TxProfile.{0,80}(nadpisuje|zastępuje|ma\\s+pierwszeństwo|overrul|wygrywa|przesłania|unieważnia)",
+            "TxDefaultProfile.{0,80}(nadpisan|zastąpion|ignorowan|pomijan|nie\\s+jest\\s+brany)"
+          ],
+          [
+            "wyższ\\w*\\s+stackLevel",
+            "stackLevel.{0,40}wyższ",
+            "najwyższ\\w*\\s+stackLevel",
+            "higher\\s+stackLevel",
+            "highest\\s+stackLevel"
+          ],
+          [
+            "(wszystkich|wszystkie|łącz\\w*|sum\\w*|całej\\s+stacji).{0,40}EVSE",
+            "all\\s+EVSEs\\s+combined"
+          ],
+          [
+            "transactionId"
+          ]
+        ],
+        "none": [
+          "niższ\\w*\\s+stackLevel\\s+(ma|mają|wygrywa)\\s+(pierwszeństwo|priorytet)?"
+        ]
+      }
+    },
+    {
+      "id": "ho-en-limit-dso",
+      "expect": "trigger",
+      "prompt": "Operator systemu dystrybucyjnego przez lokalny protokół ogranicza moc naszej stacji OCPP 2.0.1 w trakcie sesji. Jak CSMS dowie się o tym limicie, kiedy stacja może pominąć powiadomienie, jak oznaczone jest źródło limitu i co się dzieje po jego zdjęciu? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "NotifyChargingLimit"
+          ],
+          [
+            "LimitChangeSignificance"
+          ],
+          [
+            "\\bSO\\b",
+            "System\\s+Operator"
+          ],
+          [
+            "ChargingStationExternalConstraints"
+          ],
+          [
+            "ClearedChargingLimit"
+          ]
+        ],
+        "none": [
+          "CSMS\\s+(sam\\s+)?(wysyła|ustawia|nadpisuje)\\s+(profil\\s+)?ChargingStationExternalConstraints"
+        ]
+      }
+    },
+    {
+      "id": "ho-en-16-fazy",
+      "expect": "trigger",
+      "prompt": "W OCPP 1.6 wysyłam ChargePointMaxProfile z limitem 22000 W w jednostce W dla stacji AC, bez pola numberPhases. Jaki prąd na fazę z tego wynika, jakie napięcie przyjąć do przeliczenia i na jakim connectorId ustawić ten profil? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "31[,.]8",
+            "31[,.]9"
+          ],
+          [
+            "230"
+          ],
+          [
+            "(3|trzy)\\s+faz",
+            "numberPhases.{0,60}\\b3\\b",
+            "przyjmuje\\s+się\\s+3",
+            "assumed"
+          ],
+          [
+            "connectorId\\W{0,4}(=|:)?\\W{0,3}0\\b",
+            "connector\\w*\\s+0\\b",
+            "złącz\\w*\\s+0\\b"
+          ],
+          [
+            "napięci\\w*\\s+(nominaln|znamionow|ustawion|sieci|zadan)",
+            "nie\\s+(zmierzon|mierzon)",
+            "set\\s+voltage",
+            "line\\s+voltage"
+          ]
+        ],
+        "none": [
+          "numberPhases(?:(?!\\bnie\\b).){0,40}(domyślnie|przyjmuje\\s+się)\\W+1\\b"
+        ]
+      }
+    },
+    {
+      "id": "ho-en-afir-smart",
+      "expect": "trigger",
+      "prompt": "Jakie obowiązki związane ze sterowaniem ładowaniem nakłada AFIR na operatorów ogólnodostępnych punktów ładowania i na państwa członkowskie (smart recharging, punkty połączone cyfrowo, ocena ładowania dwukierunkowego) i od kiedy obowiązują? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "art\\.?\\s*5",
+            "Article\\s+5"
+          ],
+          [
+            "14\\s+(października|paź\\w*|October)\\s+2024",
+            "14\\.10\\.2024",
+            "2024-10-14"
+          ],
+          [
+            "13\\s+(kwietnia|kwi\\w*|April)\\s+2024",
+            "13\\.04\\.2024",
+            "2024-04-13"
+          ],
+          [
+            "digitally[\\s-]connected",
+            "połączon\\w*\\s+cyfrowo",
+            "cyfrowo\\s+połączon"
+          ],
+          [
+            "30\\s+(czerwca|cze\\w*|June)\\s+2024",
+            "30\\.06\\.2024",
+            "co\\s+(trzy|3)\\s+lat",
+            "every\\s+three\\s+years"
+          ]
+        ],
+        "none": [
+          "smart\\s+recharging(?:(?!\\bnie\\b).){0,60}(tylko|wyłącznie)\\s+(dla\\s+)?(punktów\\s+)?(≥\\s*|powyżej\\s+|od\\s+)?50\\s*kW"
+        ]
+      }
+    },
+    {
+      "id": "ho-en-nt-taryfa",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Nasza taryfa OCPI ma wyższą cenę kWh w godzinach szczytu 17–21. Jak zapisać ten przedział czasu w TariffRestrictions i jak policzyć koszt sesji, która zaczyna się przed 17 i kończy po 17? Odpowiedz zwięźle."
+    }
+  ]
+}

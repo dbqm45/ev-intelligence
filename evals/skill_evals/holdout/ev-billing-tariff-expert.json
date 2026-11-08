@@ -1,0 +1,133 @@
+{
+  "skill": "ev-billing-tariff-expert",
+  "scenarios": [
+    {
+      "id": "ho-bill-step-size",
+      "expect": "trigger",
+      "prompt": "Taryfa OCPI 2.3.0 ma składnik ENERGY 0,40 EUR/kWh do 18:00 i 0,55 EUR/kWh po 18:00, oba ze step_size 1000. Kierowca pobrał 3,2 kWh przed 18:00 i 2,3 kWh po 18:00. Ile kWh rozliczyć w każdym przedziale i jaki jest koszt netto sesji? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "\\b6([,.]0+)?\\s*kWh"
+          ],
+          [
+            "2[,.]8\\s*kWh"
+          ],
+          [
+            "1[,.]54"
+          ],
+          [
+            "2[,.]82"
+          ],
+          [
+            "raz\\s+na\\s+sesj",
+            "once\\s+per\\s+session",
+            "(całkowit|łączn|sumaryczn)\\w*\\s+(ilo|energi|sum|zużyci)",
+            "\\btotal"
+          ]
+        ],
+        "none": [
+          "2[,.]93",
+          "6[,.]2\\s*kWh"
+        ]
+      }
+    },
+    {
+      "id": "ho-bill-afir-adhoc",
+      "expect": "trigger",
+      "prompt": "Projektujemy cennik ad hoc dla nowej stacji DC 150 kW i ładowarek AC 22 kW uruchomionych w 2025 r. Jak według AFIR zbudować i pokazać cenę na każdej z nich i czy możemy dać tańszą cenę klientom wybranego dostawcy usług mobilności? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "art\\.?\\s*5",
+            "Article\\s+5"
+          ],
+          [
+            "50\\s*kW"
+          ],
+          [
+            "(opłat\\w*\\s+za\\s+zajęto|occupancy\\s+fee|opłat\\w*\\s+postojow).{0,100}minut",
+            "minut\\w*.{0,60}(zajęto|occupancy|postoj)"
+          ],
+          [
+            "kWh.{0,80}minut.{0,80}sesj"
+          ],
+          [
+            "dyskrymin",
+            "proporcjonaln",
+            "obiektywnie\\s+uzasadn"
+          ]
+        ],
+        "none": [
+          "(opłat\\w*\\s+za\\s+zajęto\\w*|occupancy\\s+fee)\\s+(\\w+\\s+){0,3}(za|per|/)\\s*kWh"
+        ]
+      }
+    },
+    {
+      "id": "ho-bill-ocpp-koszt",
+      "expect": "trigger",
+      "prompt": "Nasz CSMS liczy koszt sesji. Jak w OCPP 2.0.1 przekazać stacji taryfę konkretnego kierowcy, koszt bieżący w trakcie ładowania i koszt końcowy, jak oznaczyć sesję darmową i co stacja pokazuje, gdy jest offline? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "personalMessage"
+          ],
+          [
+            "CostUpdated"
+          ],
+          [
+            "totalCost"
+          ],
+          [
+            "0[,.]00",
+            "\\bzero\\b"
+          ],
+          [
+            "TariffFallbackMessage",
+            "TotalCostFallbackMessage"
+          ]
+        ],
+        "none": [
+          "totalCost\\W+(=|na|równ\\w*|ustaw\\w*\\s+na)\\W*(-1|null)\\W.{0,40}(darmow|bezpłatn)"
+        ]
+      }
+    },
+    {
+      "id": "ho-bill-min-price",
+      "expect": "trigger",
+      "prompt": "Chcemy w taryfie OCPI 2.3.0 ustawić minimalny koszt sesji 2 zł i zmienić cennik od 1 stycznia. Jak to zapisać w obiekcie Tariff, jak minimalna cena działa z podatkami i czy można zmienić taryfę trwającej sesji? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "min_price"
+          ],
+          [
+            "before_taxes"
+          ],
+          [
+            "after_taxes"
+          ],
+          [
+            "start_date_time",
+            "end_date_time"
+          ],
+          [
+            "(nie\\s+jest|NOT)\\s+.{0,40}(wymog|wymagani|requirement|obowiąz)",
+            "konsument\\w*",
+            "consumer"
+          ]
+        ],
+        "none": [
+          "OCPI\\s+(zabrania|zakazuje|nie\\s+pozwala|nie\\s+dopuszcza)\\w*(?:(?!\\bnie\\b).){0,40}zmian\\w*\\s+taryf",
+          "min_price\\s+(to|jest)\\s+(opłat\\w*\\s+startow|FLAT)"
+        ]
+      }
+    },
+    {
+      "id": "ho-bill-nt-cdr-push",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpi-roaming-expert",
+      "prompt": "Jak CPO w OCPI 2.2.1 powinien wysyłać CDR do eMSP, co zrobić, gdy eMSP odpowie błędem, i czy eMSP może pobierać CDR przez GET z paginacją? Odpowiedz zwięźle."
+    }
+  ]
+}

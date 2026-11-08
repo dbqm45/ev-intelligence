@@ -1,0 +1,132 @@
+{
+  "skill": "ev-integration-architect",
+  "scenarios": [
+    {
+      "id": "ho-int-migracja-201-sp2",
+      "expect": "trigger",
+      "prompt": "Przejmujemy 300 ładowarek OCPP 2.0.1 w profilu bezpieczeństwa 2 od poprzedniego operatora i przenosimy je do naszego CSMS. Jakie komunikaty i zmienne wysłać po kolei, żeby stacje połączyły się z nowym CSMS, a w razie niepowodzenia wróciły do starego? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "InstallCertificate",
+            "CSMSRootCertificate"
+          ],
+          [
+            "SetNetworkProfile"
+          ],
+          [
+            "configurationSlot",
+            "slot\\w*"
+          ],
+          [
+            "NetworkConfigurationPriority"
+          ],
+          [
+            "basicAuthPassword",
+            "\\bidentity\\b",
+            "SetVariables"
+          ]
+        ],
+        "none": [
+          "SetNetworkProfile\\w*\\s+(w|dla)\\s+(OCPP\\s+)?2\\.0\\.1\\s+(zawiera|ustawia|obejmuje)(?:(?!\\bnie\\b).){0,30}basicAuthPassword"
+        ]
+      }
+    },
+    {
+      "id": "ho-int-multiconnector-16",
+      "expect": "trigger",
+      "prompt": "Mamy ładowarkę DC na OCPP 1.6 z jednym modułem mocy i dwoma złączami (CCS i CHAdeMO), których nie da się używać jednocześnie. Jak według OCA raportować do centralnego systemu statusy złączy przy starcie, w trakcie i po sesji oraz przy awarii jednego złącza? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "(własn|osobn|wirtualn|virtual|own|odrębn)\\w*\\s+(\\\"|„)?EVSE",
+            "każde\\w*\\s+złącz\\w*.{0,60}(jak|jako|tak\\s+jakby).{0,40}EVSE",
+            "EVSE\\s+(na|per)\\s+(każde\\s+)?(złącze|connector)"
+          ],
+          [
+            "Preparing"
+          ],
+          [
+            "Unavailable"
+          ],
+          [
+            "\\bAvailable\\b"
+          ],
+          [
+            "Faulted"
+          ]
+        ],
+        "none": [
+          "(drugie|pozostałe|inne)\\s+złącz\\w*\\s+(pozostaj\\w*|raportuj\\w*|zgłasza\\w*|ma(ją)?)\\s+(status\\w*\\s+)?(jako\\s+)?['\\\"„]?Charging"
+        ]
+      }
+    },
+    {
+      "id": "ho-int-rozszerzenia",
+      "expect": "trigger",
+      "prompt": "Chcemy dodać własną funkcję (raport temperatury kabla) między ładowarkami OCPP 2.0.1 a naszym CSMS, a w OCPI 2.3.0 przesyłać partnerom dodatkowe pole w Locations. Jakie mechanizmy rozszerzeń dają oba protokoły, jak stacja zgłasza obsługę rozszerzenia i jak partner OCPI ma potraktować nieznane pole? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "customData"
+          ],
+          [
+            "vendorId"
+          ],
+          [
+            "CustomizationCtrlr"
+          ],
+          [
+            "additionalProperties"
+          ],
+          [
+            "nie\\s+(wolno|może|mogą|powinn\\w*|należy|odrzuca)\\w*\\s+(\\w+\\s+){0,3}odrzuc",
+            "SHALL\\s+NOT\\s+reject",
+            "nie\\s+odrzuca",
+            "toler\\w*",
+            "ignor\\w*"
+          ]
+        ],
+        "none": [
+          "(OCPI|platform\\w*\\s+OCPI)(?:(?!\\bnie\\b).){0,60}(musi|powinn\\w*|należy)\\s+odrzuc\\w*(?:(?!\\bnie\\b).){0,30}nieznan"
+        ]
+      }
+    },
+    {
+      "id": "ho-int-brama-naglowki",
+      "expect": "trigger",
+      "prompt": "Budujemy bramę OCPP–OCPI: przyjmuje komendy z huba OCPI i przekazuje je do stacji przez OCPP-J. Czy brama może wysłać kolejną komendę do tej samej stacji przed odpowiedzią na poprzednią i jak obsłużyć identyfikatory żądań w nagłówkach OCPI, gdy żądanie idzie przez hub? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "(nie\\s+(wolno|może|można|mogą)|SHALL\\s+NOT|zakaz\\w*).{0,100}CALL",
+            "jedn\\w*\\s+(oczekując\\w*|niepotwierdzon\\w*|outstanding|otwart\\w*)\\s+CALL",
+            "one\\s+(outstanding\\s+)?CALL"
+          ],
+          [
+            "(per|na|dla\\s+każdego|każde\\w*|w\\s+obrębie)\\s+(jedno\\w*\\s+)?(połączeni|connection)",
+            "inn\\w*\\s+stacj",
+            "another\\s+Charging\\s+Station"
+          ],
+          [
+            "(now\\w*|unikaln\\w*|new|własn\\w*|inn\\w*)\\W.{0,40}X-Request-ID",
+            "X-Request-ID.{0,80}(now\\w*|nie\\s+(kopi|przepis)|unikaln|new)"
+          ],
+          [
+            "X-Correlation-ID.{0,80}(ten\\s+sam|tą\\s+samą|tę\\s+samą|takim\\s+samym|tym\\s+samym|same|bez\\s+zmian|niezmienion|zachow)",
+            "(ten\\s+sam|tą\\s+samą|tę\\s+samą|same|zachow\\w*|przekaz\\w*\\s+bez\\s+zmian).{0,40}X-Correlation-ID"
+          ]
+        ],
+        "none": [
+          "hub\\w*\\s+(?:(?!\\bnie\\b).){0,60}(kopiuje|przepisuje)\\s+(ten\\s+sam\\s+|to\\s+samo\\s+)?X-Request-ID"
+        ]
+      }
+    },
+    {
+      "id": "ho-int-nt-onboarding",
+      "expect": "no-trigger",
+      "neighbor": "ev-cpms-architect",
+      "prompt": "Projektujemy moduł onboardingu stacji w naszym CSMS. Jakie stany stacji przechowywać, gdy na BootNotification odpowiadamy Pending, Accepted albo Rejected, i jak ma wyglądać provisioning nowej stacji? Odpowiedz zwięźle."
+    }
+  ]
+}

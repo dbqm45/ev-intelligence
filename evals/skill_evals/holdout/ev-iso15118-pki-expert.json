@@ -1,0 +1,130 @@
+{
+  "skill": "ev-iso15118-pki-expert",
+  "scenarios": [
+    {
+      "id": "ho-pki-sp2-haslo-tls",
+      "expect": "trigger",
+      "prompt": "Konfigurujemy stacje OCPP 2.0.1 w profilu bezpieczeństwa 2. Jakie wymagania ma hasło Basic Auth, jaka minimalna wersja TLS obowiązuje i jakie zestawy szyfrów musi obsługiwać CSMS? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "\\b16\\s+znak",
+            "minimum\\s+16",
+            "min\\.?\\s*16",
+            "co\\s+najmniej\\s+16",
+            "\\b16\\s*[–-]\\s*(40|64)",
+            "16\\s+characters"
+          ],
+          [
+            "\\b40\\b.{0,40}\\b64\\b",
+            "\\b64\\b\\s+znak"
+          ],
+          [
+            "TLS\\s*v?\\s*1\\.2"
+          ],
+          [
+            "ECDHE_ECDSA_WITH_AES_(128|256)_GCM"
+          ],
+          [
+            "TLS_RSA_WITH_AES_(128|256)_GCM",
+            "RSA_WITH_AES_(128|256)_GCM"
+          ]
+        ],
+        "none": [
+          "TLS\\s*v?\\s*1\\.[01]\\s+(jest\\s+)?(dozwolon|dopuszczaln|akceptowal)"
+        ]
+      }
+    },
+    {
+      "id": "ho-pki-certyfikat-subject",
+      "expect": "trigger",
+      "prompt": "Jak w OCPP 2.0.1 ma wyglądać pole subject certyfikatu stacji ładowania i certyfikatu CSMS, co CSMS sprawdza w certyfikacie klienta w profilu 3 i jakich algorytmów podpisu oraz formatu zapisu certyfikatów użyć? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "organizationName",
+            "\\bO\\b\\W.{0,40}(CSO|operator)"
+          ],
+          [
+            "numer\\w*\\s+seryjn",
+            "serial\\s+number"
+          ],
+          [
+            "FQDN"
+          ],
+          [
+            "RSA-PSS",
+            "ECDSA"
+          ],
+          [
+            "\\bPEM\\b"
+          ]
+        ],
+        "none": [
+          "\\bO\\b\\s*\\(?organizationName\\)?\\W+(=|to|zawiera)\\W+numer\\w*\\s+seryjn"
+        ]
+      }
+    },
+    {
+      "id": "ho-pki-firmware-podpis",
+      "expect": "trigger",
+      "prompt": "Jakie algorytmy podpisu firmware dopuszcza OCPP 2.0.1 przy bezpiecznej aktualizacji (uwzględnij erratę do Edition 4) i co stacja robi, gdy certyfikat podpisujący albo podpis firmware są nieprawidłowe? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "RSA-PSS"
+          ],
+          [
+            "ECDSA"
+          ],
+          [
+            "SHA-?256"
+          ],
+          [
+            "InvalidCertificate"
+          ],
+          [
+            "InvalidFirmwareSignature",
+            "InvalidSignature"
+          ]
+        ],
+        "none": [
+          "ECSchnorr\\s+(jest\\s+|pozostaje\\s+|jest\\s+nadal\\s+|nadal\\s+jest\\s+)(dozwolon|dopuszczon|poprawn)"
+        ]
+      }
+    },
+    {
+      "id": "ho-pki-pnc-16-datatransfer",
+      "expect": "trigger",
+      "prompt": "Chcemy uruchomić Plug & Charge na ładowarkach OCPP 1.6J. Jak według noty aplikacyjnej OCA przesyłać komunikaty ISO 15118 między stacją a CSMS, jak włączyć tę funkcję i co stacja robi offline przy autoryzacji certyfikatem umowy? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "DataTransfer"
+          ],
+          [
+            "org\\.openchargealliance\\.iso15118pnc"
+          ],
+          [
+            "ISO15118PnCEnabled"
+          ],
+          [
+            "ContractValidationOffline"
+          ],
+          [
+            "eMAID"
+          ]
+        ],
+        "none": [
+          "(zwykł\\w*|standardow\\w*|regularn\\w*)\\s+Authorize(\\.req)?(?:(?!\\bnie\\b|SHALL\\s+NOT).){0,40}(wystarcz|należy\\s+użyć|używa\\s+się)"
+        ]
+      }
+    },
+    {
+      "id": "ho-pki-nt-v2x",
+      "expect": "no-trigger",
+      "neighbor": "ev-energy-smart-charging-expert",
+      "prompt": "Przy ładowaniu dwukierunkowym ISO 15118-20 w OCPP 2.1 jak CSMS przekazuje stacji setpoint mocy rozładowania i limit rozładowania i jakie wartości operationMode są dostępne? Odpowiedz zwięźle."
+    }
+  ]
+}
