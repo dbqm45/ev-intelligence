@@ -48,6 +48,8 @@ Aktualizacja bazy: `git -C ~/ev-intelligence pull`. Restart Claude Code wczytuje
 podaje w instrukcjach (`VERSION` i commit).
 
 ## Jak używać
+Pełny przewodnik (tryby pracy, jak czytać znaczniki i „Wniosek”, dobre praktyki): [docs/UZYCIE.md](../../docs/UZYCIE.md).
+
 
 **Pytanie, gdy coś dopiero rozważasz.** Pytasz normalnie, np. „jak liczona jest cena sesji przy taryfie OCPI z
 `step_size`?”, „co stanie się z transakcją, gdy stacja straci połączenie z CSMS?”, „jakie wymogi AFIR dotyczą

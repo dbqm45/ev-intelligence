@@ -13,5 +13,6 @@ Kluczowe założenia:
 
 📄 Podsumowanie koncepcji i plan realizacji: [docs/PLAN.md](docs/PLAN.md)
 📚 Mapa wiedzy (taksonomia v1.0): [taxonomy/TAXONOMY.md](taxonomy/TAXONOMY.md) · [pełne drzewo](taxonomy/TAXONOMY-TREE.md)
+📖 Jak korzystać z wiedzy (pytania, przegląd story i kodu, czytanie odpowiedzi): [docs/UZYCIE.md](docs/UZYCIE.md)
 🔌 Użycie w Claude Code (lokalny serwer MCP, instalacja krok po kroku): [integrations/claude-code/README.md](integrations/claude-code/README.md)
 🧪 Budowa i walidacja skilli: [docs/SKILLS-WORKFLOW.md](docs/SKILLS-WORKFLOW.md) — `python3 tools/skill_check.py`
