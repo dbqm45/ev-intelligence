@@ -17,14 +17,6 @@ historii w commicie.
 - **eMIP (Gireve), poziom 2:** dziś `ev_confidential_check` sprawdza tylko występowanie nazw. Ocena zgodności całego
   opisu (werdykt i kategoria problemu bez treści) wymaga modelu po stronie serwera: klucz API, koszt, Twoja zgoda.
   Do rozważenia też pisemne potwierdzenie Gireve przy użyciu komercyjnym.
-- **Scenariusze holdout dla 6 skilli bez zbioru zamkniętego:** `ev-compliance-expert`, `ev-product-designer`,
-  `ev-integration-architect`, `ev-iso15118-pki-expert`, `ev-energy-smart-charging-expert`, `ev-billing-tariff-expert`.
-  Pisze je **inny agent niż autor skilli** (osobna sesja albo subagent bez dostępu do `skills/` i
-  `evals/skill_evals/*.json`): dostaje tylko taksonomię (`taxonomy/taxonomy.yaml`, poddomeny skilla), opis zakresu
-  (`description` i `metadata.katalog`) oraz format scenariusza z `docs/SKILLS-WORKFLOW.md`. Sprawdzenia `checks` opiera
-  na źródłach z `sources/*.yaml`, nie na treści skilla. Wynik trafia do `evals/skill_evals/holdout/<skill>.json`; autor
-  skilli go nie czyta, a poprawki po ewaluacji holdout robi bez oglądania promptów (tylko na podstawie zbiorczego wyniku).
-
 - **Tematy bez skilla w bazie** (z ewaluacji dev2 i taksonomii 1.1.0, gdzie poddomena ma `skills: []`): wybór
   lokalizacji stacji (D17/D18), serwis terenowy (D07.04), obsługa kierowcy (D07.06), RODO historii ładowań, NIS2 i
   EN 18031 (RED), protokoły D01.08–D01.11 (CHAdeMO, OpenADR/OSCP, Modbus, standardy w przygotowaniu). Każdy wymaga

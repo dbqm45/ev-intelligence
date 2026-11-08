@@ -43,6 +43,7 @@ samą bazą i nie wymaga hostingu.
 
 ### Claude Code: stdio
 Składnia z dokumentacji Claude Code: opcje Claude przed `--`, polecenie serwera po `--`.
+Instalacja krok po kroku z uv i przykłady użycia (pytania, przegląd story i kodu): `integrations/claude-code/README.md`.
 
 ```bash
 claude mcp add --transport stdio ev-intelligence -- python3 /ścieżka/do/ev-intelligence/tools/ev_kb_mcp.py
