@@ -1,0 +1,54 @@
+{
+  "skill": "ev-ocpi-roaming-expert",
+  "scenarios": [
+    {
+      "id": "granica-partner-widzi-wolne-zablokowane",
+      "expect": "trigger",
+      "prompt": "Klienci z aplikacji partnera widzą u nas punkty jako wolne, choć stoją zablokowane od rana. U nas w panelu wszystko jest dobrze. Gdzie szukać: u nas, w hubie czy po ich stronie?"
+    },
+    {
+      "id": "nowy-partner-token-versions",
+      "expect": "trigger",
+      "prompt": "Dostaliśmy od nowego partnera token i adres do \"versions\". Co dalej, krok po kroku, żeby wymienić się danymi dostępowymi i nie nadpisać sobie nawzajem tokenów? Dział biznesowy chce go mieć live w przyszłym tygodniu."
+    },
+    {
+      "id": "granica-rozjazd-312-sesji-holandia",
+      "expect": "trigger",
+      "prompt": "Na koniec miesiąca partner z Holandii przysłał zestawienie, w którym ma o 312 sesji więcej niż my mamy od niego rekordów rozliczeniowych. Jak się zwykle uzgadnia takie rozjazdy między operatorami i kto ma rację, kiedy obie strony mają \"swoje\" dane?"
+    },
+    {
+      "id": "hub-czy-umowy-bilateralne",
+      "expect": "trigger",
+      "prompt": "Zastanawiamy się, czy podpiąć się do Hubjecta, czy podpisać bezpośrednie umowy z kilkoma największymi aplikacjami. Jakie są realne plusy i minusy dla małego CPO z Polski, który ma 120 punktów?"
+    },
+    {
+      "id": "migracja-211-221-podatek-w-sesjach",
+      "expect": "trigger",
+      "prompt": "Partner przechodzi z 2.1.1 na 2.2.1. Musimy coś zmienić w tym, jak im wysyłamy zakończone sesje? Słyszałem, że doszły jakieś pola z podatkiem."
+    },
+    {
+      "id": "granica-hubject-zly-format-evseid",
+      "expect": "trigger",
+      "prompt": "Hubject odrzuca autoryzację tokenów jednego EMP i w odpowiedzi jest coś o błędnym formacie EvseID. Jak u nich wygląda poprawny identyfikator punktu i czy nasze numery z Polski się w ogóle kwalifikują?",
+      "ambiguous": true,
+      "note": "Formaty identyfikatorów to D00.04 (ev-domain-expert); sedno to walidacja pola w OICP (D01.03)."
+    },
+    {
+      "id": "francja-gireve",
+      "expect": "trigger",
+      "prompt": "Francuski partner pyta, czy jesteśmy na Gireve. Co to za protokół i czy możemy się tam wpiąć przez obecne OCPI?"
+    },
+    {
+      "id": "idle-fee-okno-czasowe",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Nasza taryfa ma opłatę za postój po 2 godzinach, ale tylko między 8 a 20. Sesja zaczęła się o 19:30, skończyła o 23:00. Ile minut postoju naliczyć?"
+    },
+    {
+      "id": "afir-dane-dostepnosci-nap",
+      "expect": "no-trigger",
+      "neighbor": "ev-compliance-expert",
+      "prompt": "Czy AFIR każe nam udostępniać dane o dostępności punktów w krajowym punkcie dostępowym, od kiedy i czy dotyczy to też naszych stacji przy biurowcach?"
+    }
+  ]
+}

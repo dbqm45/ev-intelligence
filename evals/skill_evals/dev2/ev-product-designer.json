@@ -1,0 +1,54 @@
+{
+  "skill": "ev-product-designer",
+  "scenarios": [
+    {
+      "id": "granica-error-47-w-aplikacji",
+      "expect": "trigger",
+      "prompt": "Projektujemy aplikację dla kierowców. Co powinien zobaczyć użytkownik, gdy ładowanie nie wystartuje? Teraz wyskakuje \"Error 47\" i ludzie dzwonią na infolinię."
+    },
+    {
+      "id": "inwestor-20-hpc-przy-mop",
+      "expect": "trigger",
+      "prompt": "Rozważamy sieć 20 stacji HPC przy MOP-ach. Przy jakim wykorzystaniu to się spina i ile lat do zwrotu przy dzisiejszych cenach energii?"
+    },
+    {
+      "id": "granica-panel-noc-15-kolumn",
+      "expect": "trigger",
+      "prompt": "Panel dla dyżurnych jest przeładowany: 15 kolumn, czerwone wszędzie. Jak zaprojektować widok, który w nocy w 5 sekund pokaże, co jest naprawdę ważne?"
+    },
+    {
+      "id": "granica-gdzie-zabraknie-punktow",
+      "expect": "trigger",
+      "prompt": "Mamy dane z 2 lat sesji. Jak przewidzieć, gdzie za rok zabraknie punktów i gdzie dokładać ładowarki w pierwszej kolejności?"
+    },
+    {
+      "id": "galeria-za-darmo-udzial-w-przychodach",
+      "expect": "trigger",
+      "prompt": "Właściciel galerii chce stacje \"za darmo\" w zamian za udział w przychodach. Jakie są typowe modele takich układów i co zwykle oddaje się właścicielowi terenu?",
+      "ambiguous": true,
+      "note": "Umowy z właścicielami terenu są też w D18.01 (ev-charging-operations-expert); sedno to model biznesowy revenue share (D17.01)."
+    },
+    {
+      "id": "agent-ai-zgloszenia-noc",
+      "expect": "trigger",
+      "prompt": "Zarząd chce wdrożyć \"agenta AI\" do zgłoszeń z NOC. Gdzie to ma sens, a gdzie człowiek musi zatwierdzać każdą decyzję?"
+    },
+    {
+      "id": "czego-nie-ma-nasza-aplikacja",
+      "expect": "trigger",
+      "prompt": "Co mają konkurencyjne apki do ładowania, czego nie ma nasza?"
+    },
+    {
+      "id": "koszt-po-sesji-3-godziny",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "W aplikacji pokazujemy \"1,99 zł/kWh\", ale do tego dochodzi opłata za minutę po godzinie postoju. Jak policzyć łączny koszt pokazywany po sesji, gdy auto stało 3 godziny?"
+    },
+    {
+      "id": "figma-licencje-6-osob",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Szukamy narzędzia do prototypowania dla zespołu 6 projektantów. Figma czy coś innego i ile licencji kupić?"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "skill": "ev-evse-diagnostics-expert",
+  "scenarios": [
+    {
+      "id": "granica-noc-evcommunicationerror",
+      "expect": "trigger",
+      "prompt": "3:20, stacja przy A1. Auto podłączone, autoryzacja przechodzi, po 30 sekundach koniec i EVCommunicationError. Wieczorem inne auta na tym samym złączu ładowały normalnie. Restartować czy najpierw coś zebrać?"
+    },
+    {
+      "id": "granica-reklamacja-40kw-na-150",
+      "expect": "trigger",
+      "prompt": "Kierowca pisze w reklamacji, że \"na 150 kW ładowało mu 40 kW\" i chce zwrotu różnicy. Auto miało 85% baterii. Jak mu to wytłumaczyć i czy to w ogóle nasza wina?"
+    },
+    {
+      "id": "granica-po-firmware-brak-odczytow",
+      "expect": "trigger",
+      "prompt": "Po wgraniu nowej wersji oprogramowania na wallboxy jednego producenta połowa przestała wysyłać odczyty licznika w trakcie sesji. Czy to znany problem i jak bezpiecznie wrócić do poprzedniej wersji?"
+    },
+    {
+      "id": "kod-producenta-bez-dokumentacji",
+      "expect": "trigger",
+      "prompt": "Stacja zgłasza kod producenta E-0x1F, w dokumentacji nic o nim nie ma. Jak podejść do takiego kodu, zanim pojadę 200 km na miejsce?"
+    },
+    {
+      "id": "datatransfer-wlasny-json",
+      "expect": "trigger",
+      "prompt": "Jeden model ładowarki przed każdą sesją wysyła DataTransfer z jakimś swoim JSON-em i jak nie odpowiemy \"po jego myśli\", sesja nie startuje. Ktoś to już rozgryzł?"
+    },
+    {
+      "id": "100-procent-dalej-1kw",
+      "expect": "trigger",
+      "prompt": "Auto pokazuje 100%, a ładowarka dalej ma Charging z mocą ok. 1 kW przez godzinę. To balansowanie ogniw, czy coś źle raportujemy?"
+    },
+    {
+      "id": "logi-online-nie-przyjmuje-sesji",
+      "expect": "trigger",
+      "prompt": "Jak zdalnie wyciągnąć logi z ładowarki, która jest online, ale nie przyjmuje żadnej sesji?",
+      "ambiguous": true,
+      "note": "Scenariusz \"ładowarka online, ale sesja nie startuje\" jest w D22.02 (ev-domain-expert); sedno to narzędzia diagnostyki zdalnej (D07.02)."
+    },
+    {
+      "id": "14-zgloszen-skrypt-infolinii",
+      "expect": "no-trigger",
+      "neighbor": "ev-charging-operations-expert",
+      "prompt": "W godzinę mamy 14 zgłoszeń od kierowców z jednej lokalizacji. Jak ułożyć skrypt dla infolinii, co mówić ludziom, zanim serwis dojedzie?"
+    },
+    {
+      "id": "hiszpania-derating-karta",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-hardware-expert",
+      "prompt": "Wybieramy DC na stacje w Hiszpanii. Jak sprawdzić w karcie katalogowej, od jakiej temperatury zaczyna się ograniczanie mocy i ile to realnie odbiera przy 40 stopniach?"
+    }
+  ]
+}

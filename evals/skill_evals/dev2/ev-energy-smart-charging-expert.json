@@ -1,0 +1,54 @@
+{
+  "skill": "ev-energy-smart-charging-expert",
+  "scenarios": [
+    {
+      "id": "granica-zajezdnia-40-busow",
+      "expect": "trigger",
+      "prompt": "Zajezdnia 40 busów, przyłącze 1 MW, wszystkie wracają o 22 i muszą być pełne na 5:00. Jak rozplanować ładowanie, żeby zmieścić się w mocy i nie płacić za szczyt?"
+    },
+    {
+      "id": "hotel-63a-jedno-i-trojfazowe",
+      "expect": "trigger",
+      "prompt": "Na parkingu hotelu 10 wallboxów po 22 kW i limit 63 A na całość. Jak dzielić prąd, kiedy auta jednofazowe i trójfazowe są wymieszane?"
+    },
+    {
+      "id": "granica-limit-a-utrata-lacznosci",
+      "expect": "trigger",
+      "prompt": "Ustawiliśmy stacji limit mocy z backendu. Co się dzieje, gdy straci połączenie z serwerem — wraca na pełną moc i wywala nam przyłącze?"
+    },
+    {
+      "id": "granica-inwestor-rynek-elastycznosci",
+      "expect": "trigger",
+      "prompt": "Czy można zarabiać na tym, że nasze ładowarki ograniczą pobór na sygnał operatora sieci? Słyszałem o rynkach elastyczności, ale nie wiem, czy w Polsce to w ogóle działa dla takich graczy jak my."
+    },
+    {
+      "id": "pv-200-magazyn-500",
+      "expect": "trigger",
+      "prompt": "Mamy 200 kWp PV na dachu centrum logistycznego i magazyn 500 kWh. Jak powiązać ładowanie aut pracowników z produkcją, żeby nie oddawać energii do sieci za grosze?"
+    },
+    {
+      "id": "osd-przylacze-warunkowe",
+      "expect": "trigger",
+      "prompt": "OSD proponuje nam przyłącze \"warunkowe\": 600 kW zamiast 1 MW, ale z prawem do ograniczania nas w szczycie. Na co uważać przy takich warunkach?"
+    },
+    {
+      "id": "v2g-autobusy-szkolne",
+      "expect": "trigger",
+      "prompt": "Czy V2G z autobusami szkolnymi, które w ciągu dnia stoją na placu, ma dziś sens finansowy, czy to wciąż pilotaże?"
+    },
+    {
+      "id": "stack-level-zlozony-harmonogram",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Wysyłamy na stację limit, odpowiada Accepted, ale kiedy pytamy o wynikowy harmonogram, dostajemy coś innego niż wysłaliśmy. Jak według specyfikacji łączą się profile o różnych poziomach stosu?",
+      "ambiguous": true,
+      "note": "Reguła granic w TAXONOMY.md §5 daje komunikaty profili D01.01 (ev-ocpp-expert), ale lista tematów D08.01 wymienia stack levels i composite schedule; pytanie o regułę ze specyfikacji."
+    },
+    {
+      "id": "taryfa-nocna-zachecic-po-22",
+      "expect": "no-trigger",
+      "neighbor": "ev-billing-tariff-expert",
+      "prompt": "Energia w nocy jest u nas o połowę tańsza. Jak ułożyć taryfę dla kierowców, żeby zachęcić ich do ładowania po 22, i jak ją opisać na stronie?"
+    }
+  ]
+}

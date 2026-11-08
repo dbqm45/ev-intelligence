@@ -1,0 +1,52 @@
+{
+  "skill": "ev-evse-hardware-expert",
+  "scenarios": [
+    {
+      "id": "granica-przetarg-gmina-2x22",
+      "expect": "trigger",
+      "prompt": "Gmina ogłasza przetarg na 12 stacji przy urzędach. W specyfikacji jest tylko \"stacja 2x22 kW z gniazdem, nie kablem\". Jakie parametry dopisać, żeby nie dostać najtańszego słupka z IP54 i licznikiem bez legalizacji?"
+    },
+    {
+      "id": "granica-roznicowka-typ-b",
+      "expect": "trigger",
+      "prompt": "Na parkingu przy markecie wallbox wybija różnicówkę przy każdym aucie jednej marki. Elektryk mówi, że trzeba dać \"typ B\", producent, że w środku jest już detekcja 6 mA DC. Kto ma rację?"
+    },
+    {
+      "id": "granica-szafa-mocy-vs-all-in-one",
+      "expect": "trigger",
+      "prompt": "Czym się różni ładowarka satelitarna z szafą mocy od zwykłej 150 kW all-in-one, jeśli chodzi o to, jak potem rozkłada moc na słupki?"
+    },
+    {
+      "id": "800v-na-starych-50kw",
+      "expect": "trigger",
+      "prompt": "Klient chce ładować auta 800 V na naszych starszych DC 50 kW. Obsłużą to w ogóle i czy auto dostanie pełne 50 kW?"
+    },
+    {
+      "id": "mode-3-karta-katalogowa",
+      "expect": "trigger",
+      "prompt": "Co oznacza \"mode 3\" w karcie katalogowej wallboxa?"
+    },
+    {
+      "id": "inwestor-dc300-roznica-30-procent",
+      "expect": "trigger",
+      "prompt": "W ofertach dwóch producentów DC 300 kW różnica w cenie to 30%. Na co patrzeć poza samą mocą: chłodzenie kabla, moduły, dostępność części, gwarancja? Chcę ocenić koszt przez 10 lat, a nie tylko zakup."
+    },
+    {
+      "id": "zlacze-zdjecie-z-budowy",
+      "expect": "trigger",
+      "prompt": "Na zdjęciach z budowy widzę złącze z dwoma grubymi pinami pod okrągłą częścią. To CCS2 czy coś innego? Pasuje do aut sprowadzanych z Azji?"
+    },
+    {
+      "id": "groundfailure-co-godzine",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-diagnostics-expert",
+      "prompt": "Stacja po aktualizacji oprogramowania co godzinę zgłasza GroundFailure i zaraz go kasuje. Na miejscu technik nic nie znalazł. Fałszywka czy coś się dzieje?"
+    },
+    {
+      "id": "import-pod-wlasna-marka-ce",
+      "expect": "no-trigger",
+      "neighbor": "ev-compliance-expert",
+      "prompt": "Jeśli sprowadzamy ładowarki spoza UE i sprzedajemy pod własną marką, to czy stajemy się producentem w rozumieniu przepisów o oznakowaniu CE i musimy wystawić deklarację zgodności?"
+    }
+  ]
+}

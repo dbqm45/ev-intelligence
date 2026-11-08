@@ -1,0 +1,54 @@
+{
+  "skill": "ev-billing-tariff-expert",
+  "scenarios": [
+    {
+      "id": "granica-4h-postoju-reklamacja",
+      "expect": "trigger",
+      "prompt": "Klient dostał rachunek za 4 godziny postoju, choć twierdzi, że auto skończyło ładować po godzinie i od razu odjechał. Jak sprawdzić, czy naliczyliśmy dobrze?"
+    },
+    {
+      "id": "granica-vat-polak-w-niemczech",
+      "expect": "trigger",
+      "prompt": "Polski kierowca ładuje w Niemczech przez naszą aplikację. Jaki VAT idzie na jego fakturę, niemiecki czy polski? Partner fakturuje nas z niemieckim."
+    },
+    {
+      "id": "granica-cena-co-godzine-z-gieldy",
+      "expect": "trigger",
+      "prompt": "Chcemy cenę, która co godzinę zmienia się razem z ceną energii na giełdzie. Jak pokazać kierowcy cenę przed startem, skoro nie wie, jak długo będzie ładował?"
+    },
+    {
+      "id": "preautoryzacja-150-zl",
+      "expect": "trigger",
+      "prompt": "Terminal blokuje kierowcy 150 zł przy starcie, a sesja kosztuje 23 zł. Bank zwalnia resztę po 7 dniach i ludzie się wściekają. Da się to zrobić szybciej?"
+    },
+    {
+      "id": "odczyt-nizszy-cdr-na-minusie",
+      "expect": "trigger",
+      "prompt": "Ładowarka wysyła odczyty co 15 minut, a jeden w środku sesji jest niższy od poprzedniego. System policzył ujemną energię i rekord rozliczeniowy wyszedł na minus. Jak walidować takie dane, zanim trafią do wyceny?"
+    },
+    {
+      "id": "zaokraglanie-4-zl",
+      "expect": "trigger",
+      "prompt": "Zaokrąglamy kWh do dwóch miejsc czy w górę do pełnych? Klient wyliczył, że na 1000 sesji \"kradniemy\" mu 4 zł."
+    },
+    {
+      "id": "flota-jedna-faktura-centra-kosztow",
+      "expect": "trigger",
+      "prompt": "Firma flotowa chce jednej faktury miesięcznie za wszystkie auta, z rozbiciem na kierowców i centra kosztów, a część sesji była u partnerów roamingowych. Jak to ułożyć?"
+    },
+    {
+      "id": "legalizacja-licznika-dc-polska",
+      "expect": "no-trigger",
+      "neighbor": "ev-compliance-expert",
+      "prompt": "Czy w Polsce licznik w ładowarce DC musi mieć legalizację, żeby wolno było sprzedawać za kWh, czy wystarczy deklaracja producenta?",
+      "ambiguous": true,
+      "note": "D10 ma oba skille; pytanie o wymóg prawny metrologii przypisane do ev-compliance-expert."
+    },
+    {
+      "id": "restrictions-dzien-tygodnia-parser",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpi-roaming-expert",
+      "prompt": "Partner przysyła nam taryfy, w których jest pole restrictions z dniem tygodnia. Nasz parser je ignoruje i kierowcy widzą złą cenę. Jak to pole ma być interpretowane?"
+    }
+  ]
+}

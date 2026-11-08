@@ -1,0 +1,56 @@
+{
+  "skill": "ev-compliance-expert",
+  "scenarios": [
+    {
+      "id": "terminal-kartowy-dc-50",
+      "expect": "trigger",
+      "prompt": "Od kiedy na nowych stacjach DC powyżej 50 kW musi być terminal kartowy i czy dotyczy to stacji, które już stoją?"
+    },
+    {
+      "id": "granica-urzednik-udt-parking",
+      "expect": "trigger",
+      "prompt": "Jestem z urzędu miasta. Firma chce postawić stację ładowania na naszym parkingu i pyta, czy przed uruchomieniem potrzebuje zgody UDT. Jak to wygląda formalnie?"
+    },
+    {
+      "id": "granica-historia-ladowan-rodo",
+      "expect": "trigger",
+      "prompt": "Aplikacja trzyma historię ładowań z lokalizacją i godzinami. Jak długo wolno nam to przechowywać i czy kierowca może żądać usunięcia, skoro potrzebujemy tych danych do reklamacji?"
+    },
+    {
+      "id": "100-procent-zielonej-energii",
+      "expect": "trigger",
+      "prompt": "Zarząd chce napisać w raporcie zrównoważonego rozwoju, że ładujemy \"100% zieloną energią\". Co musimy mieć w papierach, żeby to nie był greenwashing?"
+    },
+    {
+      "id": "thg-quote-spolka-corka",
+      "expect": "trigger",
+      "prompt": "Niemiecka spółka-córka może sprzedawać kwoty THG za energię z naszych publicznych ładowarek? Kto jest do tego uprawniony i jak to się rozlicza?"
+    },
+    {
+      "id": "granica-eichrecht-wejscie-do-niemiec",
+      "expect": "trigger",
+      "prompt": "Wchodzimy do Niemiec. Czy nasze stacje z licznikami MID przejdą tam bez zmian, czy potrzeba czegoś więcej? Klienci pytają o jakiś Eichrecht."
+    },
+    {
+      "id": "ewidencja-ustawa-elektromobilnosc",
+      "expect": "trigger",
+      "prompt": "Jakie obowiązki ma operator ogólnodostępnej stacji według ustawy o elektromobilności, jeśli chodzi o zgłoszenie jej do ewidencji?"
+    },
+    {
+      "id": "nis2-technicznie-od-czego-zaczac",
+      "expect": "no-trigger",
+      "neighbor": "ev-iso15118-pki-expert",
+      "prompt": "Musimy się przygotować pod NIS2. Od czego technicznie zacząć z siecią stacji: segmentacja, VPN, prywatny APN?",
+      "ambiguous": true,
+      "note": "NIS2 jako akt prawny to D12.03; pytanie dotyczy technicznych zabezpieczeń sieci (D11.03)."
+    },
+    {
+      "id": "auto-sluzbowe-lista-plac",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Pracownik na umowie zleceniu jeździ służbowym elektrykiem do domu. Jak rozliczyć na liście płac nieodpłatne świadczenie z tytułu używania auta?",
+      "ambiguous": true,
+      "note": "Bliskie D19.03 (refundacja ładowania pracowników), ale sedno to kadry i podatek od świadczenia, poza bazą."
+    }
+  ]
+}

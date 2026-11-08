@@ -1,0 +1,58 @@
+{
+  "skill": "ev-integration-architect",
+  "scenarios": [
+    {
+      "id": "testy-przed-firmware-600-stacji",
+      "expect": "trigger",
+      "prompt": "Zanim wpuścimy nowy firmware na 600 stacji, chcemy mieć zestaw testów odpalanych automatem na makiecie. Co musi być w nim minimum i czym symulować stacje, skoro fizycznie mamy tylko dwie?"
+    },
+    {
+      "id": "granica-flota-api-bez-dubli",
+      "expect": "trigger",
+      "prompt": "Klient flotowy chce dostawać od nas na bieżąco info o każdej sesji swoich aut: start, kWh, koniec. Ma swój system, żadnego protokołu branżowego. Jak zaprojektować to API, żeby przy ponowieniach nie dostawał dubli?"
+    },
+    {
+      "id": "granica-tabela-model-plus-wersja",
+      "expect": "trigger",
+      "prompt": "Chcemy wiedzieć zawczasu, które kombinacje \"model stacji + wersja oprogramowania\" działają u nas z rezerwacjami i limitami mocy. Jak zbudować i utrzymywać taką tabelę, żeby była wiarygodna, a nie oparta na deklaracjach producentów?",
+      "ambiguous": true,
+      "note": "Macierz kompatybilności D21.02 ma też ev-evse-diagnostics-expert; sedno to proces weryfikacji integracji CPMS×EVSE."
+    },
+    {
+      "id": "granica-pierwszy-plugfest",
+      "expect": "trigger",
+      "prompt": "Jedziemy pierwszy raz na plugfest. Czym to się różni od certyfikacji, którą już mamy, i jak się przygotować, żeby coś z tego wynieść?"
+    },
+    {
+      "id": "zendesk-ticket-z-awarii",
+      "expect": "trigger",
+      "prompt": "Zendesk ma tworzyć zgłoszenie automatycznie, gdy stacja zgłosi awarię, i zamykać je, gdy wróci do normy. Nie chcemy 500 ticketów, kiedy padnie cała lokalizacja. Jak to spiąć?"
+    },
+    {
+      "id": "kafka-stop-przed-startem",
+      "expect": "trigger",
+      "prompt": "Mamy Kafkę między modułem komunikacji ze stacjami a resztą. Zdarzenia z jednej sesji czasem przychodzą w złej kolejności i rozliczenie widzi stop przed startem. Jakie wzorce tu się stosuje?",
+      "ambiguous": true,
+      "note": "D14.02 ma też ev-cpms-architect; kolejność i deduplikacja zdarzeń między modułami to wzorzec integracyjny."
+    },
+    {
+      "id": "integrator-bramka-platnicza-interfejs",
+      "expect": "trigger",
+      "prompt": "Integrator z Niemiec dostarcza bramkę płatniczą do terminali na stacjach i pyta, jakiego interfejsu od nas oczekuje: REST, webhooks czy coś innego. Jak to rozsądnie rozdzielić, żeby nie przywiązać się do jednego dostawcy?"
+    },
+    {
+      "id": "lista-testow-oca",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpp-expert",
+      "prompt": "Czy jest gdzieś oficjalna lista testów, które trzeba przejść, żeby dostać certyfikat OCA dla stacji, i kto te testy przeprowadza?",
+      "ambiguous": true,
+      "note": "D13 ma oba skille; certyfikacja OCA (D13.01) przypisana do ev-ocpp-expert."
+    },
+    {
+      "id": "tenant-id-czy-osobne-bazy",
+      "expect": "no-trigger",
+      "neighbor": "ev-cpms-architect",
+      "prompt": "Na jakim poziomie robić podział na klientów w bazie: osobne schematy, osobne bazy czy kolumna tenant_id? Planujemy 50 operatorów white-label."
+    }
+  ]
+}

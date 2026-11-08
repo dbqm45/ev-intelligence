@@ -1,0 +1,56 @@
+{
+  "skill": "ev-cpms-architect",
+  "scenarios": [
+    {
+      "id": "trzy-marki-jeden-backend",
+      "expect": "trigger",
+      "prompt": "Budujemy system dla trzech marek pod jednym backendem. Każda ma mieć własne logo, swoich kierowców i swoich serwisantów, ale część stacji jest wspólna. Jak to poukładać w modelu danych i uprawnieniach?"
+    },
+    {
+      "id": "granica-sesja-wisi-tydzien",
+      "expect": "trigger",
+      "prompt": "Sesja potrafi u nas \"wisieć\" tydzień jako aktywna, bo stacja nigdy nie dosłała zakończenia. Jak powinna wyglądać logika po stronie serwera, żeby takie sesje sensownie zamykać i nie psuć potem rozliczeń?"
+    },
+    {
+      "id": "granica-kropka-na-lokalizacje",
+      "expect": "trigger",
+      "prompt": "Chcemy, żeby mapa w panelu pokazywała jedną kropkę na lokalizację: zieloną, żółtą albo czerwoną. Stacja ma 4 złącza, jedno offline, jedno zajęte, dwa wolne. Jaki kolor i według jakiej reguły to liczyć, żeby było spójnie wszędzie?"
+    },
+    {
+      "id": "ramki-postgres-2tb",
+      "expect": "trigger",
+      "prompt": "Jak długo trzymać surowe ramki z komunikacji ze stacjami i w czym? Teraz wszystko leci do Postgresa, po roku tabela ma 2 TB i backupy trwają całą noc."
+    },
+    {
+      "id": "restart-noda-komendy-w-proznie",
+      "expect": "trigger",
+      "prompt": "Przy restarcie jednego node'a połowa stacji łączy się do innego, a stare połączenie jeszcze wisi i komendy z panelu idą w próżnię. Jak się to rozwiązuje — sticky sessions, jakiś rejestr połączeń, coś innego?"
+    },
+    {
+      "id": "granica-restart-na-obcych-punktach",
+      "expect": "trigger",
+      "prompt": "Mamy w systemie i swoje ładowarki, i punkty partnerów, które tylko pobieramy z zewnątrz. Dyżurni klikają \"restart\" na obcych i dziwią się, że nic się nie dzieje. Jak w systemie rozdzielić, co wolno robić z jednymi i drugimi?"
+    },
+    {
+      "id": "due-diligence-kompletnosc-systemu",
+      "expect": "trigger",
+      "prompt": "Robimy due diligence spółki, która sprzedaje oprogramowanie dla operatorów ładowarek. Jakie moduły musi mieć taki system, żeby uznać go za kompletny, i gdzie zwykle są dziury?",
+      "ambiguous": true,
+      "note": "Benchmark funkcji CPMS jest też w D16.05 (ev-product-designer); sedno to moduły referencyjne architektury (D05.01)."
+    },
+    {
+      "id": "erp-kazda-sesja-dokument",
+      "expect": "no-trigger",
+      "neighbor": "ev-integration-architect",
+      "prompt": "Księgowość chce, żeby każda zamknięta sesja od razu lądowała jako dokument w naszym ERP. Webhook czy kolejka? I jak zrobić, żeby nic nie zginęło, kiedy ERP leży?",
+      "ambiguous": true,
+      "note": "D05 i D14 mają oba skille; integracja z ERP (D05.07) przypisana do ev-integration-architect."
+    },
+    {
+      "id": "37-offline-wojewodztwo",
+      "expect": "no-trigger",
+      "neighbor": "ev-charging-operations-expert",
+      "prompt": "Panel pokazuje 37 stacji offline od północy, wszystkie w jednym województwie. Kogo budzić najpierw i jak to zgłosić, zanim zaczną dzwonić klienci?"
+    }
+  ]
+}

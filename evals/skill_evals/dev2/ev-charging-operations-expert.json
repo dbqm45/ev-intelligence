@@ -1,0 +1,54 @@
+{
+  "skill": "ev-charging-operations-expert",
+  "scenarios": [
+    {
+      "id": "400-alertow-na-noc",
+      "expect": "trigger",
+      "prompt": "Dyżurni dostają po 400 alertów na noc, z czego 90% to stacje, które same wracają po minucie. Jak ustawić progi i reguły, żeby budzić ludzi tylko przy prawdziwych problemach?"
+    },
+    {
+      "id": "granica-umowa-97-procent-dostepnosci",
+      "expect": "trigger",
+      "prompt": "Partner w umowie wymaga 97% dostępności i kary za każdy punkt poniżej. Jak to liczyć uczciwie: czy przerwa w zasilaniu od strony sieci się wlicza? A zaplanowany serwis?"
+    },
+    {
+      "id": "granica-przeglady-udt-80-lokalizacji",
+      "expect": "trigger",
+      "prompt": "Jak często i co dokładnie sprawdzać na przeglądach okresowych stacji DC, żeby inspektor UDT się nie przyczepił, i jak to zaplanować dla 80 lokalizacji z jednym zespołem serwisowym?",
+      "ambiguous": true,
+      "note": "Wymóg dozorowy należy do D12.05 (ev-compliance-expert); sedno to planowanie procesu przeglądów (D07.04)."
+    },
+    {
+      "id": "dzialka-przy-obwodnicy",
+      "expect": "trigger",
+      "prompt": "Gmina oferuje nam działkę przy obwodnicy pod hub ładowania. Na co patrzeć przy ocenie lokalizacji, zanim w ogóle zapytamy o moc przyłączeniową?"
+    },
+    {
+      "id": "granica-stacja-postawiona-co-dalej",
+      "expect": "trigger",
+      "prompt": "Stacja postawiona, prąd podany, elektryk podpisał protokół. Co jeszcze trzeba zrobić, zanim pokażemy ją w aplikacjach i zaczniemy brać pieniądze?"
+    },
+    {
+      "id": "kabel-zablokowany-23",
+      "expect": "trigger",
+      "prompt": "Kierowca o 23:00 utknął z kablem zablokowanym w aucie, ładowarka nie reaguje na nic. Jaka powinna być procedura infolinii krok po kroku i kiedy wysyłamy kogoś na miejsce?"
+    },
+    {
+      "id": "eskalacja-producent-czy-osd",
+      "expect": "trigger",
+      "prompt": "Mamy 3 stacje na jednym przyłączu, wszystkie padły o 14:05. Eskalować do producenta czy do OSD i kto ma to zrobić?"
+    },
+    {
+      "id": "stycznik-sesja-2-sekundy",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-diagnostics-expert",
+      "prompt": "Stacja online, heartbeat co 5 minut, ale każda sesja kończy się po 2 sekundach z błędem stycznika. Co jeszcze mogę sprawdzić zdalnie, zanim wyślę serwis?"
+    },
+    {
+      "id": "250kw-cztery-razy-150",
+      "expect": "no-trigger",
+      "neighbor": "ev-energy-smart-charging-expert",
+      "prompt": "Na nowej lokalizacji mamy przyłącze 250 kW, a chcemy postawić 4 stacje po 150 kW. Jak dzielić moc, żeby w szczycie nie wywalało zabezpieczeń?"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "skill": "ev-ocpp-expert",
+  "scenarios": [
+    {
+      "id": "noc-boot-pending-petla",
+      "expect": "trigger",
+      "prompt": "Jest 3:10, mam dyżur. Ładowarka w Katowicach co kilka minut się rozłącza i łączy od nowa. W logach widzę, że po przywitaniu dostaje od nas Pending i potem cisza. Co ona w ogóle powinna robić w takim stanie? Czy to my jej czegoś nie odsyłamy?"
+    },
+    {
+      "id": "firmware-dwojka-stare-klucze",
+      "expect": "trigger",
+      "prompt": "Producent wallboxów twierdzi, że nowy firmware \"mówi już dwójką\" i nasze dotychczasowe klucze konfiguracyjne nie będą potrzebne. Czy ta sama stacja może rozmawiać z backendem po staremu i po nowemu naraz, czy to bajka handlowca?"
+    },
+    {
+      "id": "granica-offline-kolejnosc-komunikatow",
+      "expect": "trigger",
+      "prompt": "Jak stacja traci zasięg w trakcie ładowania, transakcja wraca do nas po godzinie, a czas zakończenia jest wcześniejszy niż start. Kto zawinił według specyfikacji, stacja czy my? I w jakiej kolejności stacja powinna dosłać zaległe komunikaty po odzyskaniu łącza?"
+    },
+    {
+      "id": "przetarg-certyfikat-zgodnosci",
+      "expect": "trigger",
+      "prompt": "W specyfikacji przetargu zamawiający wpisał: \"certyfikat zgodności z protokołem w wersji 2.0.1, profil Core i Advanced Security\". Co to konkretnie oznacza dla dostawcy ładowarek i jak się dochodzi do takiego certyfikatu? Termin składania ofert mamy za 3 tygodnie."
+    },
+    {
+      "id": "granica-unavailable-vs-faulted-remote-start",
+      "expect": "trigger",
+      "prompt": "Czym się różni Unavailable od Faulted, jeśli chodzi o to, co stacja ma wtedy zgłaszać? I czy w którymś z tych stanów wolno jej przyjąć zdalny start?",
+      "ambiguous": true,
+      "note": "Pojęcia mylone są też w D00.01 (ev-domain-expert) i regułach statusów D05.04 (ev-cpms-architect); sedno to zachowanie stacji wg protokołu (D01.01)."
+    },
+    {
+      "id": "rejected-heartbeatinterval",
+      "expect": "trigger",
+      "prompt": "Stacja odpowiada Rejected na zmianę HeartbeatInterval, a w manualu producenta stoi, że ten parametr jest wspierany. W którym miejscu specki jest opisane, kiedy wolno jej tak odpowiedzieć?"
+    },
+    {
+      "id": "granica-cto-wybor-wersji-21",
+      "expect": "trigger",
+      "prompt": "Piszemy backend od zera i chcemy obsługiwać tylko najnowszą wersję protokołu między stacją a serwerem. Iść od razu w 2.1, czy to jeszcze niedojrzałe i bezpieczniej 2.0.1? Pytam o status dokumentów i erraty, nie o architekturę."
+    },
+    {
+      "id": "deploy-zrywa-40tys-websocketow",
+      "expect": "no-trigger",
+      "neighbor": "ev-cpms-architect",
+      "prompt": "Mamy ok. 40 tys. ładowarek wpiętych w kilka podów z websocketami. Przy każdym deployu wszystkie rozłączają się naraz, potem w jednej minucie przychodzi lawina BootNotification i baza leży. Jak to rozwiązać architektonicznie?"
+    },
+    {
+      "id": "audytor-certyfikaty-zamiast-hasel",
+      "expect": "no-trigger",
+      "neighbor": "ev-iso15118-pki-expert",
+      "prompt": "Audytor chce, żebyśmy na stacjach przeszli z login/hasło na wzajemne uwierzytelnianie certyfikatami. Jak zorganizować wystawianie i rotację certyfikatów dla 3 tys. stacji, żeby nie jeździć do każdej?"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "skill": "ev-domain-expert",
+  "scenarios": [
+    {
+      "id": "granica-stacja-punkt-evse-raport",
+      "expect": "trigger",
+      "prompt": "Zaczynam w firmie od poniedziałku i każdy mówi inaczej: stacja, punkt, EVSE, złącze, ładowarka. Jak to się ma do siebie i co liczymy, kiedy w raporcie piszemy \"liczba punktów\"?"
+    },
+    {
+      "id": "granica-operator-id-niemcy",
+      "expect": "trigger",
+      "prompt": "Partner z Niemiec pyta o nasz Operator ID. Skąd taki wziąć w Polsce i jak wygląda poprawny numer punktu, żeby był unikalny w całej Europie?"
+    },
+    {
+      "id": "granica-od-karty-do-pieniedzy",
+      "expect": "trigger",
+      "prompt": "Opisz mi cały przebieg: klient obcej aplikacji przykłada kartę na naszej stacji, a na końcu dostajemy pieniądze. Kto kogo pyta po drodze i gdzie to się najczęściej sypie?"
+    },
+    {
+      "id": "wspolnota-60-miejsc",
+      "expect": "trigger",
+      "prompt": "Wspólnota ma 60 miejsc w garażu i każdy chce swój wallbox. Jakie są w ogóle opcje, żeby to ogarnąć bez wojny o prąd i o rozliczenia?",
+      "ambiguous": true,
+      "note": "Dotyka D08.02 (podział mocy) i D09 (rozliczenia); pytanie o przegląd segmentu D19.02."
+    },
+    {
+      "id": "emsp-czy-cpo-inwestor",
+      "expect": "trigger",
+      "prompt": "Kto jest eMSP, a kto CPO, jeśli mamy i ładowarki, i własną aplikację? Inwestor pyta, w jakiej roli w ogóle występujemy."
+    },
+    {
+      "id": "kurierzy-baza-czy-po-drodze",
+      "expect": "trigger",
+      "prompt": "Firma kurierska chce przesiąść dostawczaki na prąd. Ładowanie w bazie czy po drodze, i co z autami, które kierowcy zabierają na noc do domu?"
+    },
+    {
+      "id": "kto-ustala-standardy",
+      "expect": "trigger",
+      "prompt": "Kto w ogóle ustala te standardy w ładowaniu, OCA, CharIN, jakieś ISO? I który dokument jest ważniejszy, gdy mówią co innego?"
+    },
+    {
+      "id": "przejecie-operatora-party-id",
+      "expect": "no-trigger",
+      "neighbor": "ev-ocpi-roaming-expert",
+      "prompt": "Przejęliśmy innego operatora. Jak przenieść jego lokalizacje pod nasz party ID u wszystkich partnerów, żeby nie zgubić historii sesji i nie mieć dubli na mapach?",
+      "ambiguous": true,
+      "note": "Identyfikatory to D00.04 (ev-domain-expert); sedno to proces synchronizacji danych z partnerami (D06.03)."
+    },
+    {
+      "id": "ogloszenie-praca-dyzurny",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Jak napisać ogłoszenie o pracę na dyżurnego NOC, żeby przyciągnąć ludzi po technikum elektrycznym?"
+    }
+  ]
+}

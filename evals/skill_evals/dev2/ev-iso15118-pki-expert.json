@@ -1,0 +1,54 @@
+{
+  "skill": "ev-iso15118-pki-expert",
+  "scenarios": [
+    {
+      "id": "granica-wystarczy-wpiac-kabel",
+      "expect": "trigger",
+      "prompt": "Klient z nowym autem twierdzi, że w innych sieciach \"wystarczy wpiąć kabel\" i ładowanie rusza samo, bez karty i bez aplikacji. U nas nie. Co musimy mieć po stronie stacji i backendu, żeby działało to w pełnoprawny, kontraktowy sposób, a nie po adresie MAC?"
+    },
+    {
+      "id": "pentest-ssh-modemy-lte",
+      "expect": "trigger",
+      "prompt": "Pentester znalazł otwarty SSH na modemach LTE w stacjach, wszystkie na publicznym APN. Jak powinno wyglądać standardowe zabezpieczenie sieci, w której siedzą ładowarki?"
+    },
+    {
+      "id": "granica-wygasa-root-na-stacjach",
+      "expect": "trigger",
+      "prompt": "Certyfikat główny, którym stacje weryfikują nasz serwer, wygasa za 4 miesiące, a jest zaszyty w urządzeniach. Jak się przygotować, żeby nagle nie stracić 2000 połączeń? CTO mówi, że \"wystarczy nowy cert na load balancerze\" — czy to prawda?"
+    },
+    {
+      "id": "dash-20-vs-dash-2-dwukierunkowe",
+      "expect": "trigger",
+      "prompt": "Czym się w praktyce różni ta część -20 od -2? Producent DC mówi, że ma tylko starszą. Czy to zamyka nam drogę do ładowania dwukierunkowego?"
+    },
+    {
+      "id": "granica-wifi-norma-en-cyber",
+      "expect": "trigger",
+      "prompt": "Kupujemy ładowarki z modułem Wi-Fi. Słyszałem, że od sierpnia 2025 są wymagania cyber dla urządzeń radiowych i producent ma się wykazać zgodnością z jakąś normą EN. Która to norma i co ona sprawdza technicznie w urządzeniu?",
+      "ambiguous": true,
+      "note": "Akt delegowany RED to D12.03 (ev-compliance-expert); sedno to treść techniczna normy EN 18031 z D11.05."
+    },
+    {
+      "id": "odwolanie-certyfikatu-kontraktu",
+      "expect": "trigger",
+      "prompt": "Jak działa odwołanie certyfikatu kontraktowego, gdy klient sprzeda auto albo zmieni dostawcę usług ładowania?"
+    },
+    {
+      "id": "slac-przed-tls",
+      "expect": "trigger",
+      "prompt": "W logach DC widać, że auto i ładowarka nie dogadują się, zanim w ogóle ruszy TLS, coś z SLAC. Na czym polega ten etap i co go najczęściej psuje?"
+    },
+    {
+      "id": "ccs-spada-do-20kw",
+      "expect": "no-trigger",
+      "neighbor": "ev-evse-diagnostics-expert",
+      "prompt": "Auto podłączone po CCS, ładowanie startuje, ale po kilku minutach spada do 20 kW i tak zostaje, choć bateria była w połowie. Kierowca pisze, że to wina \"komunikacji z ładowarką\". Od czego zacząć?"
+    },
+    {
+      "id": "wildcard-nginx-strona-firmowa",
+      "expect": "no-trigger",
+      "neighbor": "none",
+      "prompt": "Nasz dział IT musi wymienić certyfikat wildcard na stronie firmowej i w poczcie, bo wygasa w piątek. Jak to zrobić w nginx bez przestoju?"
+    }
+  ]
+}
