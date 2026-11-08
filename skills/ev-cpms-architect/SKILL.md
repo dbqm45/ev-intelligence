@@ -1,6 +1,6 @@
 ---
 name: ev-cpms-architect
-description: Użyj przy projekcie lub ocenie CPMS/CSMS — brama OCPP, onboarding stacji, topologie, model statusów, sesje, ładowarki własne vs roamingowe, wymogi AFIR.
+description: Użyj przy projekcie lub ocenie CPMS/CSMS — brama OCPP, onboarding stacji, topologie, model statusów, sesje, ładowarki własne i roamingowe, AFIR, publikacja do NAP.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy projektowaniu albo ocenie architektury i modułów CPMS/CSMS — warstwa połączeń OCPP-J (identyfikacja stacji, uwierzytelnianie, ponowne łączenie i restart CSMS), onboarding i provisioning (BootNotification Pending/Accepted/Rejected), topologie z lokalnym proxy, kontrolerem, EMS i DSO, model statusów i dostępności (offline vs niedostępna vs awaria), sesje i transakcje z kolejkami offline, ładowarki własne (OCPP) vs zewnętrzne (OCPI), projekt publikacji danych AFIR do NAP (API, format, częstotliwość, jakość) i wymagania cenowe, separacja tenantów. Każde ograniczenie z cytatem ze specyfikacji OCA, EVRF albo AFIR, decyzje projektowe oznaczone jako wniosek. Nie do integracji i migracji między systemami, bramy OCPP–OCPI (ev-integration-architect), algorytmów i profili sterowania mocą (ev-energy-smart-charging-expert), szczegółów komunikatów OCPP (ev-ocpp-expert), mechaniki OCPI (ev-ocpi-roaming-expert), KPI dostępności i raportów operacyjnych NOC (ev-charging-operations-expert) ani doboru domen dla zadania (ev-domain-expert)."
