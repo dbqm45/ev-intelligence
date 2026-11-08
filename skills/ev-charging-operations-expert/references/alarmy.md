@@ -27,6 +27,12 @@ Granice dopasowujesz do umów SLA. Skala OCA określa tylko, czy „action is re
 - Zdarzenia: `NotifyEvent` z `trigger` `Alerting` / `Delta` / `Periodic` i typem `HardWiredNotification`,
   `HardWiredMonitor`, `PreconfiguredMonitor`, `CustomMonitor` `[201-P3]` `[201-P2 N07–N08]`.
 - 1.6: brak monitorów; stan pochodzi ze `StatusNotification` (`status`, `errorCode`, `vendorErrorCode`) `[16 §7.6–7.7]`.
+- 2.0.1, stan złącza: oprócz zdarzeń stacja raportuje stan `StatusNotification` (`connectorStatus`), także
+  `Faulted`; przy awarii stacji lub EVSE status SHALL być `Faulted` `[201-P2 B01]` `[201-P2 G01]`.
+
+**Wniosek:** priorytety alarmów w 2.0.1 opierasz na dwóch źródłach: ważności zdarzeń (`NotifyEvent`, skala 0–9) i
+przejściu złącza w `Faulted` (`StatusNotification`). `Faulted` na publicznym punkcie traktujesz jak alarm wymagający
+działania, a nie zdarzenie do przeglądu rano.
 
 ## 3. Zdarzenia bezpieczeństwa (`SecurityEventNotification`) `[201-CSV security_events.csv]`
 Oznaczone przez OCA jako **Critical = Yes** (wybór): `FirmwareUpdated`, `SettingSystemTime`, `StartupOfTheDevice`,

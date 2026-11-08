@@ -66,6 +66,8 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
    „SHALL stop ongoing transactions gracefully”, a hard reset nie musi ich kończyć łagodnie `[16 §5.14]`.
 
 ## Pułapki
+- Priorytety alarmów tylko ze skali ważności `NotifyEvent`: pomijasz przejście złącza w `Faulted`, które stacja
+  zgłasza w `StatusNotification` `[201-P2 B01]` (`references/alarmy.md`, sekcja 2).
 - Restart jako pierwszy krok: przerywa sesje innych kierowców i kasuje stan do diagnozy (patrz wyżej).
 - `EVCommunicationError` traktowany jak awaria: „not a real error in the sense that the Charge Point doesn’t need to go
   to the faulted state. Instead, it should go to the SuspendedEVSE state” `[16 §7.6]`.

@@ -19,9 +19,6 @@ historii w commicie.
   opisu (werdykt i kategoria problemu bez treści) wymaga modelu po stronie serwera: klucz API, koszt, Twoja zgoda.
   Do rozważenia też pisemne potwierdzenie Gireve przy użyciu komercyjnym.
 
-- **Scenariusz `ev-integration-architect/rozszerzenia-ocpp201`:** sprawdzenie wymaga słowa `customData`, a poprawna
-  odpowiedź (Device Model zamiast DataTransfer, ewaluacja Opus 2026-11-07) go nie potrzebuje. Do decyzji: złagodzić
-  sprawdzenie (np. `customData|Device Model`) czy zostawić.
 
 ## Hosty, które nie działają
 | Host | Objaw | Co daje | Co zrobić |

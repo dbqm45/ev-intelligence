@@ -1,77 +1,113 @@
 {
- "skill": "ev-integration-architect",
- "scenarios": [
-  {
-   "id": "ocpi-po-awarii-bez-kolejki",
-   "expect": "trigger",
-   "prompt": "Nasz CPMS łączy ładowarki OCPP 1.6 z eMSP przez OCPI 2.2.1. Po kilkugodzinnej awarii łącza do eMSP mamy niewysłane aktualizacje sesji i CDR. Czy kolejkować i ponawiać je tak, jak ładowarka kolejkuje komunikaty transakcyjne w OCPP? Jak wrócić do zgodnego stanu? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["nie (należy|powinn\\w*|kolejkuj\\w*|ponawia\\w*)|SHOULD NOT"],
-     ["GET"],
-     ["date_from|od ostatniego|okres\\w* (przerwy|awarii)"],
-     ["§ ?4\\.4|4\\.4"],
-     ["§ ?3\\.7|kolejk\\w*[^.\\n]{0,80}OCPP|OCPP[^.\\n]{0,80}kolejk\\w*"]
-    ],
-    "none": [
-     "OCPI (wymaga|zaleca) (kolejkowania|ponawiania)"
-    ]
-   }
-  },
-  {
-   "id": "migracja-ocpp201-sp2",
-   "expect": "trigger",
-   "prompt": "Przenosimy 500 ładowarek OCPP 2.0.1 z profilem bezpieczeństwa 2 od poprzedniego operatora do naszego CSMS. Poprzedni operator współpracuje. Jakie kroki po stronie OCPP i jak ograniczyć ryzyko utraty łączności ze stacjami? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["InstallCertificate|CSMSRootCertificate|certyfikat\\w* (główn|root)"],
-     ["SetNetworkProfile"],
-     ["NetworkConfigurationPriority"],
-     ["parti\\w*|batch\\w*|grup\\w* stacji|etap\\w*"],
-     ["B10|B09|M05"]
-    ],
-    "none": [
-     "wystarczy zmienić URL i zrestartować wszystkie stacje naraz"
-    ]
-   }
-  },
-  {
-   "id": "wiele-zlaczy-jeden-evse",
-   "expect": "trigger",
-   "prompt": "Ładowarka DC z OCPP 1.6 ma jedno EVSE z dwoma złączami: CCS2 i CHAdeMO. Jak ją pokazać w OCPI 2.3.0, żeby START_SESSION z aplikacji eMSP uruchamiał właściwe złącze i statusy były poprawne? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["wirtualn\\w*|osobn\\w* EVSE|EVSE na (każde )?złącze|one .{0,20}EVSE per Connector"],
-     ["Unavailable"],
-     ["START_SESSION_CONNECTOR_REQUIRED|connector_id"],
-     ["nota aplikacyjna|application note|Multiple Connectors per EVSE|OCA-AN-MC"]
-    ],
-    "none": [
-     "OCPP 1\\.6 obsługuje model trójpoziomowy"
-    ]
-   }
-  },
-  {
-   "id": "rozszerzenia-ocpp201",
-   "expect": "trigger",
-   "prompt": "Chcemy, żeby ładowarka OCPP 2.0.1 raportowała do CSMS temperaturę modułu mocy i własny licznik zdarzeń. Użyć DataTransfer czy czegoś innego, żeby nie zepsuć zgodności z innymi CSMS i certyfikacji? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     ["Device Model|GetVariables|SetVariableMonitoring|NotifyEvent"],
-     ["CustomizationCtrlr"],
-     ["vendorId|odwrócon\\w* (nazw\\w* )?DNS|reverse DNS"],
-     ["customData|CustomData"]
-    ],
-    "none": [
-     "(zawsze )?najlepiej użyć DataTransfer"
-    ]
-   }
-  },
-  {
-   "id": "koszt-z-taryfy",
-   "expect": "no-trigger",
-   "prompt": "Jak policzyć koszt sesji z taryfy OCPI 2.3.0, gdy cena energii zmienia się o 17:00, a step_size wynosi 500?",
-   "neighbor": "ev-billing-tariff-expert"
-  }
- ]
+  "skill": "ev-integration-architect",
+  "scenarios": [
+    {
+      "id": "ocpi-po-awarii-bez-kolejki",
+      "expect": "trigger",
+      "prompt": "Nasz CPMS łączy ładowarki OCPP 1.6 z eMSP przez OCPI 2.2.1. Po kilkugodzinnej awarii łącza do eMSP mamy niewysłane aktualizacje sesji i CDR. Czy kolejkować i ponawiać je tak, jak ładowarka kolejkuje komunikaty transakcyjne w OCPP? Jak wrócić do zgodnego stanu? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "nie (należy|powinn\\w*|kolejkuj\\w*|ponawia\\w*)|SHOULD NOT"
+          ],
+          [
+            "GET"
+          ],
+          [
+            "date_from|od ostatniego|okres\\w* (przerwy|awarii)"
+          ],
+          [
+            "§ ?4\\.4|4\\.4"
+          ],
+          [
+            "§ ?3\\.7|kolejk\\w*[^.\\n]{0,80}OCPP|OCPP[^.\\n]{0,80}kolejk\\w*"
+          ]
+        ],
+        "none": [
+          "OCPI (wymaga|zaleca) (kolejkowania|ponawiania)"
+        ]
+      }
+    },
+    {
+      "id": "migracja-ocpp201-sp2",
+      "expect": "trigger",
+      "prompt": "Przenosimy 500 ładowarek OCPP 2.0.1 z profilem bezpieczeństwa 2 od poprzedniego operatora do naszego CSMS. Poprzedni operator współpracuje. Jakie kroki po stronie OCPP i jak ograniczyć ryzyko utraty łączności ze stacjami? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "InstallCertificate|CSMSRootCertificate|certyfikat\\w* (główn|root)"
+          ],
+          [
+            "SetNetworkProfile"
+          ],
+          [
+            "NetworkConfigurationPriority"
+          ],
+          [
+            "parti\\w*|batch\\w*|grup\\w* stacji|etap\\w*"
+          ],
+          [
+            "B10|B09|M05"
+          ]
+        ],
+        "none": [
+          "wystarczy zmienić URL i zrestartować wszystkie stacje naraz"
+        ]
+      }
+    },
+    {
+      "id": "wiele-zlaczy-jeden-evse",
+      "expect": "trigger",
+      "prompt": "Ładowarka DC z OCPP 1.6 ma jedno EVSE z dwoma złączami: CCS2 i CHAdeMO. Jak ją pokazać w OCPI 2.3.0, żeby START_SESSION z aplikacji eMSP uruchamiał właściwe złącze i statusy były poprawne? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "wirtualn\\w*|osobn\\w* EVSE|EVSE na (każde )?złącze|one .{0,20}EVSE per Connector"
+          ],
+          [
+            "Unavailable"
+          ],
+          [
+            "START_SESSION_CONNECTOR_REQUIRED|connector_id"
+          ],
+          [
+            "nota aplikacyjna|application note|Multiple Connectors per EVSE|OCA-AN-MC"
+          ]
+        ],
+        "none": [
+          "OCPP 1\\.6 obsługuje model trójpoziomowy"
+        ]
+      }
+    },
+    {
+      "id": "rozszerzenia-ocpp201",
+      "expect": "trigger",
+      "prompt": "Chcemy, żeby ładowarka OCPP 2.0.1 raportowała do CSMS temperaturę modułu mocy i własny licznik zdarzeń. Użyć DataTransfer czy czegoś innego, żeby nie zepsuć zgodności z innymi CSMS i certyfikacji? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Device Model|GetVariables|SetVariableMonitoring|NotifyEvent"
+          ],
+          [
+            "CustomizationCtrlr"
+          ],
+          [
+            "vendorId|odwrócon\\w* (nazw\\w* )?DNS|reverse DNS"
+          ],
+          [
+            "customData|CustomData|Device Model"
+          ]
+        ],
+        "none": [
+          "(zawsze )?najlepiej użyć DataTransfer"
+        ]
+      }
+    },
+    {
+      "id": "koszt-z-taryfy",
+      "expect": "no-trigger",
+      "prompt": "Jak policzyć koszt sesji z taryfy OCPI 2.3.0, gdy cena energii zmienia się o 17:00, a step_size wynosi 500?",
+      "neighbor": "ev-billing-tariff-expert"
+    }
+  ]
 }
