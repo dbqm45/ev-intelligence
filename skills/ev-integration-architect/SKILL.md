@@ -10,8 +10,8 @@ metadata:
 # Integration Architect — łączenie systemów EV
 
 Skill odpowiada, **jak połączyć systemy EV, żeby dane się zgadzały**: brama OCPP–OCPI, synchronizacja po awarii,
-mapowanie obiektów, migracja stacji między CSMS, rozszerzenia protokołów i testy zgodności. Taksonomia: D05.05,
-D05.07, D13.01, D13.03, D14.01, D21.02. Sieć: brak.
+mapowanie obiektów, migracja stacji między CSMS, rozszerzenia protokołów i testy zgodności. Taksonomia: D05.07,
+D13.02, D13.03, D14.01, D14.02, D21.02. Sieć: brak.
 
 **Zasada źródeł.** Fakty mają znacznik `[dokument §]` i pochodzą z `sources/*.yaml`: specyfikacje OCA i EVRF oraz białe
 księgi i nota aplikacyjna OCA. **Białe księgi to zalecenia z doświadczeń członków OCA, nie wymagania.** Ogólne wzorce

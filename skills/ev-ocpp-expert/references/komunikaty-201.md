@@ -9,6 +9,7 @@
 4. Device Model — zmienne
 5. TxStartPoint i TxStopPoint
 6. Nowe akcje w 2.1
+7. Komunikaty na wyświetlaczu stacji (blok O)
 
 ## 1. Komunikaty wg bloków funkcjonalnych
 Bloki A–P: spis treści części 2 `[201-P2]`. Przypisanie komunikatu do bloku: tytuły przypadków użycia (np. G01 Status
@@ -126,3 +127,20 @@ warianty `[201-P2]`.
 `NotifyPeriodicEventStream` ma w pakiecie jeden plik schematu (bez pary Request/Response) `[21-P3]`.
 Pogrupowanie powyżej to opis po nazwach akcji, a nie podział z dokumentu. Kierunki i bloki funkcjonalne 2.1 sprawdzasz
 w części 2 specyfikacji 2.1 przed użyciem.
+
+## 7. Komunikaty na wyświetlaczu stacji (blok O)
+- Priorytety (`MessagePriorityEnumType`) `[201-P2 §3.52]`:
+  - `AlwaysFront`: zawsze na wierzchu, najwyższy priorytet, bez rotacji z innymi; nowszy komunikat z tym priorytetem
+    zastępuje poprzedni, a własne komunikaty stacji nie mogą go przesłonić;
+  - `InFront`: przed normalnym cyklem; kilka takich komunikatów stacja SHALL rotować;
+  - `NormalCycle`: w normalnym cyklu komunikatów.
+- Zachowanie stacji według wymagań `[201-P2 O01.FR.12]` `[201-P2 O01.FR.13]` `[201-P2 O01.FR.14]` `[201-P2 O01.FR.15]`
+  `[201-P2 O01.FR.16]` (to samo w O02 `[201-P2 O02.FR.16]`): `NormalCycle` w skonfigurowanym momencie normalnego cyklu;
+  `InFront` w skonfigurowanym momencie niezależnie od cyklu; `AlwaysFront` niezależnie od innych komunikatów, bez
+  rotacji i bez przesłaniania przez komunikaty stacji; drugi `AlwaysFront` zastępuje poprzedni.
+- Język: stacja SHALL pokazać komunikat w preferowanym języku kierowcy, jeśli jest dostępny (O01.FR.08); bez pasującego
+  języka zaleca się angielski jako zapasowy (O01.FR.09). Język jako znacznik RFC 5646, np. `en-US` (O01.FR.17, O02.FR.12)
+  `[201-P2 O01.FR.08]` `[201-P2 O01.FR.09]` `[201-P2 O01.FR.17]` `[201-P2 O02.FR.12]`.
+- Komunikaty SHALL przetrwać restart (O01.FR.10); przekroczenie `NumberOfDisplayMessages.maxLimit` → `Rejected`
+  (O01.FR.11) `[201-P2 O01.FR.10]` `[201-P2 O01.FR.11]`.
+

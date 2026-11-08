@@ -10,7 +10,7 @@ metadata:
 # Charging Operations Expert — praca NOC i diagnoza
 
 Skill prowadzi **operatora** od objawu do działania: co sprawdzić, w jakiej kolejności, jakim poleceniem, z jakim
-ryzykiem dla trwających sesji. Taksonomia: D07.01–D07.03 (monitoring, diagnostyka, incydenty). Sieć: brak.
+ryzykiem dla trwających sesji. Taksonomia: D07.01–D07.03 (monitoring, diagnostyka, incydenty), D07.05 (KPI), D03.06 (kody błędów), D21.04. Sieć: brak.
 
 **Zasada źródeł.** Fakty z dokumentów OCA, EVRF i aktów UE (`sources/*.yaml`) mają znacznik `[dokument §]`.
 Kolejność kroków i reguły operacyjne to **Wnioski** z tych faktów. Zachowania konkretnych modeli i firmware nie należą do

@@ -41,6 +41,15 @@ zgłasza kluczem `SupportedFeatureProfiles` `[16 §3.3]`. Kierunki komunikatów 
 - Po zmianie stanu CP SHALL wysłać `StatusNotification`, „taking into account some minimum status duration” `[16E §3.19]`.
 - Po `BootNotification` z `Accepted` CP SHALL wysłać `StatusNotification` dla `connectorId 0` i wszystkich złączy `[16E §3.22]`.
 - Dozwolone jest przejście `Preparing` → `Finishing` (B6) po upływie czasu bez okazania `idTag` przy wpiętym kablu `[16E §3.20]`.
+- Wiele złączy na jednym EVSE (np. Type 2 i CCS ze wspólnym modułem mocy): OCPP 1.x zakłada, że każde złącze ładuje
+  niezależnie. Zalecenie OCA (TWG): każde złącze jak osobne EVSE, a blokadę wzajemną zgłaszać statusami
+  `StatusNotification` `[OCA-AN-MC §4]`:
+  - początek autoryzacji → wszystkie złącza EVSE `Preparing`;
+  - gdy wiadomo, które złącze jest używane → pozostałe `Unavailable`;
+  - koniec transakcji i odłączenie → wszystkie `Available`;
+  - uszkodzone jedno złącze → tylko ono `Faulted`; uszkodzone EVSE → wszystkie `Faulted`.
+
+  Integracja z OCPI (złącza jako osobne EVSE): skill `ev-integration-architect`.
 
 ## 3. Odpowiedzi poleceń (wartości ze schematów `[S16]`)
 | Odpowiedź / pole | Wartości |

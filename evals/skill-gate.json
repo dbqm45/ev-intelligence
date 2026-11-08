@@ -4,7 +4,7 @@
   "offline": "2026-11-08"
  },
  "ev-charging-operations-expert": {
-  "fingerprint": "ac06b2727f25cd21",
+  "fingerprint": "b6b1ee12488aaf6f",
   "offline": "2026-11-08"
  },
  "ev-compliance-expert": {
@@ -24,7 +24,7 @@
   "offline": "2026-11-08"
  },
  "ev-evse-diagnostics-expert": {
-  "fingerprint": "097706fc3b4a0a5d",
+  "fingerprint": "39e306e00a397b71",
   "offline": "2026-11-08"
  },
  "ev-evse-hardware-expert": {
@@ -32,7 +32,7 @@
   "offline": "2026-11-07"
  },
  "ev-integration-architect": {
-  "fingerprint": "943b8b92bdc17071",
+  "fingerprint": "e6f5cabfa772f2ba",
   "offline": "2026-11-08"
  },
  "ev-iso15118-pki-expert": {
@@ -44,8 +44,8 @@
   "offline": "2026-11-08"
  },
  "ev-ocpp-expert": {
-  "fingerprint": "8d6258bcd93c3063",
-  "offline": "2026-11-07"
+  "fingerprint": "a9266c90cd783e2c",
+  "offline": "2026-11-08"
  },
  "ev-product-designer": {
   "fingerprint": "024d2977c71bea76",

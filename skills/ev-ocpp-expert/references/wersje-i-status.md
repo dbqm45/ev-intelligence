@@ -27,6 +27,11 @@ Stan na 2026-11-07. Źródła: dokumenty OCA z `sources/oca-ocpp.yaml` (znacznik
 | OCPP 2.1 Edition 1 opublikowane jako IEC 63584-210:2025 (komunikat 2025-12-09) | `[OCA-N2]` |
 Numeru części IEC 63584 dla 2.0.1 sprawdzone źródła OCA nie podają. Specyfikacje OCA nie wspominają o IEC 63584.
 
+## Rozbieżności wewnątrz specyfikacji
+Przy (pozornej) sprzeczności między tekstem opisowym, diagramami sekwencji, przykładami i wymaganiami pierwszeństwo mają
+**wymagania** (np. `B01.FR.05`), w 2.0.1 i 2.1 `[201-P2 §2.1.2]` `[21-P2 §2.1.2]`. **Wniosek:** w rozstrzygnięciu najpierw
+cytujesz wymaganie FR, potem erratę i schemat; przykład JSON albo diagram nie przesądzają.
+
 ## Zgodność między wersjami
 - 2.0.1 „is not backward compatible with OCPP 1.6 or OCPP 1.5” `[201-P0 rozdz. 2]`.
 - 2.1 „is an extension of OCPP 2.0.1”. Schematy 2.1 to schematy 2.0.1 rozszerzone o pola opcjonalne. Logika aplikacji

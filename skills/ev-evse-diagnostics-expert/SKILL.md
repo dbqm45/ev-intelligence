@@ -10,7 +10,7 @@ metadata:
 # EVSE Diagnostics Expert — norma czy implementacja
 
 Skill rozstrzyga, **czy zachowanie stacji jest zgodne z OCPP**, i zapisuje wynik tak, by dało się na nim polegać.
-Taksonomia: D21 (implementation intelligence), D13.01 (zgodność). Sieć: brak (skrypt działa lokalnie).
+Taksonomia: D21.01, D21.03 (implementation intelligence), D13.01 (zgodność), D03.05 (firmware). Sieć: brak (skrypt działa lokalnie).
 
 **Zasada źródeł.** Wymagania pochodzą z dokumentów OCA (`sources/oca-ocpp.yaml`). Obserwacje z wdrożeń to wiedza
 **klasy D**: wolno je zapisywać tylko z modelem, wersją firmware, dowodem i poziomem pewności
