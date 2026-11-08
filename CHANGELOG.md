@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.7] — 2026-11-08
+### Fixed
+- **billing:** name TxResumed in interrupted session reference
+
 ## [0.1.6] — 2026-11-08
 ### Added
 - **billing:** add ad hoc payment and interrupted session references
