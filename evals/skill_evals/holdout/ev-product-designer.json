@@ -2,69 +2,6 @@
   "skill": "ev-product-designer",
   "scenarios": [
     {
-      "id": "ho-prod-publish-flota",
-      "expect": "trigger",
-      "prompt": "Mamy lokalizację ze stacjami tylko dla kierowców floty firmowej. Chcemy, żeby w aplikacjach eMSP widzieli ją wyłącznie posiadacze naszych kart, a inni nie. Jak to ustawić w obiekcie Location OCPI 2.3.0 i co zrobić, gdy w tej samej lokalizacji część EVSE jest publiczna? Odpowiedz zwięźle.",
-      "checks": {
-        "all": [
-          [
-            "publish\\W{0,5}(=|:|na|ustaw\\w*\\s+na|jako)?\\W{0,3}false"
-          ],
-          [
-            "publish_allowed_to"
-          ],
-          [
-            "\\buid\\b",
-            "visual_number",
-            "group_id"
-          ],
-          [
-            "wszystki\\w*\\s+(ustawion\\w*\\s+)?pol",
-            "all\\s+(the\\s+)?(set\\s+)?fields",
-            "wszystkie\\s+pola"
-          ],
-          [
-            "dwie\\s+(osobne\\s+)?(lokalizacj|Location)",
-            "dwa\\s+(osobne\\s+)?(obiekty\\s+)?Location",
-            "two\\s+'?Locations",
-            "(osobn|oddzieln)\\w*\\s+(lokalizacj|Location)"
-          ]
-        ],
-        "none": [
-          "publish_allowed_to\\W(?:(?!\\bnie\\b).){0,60}(gdy|przy|tylko\\s+gdy)\\s+publish\\W{0,5}(=|:|jest|ustawion\\w*\\s+na)?\\W{0,3}true"
-        ]
-      }
-    },
-    {
-      "id": "ho-prod-displaymessage",
-      "expect": "trigger",
-      "prompt": "Projektujemy komunikaty na ekranie ładowarki OCPP 2.0.1 wysyłane z CSMS: komunikat o awarii terminala, który ma być zawsze widoczny, i informacje promocyjne. Jakie są priorytety komunikatów i jak stacja wybiera język? Odpowiedz zwięźle.",
-      "checks": {
-        "all": [
-          [
-            "AlwaysFront"
-          ],
-          [
-            "InFront"
-          ],
-          [
-            "NormalCycle"
-          ],
-          [
-            "RFC[\\s-]?5646",
-            "en-US"
-          ],
-          [
-            "angielsk",
-            "English"
-          ]
-        ],
-        "none": [
-          "NormalCycle\\W+(ma|to|jest)\\W+(\\w+\\W+)?najwyższ"
-        ]
-      }
-    },
-    {
       "id": "ho-prod-eipa-liczby",
       "expect": "trigger",
       "prompt": "Do prezentacji dla inwestora potrzebuję liczby lokalizacji, stacji i punktów ładowania w Polsce według statystyki EIPA na koniec 2025 r. Podaj liczby, źródło i datę stanu. Odpowiedz zwięźle.",

@@ -1,65 +1,82 @@
 {
- "skill": "ev-ocpi-roaming-expert",
- "scenarios": [
-  {
-   "id": "ho-ocpi-request-correlation-id",
-   "expect": "trigger",
-   "prompt": "Nasz hub OCPI przekazuje żądanie od CPO do eMSP. Czy hub ma skopiować nagłówki X-Request-ID i X-Correlation-ID z żądania przychodzącego, czy nadać nowe? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "X-Request-ID[^.\\n]{0,120}(now\\w*|inn\\w*|new)"
-     ],
-     [
-      "X-Correlation-ID[^.\\n]{0,120}(ten sam|tak\\w* sam|zachow|same|bez zmian|kopi)"
-     ],
-     [
-      "SHALL"
-     ]
-    ],
-    "none": [
-     "hub (kopiuje|przekazuje) (ten sam|niezmieniony) X-Request-ID"
-    ]
-   }
-  },
-  {
-   "id": "ho-ocpi-4003-kolejka",
-   "expect": "trigger",
-   "prompt": "Przy wysyłce PATCH z sesją przez hub OCPI dostajemy status_code 4003. Co to oznacza i czy powinniśmy zakolejkować tę aktualizację i wysłać ją ponownie później? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "4003[^.\\n]{0,120}(niepołącz|nie jest połączon|not connected|połączeni\\w*|connection)"
-     ],
-     [
-      "SHOULD NOT|nie (należy|powinn\\w*)[^.\\n]{0,40}(kolejk|ponaw)"
-     ],
-     [
-      "\\bGET\\b|pull"
-     ]
-    ],
-    "none": [
-     "(należy|trzeba|powinniście) (zakolejkować|ponowić) (tę )?(aktualizację|PATCH)"
-    ]
-   }
-  },
-  {
-   "id": "ho-ocpi-step-size-przyszlosc",
-   "expect": "trigger",
-   "prompt": "Projektujemy taryfy OCPI 2.2.1 z elementem TIME i step_size 300. Klient ładował 6 minut. Ile czasu rozliczyć i co EVRoaming Foundation zaleca w sprawie step_size z myślą o OCPI 3.0? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "10 ?min"
-     ],
-     [
-      "step_size ?= ?1|ustaw\\w*[^.\\n]{0,30}\\b1\\b"
-     ],
-     [
-      "3\\.0[^.\\n]{0,80}(nie ma|usunięt|brak|no longer|nie występuje)|(nie ma|brak)[^.\\n]{0,60}3\\.0"
-     ]
-    ]
-   }
-  }
- ]
+  "skill": "ev-ocpi-roaming-expert",
+  "scenarios": [
+    {
+      "id": "ho-ocpi-request-correlation-id",
+      "expect": "trigger",
+      "prompt": "Nasz hub OCPI przekazuje żądanie od CPO do eMSP. Czy hub ma skopiować nagłówki X-Request-ID i X-Correlation-ID z żądania przychodzącego, czy nadać nowe? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "X-Request-ID[^.\\n]{0,120}(now\\w*|inn\\w*|new)"
+          ],
+          [
+            "X-Correlation-ID[^.\\n]{0,120}(ten sam|tak\\w* sam|zachow|same|bez zmian|kopi)"
+          ],
+          [
+            "SHALL"
+          ]
+        ],
+        "none": [
+          "hub (kopiuje|przekazuje) (ten sam|niezmieniony) X-Request-ID"
+        ]
+      }
+    },
+    {
+      "id": "ho-ocpi-4003-kolejka",
+      "expect": "trigger",
+      "prompt": "Przy wysyłce PATCH z sesją przez hub OCPI dostajemy status_code 4003. Co to oznacza i czy powinniśmy zakolejkować tę aktualizację i wysłać ją ponownie później? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "4003[^.\\n]{0,120}(niepołącz|nie jest połączon|not connected|połączeni\\w*|connection)"
+          ],
+          [
+            "SHOULD NOT|nie (należy|powinn\\w*)[^.\\n]{0,40}(kolejk|ponaw)"
+          ],
+          [
+            "\\bGET\\b|pull"
+          ]
+        ],
+        "none": [
+          "(należy|trzeba|powinniście) (zakolejkować|ponowić) (tę )?(aktualizację|PATCH)"
+        ]
+      }
+    },
+    {
+      "id": "ho-prod-publish-flota",
+      "expect": "trigger",
+      "prompt": "Mamy lokalizację ze stacjami tylko dla kierowców floty firmowej. Chcemy, żeby w aplikacjach eMSP widzieli ją wyłącznie posiadacze naszych kart, a inni nie. Jak to ustawić w obiekcie Location OCPI 2.3.0 i co zrobić, gdy w tej samej lokalizacji część EVSE jest publiczna? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "publish\\W{0,5}(=|:|na|ustaw\\w*\\s+na|jako)?\\W{0,3}false"
+          ],
+          [
+            "publish_allowed_to"
+          ],
+          [
+            "\\buid\\b",
+            "visual_number",
+            "group_id"
+          ],
+          [
+            "wszystki\\w*\\s+(ustawion\\w*\\s+)?pol",
+            "all\\s+(the\\s+)?(set\\s+)?fields",
+            "wszystkie\\s+pola"
+          ],
+          [
+            "dwie\\s+(osobne\\s+)?(lokalizacj|Location)",
+            "dwa\\s+(osobne\\s+)?(obiekty\\s+)?Location",
+            "two\\s+'?Locations",
+            "(osobn|oddzieln)\\w*\\s+(lokalizacj|Location)"
+          ]
+        ],
+        "none": [
+          "publish_allowed_to\\W(?:(?!\\bnie\\b).){0,60}(gdy|przy|tylko\\s+gdy)\\s+publish\\W{0,5}(=|:|jest|ustawion\\w*\\s+na)?\\W{0,3}true"
+        ]
+      },
+      "relabel_note": "Audyt 2026-11-08: sedno to semantyka pól obiektu Location OCPI 2.3.0 (publish, publish_allowed_to, podział lokalizacji) — D01.02 (Locations, model danych; TAXONOMY §5: parametry protokołu → D01), właściciel ev-ocpi-roaming-expert."
+    }
+  ]
 }

@@ -1,119 +1,198 @@
 {
- "skill": "ev-ocpp-expert",
- "scenarios": [
-  {
-   "id": "ho-heartbeatinterval-1-6",
-   "expect": "trigger",
-   "prompt": "Piszemy symulator CSMS dla OCPP 1.6J według przykładu z dokumentu OCPP-J 1.6 i odpowiadamy na BootNotification polem heartbeatInterval: 300. Część ładowarek zgłasza błąd. Kto ma rację? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "\\binterval\\b"
-     ],
-     [
-      "schemat\\w*|schema"
-     ],
-     [
-      "errat\\w*"
-     ],
-     [
-      "przykład\\w*|example|niespójn\\w*|literówk\\w*|typo"
-     ]
-    ],
-    "none": [
-     "heartbeatInterval jest (poprawn\\w*|prawidłow\\w*) (nazwą|polem)"
-    ]
-   }
-  },
-  {
-   "id": "ho-seqno-57",
-   "expect": "trigger",
-   "prompt": "W OCPP 2.0.1 nowa transakcja na EVSE 2 przychodzi z TransactionEvent Started i seqNo 57, a nie 0. Czy stacja łamie specyfikację i jak sprawdzić kompletność zdarzeń tej transakcji? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "SHOULD|zalec\\w*"
-     ],
-     [
-      "(ciągł\\w*|continuously)[^.\\n]{0,60}(dozwol|allowed|dopuszcz)|dozwolon\\w*[^.\\n]{0,60}ciągł"
-     ],
-     [
-      "EVSE"
-     ],
-     [
-      "\\+ ?1|o 1\\b|o jeden|increase"
-     ]
-    ],
-    "none": [
-     "seqNo (musi|SHALL) (zaczynać się|zaczynac sie|zawsze zaczynać) od 0"
-    ]
-   }
-  },
-  {
-   "id": "ho-evconnecttimeout",
-   "expect": "trigger",
-   "prompt": "Implementujemy po stronie stacji OCPP 2.0.1 koniec transakcji, gdy kierowca nie podłączył kabla po zdalnym starcie. Wymaganie F02.FR.07 podaje triggerReason EVConnectionTimeout, ale walidator schematu go odrzuca. Jaką wartość wysłać i jaki stoppedReason? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "EVConnectTimeout"
-     ],
-     [
-      "Timeout"
-     ],
-     [
-      "schemat\\w*|enum"
-     ],
-     [
-      "Ended"
-     ]
-    ],
-    "none": [
-     "(wyślij|użyj|wysyłaj) EVConnectionTimeout"
-    ]
-   }
-  },
-  {
-   "id": "ho-ocpp-profil-rezerwacji",
-   "expect": "trigger",
-   "prompt": "W tabeli profili OCPP 1.6 edition 2 (§3.3) komunikaty ReserveNow i CancelReservation są zaznaczone w kolumnie Remote Trigger. Czy rezerwacje należą do profilu Remote Trigger? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "errat\\w*"
-     ],
-     [
-      "(pomieszan\\w*|zamienion\\w*|mixed|przestawion\\w*)"
-     ],
-     [
-      "Reservation"
-     ]
-    ],
-    "none": [
-     "(tak,? )?rezerwacje należą do (profilu )?Remote Trigger"
-    ]
-   }
-  },
-  {
-   "id": "ho-ocpp-call-naraz-sila",
-   "expect": "trigger",
-   "prompt": "Czy CSMS może wysłać drugie polecenie do tej samej stacji, zanim dostanie odpowiedź na pierwsze? Czy reguła jest tak samo wiążąca w OCPP-J 1.6 i w 2.0.1? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "SHOULD NOT"
-     ],
-     [
-      "SHALL NOT"
-     ],
-     [
-      "połączeni\\w*|connection"
-     ],
-     [
-      "timeout|time-?out|przekroczen\\w* czasu"
-     ]
-    ]
-   }
-  }
- ]
+  "skill": "ev-ocpp-expert",
+  "scenarios": [
+    {
+      "id": "ho-heartbeatinterval-1-6",
+      "expect": "trigger",
+      "prompt": "Piszemy symulator CSMS dla OCPP 1.6J według przykładu z dokumentu OCPP-J 1.6 i odpowiadamy na BootNotification polem heartbeatInterval: 300. Część ładowarek zgłasza błąd. Kto ma rację? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "\\binterval\\b"
+          ],
+          [
+            "schemat\\w*|schema"
+          ],
+          [
+            "errat\\w*"
+          ],
+          [
+            "przykład\\w*|example|niespójn\\w*|literówk\\w*|typo"
+          ]
+        ],
+        "none": [
+          "heartbeatInterval jest (poprawn\\w*|prawidłow\\w*) (nazwą|polem)"
+        ]
+      }
+    },
+    {
+      "id": "ho-seqno-57",
+      "expect": "trigger",
+      "prompt": "W OCPP 2.0.1 nowa transakcja na EVSE 2 przychodzi z TransactionEvent Started i seqNo 57, a nie 0. Czy stacja łamie specyfikację i jak sprawdzić kompletność zdarzeń tej transakcji? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "SHOULD|zalec\\w*"
+          ],
+          [
+            "(ciągł\\w*|continuously)[^.\\n]{0,60}(dozwol|allowed|dopuszcz)|dozwolon\\w*[^.\\n]{0,60}ciągł"
+          ],
+          [
+            "EVSE"
+          ],
+          [
+            "\\+ ?1|o 1\\b|o jeden|increase"
+          ]
+        ],
+        "none": [
+          "seqNo (musi|SHALL) (zaczynać się|zaczynac sie|zawsze zaczynać) od 0"
+        ]
+      }
+    },
+    {
+      "id": "ho-evconnecttimeout",
+      "expect": "trigger",
+      "prompt": "Implementujemy po stronie stacji OCPP 2.0.1 koniec transakcji, gdy kierowca nie podłączył kabla po zdalnym starcie. Wymaganie F02.FR.07 podaje triggerReason EVConnectionTimeout, ale walidator schematu go odrzuca. Jaką wartość wysłać i jaki stoppedReason? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "EVConnectTimeout"
+          ],
+          [
+            "Timeout"
+          ],
+          [
+            "schemat\\w*|enum"
+          ],
+          [
+            "Ended"
+          ]
+        ],
+        "none": [
+          "(wyślij|użyj|wysyłaj) EVConnectionTimeout"
+        ]
+      }
+    },
+    {
+      "id": "ho-ocpp-profil-rezerwacji",
+      "expect": "trigger",
+      "prompt": "W tabeli profili OCPP 1.6 edition 2 (§3.3) komunikaty ReserveNow i CancelReservation są zaznaczone w kolumnie Remote Trigger. Czy rezerwacje należą do profilu Remote Trigger? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "errat\\w*"
+          ],
+          [
+            "(pomieszan\\w*|zamienion\\w*|mixed|przestawion\\w*)"
+          ],
+          [
+            "Reservation"
+          ]
+        ],
+        "none": [
+          "(tak,? )?rezerwacje należą do (profilu )?Remote Trigger"
+        ]
+      }
+    },
+    {
+      "id": "ho-ocpp-call-naraz-sila",
+      "expect": "trigger",
+      "prompt": "Czy CSMS może wysłać drugie polecenie do tej samej stacji, zanim dostanie odpowiedź na pierwsze? Czy reguła jest tak samo wiążąca w OCPP-J 1.6 i w 2.0.1? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "SHOULD NOT"
+          ],
+          [
+            "SHALL NOT"
+          ],
+          [
+            "połączeni\\w*|connection"
+          ],
+          [
+            "timeout|time-?out|przekroczen\\w* czasu"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ho-diag-co-rozstrzyga",
+      "expect": "trigger",
+      "prompt": "W dokumentacji OCPP tekst wymagania podaje inną nazwę wartości niż schemat JSON, a przykład w dokumencie jeszcze inną. Według czego rozstrzygnąć, co jest poprawne? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "errat\\w*"
+          ],
+          [
+            "schemat\\w*"
+          ],
+          [
+            "przykład\\w*[^.\\n]{0,80}(ilustrac\\w*|najniż\\w*|na końcu|ostatni\\w*)"
+          ]
+        ]
+      },
+      "relabel_note": "Audyt 2026-11-08: sedno to niespójność dokumentów samego standardu OCPP (errata, schemat, przykład), bez konkretnego modelu ładowarki — D01.01 (temat: erraty), właściciel ev-ocpp-expert; D13.01/D21.01 dotyczą zgodności konkretnego modelu."
+    },
+    {
+      "id": "ho-int-multiconnector-16",
+      "expect": "trigger",
+      "prompt": "Mamy ładowarkę DC na OCPP 1.6 z jednym modułem mocy i dwoma złączami (CCS i CHAdeMO), których nie da się używać jednocześnie. Jak według OCA raportować do centralnego systemu statusy złączy przy starcie, w trakcie i po sesji oraz przy awarii jednego złącza? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "(własn|osobn|wirtualn|virtual|own|odrębn)\\w*\\s+(\\\"|„)?EVSE",
+            "każde\\w*\\s+złącz\\w*.{0,60}(jak|jako|tak\\s+jakby).{0,40}EVSE",
+            "EVSE\\s+(na|per)\\s+(każde\\s+)?(złącze|connector)"
+          ],
+          [
+            "Preparing"
+          ],
+          [
+            "Unavailable"
+          ],
+          [
+            "\\bAvailable\\b"
+          ],
+          [
+            "Faulted"
+          ]
+        ],
+        "none": [
+          "(drugie|pozostałe|inne)\\s+złącz\\w*\\s+(pozostaj\\w*|raportuj\\w*|zgłasza\\w*|ma(ją)?)\\s+(status\\w*\\s+)?(jako\\s+)?['\\\"„]?Charging"
+        ]
+      },
+      "relabel_note": "Audyt 2026-11-08: sedno to raportowanie statusów złączy komunikatami OCPP 1.6 według noty OCA, bez mapowania na OCPI — D01.01 (komunikaty, warunki użycia; TAXONOMY §5: komunikaty i parametry protokołu → D01), właściciel ev-ocpp-expert."
+    },
+    {
+      "id": "ho-prod-displaymessage",
+      "expect": "trigger",
+      "prompt": "Projektujemy komunikaty na ekranie ładowarki OCPP 2.0.1 wysyłane z CSMS: komunikat o awarii terminala, który ma być zawsze widoczny, i informacje promocyjne. Jakie są priorytety komunikatów i jak stacja wybiera język? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "AlwaysFront"
+          ],
+          [
+            "InFront"
+          ],
+          [
+            "NormalCycle"
+          ],
+          [
+            "RFC[\\s-]?5646",
+            "en-US"
+          ],
+          [
+            "angielsk",
+            "English"
+          ]
+        ],
+        "none": [
+          "NormalCycle\\W+(ma|to|jest)\\W+(\\w+\\W+)?najwyższ"
+        ]
+      },
+      "relabel_note": "Audyt 2026-11-08: sedno to parametry komunikatu OCPP 2.0.1 (priorytety DisplayMessage, wybór języka przez stację) — D01.01 (TAXONOMY §5: komunikaty i parametry protokołu → D01), właściciel ev-ocpp-expert; D16.03 tylko się odwołuje."
+    }
+  ]
 }

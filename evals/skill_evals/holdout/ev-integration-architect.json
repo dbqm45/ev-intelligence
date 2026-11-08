@@ -33,35 +33,6 @@
       }
     },
     {
-      "id": "ho-int-multiconnector-16",
-      "expect": "trigger",
-      "prompt": "Mamy ładowarkę DC na OCPP 1.6 z jednym modułem mocy i dwoma złączami (CCS i CHAdeMO), których nie da się używać jednocześnie. Jak według OCA raportować do centralnego systemu statusy złączy przy starcie, w trakcie i po sesji oraz przy awarii jednego złącza? Odpowiedz zwięźle.",
-      "checks": {
-        "all": [
-          [
-            "(własn|osobn|wirtualn|virtual|own|odrębn)\\w*\\s+(\\\"|„)?EVSE",
-            "każde\\w*\\s+złącz\\w*.{0,60}(jak|jako|tak\\s+jakby).{0,40}EVSE",
-            "EVSE\\s+(na|per)\\s+(każde\\s+)?(złącze|connector)"
-          ],
-          [
-            "Preparing"
-          ],
-          [
-            "Unavailable"
-          ],
-          [
-            "\\bAvailable\\b"
-          ],
-          [
-            "Faulted"
-          ]
-        ],
-        "none": [
-          "(drugie|pozostałe|inne)\\s+złącz\\w*\\s+(pozostaj\\w*|raportuj\\w*|zgłasza\\w*|ma(ją)?)\\s+(status\\w*\\s+)?(jako\\s+)?['\\\"„]?Charging"
-        ]
-      }
-    },
-    {
       "id": "ho-int-rozszerzenia",
       "expect": "trigger",
       "prompt": "Chcemy dodać własną funkcję (raport temperatury kabla) między ładowarkami OCPP 2.0.1 a naszym CSMS, a w OCPI 2.3.0 przesyłać partnerom dodatkowe pole w Locations. Jakie mechanizmy rozszerzeń dają oba protokoły, jak stacja zgłasza obsługę rozszerzenia i jak partner OCPI ma potraktować nieznane pole? Odpowiedz zwięźle.",
@@ -77,7 +48,9 @@
             "CustomizationCtrlr"
           ],
           [
-            "additionalProperties"
+            "additionalProperties",
+            "nieznan\\w*\\s+pol\\w*[^.\\n]{0,30}odrzuc\\w*\\s+schemat",
+            "schemat\\w*[^.\\n]{0,40}odrzuc\\w*[^.\\n]{0,30}nieznan\\w*\\s+pol"
           ],
           [
             "nie\\s+(wolno|może|mogą|powinn\\w*|należy|odrzuca)\\w*\\s+(\\w+\\s+){0,3}odrzuc",
@@ -90,7 +63,8 @@
         "none": [
           "(OCPI|platform\\w*\\s+OCPI)(?:(?!\\bnie\\b).){0,60}(musi|powinn\\w*|należy)\\s+odrzuc\\w*(?:(?!\\bnie\\b).){0,30}nieznan"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08: grupa additionalProperties przyjmuje opis tego samego faktu (schemat JSON odrzuca nieznane pola; OCA-WP-CUST §1.2.2)."
     },
     {
       "id": "ho-int-brama-naglowki",
@@ -114,13 +88,15 @@
           ],
           [
             "X-Correlation-ID.{0,80}(ten\\s+sam|tą\\s+samą|tę\\s+samą|takim\\s+samym|tym\\s+samym|same|bez\\s+zmian|niezmienion|zachow)",
-            "(ten\\s+sam|tą\\s+samą|tę\\s+samą|same|zachow\\w*|przekaz\\w*\\s+bez\\s+zmian).{0,40}X-Correlation-ID"
+            "(ten\\s+sam|tą\\s+samą|tę\\s+samą|same|zachow\\w*|przekaz\\w*\\s+bez\\s+zmian).{0,40}X-Correlation-ID",
+            "X-Correlation-ID`?\\s+(idzie|przechodzi|biegnie)[^.\\n]{0,40}(cał\\w*\\s+łańcuch|przez\\s+hub)"
           ]
         ],
         "none": [
           "hub\\w*\\s+(?:(?!\\bnie\\b).){0,60}(kopiuje|przepisuje)\\s+(ten\\s+sam\\s+|to\\s+samo\\s+)?X-Request-ID"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08: grupa X-Correlation-ID przyjmuje opis przejścia tego samego identyfikatora przez cały łańcuch i hub (ten sam fakt, OCPI230 §4.2)."
     },
     {
       "id": "ho-int-nt-onboarding",

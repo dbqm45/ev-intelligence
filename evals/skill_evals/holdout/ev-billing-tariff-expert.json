@@ -114,20 +114,41 @@
           [
             "(nie\\s+jest|NOT)\\s+.{0,40}(wymog|wymagani|requirement|obowiąz)",
             "konsument\\w*",
-            "consumer"
+            "consumer",
+            "konsumenck\\w*"
           ]
         ],
         "none": [
           "OCPI\\s+(zabrania|zakazuje|nie\\s+pozwala|nie\\s+dopuszcza)\\w*(?:(?!\\bnie\\b).){0,40}zmian\\w*\\s+taryf",
           "min_price\\s+(to|jest)\\s+(opłat\\w*\\s+startow|FLAT)"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08: grupa o prawie konsumenckim przyjmuje też formę przymiotnikową (ten sam fakt, OCPI230 §11.3.1 NOTE)."
     },
     {
       "id": "ho-bill-nt-cdr-push",
       "expect": "no-trigger",
       "neighbor": "ev-ocpi-roaming-expert",
       "prompt": "Jak CPO w OCPI 2.2.1 powinien wysyłać CDR do eMSP, co zrobić, gdy eMSP odpowie błędem, i czy eMSP może pobierać CDR przez GET z paginacją? Odpowiedz zwięźle."
+    },
+    {
+      "id": "ho-ocpi-step-size-przyszlosc",
+      "expect": "trigger",
+      "prompt": "Projektujemy taryfy OCPI 2.2.1 z elementem TIME i step_size 300. Klient ładował 6 minut. Ile czasu rozliczyć i co EVRoaming Foundation zaleca w sprawie step_size z myślą o OCPI 3.0? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "10 ?min"
+          ],
+          [
+            "step_size ?= ?1|ustaw\\w*[^.\\n]{0,30}\\b1\\b"
+          ],
+          [
+            "3\\.0[^.\\n]{0,80}(nie ma|usunięt|brak|no longer|nie występuje)|(nie ma|brak)[^.\\n]{0,60}3\\.0"
+          ]
+        ]
+      },
+      "relabel_note": "Audyt 2026-11-08: sedno to wycena czasu z step_size i wytyczne EVRF upraszczania taryf — D09.01/D09.02 (zaokrąglenia, wycena sesji), właściciel ev-billing-tariff-expert; mechanika modułu OCPI nie jest pytana."
     }
   ]
 }

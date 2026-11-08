@@ -1,68 +1,70 @@
 {
- "skill": "ev-evse-hardware-expert",
- "scenarios": [
-  {
-   "id": "ho-hw-ac22-2026",
-   "expect": "trigger",
-   "prompt": "Instalujemy w marcu 2026 publiczny punkt AC 22 kW dla samochodów osobowych w UE. Jakie złącze i według której normy wymaga AFIR oraz jakie normy komunikacji z pojazdem? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "Type 2|Typ 2"
-     ],
-     [
-      "62196-2:2022"
-     ],
-     [
-      "15118-(1|2|3)"
-     ],
-     [
-      "8 (stycznia|January) 2026|2026-01-08|08\\.01\\.2026"
-     ]
-    ]
-   }
-  },
-  {
-   "id": "ho-hw-klasy-mocy",
-   "expect": "trigger",
-   "prompt": "Do sprawozdania AFIR musimy zaklasyfikować dwa publiczne punkty: DC 400 kW i AC 11 kW trójfazowy. Do jakich kategorii i podkategorii należą? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "Level 2|Ultra-?fast[^.\\n]{0,40}(350|Level 2)"
-     ],
-     [
-      "7,4|7\\.4"
-     ],
-     [
-      "(Medium|średni\\w*)"
-     ],
-     [
-      "Annex III|aneks\\w* III|załącznik\\w* III"
-     ]
-    ]
-   }
-  },
-  {
-   "id": "ho-hw-capability-pnc",
-   "expect": "trigger",
-   "prompt": "Nasze stacje sprzętowo wspierają ISO 15118-20, ale backend Plug & Charge nie jest jeszcze uruchomiony. Czy w OCPI ustawić już connector capability ISO_15118_20_PLUG_AND_CHARGE? Odpowiedz zwięźle.",
-   "checks": {
-    "all": [
-     [
-      "(nie|jeszcze nie)\\b"
-     ],
-     [
-      "not enough|nie wystarcz\\w*|samo wsparcie"
-     ],
-     [
-      "kierowc\\w*|Driver"
-     ]
-    ],
-    "none": [
-     "(tak|można),? (ustaw|ustawić) (ją )?(już|od razu)"
-    ]
-   }
-  }
- ]
+  "skill": "ev-evse-hardware-expert",
+  "scenarios": [
+    {
+      "id": "ho-hw-ac22-2026",
+      "expect": "trigger",
+      "prompt": "Instalujemy w marcu 2026 publiczny punkt AC 22 kW dla samochodów osobowych w UE. Jakie złącze i według której normy wymaga AFIR oraz jakie normy komunikacji z pojazdem? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Type 2|Typ 2"
+          ],
+          [
+            "62196-2:2022"
+          ],
+          [
+            "15118-(1|2|3)"
+          ],
+          [
+            "8 (stycznia|January) 2026|2026-01-08|08\\.01\\.2026",
+            "\\b0?8\\.0?1\\.2026"
+          ]
+        ]
+      },
+      "audit_note": "Audyt 2026-11-08: grupa daty przyjmuje zapis dnia i miesiąca bez zera wiodącego (ten sam fakt, AFIR Annex II pkt 1.1 w brzmieniu 2025/656)."
+    },
+    {
+      "id": "ho-hw-klasy-mocy",
+      "expect": "trigger",
+      "prompt": "Do sprawozdania AFIR musimy zaklasyfikować dwa publiczne punkty: DC 400 kW i AC 11 kW trójfazowy. Do jakich kategorii i podkategorii należą? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Level 2|Ultra-?fast[^.\\n]{0,40}(350|Level 2)"
+          ],
+          [
+            "7,4|7\\.4"
+          ],
+          [
+            "(Medium|średni\\w*)"
+          ],
+          [
+            "Annex III|aneks\\w* III|załącznik\\w* III"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ho-hw-capability-pnc",
+      "expect": "trigger",
+      "prompt": "Nasze stacje sprzętowo wspierają ISO 15118-20, ale backend Plug & Charge nie jest jeszcze uruchomiony. Czy w OCPI ustawić już connector capability ISO_15118_20_PLUG_AND_CHARGE? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "(nie|jeszcze nie)\\b"
+          ],
+          [
+            "not enough|nie wystarcz\\w*|samo wsparcie"
+          ],
+          [
+            "kierowc\\w*|Driver"
+          ]
+        ],
+        "none": [
+          "(tak|można),? (ustaw|ustawić) (ją )?(już|od razu)"
+        ]
+      }
+    }
+  ]
 }

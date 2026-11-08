@@ -22,7 +22,9 @@
             "stackLevel.{0,40}wyższ",
             "najwyższ\\w*\\s+stackLevel",
             "higher\\s+stackLevel",
-            "highest\\s+stackLevel"
+            "highest\\s+stackLevel",
+            "najwyższ\\w*\\W{1,4}stackLevel",
+            "wyższ\\w*\\W{1,4}stackLevel"
           ],
           [
             "(wszystkich|wszystkie|łącz\\w*|sum\\w*|całej\\s+stacji).{0,40}EVSE",
@@ -35,7 +37,8 @@
         "none": [
           "niższ\\w*\\s+stackLevel\\s+(ma|mają|wygrywa)\\s+(pierwszeństwo|priorytet)?"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08: grupa stackLevel przyjmuje znaczniki formatowania między przymiotnikiem a nazwą pola (ten sam fakt, 201-P2 K §3.5)."
     },
     {
       "id": "ho-en-limit-dso",
@@ -87,19 +90,23 @@
           [
             "connectorId\\W{0,4}(=|:)?\\W{0,3}0\\b",
             "connector\\w*\\s+0\\b",
-            "złącz\\w*\\s+0\\b"
+            "złącz\\w*\\s+0\\b",
+            "connectorId[^.\\n]{0,20}\\b0\\b"
           ],
           [
             "napięci\\w*\\s+(nominaln|znamionow|ustawion|sieci|zadan)",
             "nie\\s+(zmierzon|mierzon)",
             "set\\s+voltage",
-            "line\\s+voltage"
+            "line\\s+voltage",
+            "napięci\\w*\\W{1,5}(nominaln|znamionow)",
+            "nie\\s+używa\\s+się\\s+napięci\\w*\\s+zmierzon"
           ]
         ],
         "none": [
           "numberPhases(?:(?!\\bnie\\b).){0,40}(domyślnie|przyjmuje\\s+się)\\W+1\\b"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08: grupa connectorId przyjmuje formatowanie i słowo między nazwą pola a wartością 0 (ten sam fakt, 16 §3.13.1). Grupa napięcia przyjmuje formatowanie po słowie napięcie i szyk bezosobowy (ten sam fakt, 16 §7.12)."
     },
     {
       "id": "ho-en-afir-smart",

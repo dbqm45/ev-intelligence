@@ -12,7 +12,8 @@
           ],
           [
             "nie mo(że|żemy|gą).{0,80}(operator|właściciel|dostawc)",
-            "zakaz\\w*.{0,80}(operator|właściciel|dostawc)"
+            "zakaz\\w*.{0,80}(operator|właściciel|dostawc)",
+            "(nie\\s+mo(że|żemy|żecie|gą)|zakaz\\w*|zabrani\\w*)[\\s\\S]{0,150}(operator|właściciel|dostawc)"
           ],
           [
             "przetarg"
@@ -29,7 +30,8 @@
         "none": [
           "OSD\\s+może\\s+(swobodnie\\s+|bez\\s+ograniczeń\\s+)?(być|pozostać)\\s+operatorem"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08: grupa zakazu dla OSD przyjmuje też 2. os. l. mn., czasownik zabraniać i wyliczenie w kolejnym wierszu (ten sam fakt, PL-EMOB art. 3a ust. 1)."
     },
     {
       "id": "ho-comp-udt-rozbudowa",
