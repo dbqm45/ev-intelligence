@@ -29,6 +29,16 @@ wymaganych endpointów) `[OCPI230 §5.3]`.
   „regularly … but not too often”.
 - Usunięcie EVSE: status MUST = `REMOVED` (PUT/PATCH). Location bez ważnego EVSE „can be considered expired”.
   Obiektów nie da się skasować, bo zależą od nich inne moduły.
+- Publikacja `[OCPI230 §8.3.1]`:
+  - Location z `publish = false` SHALL NOT być pokazywana w aplikacji ani na stronie, chyba że właścicielowi tokenu z listy
+    `publish_allowed_to`. Także NSP i eMSP, którzy nie są właścicielami tokenu, MAY ją pokazać, ale tylko temu
+    właścicielowi, gdy dane tokenu podane przez użytkownika pasują do **wszystkich** ustawionych pól jednego wpisu listy;
+  - `publish_allowed_to` wolno użyć tylko przy `publish = false`. Gdy jedna lokalizacja ma EVSE publiczne i niepubliczne,
+    tworzy się dwie Locations;
+  - do startu sesji wolno użyć tylko tokenu, którego właścicielem jest sam eMSP.
+- `PublishTokenType`: pola `uid`, `type`, `visual_number`, `issuer`, `group_id`. Co najmniej jedno z `uid`,
+  `visual_number`, `group_id` SHALL być ustawione; przy `uid` SHALL być `type`, przy `visual_number` SHALL być `issuer`
+  `[OCPI230 §8.4.24]`.
 - Prywatne lokalizacje SHALL NOT być publikowane. Lokalizacje niedostępne publicznie ani w roamingu: zaleca się ich
   nie wysyłać (§8.1.1).
 - Statusy EVSE `[OCPI230 §8.4.26]`:

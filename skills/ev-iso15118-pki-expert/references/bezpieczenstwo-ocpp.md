@@ -96,6 +96,16 @@ dla 1.6-J `[SWP4 §1.2]`.
 - Unieważnienie certyfikatu nie wymaga zamknięcia połączenia, które może trwać ponad 24 h `[201-P2 A §1.5]`.
 
 ## 8. Bezpieczna aktualizacja firmware (L01) `[201-P2 L01]`
+- Przebieg według opisu scenariusza L01 `[201-P2 L01]`:
+  1. CSMS wysyła `UpdateFirmwareRequest` z lokalizacją pliku, czasem pobrania i liczbą ponowień;
+  2. stacja sprawdza certyfikat podpisu wobec certyfikatu głównego producenta. Gdy jest nieważny albo nie da się go
+     sprawdzić, przerywa proces: `UpdateFirmwareResponse` ze statusem `InvalidCertificate` i
+     `SecurityEventNotificationRequest` ze zdarzeniem `InvalidFirmwareSigningCertificate`;
+  3. pobieranie: `Downloading`, potem `Downloaded` albo `DownloadFailed`;
+  4. weryfikacja i instalacja: `Installing`; przy błędnym albo brakującym podpisie `InvalidSignature` i zdarzenie
+     `InvalidFirmwareSignature`; na końcu `Installed` albo `InstallationFailed`.
+- Stany końcowe po porażce (postconditions): `InvalidCertificate`, `DownloadFailed`, `InvalidSignature`,
+  `InstallationFailed`; po sukcesie `Installed` `[201-P2 L01]`.
 - Każdy stan procesu → `FirmwareStatusNotification` z tym samym `requestId` (L01.FR.01, L01.FR.10). Zły certyfikat
   podpisu albo podpis → zdarzenia `InvalidFirmwareSigningCertificate`, `InvalidFirmwareSignature` (L01.FR.02–03)
   `[201-P2 L01.FR.02]`.

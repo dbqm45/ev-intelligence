@@ -22,6 +22,9 @@
   `tax_included`. `PriceComponent.vat`: gdy brak, VAT nie ma zastosowania `[OCPI230 §11.4.2]`.
 - `min_price` / `max_price` (`PriceLimit`): sesja kosztuje co najmniej / co najwyżej tyle. Obowiązują **obie** wartości,
   przed i po podatkach, bo podatki mogą być różne dla części sesji.
+- Klasa `PriceLimit` ma pola `before_taxes` (number, wymagane: koszt bez podatków) i `after_taxes` (number, opcjonalne:
+  koszt z podatkami) `[OCPI230 §11.4.3]`. **Wniosek:** gdy `after_taxes` nie ma, limit po podatkach nie obowiązuje i
+  silnik wyceny sprawdza tylko `before_taxes`.
 - `preauthorize_amount`: kwota, którą dostawca terminala płatniczego (PTP) powinien zablokować przy płatności kartą.
 - `tariff_alt_text` przy obecnych `elements` SHALL zawierać tylko informacje dodatkowe, nie ceny z `elements`
   (eMSP może mieć własne opłaty).

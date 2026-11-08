@@ -47,6 +47,14 @@ pojedynczego pojazdu albo na łączny pobór stacji lub grupy stacji `[16 §3.13
   harmonogramem, jeśli włączono `NotifyChargingLimitWithSchedules` (K11.FR.02–03); zmiana mocy ładowania większa niż
   próg → `TransactionEvent` z `triggerReason = ChargingRateChanged` (K11.FR.04) `[201-P2 K11.FR.02]`.
 - `chargingLimitSource` w takim zgłoszeniu SHALL NOT być `CSO` (K11.FR.05) `[201-P2 K11.FR.05]`.
+- Źródło limitu (`ChargingLimitSourceEnumType`): `EMS` (system zarządzania energią), `Other` (inne źródło zewnętrzne,
+  nie EMS ani operator systemu), `SO` (operator systemu: DSO albo TSO), `CSO` (profil ustawiony przez CSO). Typ jest
+  używany w `NotifyChargingLimitRequest`, `ClearedChargingLimitRequest`, `GetChargingProfilesRequest` i
+  `ReportChargingProfilesRequest` `[201-P2 §3.11]`.
+- **Zwolnienie limitu zewnętrznego (K13):** po zdjęciu limitu stacja SHALL NOT dalej ograniczać ładowania według niego
+  (K13.FR.01) i SHALL powiadomić CSMS komunikatem `ClearedChargingLimitRequest` (K13.FR.02). Gdy trwa transakcja, a moc
+  zmieniła się bardziej niż `LimitChangeSignificance`, stacja SHALL wysłać `TransactionEventRequest` z
+  `trigger = ChargingRateChanged` (K13.FR.03) `[201-P2 K13.FR.01]` `[201-P2 K13.FR.02]` `[201-P2 K13.FR.03]`.
 - Raportując taki limit, stacja używa celu `ChargingStationExternalConstraints`; zaleca się ujemne `id`, żeby nie
   kolidowało z `id` od CSMS (K11.FR.06). Każda zmiana limitu w profilu `Absolute`/`Relative` oznacza nowy profil (może
   mieć to samo `id`) `[201-P2 K11.FR.06]`.
