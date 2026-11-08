@@ -35,7 +35,7 @@
             "SHOULD|zalec\\w*"
           ],
           [
-            "(ciągł\\w*|continuously)[^.\\n]{0,60}(dozwol|allowed|dopuszcz)|dozwolon\\w*[^.\\n]{0,60}ciągł"
+            "(ciągł\\w*|continuously)[^.\\n]{0,60}(dozwol|allowed|dopuszcz)|dozwolon\\w*[^.\\n]{0,60}ciągł|dopuszcz\\w*[^.\\n]{0,60}ciągł"
           ],
           [
             "EVSE"
@@ -47,7 +47,8 @@
         "none": [
           "seqNo (musi|SHALL) (zaczynać się|zaczynac sie|zawsze zaczynać) od 0"
         ]
-      }
+      },
+      "audit_note": "Audyt 2026-11-08 (holdout): grupa o liczniku ciągłym przyjmuje też szyk „dopuszcza … ciągły” (ten sam fakt, 201-P2 E §1.3.2.1: „Implementations with a continuously increasing seqNo are still allowed”)."
     },
     {
       "id": "ho-evconnecttimeout",

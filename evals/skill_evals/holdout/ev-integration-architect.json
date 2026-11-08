@@ -75,7 +75,9 @@
           [
             "(nie\\s+(wolno|może|można|mogą)|SHALL\\s+NOT|zakaz\\w*).{0,100}CALL",
             "jedn\\w*\\s+(oczekując\\w*|niepotwierdzon\\w*|outstanding|otwart\\w*)\\s+CALL",
-            "one\\s+(outstanding\\s+)?CALL"
+            "one\\s+(outstanding\\s+)?CALL",
+            "nie\\s+wysył\\w*\\s+(kolejn\\w*|następn\\w*|drugi\\w*|now\\w*)\\s+CALL",
+            "CALL[^.\\n]{0,120}SHALL\\s+NOT"
           ],
           [
             "(per|na|dla\\s+każdego|każde\\w*|w\\s+obrębie)\\s+(jedno\\w*\\s+)?(połączeni|connection)",
@@ -96,7 +98,7 @@
           "hub\\w*\\s+(?:(?!\\bnie\\b).){0,60}(kopiuje|przepisuje)\\s+(ten\\s+sam\\s+|to\\s+samo\\s+)?X-Request-ID"
         ]
       },
-      "audit_note": "Audyt 2026-11-08: grupa X-Correlation-ID przyjmuje opis przejścia tego samego identyfikatora przez cały łańcuch i hub (ten sam fakt, OCPI230 §4.2)."
+      "audit_note": "Audyt 2026-11-08: grupa X-Correlation-ID przyjmuje opis przejścia tego samego identyfikatora przez cały łańcuch i hub (ten sam fakt, OCPI230 §4.2). Audyt holdout 2026-11-08: grupa o jednym oczekującym CALL przyjmuje też „nie wysyła kolejnego CALL” i SHALL NOT po słowie CALL (ten sam fakt, 201-P4 §4.1.1)."
     },
     {
       "id": "ho-int-nt-onboarding",
