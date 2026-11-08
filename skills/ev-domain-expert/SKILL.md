@@ -83,4 +83,4 @@ Założenia: <wersja protokołu, rola, rynek>
   (`python3 tools/render_taxonomy.py`).
 
 ## Źródła
-- `taxonomy/taxonomy.yaml` v1.1.0 i `taxonomy/TAXONOMY.md` (EV Intelligence, 2026-11-08; właściciel poddomeny w polu `skills`).
+- `taxonomy/taxonomy.yaml` v1.2.0 i `taxonomy/TAXONOMY.md` (EV Intelligence, 2026-11-08; właściciel poddomeny w polu `skills`).

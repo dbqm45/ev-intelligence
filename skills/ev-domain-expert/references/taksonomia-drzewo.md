@@ -2,9 +2,9 @@
 
 <!-- AUTO-GENERATED from taxonomy/taxonomy.yaml by tools/render_taxonomy.py — do not edit by hand. -->
 
-# EV Knowledge Taxonomy — drzewo (v1.1.0, accepted, 2026-11-08)
+# EV Knowledge Taxonomy — drzewo (v1.2.0, accepted, 2026-11-08)
 
-**Domeny: 23 · poddomeny: 128 · tematy: 316.** Legenda: `MVP` = Etap 1, `P2` = Etap 4, `P3` = później; ⚠️ = wersje/numery do weryfikacji w źródle pierwotnym.
+**Domeny: 23 · poddomeny: 129 · tematy: 320.** Legenda: `MVP` = Etap 1, `P2` = Etap 4, `P3` = później; ⚠️ = wersje/numery do weryfikacji w źródle pierwotnym.
 
 ## Spis domen
 
@@ -24,7 +24,7 @@
 | D11 | [Bezpieczeństwo i cyberbezpieczeństwo](#d11--security) | P2 | 5 | `ev-iso15118-pki-expert` | D01, D14 |
 | D12 | [Regulacje i compliance](#d12--regulations) | P2 | 7 | `ev-compliance-expert` | D00 |
 | D13 | [Testy, zgodność i certyfikacja](#d13--testing) | P2 | 4 | `ev-evse-diagnostics-expert`, `ev-integration-architect`, `ev-compliance-expert` | D01, D03, D05 |
-| D14 | [Architektura IT i integracje](#d14--it-architecture) | P2 | 6 | `ev-cpms-architect`, `ev-integration-architect` | D05 |
+| D14 | [Architektura IT i integracje](#d14--it-architecture) | P2 | 7 | `ev-cpms-architect`, `ev-integration-architect` | D05 |
 | D15 | [Dane, analityka i AI](#d15--data-analytics) | P3 | 5 | `ev-product-designer` | D05, D07 |
 | D16 | [Produkt, UX i doświadczenie klienta](#d16--product-ux) | P3 | 5 | `ev-product-designer` | D05, D07 |
 | D17 | [Modele biznesowe i rynek](#d17--business) | P3 | 4 | `ev-product-designer` | D00 |
@@ -297,6 +297,7 @@ Skill: `ev-evse-hardware-expert`
 - Szablon karty (identyfikacja, moc, złącza, komunikacja, OCPP, parametry, ograniczenia, diagnostyka, firmware)
 - Karty rodzin urządzeń wiodących producentów
 - Deklarowane vs zweryfikowane funkcje OCPP (capability matrix)
+- Opis złączy i możliwości punktu w danych protokołów (OCPP ConnectorEnumType, OCPI ConnectorType i capabilities)
 
 ### D03.04 Producenci `P2`
 
@@ -916,6 +917,16 @@ Skill: `ev-cpms-architect`
 
 - IAM, SSO, multi-tenant identity
 - API gateway, rate limiting, wersjonowanie API
+
+### D14.07 Migracja stacji między systemami `P2`
+
+`knowledge/it-architecture/station-migration/`
+
+Skill: `ev-integration-architect`
+
+- Migracja ładowarek do innego CSMS (SetNetworkProfile, NetworkConfigurationPriority, kolejność kroków)
+- Zmiana profilu bezpieczeństwa i certyfikatów przy przejściu, SIM, dane i plan wycofania
+- Przejście tej samej stacji z OCPP 1.6 na 2.0.1
 
 ## D15 · data-analytics
 

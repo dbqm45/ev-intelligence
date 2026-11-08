@@ -10,7 +10,7 @@
 
 taxonomy:
   id: ev-intelligence-taxonomy
-  version: 1.1.0
+  version: 1.2.0
   status: accepted
   accepted: 2026-11-07
   date: 2026-11-08
@@ -351,6 +351,7 @@ domains:
           - Szablon karty (identyfikacja, moc, złącza, komunikacja, OCPP, parametry, ograniczenia, diagnostyka, firmware)
           - Karty rodzin urządzeń wiodących producentów
           - Deklarowane vs zweryfikowane funkcje OCPP (capability matrix)
+          - Opis złączy i możliwości punktu w danych protokołów (OCPP ConnectorEnumType, OCPI ConnectorType i capabilities)
       - id: D03.04
         key: manufacturers
         name: Producenci
@@ -998,6 +999,15 @@ domains:
         topics:
           - IAM, SSO, multi-tenant identity
           - API gateway, rate limiting, wersjonowanie API
+      - id: D14.07
+        key: station-migration
+        name: Migracja stacji między systemami
+        skills: [ev-integration-architect]
+        priority: p2
+        topics:
+          - Migracja ładowarek do innego CSMS (SetNetworkProfile, NetworkConfigurationPriority, kolejność kroków)
+          - Zmiana profilu bezpieczeństwa i certyfikatów przy przejściu, SIM, dane i plan wycofania
+          - Przejście tej samej stacji z OCPP 1.6 na 2.0.1
 
   # ────────────────────────── Dane i AI ──────────────────────────
   - id: D15

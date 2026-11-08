@@ -134,6 +134,10 @@ Wiele tematów leży na styku domen. Żeby uniknąć dziesięciu sprzecznych opi
 | Zgodność konkretnego modelu/firmware z OCPP: certyfikat OCA, PICS, TC_* | D13.01 | D21.01 |
 | Testy wdrożeń, regresja po firmware, macierz kompatybilności | D13.03, D21.02 | D13.01 |
 | Moduły i dane CPMS kontra integracje z systemami zewnętrznymi | D05.01–D05.04, D14.03–D14.06 | D05.07, D14.01–D14.02 |
+| Identyfikator stacji w URL połączenia, nazwa użytkownika i format identity (OCPP-J) | D01.01 | D00.04, D05.01, D11.01 |
+| Wymóg dostępności lub danych w AFIR i aktach wykonawczych | D12.01 | D07.05 (KPI), D05.04 (wyliczanie) |
+| Opis złączy i możliwości punktu w danych (ConnectorType, capabilities, karta urządzenia) | D03.03 | D01.02, D01.06 |
+| Migracja stacji do innego CSMS i przejście 1.6 → 2.0.1 | D14.07 | D05.02, D22.03, D01.01 |
 
 Właściciela poddomeny (skill) wskazuje pole `skills` przy poddomenie w `taxonomy.yaml`; pusta lista oznacza, że baza nie ma
 skilla dla tego tematu.
