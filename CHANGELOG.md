@@ -3,6 +3,12 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.5] — 2026-11-08
+### Added
+- **taxonomy:** resolve open boundaries and add station migration subdomain (1.2.0)
+### Fixed
+- **ocpp:** fill gaps from the second holdout audit
+
 ## [0.1.4] — 2026-11-08
 ### Added
 - **taxonomy:** assign skill owners to subdomains (taxonomy 1.1.0)
