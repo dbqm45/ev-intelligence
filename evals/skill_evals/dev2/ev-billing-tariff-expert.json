@@ -46,9 +46,9 @@
     },
     {
       "id": "restrictions-dzien-tygodnia-parser",
-      "expect": "no-trigger",
-      "neighbor": "ev-ocpi-roaming-expert",
-      "prompt": "Partner przysyła nam taryfy, w których jest pole restrictions z dniem tygodnia. Nasz parser je ignoruje i kierowcy widzą złą cenę. Jak to pole ma być interpretowane?"
+      "expect": "trigger",
+      "prompt": "Partner przysyła nam taryfy, w których jest pole restrictions z dniem tygodnia. Nasz parser je ignoruje i kierowcy widzą złą cenę. Jak to pole ma być interpretowane?",
+      "relabel_note": "było no-trigger: TariffRestrictions są w ev-billing-tariff-expert"
     }
   ]
 }

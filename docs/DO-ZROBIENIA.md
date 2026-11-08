@@ -25,6 +25,17 @@ historii w commicie.
   na źródłach z `sources/*.yaml`, nie na treści skilla. Wynik trafia do `evals/skill_evals/holdout/<skill>.json`; autor
   skilli go nie czyta, a poprawki po ewaluacji holdout robi bez oglądania promptów (tylko na podstawie zbiorczego wyniku).
 
+- **Taksonomia a faktyczny zakres skilli** (z ewaluacji dev2, 2026-11-08): pole `skills` przy domenach jest szersze niż
+  treść skilli, więc autorzy scenariuszy przypisują pytania niezgodnie z granicami. Do poprawy w `taxonomy/taxonomy.yaml`:
+  - D21 (Implementation Intelligence): diagnostyka zgłoszeń NOC należy do `ev-charging-operations-expert`, a
+    `ev-evse-diagnostics-expert` to zgodność konkretnego modelu z OCPP (certyfikat, PICS, TC_*, rejestr odchyleń);
+  - D13 (Testy): certyfikat OCA i PICS → `ev-evse-diagnostics-expert`; testy wdrożeń i macierz → `ev-integration-architect`;
+  - D01.01 a D08.01: komunikaty profili ładowania według tabeli granic to D01.01, a lista tematów D08.01 wymienia stack
+    levels i composite schedule (niespójność);
+  - D01.08–D01.10 (CHAdeMO, OpenADR/OSCP, Modbus): przypisane do skilli protokołów, tematycznie bliżej sprzętu i energii;
+  - D05 i D14: brak podziału między `ev-cpms-architect` a `ev-integration-architect`;
+  - tematy bez skilla w bazie: wybór lokalizacji stacji (D17/D18), RODO historii ładowań, NIS2 i EN 18031 (RED).
+
 ## Hosty, które nie działają
 | Host | Objaw | Co daje | Co zrobić |
 |---|---|---|---|

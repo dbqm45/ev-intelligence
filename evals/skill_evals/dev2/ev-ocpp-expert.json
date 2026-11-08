@@ -17,11 +17,6 @@
       "prompt": "Jak stacja traci zasięg w trakcie ładowania, transakcja wraca do nas po godzinie, a czas zakończenia jest wcześniejszy niż start. Kto zawinił według specyfikacji, stacja czy my? I w jakiej kolejności stacja powinna dosłać zaległe komunikaty po odzyskaniu łącza?"
     },
     {
-      "id": "przetarg-certyfikat-zgodnosci",
-      "expect": "trigger",
-      "prompt": "W specyfikacji przetargu zamawiający wpisał: \"certyfikat zgodności z protokołem w wersji 2.0.1, profil Core i Advanced Security\". Co to konkretnie oznacza dla dostawcy ładowarek i jak się dochodzi do takiego certyfikatu? Termin składania ofert mamy za 3 tygodnie."
-    },
-    {
       "id": "granica-unavailable-vs-faulted-remote-start",
       "expect": "trigger",
       "prompt": "Czym się różni Unavailable od Faulted, jeśli chodzi o to, co stacja ma wtedy zgłaszać? I czy w którymś z tych stanów wolno jej przyjąć zdalny start?",

@@ -1,6 +1,6 @@
 ---
 name: ev-evse-diagnostics-expert
-description: Użyj, gdy ładowarka zachowuje się inaczej, niż mówi OCPP — walidacja ramek wobec schematów OCA, certyfikat i PICS, test case, rejestr odchyleń modeli.
+description: Użyj, gdy konkretny model ładowarki działa inaczej, niż mówi OCPP — walidacja ramek wobec schematów OCA, certyfikat i PICS, test case, rejestr odchyleń modeli.
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj, gdy trzeba ustalić, czy konkretny model lub firmware ładowarki odbiega od OCPP, czy problem leży po stronie CSMS albo dokumentacji — walidacja surowych ramek OCPP-J wobec oficjalnych schematów OCA skryptem ocpp_frame_check.py, sprawdzenie certyfikatu OCA (profile Core, Advanced Security, Smart Charging, ISO 15118, wersja oprogramowania) i deklaracji PICS, odtworzenie przez przypadki testowe części 6 (TC_*), rozstrzyganie niespójności dokumentów erratą i schematem, zapis obserwacji w rejestrze odchyleń (D21) z modelem, firmware, dowodem i poziomem pewności. Nie do diagnozy operacyjnej zgłoszeń NOC (ev-charging-operations-expert), znaczenia komunikatów OCPP (ev-ocpp-expert) ani opisu sprzętu (ev-evse-hardware-expert)."

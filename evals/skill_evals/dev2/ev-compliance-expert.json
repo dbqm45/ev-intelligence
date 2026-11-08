@@ -51,6 +51,14 @@
       "prompt": "Pracownik na umowie zleceniu jeździ służbowym elektrykiem do domu. Jak rozliczyć na liście płac nieodpłatne świadczenie z tytułu używania auta?",
       "ambiguous": true,
       "note": "Bliskie D19.03 (refundacja ładowania pracowników), ale sedno to kadry i podatek od świadczenia, poza bazą."
+    },
+    {
+      "id": "granica-przeglady-udt-80-lokalizacji",
+      "expect": "trigger",
+      "prompt": "Jak często i co dokładnie sprawdzać na przeglądach okresowych stacji DC, żeby inspektor UDT się nie przyczepił, i jak to zaplanować dla 80 lokalizacji z jednym zespołem serwisowym?",
+      "ambiguous": true,
+      "note": "Wymóg dozorowy należy do D12.05 (ev-compliance-expert); sedno to planowanie procesu przeglądów (D07.04).",
+      "relabel_note": "przeniesione z ev-charging-operations-expert: badania UDT są w ev-compliance-expert"
     }
   ]
 }

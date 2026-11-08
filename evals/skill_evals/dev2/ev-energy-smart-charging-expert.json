@@ -38,11 +38,11 @@
     },
     {
       "id": "stack-level-zlozony-harmonogram",
-      "expect": "no-trigger",
-      "neighbor": "ev-ocpp-expert",
+      "expect": "trigger",
       "prompt": "Wysyłamy na stację limit, odpowiada Accepted, ale kiedy pytamy o wynikowy harmonogram, dostajemy coś innego niż wysłaliśmy. Jak według specyfikacji łączą się profile o różnych poziomach stosu?",
       "ambiguous": true,
-      "note": "Reguła granic w TAXONOMY.md §5 daje komunikaty profili D01.01 (ev-ocpp-expert), ale lista tematów D08.01 wymienia stack levels i composite schedule; pytanie o regułę ze specyfikacji."
+      "note": "Reguła granic w TAXONOMY.md §5 daje komunikaty profili D01.01 (ev-ocpp-expert), ale lista tematów D08.01 wymienia stack levels i composite schedule; pytanie o regułę ze specyfikacji.",
+      "relabel_note": "było no-trigger: stackLevel i composite schedule są w ev-energy-smart-charging-expert"
     },
     {
       "id": "taryfa-nocna-zachecic-po-22",

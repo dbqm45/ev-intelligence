@@ -12,13 +12,6 @@
       "prompt": "Partner w umowie wymaga 97% dostępności i kary za każdy punkt poniżej. Jak to liczyć uczciwie: czy przerwa w zasilaniu od strony sieci się wlicza? A zaplanowany serwis?"
     },
     {
-      "id": "granica-przeglady-udt-80-lokalizacji",
-      "expect": "trigger",
-      "prompt": "Jak często i co dokładnie sprawdzać na przeglądach okresowych stacji DC, żeby inspektor UDT się nie przyczepił, i jak to zaplanować dla 80 lokalizacji z jednym zespołem serwisowym?",
-      "ambiguous": true,
-      "note": "Wymóg dozorowy należy do D12.05 (ev-compliance-expert); sedno to planowanie procesu przeglądów (D07.04)."
-    },
-    {
       "id": "dzialka-przy-obwodnicy",
       "expect": "trigger",
       "prompt": "Gmina oferuje nam działkę przy obwodnicy pod hub ładowania. Na co patrzeć przy ocenie lokalizacji, zanim w ogóle zapytamy o moc przyłączeniową?"
@@ -40,15 +33,35 @@
     },
     {
       "id": "stycznik-sesja-2-sekundy",
-      "expect": "no-trigger",
-      "neighbor": "ev-evse-diagnostics-expert",
-      "prompt": "Stacja online, heartbeat co 5 minut, ale każda sesja kończy się po 2 sekundach z błędem stycznika. Co jeszcze mogę sprawdzić zdalnie, zanim wyślę serwis?"
+      "expect": "trigger",
+      "prompt": "Stacja online, heartbeat co 5 minut, ale każda sesja kończy się po 2 sekundach z błędem stycznika. Co jeszcze mogę sprawdzić zdalnie, zanim wyślę serwis?",
+      "relabel_note": "było no-trigger: zdalna diagnoza (stacja online, sesja kończy się) jest w ev-charging-operations-expert"
     },
     {
       "id": "250kw-cztery-razy-150",
       "expect": "no-trigger",
       "neighbor": "ev-energy-smart-charging-expert",
       "prompt": "Na nowej lokalizacji mamy przyłącze 250 kW, a chcemy postawić 4 stacje po 150 kW. Jak dzielić moc, żeby w szczycie nie wywalało zabezpieczeń?"
+    },
+    {
+      "id": "granica-noc-evcommunicationerror",
+      "expect": "trigger",
+      "prompt": "3:20, stacja przy A1. Auto podłączone, autoryzacja przechodzi, po 30 sekundach koniec i EVCommunicationError. Wieczorem inne auta na tym samym złączu ładowały normalnie. Restartować czy najpierw coś zebrać?",
+      "relabel_note": "przeniesione z ev-evse-diagnostics-expert: diagnoza zgłoszenia NOC i EVCommunicationError są w ev-charging-operations-expert"
+    },
+    {
+      "id": "logi-online-nie-przyjmuje-sesji",
+      "expect": "trigger",
+      "prompt": "Jak zdalnie wyciągnąć logi z ładowarki, która jest online, ale nie przyjmuje żadnej sesji?",
+      "ambiguous": true,
+      "note": "Scenariusz \"ładowarka online, ale sesja nie startuje\" jest w D22.02 (ev-domain-expert); sedno to narzędzia diagnostyki zdalnej (D07.02).",
+      "relabel_note": "przeniesione z ev-evse-diagnostics-expert: pobranie logów i „online, a sesja nie startuje” są w ev-charging-operations-expert"
+    },
+    {
+      "id": "kod-producenta-bez-dokumentacji",
+      "expect": "trigger",
+      "prompt": "Stacja zgłasza kod producenta E-0x1F, w dokumentacji nic o nim nie ma. Jak podejść do takiego kodu, zanim pojadę 200 km na miejsce?",
+      "relabel_note": "przeniesione z ev-evse-diagnostics-expert: zdalna diagnoza przed wyjazdem serwisu to ev-charging-operations-expert"
     }
   ]
 }
