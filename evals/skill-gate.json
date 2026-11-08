@@ -1,6 +1,6 @@
 {
  "ev-billing-tariff-expert": {
-  "fingerprint": "1b78bc641d665fe5",
+  "fingerprint": "1fc8cf41b3a7cf7a",
   "offline": "2026-11-08"
  },
  "ev-charging-operations-expert": {
@@ -44,7 +44,7 @@
   "offline": "2026-11-08"
  },
  "ev-ocpp-expert": {
-  "fingerprint": "a9266c90cd783e2c",
+  "fingerprint": "ee0a8cdcf374c711",
   "offline": "2026-11-08"
  },
  "ev-product-designer": {

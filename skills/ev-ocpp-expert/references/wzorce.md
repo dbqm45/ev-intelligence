@@ -95,6 +95,13 @@ Fakty 2.0.1:
 - `TransactionEvent.offline = true` oznacza zdarzenie, które zaszło offline `[201-P2]`. `seqNo` pozwala ustalić
   kompletność transakcji `[201-P2 E §1.3.2]`.
 
+Fakty 2.1 (wznowienie po wymuszonym restarcie, E17; 1.6 i 2.0.1 go nie opisują):
+- Przy `TxResumptionTimeout > 0` stacja SHALL trzymać stan transakcji (co najmniej `seqNo`, `idToken`, `evse`,
+  `transactionInfo`) w pamięci trwałej `[21-P2 E17.FR.01]`. Restart w ciągu limitu → stacja SHALL wznowić transakcję
+  `[21-P2 E17.FR.10]` i wysłać `Updated` z `triggerReason = TxResumed`; po limicie → `Ended` z `triggerReason =
+  AbnormalCondition` i `stoppedReason = PowerLoss` albo `Reboot` `[21-P2 E17]`.
+- Skutki przerwania dla wyceny, CDR i płatności: skill `ev-billing-tariff-expert` (`sesja-przerwana.md`).
+
 **Wniosek:**
 - CALLERROR na komunikat transakcyjny tylko przy realnym błędzie formatu. Problem biznesowy (nieznana transakcja)
   obsługujesz po przyjęciu: zapis, kwarantanna, alarm. Inaczej stacja po limicie prób porzuci dane;

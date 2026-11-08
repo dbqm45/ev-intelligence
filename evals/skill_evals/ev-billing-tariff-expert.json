@@ -12,9 +12,7 @@
      ["3[,.]30"],
      ["step_size[^.\\n]{0,80}(1\\b|jeden|one)|step_size\\s*=\\s*1"]
     ],
-    "none": [
-     "rozlicz\\w* 30 ?min\\w* po 17"
-    ]
+    "none": ["rozlicz\\w* 30 ?min\\w* po 17"]
    }
   },
   {
@@ -27,9 +25,7 @@
      ["bez (opłat|koszt\\w*)|nic nie kosztuje|darmow\\w*|0[,.]00|no cost|za darmo|bezpłatn\\w*"],
      ["bez ogranicze\\w*|bez restrykcji|without restrictions|domyśln\\w*|default"]
     ],
-    "none": [
-     "0[,.]40 EUR[^.\\n]{0,40}wtor"
-    ]
+    "none": ["0[,.]40 EUR[^.\\n]{0,40}wtor"]
    }
   },
   {
@@ -44,9 +40,7 @@
      ["dyskrymin\\w*|discriminat\\w*"],
      ["art\\.? 5"]
     ],
-    "none": [
-     "AFIR nie reguluje cen"
-    ]
+    "none": ["AFIR nie reguluje cen"]
    }
   },
   {
@@ -60,9 +54,37 @@
      ["nie oznacza|does not imply|nie znaczy"],
      ["TotalCostFallbackMessage"]
     ],
-    "none": [
-     "brak totalCost oznacza (bezpłatn|darmow)"
-    ]
+    "none": ["brak totalCost oznacza (bezpłatn|darmow)"]
+   }
+  },
+  {
+   "id": "adhoc-anulowanie-bez-kosztu",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 2.1 z wbudowanym terminalem płatniczym. Kierowca przyłożył kartę, transakcja wystartowała, ale nie podłączył kabla i minął czas na podłączenie. Co stacja ma zrobić z płatnością i co wysyła do CSMS? Czy kierowca ma zablokowane środki?",
+   "checks": {
+    "all": [
+     ["NotifySettlement"],
+     ["Canceled"],
+     ["zwoln\\w+|releas\\w+|odblok\\w+"],
+     ["EVConnectTimeout"],
+     ["PSD2|art\\.? ?75|C20"]
+    ],
+    "none": ["status\\s*=\\s*Settled\\b[^.\\n]{0,40}0"]
+   }
+  },
+  {
+   "id": "przerwana-sesja-utrata-zasilania",
+   "expect": "trigger",
+   "prompt": "W trakcie ładowania stacja straciła zasilanie i po 3 minutach wróciła. Jak to wygląda w OCPP 2.0.1 i 2.1 i co z rozliczeniem sesji oraz CDR w OCPI? Na co uważać przy wysyłce CDR?",
+   "checks": {
+    "all": [
+     ["TxResumptionTimeout|E17"],
+     ["TxResumed"],
+     ["PowerLoss"],
+     ["2\\.0\\.1[^.\\n]{0,160}(nie (opisuje|określa|definiuje)|brak)|(nie (opisuje|określa|definiuje)|brak)[^.\\n]{0,160}2\\.0\\.1"],
+     ["Credit CDR|kredyt\\w* CDR|credit"]
+    ],
+    "none": []
    }
   },
   {

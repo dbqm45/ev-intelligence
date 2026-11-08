@@ -32,6 +32,9 @@ historii w commicie.
 Pełna lista zablokowanych hostów: `sources/niedostepne.yaml`, sekcja `hosty_zablokowane`.
 
 ## Źródła do przejrzenia (hosty działają)
+- **Płatności kartą (D09.03):** polska ustawa o usługach płatniczych (transpozycja PSD2 art. 75–76, isap.sejm.gov.pl),
+  rozporządzenie delegowane (UE) 2018/389 (SCA, wyjątki dla terminali bezobsługowych), EUR-Lex. Dziś skill
+  `ev-billing-tariff-expert` opiera blokadę środków tylko na PSD2; PCI DSS to norma branżowa (sprawdzić dostępność).
 - **Gireve OCPI 2.2.1 Implementation Guide V1.6** (www.gireve.com/download/): zasady Gireve jako huba OCPI. Licencji w
   dokumencie nie znaleziono; pobrany, nieopracowany.
 - **Hubject Dynamic Pricing — Functional Guide** (support.hubject.com) i dokumentacja OpenAPI OICP 2.3.
