@@ -88,6 +88,34 @@
    }
   },
   {
+   "id": "granica-min-current",
+   "expect": "trigger",
+   "prompt": "Taryfa OCPI 2.3.0 ma element z max_current 32 przed elementem z min_current 32. Auto ładuje dokładnie 32 A. Który element obowiązuje i czy end_time 20:00 obejmuje minutę 20:00? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["min_current"],
+     ["włącz\\w*|inclusive|or equal|równ\\w*"],
+     ["nie określa|nie mówi|nie precyzuje|Wniosek"],
+     ["11\\.4\\.7"]
+    ],
+    "none": []
+   }
+  },
+  {
+   "id": "kalkulator-before-taxes",
+   "expect": "trigger",
+   "prompt": "Mam taryfę OCPI 2.3.0 i charging_periods z sesji. Jak policzyć total_cost do CDR i jakie pola ma cena w 2.3.0, a jakie miała w 2.2.1? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["ocpi_tariff_calc"],
+     ["before_taxes"],
+     ["taxes"],
+     ["excl_vat|incl_vat|2\\.2\\.1"]
+    ],
+    "none": []
+   }
+  },
+  {
    "id": "credentials-handshake",
    "expect": "no-trigger",
    "prompt": "Rejestrujemy nowego partnera OCPI 2.2.1. Jak przebiega wymiana tokenów credentials A, B i C i kiedy token A przestaje działać?",

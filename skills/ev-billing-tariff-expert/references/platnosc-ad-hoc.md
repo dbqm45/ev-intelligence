@@ -102,3 +102,10 @@ Spis:
   `[21-P2 C §2.9]` `[21-P2 C25.FR.20]`.
 - Nieopracowane w bazie: silne uwierzytelnianie (SCA, rozporządzenie delegowane 2018/389), PCI DSS, VAT, polska
   transpozycja PSD2 (ustawa o usługach płatniczych). Pytanie o nie → mówisz, że baza tego nie obejmuje.
+  - SCA: PSD2 jest w rejestrze, ale przepisu o silnym uwierzytelnianiu baza nie opracowała, a rozporządzenia
+    2018/389 nie ma w rejestrze. Czy płatność inicjowana przez kierowcę wymaga SCA i jak traktować późniejsze dobicie
+    kwoty, baza nie rozstrzyga.
+  - PCI DSS jest w `sources/niedostepne.yaml` (niezarejestrowana). Wymagań co do tego, które dane karty może widzieć
+    CSMS, baza nie podaje. Jakie dane karty trafiają do CSMS w OCPP 2.1, opisuje sekcja 2 (`PaymentCtrlr.PaymentDetails`).
+  - Zasady schematów kartowych (capture, void, refund, chargeback i ich terminy) nie są w rejestrze.
+- Moduł Payments z OCPI 2.3.0 (terminal po stronie PTP, potwierdzenie capture) opisuje `references/cdr-i-wycena.md` §5.

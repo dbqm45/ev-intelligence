@@ -8,7 +8,7 @@ Spis:
 1. Scenariusze przerwania
 2. Co dostaje wycena
 3. Sesja i CDR w OCPI
-4. Płatność ad hoc po przerwaniu
+4. Płatność ad hoc po przerwaniu (OCPP 2.1 i OCPI Payments)
 5. Lista kontrolna przeglądu story i kodu
 6. Czego źródła nie określają
 
@@ -50,12 +50,24 @@ niepełne”. Przy transakcji porzuconej po limicie prób ostatni znany odczyt m
 **Wniosek:** gdy dane z przerwanej sesji dotrą później (kolejka offline), nie wysyłasz CDR z niepełnych danych.
 Wysłany zbyt wcześnie poprawisz już tylko przez Credit CDR.
 
-## 4. Płatność ad hoc po przerwaniu (OCPP 2.1)
+## 4. Płatność ad hoc po przerwaniu (OCPP 2.1 i OCPI Payments)
 Szczegóły i wymagania: `references/platnosc-ad-hoc.md`.
 - Sesja bez kosztu (koniec przed energią, brak podłączenia na czas): koszt 0, zwolnienie blokady i
   `NotifySettlementRequest` ze `status = Canceled` `[21-P2 C20.FR.05]`.
 - Sesja z kosztem: rozliczenie całkowitego kosztu po `Ended` `[21-P2 C21.FR.01]`. Odmowa albo błąd łączności przy
   rozliczeniu daje `Rejected` / `Failed` `[21-P2 C22.FR.01]` `[21-P2 C22.FR.02]`.
+
+**OCPI 2.3.0, moduł Payments (terminal PTP w roamingu).** Sesję kończy pojazd albo stacja, `StopSession` od PTP po
+osiągnięciu limitu preautoryzacji albo backend CPO `[OCPI230 §16.4]`. Potem CDR trafia do PTP, PTP pobiera kwotę u PSP
+(capture), a gdy fakturę wystawia CPO, wysyła Financial Advice Confirmation z `capture_status_code` `[OCPI230 §16.4]`.
+
+**Wniosek** (przypadki końca sesji z płatnością terminalem; reguły rozliczenia ustala CPO z PTP):
+| Przypadek | Co wynika z faktów |
+|---|---|
+| sesja bez energii | CDR może powstać bez energii, np. za samą rezerwację `[OCPI230 §9.1.4]`; sesja `INVALID` nie jest rozliczana `[OCPI230 §9.4.3]`. Czy PTP robi wtedy capture zerowy, czy tylko zwalnia blokadę, OCPI nie określa |
+| osiągnięty limit blokady | koszt nie powinien przekroczyć `preauthorize_amount`, bo PTP albo CPO zatrzymuje sesję przy limicie `[OCPI230 §16.4]` |
+| capture nieudany albo częściowy | `FAILED` albo `PARTIAL_SUCCESS` `[OCPI230 §16.7.2]`; dalsza windykacja jest poza OCPI |
+| brak CDR (stacja offline, dane z kolejki) | bez CDR nie ma kwoty do capture, więc blokada trwa. To trzyma środki kierowcy (PSD2 art. 75: `references/platnosc-ad-hoc.md` §7) |
 
 ## 5. Lista kontrolna przeglądu story i kodu
 **Wniosek** (pytania wynikające z faktów powyżej):
