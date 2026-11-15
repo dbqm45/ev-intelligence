@@ -166,6 +166,54 @@
       "expect": "no-trigger",
       "neighbor": "ev-domain-expert",
       "prompt": "Mamy w EV Intelligence nowe zadanie przekrojowe: moduł CPMS dla ładowarek roamingowych z rozliczeniem CDR. Które domeny taksonomii i które skille trzeba wczytać i w jakiej kolejności?"
+    },
+    {
+      "id": "status-available-finishing-bez-idtag",
+      "expect": "trigger",
+      "prompt": "Stacja OCPP 1.6J z dwoma złączami i jednym czytnikiem RFID: kierowca wpiął kabel, nie przyłożył karty i po czasie złącze zgłosiło Finishing zamiast Available. Czy to dozwolone przejście statusu i dlaczego? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "B6"
+          ],
+          [
+            "ConnectionTimeOut|time ?out|limit czasu|upływ\\w* czasu"
+          ],
+          [
+            "Preparing"
+          ],
+          [
+            "errat\\w*|3\\.20|§4\\.9"
+          ]
+        ],
+        "none": [
+          "(niedozwolon\\w*|błędn\\w*) przejści\\w*[^.\\n]{0,40}Finishing"
+        ]
+      }
+    },
+    {
+      "id": "get-base-report-niekompletny",
+      "expect": "trigger",
+      "prompt": "CSMS na OCPP 2.0.1 wysyła GetBaseReport(FullInventory) do nowej stacji, dostaje Accepted i od razu zapisuje inwentaryzację jako gotową, ale brakuje połowy zmiennych. Co jest nie tak? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "NotifyReport"
+          ],
+          [
+            "asynchron\\w*|(jedn\\w*|kilk\\w*|wiel\\w*) (lub|albo) (więcej|wiel\\w*)|porcj\\w*|częśc\\w*"
+          ],
+          [
+            "tbc"
+          ],
+          [
+            "requestId|seqNo"
+          ]
+        ],
+        "none": [
+          "Accepted[^.\\n]{0,40}(zawiera|niesie) (cały|pełny) raport"
+        ]
+      }
     }
   ]
 }

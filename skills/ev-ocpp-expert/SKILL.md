@@ -4,7 +4,7 @@ description: Użyj przy OCPP 1.6J, 2.0.1 i 2.1 między ładowarką a CSMS — ko
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj przy pytaniach i decyzjach projektowych dotyczących protokołu OCPP (1.6J, 2.0.1, 2.1) między stacją ładowania a CSMS/CPMS — kiedy wolno użyć komunikatu, jakie odpowiedzi i statusy są możliwe, timeouty i ponawianie, cykl BootNotification i Heartbeat, transakcje 1.6 vs TransactionEvent, zdalny start i stop, konfiguracja (klucze 1.6, Device Model 2.x), kody błędów RPC, profile bezpieczeństwa, różnice wersji, nowe komunikaty 2.1. Każdy fakt z cytatem ze specyfikacji OCA. Nie do certyfikatów, TLS i Plug & Charge (ev-iso15118-pki-expert), wyboru domen i skilli dla zadania przekrojowego (ev-domain-expert), roamingu OCPI (ev-ocpi-roaming-expert) zachowań konkretnego modelu ładowarki odbiegających od standardu (ev-evse-diagnostics-expert) ani decyzji dyżurnego NOC, co zrobić teraz ze stacją (ev-charging-operations-expert)."
-  slowa: "OCPP, OCPP 1.6, OCPP 1.6J, OCPP 2.0.1, OCPP 2.1, IEC 63584, CSMS, Central System, CALL, CALLRESULT, CALLERROR, BootNotification, Heartbeat, HeartbeatInterval, StatusNotification, StartTransaction, StopTransaction, TransactionEvent, seqNo, triggerReason, transactionId, RemoteStartTransaction, RequestStartTransaction, remoteStartId, RemoteStopTransaction, MeterValues, measurand, Authorize, idTag, idToken, ChangeConfiguration, GetConfiguration, SetVariables, GetVariables, Device Model, ConnectionTimeOut, EVConnectionTimeOut, AuthorizeRemoteTxRequests, AuthorizeRemoteStart, TxStartPoint, TriggerMessage, Security Whitepaper, profil bezpieczeństwa, identyfikator stacji, URL połączenia, chargePointId, Basic Auth nazwa użytkownika, zdalny start nie działa, sesja nie startuje po poleceniu, ładowarka przestała wysyłać Heartbeat, wykrywanie offline, różnice 1.6 i 2.0.1, migracja na 2.0.1, ramka OCPP, errata OCPP"
+  slowa: "OCPP, OCPP 1.6, OCPP 1.6J, OCPP 2.0.1, OCPP 2.1, IEC 63584, CSMS, Central System, CALL, CALLRESULT, CALLERROR, BootNotification, Heartbeat, HeartbeatInterval, StatusNotification, StartTransaction, StopTransaction, TransactionEvent, seqNo, triggerReason, transactionId, RemoteStartTransaction, RequestStartTransaction, remoteStartId, RemoteStopTransaction, MeterValues, measurand, Authorize, idTag, idToken, ChangeConfiguration, GetConfiguration, SetVariables, GetVariables, Device Model, ConnectionTimeOut, EVConnectionTimeOut, AuthorizeRemoteTxRequests, AuthorizeRemoteStart, TxStartPoint, TriggerMessage, Security Whitepaper, profil bezpieczeństwa, identyfikator stacji, URL połączenia, chargePointId, Basic Auth nazwa użytkownika, zdalny start nie działa, sesja nie startuje po poleceniu, ładowarka przestała wysyłać Heartbeat, wykrywanie offline, różnice 1.6 i 2.0.1, migracja na 2.0.1, ramka OCPP, errata OCPP, przejścia statusów, tabela przejść, Preparing, Finishing, SuspendedEVSE, MinimumStatusDuration, BootNotification Pending, BootNotification Rejected, StopTransaction, meterStop, transactionData, messageId, unikalny messageId, ponowne połączenie, Device Model, komponent, zmienna, GetBaseReport, NotifyReport, FullInventory, częściowy sukces SetVariables, connectorStatus Occupied, chargingState"
 ---
 
 # OCPP Expert — stacja ładowania ↔ CSMS
@@ -31,9 +31,9 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 | Plik | Kiedy |
 |---|---|
 | `references/wersje-i-status.md` | wersje, edycje, IEC 63584, licencja, podprotokół WebSocket, identyfikator stacji w URL, zgodność wersji |
-| `references/ramki-i-bledy.md` | ramki RPC, kody CALLERROR, jedno CALL naraz, timeout |
-| `references/komunikaty-16.md` | katalog 1.6 z kierunkiem, statusy, kody błędów złącza, klucze konfiguracji |
-| `references/komunikaty-201.md` | katalog 2.0.1 wg bloków, `TransactionEvent`, zmienne Device Model, nowe akcje 2.1 |
+| `references/ramki-i-bledy.md` | ramki RPC, kody CALLERROR, jedno CALL naraz, timeout, unikalność `messageId` |
+| `references/komunikaty-16.md` | katalog 1.6 z kierunkiem, statusy i **tabela przejść**, `BootNotification` `Pending`/`Rejected`, `StopTransaction`, klucze konfiguracji |
+| `references/komunikaty-201.md` | katalog 2.0.1 wg bloków, `TransactionEvent`, budowa Device Model, `SetVariables` per zmienna, `GetBaseReport` → `NotifyReport`, nowe akcje 2.1 |
 | `references/wzorce.md` | zdalny start, wykrywanie offline, komunikaty transakcyjne i kolejka, odpowiedniki 1.6 ↔ 2.0.1 |
 
 ## Procedura
@@ -68,6 +68,13 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 | Konfiguracja | klucze, `GetConfiguration` / `ChangeConfiguration` `[16 §9]` | Device Model: `GetVariables` / `SetVariables` `[201-P2 B05–B07]` |
 | Heartbeat | przy JSON „not mandatory”; zalecany co najmniej raz na 24 h dla zegara `[16 §4.6]` | `HeartbeatInterval` = czas bezczynności „no OCPP exchanges” `[201-CSV]` |
 | Bezpieczeństwo | dodatek: Security Whitepaper ed. 4, profile 1–3, 11 akcji `[SWP4]` | profile 1–3 w standardzie; bez zabezpieczeń „NOT considered a valid OCPP 2.0.1 implementation” `[201-P2 A §1.3]` |
+
+**Wniosek (porównanie definicji, nie mapowanie OCA):** pięć stanów 1.6 `Preparing`, `Charging`, `SuspendedEV`,
+`SuspendedEVSE`, `Finishing` powstało z podziału dawnego `Occupied` `[16 §4.9]`. W 2.0.1 złącze jest wtedy `Occupied`
+(„not available for a new EV driver”) `[201-P2 §3.23]`, a stan ładowania niesie `chargingState` w `TransactionEvent`
+(`EVConnected`, `Charging`, `SuspendedEV`, `SuspendedEVSE`, `Idle`) `[201-P2 §3.16]`. Dokładnego odpowiednika
+`Preparing` i `Finishing` w `chargingState` nie ma, więc translator 1.6 ↔ 2.0.1 potrzebuje stanu transakcji, a nie
+samego statusu złącza.
 
 ## Przykład
 **Pytanie:** „`RemoteStartTransaction` na 1.6J zwraca `Accepted`, ale po 2 minutach nie ma `StartTransaction`.

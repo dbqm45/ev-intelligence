@@ -32,6 +32,11 @@ Przy (pozornej) sprzeczności między tekstem opisowym, diagramami sekwencji, pr
 **wymagania** (np. `B01.FR.05`), w 2.0.1 i 2.1 `[201-P2 §2.1.2]` `[21-P2 §2.1.2]`. **Wniosek:** w rozstrzygnięciu najpierw
 cytujesz wymaganie FR, potem erratę i schemat; przykład JSON albo diagram nie przesądzają.
 
+## 1.6: OCPP-J i OCPP-S
+OCPP 1.6 ma dwa warianty transportu: SOAP (OCPP-S) i JSON (OCPP-J); dokument bazowy opisuje protokół, a transport
+opisują osobne specyfikacje `[16 §3.2]`. Edycja 2 nie zmienia komunikatów względem 1.6 z 2015 r., a scala znane errata
+`[16 §3.1]`. Ten skill opisuje wariant JSON (`[J16]`); specyfikacji OCPP-S nie ma w rejestrze źródeł.
+
 ## Zgodność między wersjami
 - 2.0.1 „is not backward compatible with OCPP 1.6 or OCPP 1.5” `[201-P0 rozdz. 2]`.
 - 2.1 „is an extension of OCPP 2.0.1”. Schematy 2.1 to schematy 2.0.1 rozszerzone o pola opcjonalne. Logika aplikacji

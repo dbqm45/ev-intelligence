@@ -6,7 +6,7 @@
 1. Komunikaty wg bloków funkcjonalnych
 2. TransactionEvent
 3. Statusy i odpowiedzi
-4. Device Model — zmienne
+4. Device Model — budowa, raporty, zmienne
 5. TxStartPoint i TxStopPoint
 6. Nowe akcje w 2.1
 7. Komunikaty na wyświetlaczu stacji (blok O)
@@ -81,7 +81,35 @@ i przypadki użycia `[201-P2]`. Komplet: 64 akcje `[201-P3]`.
 the RequestStartTransactionRequest was received, for example: cable plugged in first” `[201-P2]`; wymaganie F01.FR.13
 `[201-P2]`.
 
-## 4. Device Model — zmienne (cytaty z `[201-CSV]`, plik `dm_components_vars.csv`)
+## 4. Device Model — budowa i raporty
+- Model ma trzy poziomy: `ChargingStation`, `EVSE`, `Connector`; komponent jest adresowany nazwą, opcjonalną instancją
+  i (opcjonalnie) `evseId`/`connectorId`, np. złącze 1 na EVSE 1 to komponent `Connector` z `evseId = 1,
+  connectorId = 1` `[201-P1 §4.1]`.
+- Komponent nie przechowuje danych; dane to **zmienne** (też z opcjonalną instancją). Stacja nie musi raportować
+  zmiennych `Present`, `Available`, `Enabled`, gdy są tylko do odczytu i `true`; brak raportu = CSMS SHALL przyjąć
+  `true` `[201-P1 §4.2]`.
+- Każda zmienna ma charakterystyki (tylko odczyt: jednostka, typ, limity, lista wartości) i atrybuty (`Actual`,
+  `Target`, skonfigurowane limity, mutowalność, trwałość po restarcie) `[201-P1 §4.3]`.
+- Minimalny Device Model: MUST `SetVariables` (B05), `GetVariables` (B06) i `GetBaseReport` (B07) z
+  `ConfigurationInventory` i `FullInventory`; `GetCustomReport` (B08) i monitorowanie (N02–N06) są opcjonalne.
+  Implementując blok funkcjonalny, stacja SHALL mieć wszystkie jego wymagane zmienne `[201-P1 §4.6]`.
+- `SetVariables`: odpowiedź ma tyle `SetVariableResult`, ile było `SetVariableData`, każdy z tą samą parą
+  komponent+zmienna `[201-P2 B05.FR.01–B05.FR.02]`. Status jest **osobny dla każdej zmiennej** (`UnknownComponent`,
+  `UnknownVariable`, `NotSupportedAttributeType`, `Rejected`, `Accepted`), więc jedno żądanie może się udać częściowo
+  `[201-P2 B05.FR.04–B05.FR.10]`. CSMS SHALL NOT wysłać więcej elementów niż `ItemsPerMessageSetVariables`
+  `[201-P2 B05.FR.11]`.
+- `GetBaseReport` działa asynchronicznie: odpowiedź `Accepted` to tylko przyjęcie, a dane przychodzą w jednym albo
+  wielu `NotifyReportRequest` z tym samym `requestId` `[201-P2 B07]` `[201-P2 B07.FR.04]`. Pole `tbc`
+  („to be continued”, domyślnie `false`) mówi, czy przyjdzie kolejna część `[201-P2 §1.40]`. `seqNo` raportu zaczyna się od 0 i rośnie per raport `[201-P2 B07.FR.10]`. Nieobsługiwany
+  `reportBase` → `NotSupported` bez raportu; chwilowa niemożność → `Rejected` `[201-P2 B07.FR.02, B07.FR.05, B07.FR.13]`.
+- `SummaryInventory` raportuje dostępność i problemy (np. `AvailabilityState`, aktywne `Problem`) `[201-P2 B07.FR.09]`.
+  Przy pierwszym połączeniu stacji albo po zmianie (firmware, sprzęt) CSMS SHOULD pobrać `FullInventory`
+  `[201-P2 B07.FR.14]`.
+
+**Wniosek:** inwentaryzację stacji po pierwszym `BootNotification` (np. w stanie `Pending`) zamykasz dopiero po
+ostatnim `NotifyReportRequest` bez `tbc`, a wynik `SetVariables` sprawdzasz per zmienna, nie po całym żądaniu.
+
+## 4a. Device Model — zmienne (cytaty z `[201-CSV]`, plik `dm_components_vars.csv`)
 | Zmienna | Wymagana | Typ / jedn. | Opis |
 |---|---|---|---|
 | `OCPPCommCtrlr.HeartbeatInterval` | nie | integer, s | „Interval of inactivity (no OCPP exchanges) with CSMS after which the Charging Station should send HeartbeatRequest.” |

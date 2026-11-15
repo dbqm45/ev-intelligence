@@ -5,8 +5,8 @@ CS = Central System.
 
 ## Spis treści
 1. Komunikaty wg profili i kierunku
-2. Statusy i kody błędów złącza
-3. Odpowiedzi poleceń
+2. Statusy i kody błędów złącza (z tabelą przejść)
+3. Odpowiedzi poleceń, `BootNotification` `Pending`/`Rejected`, `StopTransaction`
 4. Pomiary (MeterValues)
 5. Klucze konfiguracji
 
@@ -41,6 +41,54 @@ zgłasza kluczem `SupportedFeatureProfiles` `[16 §3.3]`. Kierunki komunikatów 
 - Po zmianie stanu CP SHALL wysłać `StatusNotification`, „taking into account some minimum status duration” `[16E §3.19]`.
 - Po `BootNotification` z `Accepted` CP SHALL wysłać `StatusNotification` dla `connectorId 0` i wszystkich złączy `[16E §3.22]`.
 - Dozwolone jest przejście `Preparing` → `Finishing` (B6) po upływie czasu bez okazania `idTag` przy wpiętym kablu `[16E §3.20]`.
+
+### Przejścia statusów (tabela `[16 §4.9]`, tylko `connectorId > 0`)
+Kod przejścia = litera stanu wyjściowego + numer stanu docelowego (1 `Available`, 2 `Preparing`, 3 `Charging`,
+4 `SuspendedEV`, 5 `SuspendedEVSE`, 6 `Finishing`, 7 `Reserved`, 8 `Unavailable`, 9 `Faulted`) `[16 §4.9]`.
+
+| Z \ do | Dozwolone przejścia |
+|---|---|
+| A `Available` | A2, A3, A4, A5, A7, A8, A9 |
+| B `Preparing` | B1, B3, B4, B5, B6, B9 |
+| C `Charging` | C1, C4, C5, C6, C8, C9 |
+| D `SuspendedEV` | D1, D3, D5, D6, D8, D9 |
+| E `SuspendedEVSE` | E1, E3, E4, E6, E8, E9 |
+| F `Finishing` | F1, F2, F8, F9 |
+| G `Reserved` | G1, G2, G8, G9 |
+| H `Unavailable` | H1, H2, H3, H4, H5, H9 |
+| I `Faulted` | I1–I8 („Fault is resolved and status returns to the pre-fault state”) |
+
+Wybrane zdarzenia z tabeli opisów `[16 §4.9]`:
+- A2: rozpoczęcie użycia, np. wpięcie wtyku, okazanie `idTag`, przycisk start, odbiór `RemoteStartTransaction.req`;
+  A3–A5: stacja bez środka autoryzacji (od razu ładowanie, EV nie ładuje, EVSE nie pozwala);
+- B1: koniec zamierzonego użycia, m.in. upływ `ConnectionTimeOut` `[16E §3.21]`; B6: `idTag` nie okazany w czasie;
+- C4 / D3: ładowanie zatrzymane / wznowione na żądanie EV (np. otwarcie / zamknięcie S2); C5 / D5: wstrzymanie przez
+  EVSE (np. ograniczenie smart charging albo transakcja unieważniona przez `AuthorizationStatus` w
+  `StartTransaction.conf`);
+- C6: transakcja zatrzymana przez użytkownika albo `RemoteStopTransaction`, potrzebna dalsza akcja (odpięcie kabla);
+- C8 / D8 / E8 / F8 / G8: koniec przy zaplanowanej zmianie na `Unavailable`;
+- F2: ponowne użycie (wpięcie, ponowne `idTag`) tworzy **nową** transakcję; G1: rezerwacja wygasła albo
+  `CancelReservation`; G2: okazano identyfikator rezerwacji.
+
+Reguły obok tabeli:
+- Oficjalna tabela pisze stan `Preparing` z literówką „Prepairing” `[16 §4.9]`; w schemacie wartość to `Preparing` `[S16]`.
+- Wstrzymanie jednocześnie przez EV i EVSE → `SuspendedEVSE` SHALL mieć pierwszeństwo przed `SuspendedEV` `[16 §4.9]`.
+- `Unavailable` ustawiony przez `ChangeAvailability` MUST przetrwać restart; stacja MAY używać `Unavailable` także
+  wewnętrznie (np. aktualizacja firmware, oczekiwanie na pierwsze `Accepted`) `[16 §4.9]`.
+- Przy starcie transakcji status zwykle przechodzi `Preparing` → `Charging`, możliwe z krótkim `SuspendedEV` lub
+  `SuspendedEVSE` po drodze, „possibly within a couple of seconds” `[16 §4.9]`.
+- Stacja MAY nie wysłać `StatusNotification` dla stanu krótszego niż `MinimumStatusDuration`; producent MAY mieć własne
+  minimalne opóźnienie, do którego ta wartość się dodaje, a `0` go nie wyłącza `[16 §4.9]`.
+- `status` inny niż `Faulted` z kodem błędu to ostrzeżenie (ładowanie możliwe); `EVCommunicationError` SHALL wystąpić
+  tylko przy `Preparing`, `SuspendedEV`, `SuspendedEVSE`, `Finishing` `[16 §4.9]`.
+- Odłączenie kabla po stronie EV w trakcie transakcji: przy `StopTransactionOnEVSideDisconnect = false` stacja SHOULD
+  zgłosić `SuspendedEV`, a przy `true` `Finishing`, w obu przypadkach z `errorCode = NoError` i powodem w `info`
+  („EV side disconnected”) `[16 §4.9]`.
+- Status `connectorId 0` nie jest bezpośrednio związany ze statusami złączy `[16 §4.9]`.
+
+**Wniosek:** przejście spoza tabeli (np. `Available` → `Finishing`) w logu stacji to kandydat na odchylenie
+modelu albo zgubione `StatusNotification` (`MinimumStatusDuration`, opóźnienie producenta). Rozstrzyga to
+`ev-evse-diagnostics-expert` na podstawie logu i wersji firmware.
 - Wiele złączy na jednym EVSE (np. Type 2 i CCS ze wspólnym modułem mocy): OCPP 1.x zakłada, że każde złącze ładuje
   niezależnie. Zalecenie OCA (TWG): każde złącze jak osobne EVSE, a blokadę wzajemną zgłaszać statusami
   `StatusNotification` `[OCA-AN-MC §4]`:
@@ -78,6 +126,33 @@ zgłasza kluczem `SupportedFeatureProfiles` `[16 §3.3]`. Kierunki komunikatów 
   `[16E §3.40]`). Stan złączy odświeżasz przez `TriggerMessage(StatusNotification)`.
 - `BootNotification` `Pending`: kanał komunikacji „SHOULD NOT be closed by either the Charge Point or the Central
   System” `[16 §4.2]`.
+
+### `BootNotification` — zasady przed akceptacją `[16 §4.2]`
+- Stacja SHALL wysłać `BootNotification` przy każdym starcie i restarcie. Do odpowiedzi `Accepted` albo `Pending` SHALL
+  NOT wysyłać innych żądań, także zbuforowanych sprzed restartu.
+- Odpowiedź inna niż `Accepted`: `interval` to minimalny czas do kolejnego `BootNotification`; `0` → stacja sama
+  dobiera odstęp, żeby nie zalewać CS. Wcześniej SHOULD NOT, chyba że na `TriggerMessage`.
+- `Pending`: CS MAY odczytywać i zmieniać konfigurację, stacja SHOULD odpowiadać, ale SHALL NOT wysyłać własnych żądań
+  bez `TriggerMessage`. W tym stanie CS nie może wysłać `RemoteStartTransaction` ani `RemoteStopTransaction`.
+- `Rejected`: do upływu `interval` stacja SHALL NOT wysyłać żadnych komunikatów OCPP i SHALL NOT odpowiadać na żądania
+  CS; CS SHOULD NOT ich inicjować. Obie strony MAY zamknąć kanał.
+- Transakcje przed akceptacją: operator MAY je dopuścić, ale nie wiadomo, czy dotrą do CS. Bez zegara czasu
+  rzeczywistego stacja może nie mieć poprawnej daty. Zwykle zaleca się odmowę ładowania stacji, która nigdy nie była
+  `Accepted` `[16 §4.2.1]` `[16E §3.11]`.
+
+### `StopTransaction` `[16 §4.10]` `[16 §6.49–6.50]`
+- `StopTransaction.req`: wymagane `meterStop` (Wh), `timestamp`, `transactionId` (ten z `StartTransaction.conf`);
+  opcjonalne `idTag` (stacja SHALL wysłać, gdy jest znany), `reason` (MAY pominąć tylko dla „Local”),
+  `transactionData` (`MeterValue` „relevant for billing purposes”) `[16 §6.49]`.
+- `StopTransaction.conf`: tylko opcjonalne `idTagInfo` (transakcja mogła się skończyć bez identyfikatora) `[16 §6.50]`.
+- CS „cannot prevent a transaction from stopping”; może tylko potwierdzić i podać dane `idTag` do cache. Wyniki
+  kontroli poprawności danych SHOULD NOT nigdy powstrzymać odpowiedzi `StopTransaction.conf` `[16 §4.10]`.
+- Normalny koniec (kierowca okazał identyfikator): `reason` MAY być pominięty i SHOULD być przyjęty jako „Local”;
+  w innych przypadkach SHOULD mieć właściwą wartość `[16 §4.10]`.
+
+**Wniosek:** energia sesji w CSMS = `meterStop` − `meterStart` (oba w Wh `[16 §6.45]` `[16 §6.49]`); próbki z
+`transactionData` służą do kontroli i wyceny, a odpowiedź `StopTransaction.conf` wysyłasz także wtedy, gdy kontrola
+danych wykryła problem (problem obsługujesz po przyjęciu).
 
 ## 4. Pomiary (`MeterValues`, `SampledValue`) `[S16]`
 - `measurand`: `Energy.Active.Export.Register`, `Energy.Active.Import.Register`, `Energy.Reactive.Export.Register`,
