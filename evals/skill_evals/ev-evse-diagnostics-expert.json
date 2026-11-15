@@ -35,6 +35,20 @@
    }
   },
   {
+   "id": "log-sekwencja-luka-seqno",
+   "expect": "trigger",
+   "prompt": "Mam log JSON Lines z bramy OCPP 2.0.1 jednej ładowarki: CSMS widzi TransactionEvent Started i Ended, ale rozliczenie nie zgadza się z licznikiem. Jak sprawdzić w logu, czy ładowarka zgubiła zdarzenia albo odpowiedzi? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["ocpp_log_analyze"],
+     ["seqNo"],
+     ["luk\\w*|brak\\w*[^.\\n]{0,30}(zdarze|seqNo)|gap"],
+     ["(bez|brak) odpowiedzi|CALLERROR|timeout|messageId"]
+    ],
+    "none": ["seqNo[^.\\n]{0,40}(musi|zawsze) (zaczyna|start)\\w* od 0"]
+   }
+  },
+  {
    "id": "rejestr-odchylen",
    "expect": "trigger",
    "prompt": "Chcemy prowadzić rejestr odstępstw i dziwnych zachowań konkretnych modeli ładowarek względem OCPP. Jakie pola musi mieć wpis, żeby nie mieszać obserwacji z wymaganiami normy? Odpowiedz zwięźle.",
