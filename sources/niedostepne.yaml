@@ -139,9 +139,9 @@ niezarejestrowane:
     temat: "kodowanie podpisanych wartości pomiarowych"
     przywolana_przez: ["OCA-AN-SMV §2.2.2, §2.2.3", "OCPI230 §10.4.7"]
     przywolana_w: [ev-billing-tariff-expert, ev-compliance-expert]
-  - dokument: "Dyrektywa (UE) 2015/2366 (PSD2) i standard PCI DSS (PCI SSC)"
+  - dokument: "Standard PCI DSS (PCI SSC)"
     dostep: niezarejestrowana
-    temat: "płatności kartowe, SCA"
+    temat: "bezpieczeństwo danych kart płatniczych; PSD2 jest w rejestrze (`sources/eu-inne.yaml`, id `PSD2`)"
     przywolana_w: [ev-billing-tariff-expert, ev-domain-expert]
   - dokument: "Dyrektywa (UE) 2019/944 (rynek energii elektrycznej)"
     dostep: niezarejestrowana

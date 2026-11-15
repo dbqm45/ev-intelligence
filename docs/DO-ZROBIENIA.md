@@ -33,8 +33,6 @@ historii w commicie.
   dyrektywa 2000/84/WE, zmiana MID 2026/706 (najpierw potwierdzić w EUR-Lex), OCMF (S.A.F.E. e.V.), RFC 6455, RODO,
   strony certyfikacji OCA 1.6/2.1 i OCTT, 23 CFR 680, NIST HB44; do `niedostepne.yaml`: SAE J1772, SAE J3400,
   IEC 62955. Szczegóły: `todo/tf-pack-ev/analiza/luki-podsumowanie.md`.
-- **Do poprawy w bazie** (wykryte przy analizie): `sources/niedostepne.yaml` oznacza PSD2 jako niezarejestrowaną, choć
-  `sources/eu-inne.yaml` ma wpis PSD2.
 
 ## Hosty, które nie działają
 | Host | Objaw | Co daje | Co zrobić |
