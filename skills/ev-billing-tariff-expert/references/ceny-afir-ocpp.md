@@ -39,7 +39,11 @@ części 2 `[201-APP]`. Zdania **Wniosek** to rekomendacje.
   ewentualnie `PARKING_TIME` lub `TIME` jako opłatą za zajętość. Opłaty startowej `FLAT` ust. 4 dla tych punktów nie
   przewiduje;
 - różne ceny dla klientów różnych MSP są dopuszczalne tylko z uzasadnieniem proporcjonalnym i obiektywnym (ust. 3).
-  Uzasadnienie dokumentujesz.
+  Uzasadnienie dokumentujesz;
+- informacja o cenie przed startem (ust. 4 i 5) obejmuje w taryfie OCPI także to, co zmienia kwotę mimo tej samej
+  stawki: `step_size` większy niż 1 (specyfikacja zaleca podawać go wyraźnie w ofercie `[OCPI230 §11.4.2]`), `min_price`
+  i `max_price` `[OCPI230 §11.3.1]`, chwilę, od której liczy się postój (`PARKING_TIME`), okna czasowe z ograniczeń oraz
+  to, czy ceny są z podatkiem (`tax_included` `[OCPI230 §11.4.9]`) i w jakiej walucie.
 
 ## 2. OCPP 2.0.1: blok I `[201-P2 I]`
 - OCPP przekazuje taryfę jako **tekst dla człowieka**, nie strukturę. Uzasadnienie OCA: skoro CSO nie umie zamienić
@@ -72,6 +76,10 @@ bloku I). Dla 2.0.1 przyjmujesz listę z załączników. Strukturalnych taryf z 
 
 ## 4. Czego źródła nie określają
 - OCPI i OCPP nie określają zaokrąglania kwot `[OCPI230 §11.3.1]`. Decydują prawo, umowy i waluta.
+- Przeliczanie walut: taryfa i CDR mają po jednej walucie (`currency`) `[OCPI230 §11.3.1, §10.3.1]`, a reguł
+  przeliczania specyfikacja nie podaje. Kurs i moment przeliczenia to sprawa umowy między stronami.
+- Przepisy USA o cenach na stacjach (23 CFR 680, program NEVI) nie są w rejestrze źródeł. Pytanie o nie → mówisz, że
+  baza ich nie obejmuje.
 - VAT w roamingu i transgranicznie, faktury i noty korygujące (D09.04), PCI DSS i PSD2/SCA (D09.03) oraz metrologia
   prawna MID i Eichrecht (D10) wymagają innych źródeł (prawo UE i krajowe, normy). Nie są opracowane.
 - Prawo konsumenckie zabraniające zmiany taryfy w trakcie sesji: specyfikacja OCPI tylko o nim wspomina
