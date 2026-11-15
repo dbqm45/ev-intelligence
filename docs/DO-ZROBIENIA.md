@@ -25,13 +25,14 @@ historii w commicie.
 ## Scalanie wiedzy z pack-ev (fabryka tf)
 - **Stan i plan:** `todo/tf-pack-ev/README.md` i `STATUS.md`. Treść pack-ev (36 skilli `dom-ev-*`, skrypty, testy)
   leży w `todo/tf-pack-ev/zrodlo/` **bez cytatów i bez weryfikacji**: z niej bierzemy tylko temat, a fakt opracowujemy
-  od nowa ze źródła z rejestru. Pilot `ev-ocpp-expert` i analizator logu: zrobione 2026-11-15.
+  od nowa ze źródła z rejestru. Pilot `ev-ocpp-expert` i analizator logu oraz fala 1 (OCPI, OICP, rozliczenia, kalkulator taryf): zrobione 2026-11-15.
 - **Decyzje właściciela (2026-11-15):** bez nakładki fabryki i person w tym repozytorium; praktyka (P) trafia tu, gdy
   pasuje, a reszta zostaje w `todo/tf-pack-ev/` z adnotacją; zakres obejmuje **USA** (NEVI 23 CFR 680, NIST HB44 —
   źródła do rejestracji, taksonomia D12.06 do rozszerzenia); tematy bez skilla trafiają do istniejących `ev-*`.
 - **Źródła do rejestracji przed dalszymi falami:** RED III, EPBD, NIS2, CRA, Data Act, RED DA 2022/30 i 2026/339,
   dyrektywa 2000/84/WE, zmiana MID 2026/706 (najpierw potwierdzić w EUR-Lex), OCMF (S.A.F.E. e.V.), RFC 6455, RODO,
-  strony certyfikacji OCA 1.6/2.1 i OCTT, 23 CFR 680, NIST HB44; do `niedostepne.yaml`: SAE J1772, SAE J3400,
+  strony certyfikacji OCA 1.6/2.1 i OCTT, 23 CFR 680, NIST HB44, repozytorium github.com/ocpi/ocpi (tagi, przykłady
+  JSON), IDACS „E-mobility ID-codes” i eMI3 (format `evse_id`), Hubject Dynamic Pricing Functional Guide; do `niedostepne.yaml`: SAE J1772, SAE J3400,
   IEC 62955. Szczegóły: `todo/tf-pack-ev/analiza/luki-podsumowanie.md`.
 
 ## Hosty, które nie działają
