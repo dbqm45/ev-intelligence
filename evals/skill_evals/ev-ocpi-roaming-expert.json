@@ -161,6 +161,96 @@
       }
     },
     {
+      "id": "patch-sesji-ponowiony",
+      "expect": "trigger",
+      "prompt": "Jako CPO na OCPI 2.3.0 wysyłamy PATCH sesji z nowymi charging_periods. Po timeoucie ponawiamy ten sam PATCH. Co się może stać i jak to robić poprawnie? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "dopis\\w*|dodaj\\w*|append|add"
+          ],
+          [
+            "\\bPUT\\b"
+          ],
+          [
+            "last_updated"
+          ],
+          [
+            "\\bGET\\b"
+          ]
+        ],
+        "none": [
+          "PATCH[^.\\n]{0,40}zastępuje (całą|cała) (listę|lista)"
+        ]
+      }
+    },
+    {
+      "id": "broadcast-push-cdr-przez-hub",
+      "expect": "trigger",
+      "prompt": "Jako CPO wysyłamy przez hub OCPI 2.3.0 Broadcast Push z CDR do wszystkich eMSP, a GET lokalizacji partnera robimy też jako Broadcast. Czy to zgodne ze specyfikacją? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "Broadcast Push"
+          ],
+          [
+            "(nie|SHALL NOT)[^.\\n]{0,60}(CDR|Sessions|sesj)|tylko[^.\\n]{0,40}(Tokens|Locations|wspóln)"
+          ],
+          [
+            "Open Routing"
+          ],
+          [
+            "4\\.1\\.9"
+          ]
+        ],
+        "none": []
+      }
+    },
+    {
+      "id": "rotacja-tokenu-credentials",
+      "expect": "trigger",
+      "prompt": "OCPI 2.3.0: jak zmienić (zrotować) token credentials po rejestracji i co zwróci partner, gdy ponownie wyślemy POST na credentials? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "\\bPUT\\b"
+          ],
+          [
+            "405"
+          ],
+          [
+            "miesi\\w*|month"
+          ],
+          [
+            "7\\.1\\.4|7\\.2"
+          ]
+        ],
+        "none": []
+      }
+    },
+    {
+      "id": "oicp-kod-017-i-soap",
+      "expect": "trigger",
+      "prompt": "Hubject zwraca nam w OICP kod 017 na każde żądanie, a do Dynamic Pricing w OICP 2.2 chcieliśmy użyć SOAP. Co jest nie tak? Odpowiedz zwięźle.",
+      "checks": {
+        "all": [
+          [
+            "017"
+          ],
+          [
+            "certyfikat\\w*|certificate|Unauthorized"
+          ],
+          [
+            "REST"
+          ],
+          [
+            "2\\.2|2\\.3"
+          ]
+        ],
+        "none": []
+      }
+    },
+    {
       "id": "ocpp-callerror",
       "expect": "no-trigger",
       "neighbor": "ev-ocpp-expert",
