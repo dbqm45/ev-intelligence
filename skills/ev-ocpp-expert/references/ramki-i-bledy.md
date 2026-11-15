@@ -30,6 +30,15 @@
 - Obie strony mogą otrzymać CALL drugiej strony w trakcie czekania na odpowiedź, bo komunikaty mogą się minąć
   `[J16 §4.1.1]` `[201-P4 §4.1.1]`.
 
+## Identyfikator wiadomości (`messageId`)
+- 1.6J: `messageId` CALL MUST różnić się od wszystkich wcześniej użytych przez tego nadawcę dla CALL „on the same
+  WebSocket connection”, maks. 36 znaków; CALLRESULT/CALLERROR niosą id swojego CALL `[J16 §4.1.4]`.
+- Errata OCPP-J 1.6 (wpis oznaczony **[DRAFT]**) doprecyzowuje zamiar: unikalność wobec **każdego** połączenia
+  z tym samym URL połączenia, bo ponowne użycie id po reconnect psuje kolejkowanie komunikatów `[J16E §3.7]`.
+
+**Wniosek:** generuj UUID i nie zeruj licznika id po ponownym połączeniu; deduplikację po stronie CSMS opieraj na
+parze (identyfikator stacji, `messageId`) (skill `ev-integration-architect`).
+
 ## Kody CALLERROR
 | Kod | 1.6 | 2.0.1 / 2.1 |
 |---|---|---|

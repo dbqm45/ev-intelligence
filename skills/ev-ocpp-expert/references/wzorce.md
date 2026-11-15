@@ -59,6 +59,10 @@ Fakty 1.6J:
 - `HeartbeatInterval` = interwał **bezczynności** („no OCPP exchanges”) `[16 §9.1.10]`. Odpowiedź `BootNotification`
   zawiera `interval` (wymagany) `[S16]`.
 - `WebSocketPingInterval`: ping/pong WebSocket po stronie klienta albo serwera `[16 §9.1.34]`.
+- Ponowne połączenie: stacja „should not send a BootNotification unless one or more of the elements in the
+  BootNotification have changed” — przy WebSocket tożsamość wynika z połączenia `[J16 §5.4]`.
+- Po odmowie połączenia (HTTP 404 dla nieznanej stacji) stacja SHALL ponawiać „with an appropriate back-off mechanism”
+  `[J16E §3.4]`. Specyfikacja 1.6 nie podaje parametrów tego mechanizmu (w 2.0.1: `RetryBackOff*` `[201-P4 §5.4]`).
 
 Fakty 2.0.1:
 - Stacja SHALL dostosować interwał do wartości z `BootNotificationResponse(Accepted)` (G02.FR.01) i SHALL wysyłać
