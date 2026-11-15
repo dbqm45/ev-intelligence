@@ -5,6 +5,7 @@ Znaczniki jak w `SKILL.md`. Metoda jest **wnioskiem**: kolejność i kryteria wy
 ## Spis treści
 1. Dowody
 2. Walidacja ramek
+2a. Sekwencja i czasy w logu
 3. Certyfikat i PICS
 4. Rozstrzyganie niespójności dokumentów
 5. Odtworzenie przypadkiem testowym
@@ -30,6 +31,31 @@ Znaczniki jak w `SKILL.md`. Metoda jest **wnioskiem**: kolejność i kryteria wy
   tekstu wymagań. To robisz ręcznie (sekcja 4) albo przypadkiem testowym (sekcja 5).
 - Sprawdzenie na danych OCA (2026-11-07): przykładowe ramki z OCPP-J 2.0.1 przechodzą. Przykład `BootNotification.conf`
   z OCPP-J 1.6 §4.2.2 nie przechodzi (`heartbeatInterval` zamiast `interval`), zgodnie z erratą 1.6 §4.6.
+
+## 2a. Sekwencja i czasy w logu (`scripts/ocpp_log_analyze.py`)
+```
+python3 skills/ev-evse-diagnostics-expert/scripts/ocpp_log_analyze.py <log.jsonl> [--ocpp auto|1.6|2.0.1|2.1] [--json]
+```
+- Wejście: JSON Lines `{"ts", "cp", "dir": "cp>csms" | "csms>cp", "frame"}`; czas `ts` to czas odbioru po stronie
+  bramy, a nie znacznik z ładunku.
+- Ustalenia z numerami linii:
+  - CALL bez odpowiedzi;
+  - CALLERROR;
+  - powtórzony `messageId` (MUST być różny od wcześniejszych CALL nadawcy `[J16 §4.1.4]` `[J16E §3.7]`);
+  - transakcja bez końca albo nieznana;
+  - `transactionId = -1` w 1.6 (stacja nie dostała `StartTransaction.conf` `[16E §3.18]`);
+  - luka i duplikat `seqNo` (2.x: +1 po każdym `TransactionEvent`, start od 0 tylko SHOULD `[201-P2 E §1.3.2.1]`);
+  - malejący licznik energii (Wh; `meterStart`/`meterStop` w Wh `[16 §6.45]` `[16 §6.49]`);
+  - różnica zegara (stacja albo kolejka offline `[16 §3.7]`);
+  - restart.
+- `--timeout` (domyślnie 30 s) to próg narzędzia: specyfikacja mówi tylko, że timeout jest zależny od implementacji
+  `[J16 §4.1.1]` `[201-P4 §4.1.1]`.
+- Ramki 2.1 typu 5 (CALLRESULTERROR) i 6 (SEND, bez odpowiedzi) są rozpoznawane `[21-P4 §4.1.3]`.
+- Ograniczenia: skrypt nie sprawdza schematów (to robi `ocpp_frame_check.py`) ani dozwolonych przejść statusów
+  (tabela 1.6: skill `ev-ocpp-expert`, `references/komunikaty-16.md`).
+
+**Wniosek:** ustalenie analizatora to hipoteza do potwierdzenia wymaganiem (sekcja 4) albo przypadkiem testowym
+(sekcja 5). Nie zapisujesz go do rejestru odchyleń bez modelu, firmware i dowodu.
 
 ## 3. Certyfikat i PICS
 - Certyfikacja 2.0.1 `[OCA-CERT]` `[201-P5 §2]`:

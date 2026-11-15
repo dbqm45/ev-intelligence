@@ -4,7 +4,7 @@ description: Użyj, gdy konkretny model ładowarki działa inaczej, niż mówi O
 metadata:
   przeglad: "2027-02-07"
   katalog: "Użyj, gdy trzeba ustalić, czy konkretny model lub firmware ładowarki odbiega od OCPP, czy problem leży po stronie CSMS albo dokumentacji — walidacja surowych ramek OCPP-J wobec oficjalnych schematów OCA skryptem ocpp_frame_check.py, sprawdzenie certyfikatu OCA (profile Core, Advanced Security, Smart Charging, ISO 15118, wersja oprogramowania) i deklaracji PICS, odtworzenie przez przypadki testowe części 6 (TC_*), rozstrzyganie niespójności dokumentów erratą i schematem, zapis obserwacji w rejestrze odchyleń (D21) z modelem, firmware, dowodem i poziomem pewności. Nie do diagnozy operacyjnej zgłoszeń NOC (ev-charging-operations-expert), znaczenia komunikatów OCPP (ev-ocpp-expert) ani opisu sprzętu (ev-evse-hardware-expert)."
-  slowa: "odchylenie od OCPP, vendor quirk, dziwne zachowanie ładowarki, błąd firmware, producent łamie specyfikację, niezgodność z OCPP, walidacja ramek, schemat JSON OCPP, ocpp_frame_check, surowe ramki, log OCPP, certyfikat OCA, certyfikacja OCPP, certified products, profil certyfikacji, Core, Advanced Security, Smart Charging, ISO 15118 Support, PICS, deklaracja zgodności, test case, TC_F_02_CS, OCTT, errata, niespójność dokumentacji, rejestr odchyleń, macierz kompatybilności, implementation intelligence, D21, obserwacja z wdrożenia, model i firmware"
+  slowa: "odchylenie od OCPP, vendor quirk, dziwne zachowanie ładowarki, błąd firmware, producent łamie specyfikację, niezgodność z OCPP, walidacja ramek, schemat JSON OCPP, ocpp_frame_check, surowe ramki, log OCPP, certyfikat OCA, certyfikacja OCPP, certified products, profil certyfikacji, Core, Advanced Security, Smart Charging, ISO 15118 Support, PICS, deklaracja zgodności, test case, TC_F_02_CS, OCTT, errata, niespójność dokumentacji, rejestr odchyleń, macierz kompatybilności, implementation intelligence, D21, obserwacja z wdrożenia, model i firmware, analiza logu, ocpp_log_analyze, sekwencja ramek, brak odpowiedzi na CALL, powtórzony messageId, luka seqNo, transactionId -1, licznik maleje, rozjazd zegara"
 ---
 
 # EVSE Diagnostics Expert — norma czy implementacja
@@ -41,8 +41,9 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
    ```
    Pierwsza linia wyniku: `Werdykt: OK` albo `Werdykt: BŁĘDY (…)`. Schematy pobierasz z pakietu OCA
    (`sources/oca-ocpp.yaml`), nie z bibliotek. Skrypt potrzebuje pakietu `jsonschema`.
-3. **Sprawdź zachowanie wobec wymagań** (sekwencja, statusy, czasy): wymaganie z części 2 (np. F02.FR.07) albo z 1.6 i
-   jego errat. Gdy dokumenty się różnią, rozstrzygają schemat i errata (`references/metoda.md`, sekcja 4).
+3. **Sprawdź zachowanie wobec wymagań** (sekwencja, statusy, czasy): najpierw analizator logu
+   (`scripts/ocpp_log_analyze.py <log.jsonl>`, `references/metoda.md` sekcja 2a), potem wymaganie z części 2
+   (np. F02.FR.07) albo z 1.6 i jego errat. Gdy dokumenty się różnią, rozstrzygają schemat i errata (`references/metoda.md`, sekcja 4).
 4. **Sprawdź deklaracje producenta:**
    - certyfikat OCA (wersja, typ certyfikatu, profile, wersja oprogramowania) na liście certyfikowanych produktów
      `[OCA-LIST]`;
@@ -76,4 +77,5 @@ specyfikacji 1.6.”
 
 ## Źródła
 `sources/oca-ocpp.yaml` (16, 16E, J16, J16E, S16, 201-P2…P6, OCA-CERT, OCA-LIST, PICS-CS). Pobrane 2026-11-07.
-Skrypt: `scripts/ocpp_frame_check.py`, testy: `tests/test_ocpp_frame_check.py`.
+Skrypty: `scripts/ocpp_frame_check.py` (schematy ramek), `scripts/ocpp_log_analyze.py` (sekwencja i czasy); testy:
+`tests/test_ocpp_frame_check.py`, `tests/test_ocpp_log_analyze.py`.
