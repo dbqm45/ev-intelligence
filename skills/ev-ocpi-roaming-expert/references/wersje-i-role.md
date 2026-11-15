@@ -17,6 +17,24 @@ Rozbieżności w źródłach EVRF:
   Nowsze jest źródło `[EVRF-DL]`;
 - plik „OCPI-2.2.1-d2.pdf” ma na stronie tytułowej „document version 2.2.1-d3-pre1, 2023-09-07” `[OCPI221]`.
 
+## Rewizje dokumentu: 2.2.1 → 2.2.1-d2 `[OCPI221 §1.1]` `[OCPI221 §17.1]`
+- 2.2.1-d2 to „documentation release”: nie zmienia wymagań wobec 2.2.1, tylko opisuje je jaśniej `[OCPI221 §1.1]`.
+- Zmiany według changelogu `[OCPI221 §17.1]` (ta sama lista w `[OCPI230 §18.2]`), m.in.:
+  - przeredagowana i przepisana dokumentacja Tariffs i `step_size`;
+  - usunięty z modułu CDRs wymóg, by każdy `charging_period` miał inną taryfę (sprzeczny z innymi zdaniami modułu);
+  - nota wyjaśniająca Base64 w nagłówku `Authorization` i dokładniejszy opis kodowania;
+  - wyjaśnienie, dlaczego moduł Tariffs nic nie mówi o zaokrąglaniu cen;
+  - nota, że CPO powinni unikać sprzętowych identyfikatorów jako `EVSE.uid`;
+  - bardziej praktyczna rada, jak ustawić `role` w obiekcie Endpoint dla modułu credentials;
+  - eMSP może zastąpić `session_id` nadany przez CPO przy wymianie profili ładowania ze SCSP;
+  - przykłady bez końcowych ukośników w URL, poprawione przykłady i diagramy (m.in. „GET” → „PUT” na diagramie
+    Broadcast Push).
+- `[OCPI221-CH]` opisuje zmiany **2.2 → 2.2.1** (np. kod 4000, `country_code` i `party_id` w `CdrToken`), a nie
+  2.2.1 → d2. Te same zmiany są w `[OCPI221 §17.2]`.
+- Treści pierwotnego dokumentu 2.2.1 (sprzed d2) w rejestrze nie ma. Porównań „2.2.1 vs d2” poza changelogiem nie da
+  się sprawdzić.
+- Tagów i edycji repozytorium github.com/ocpi/ocpi rejestr nie obejmuje. Nie są tu opisane.
+
 ## Co zmienia 2.3.0 względem 2.2.1 `[OCPI230 §1.1]`
 „Only the minimal changes to 2.2.1” potrzebne, by spełnić przepisy obowiązujące od 2025 i umożliwić rozszerzenia:
 - dodatkowe moduły, pola i wartości dla części enumów (rozszerzenia);
@@ -29,6 +47,33 @@ Rozbieżności w źródłach EVRF:
 
 2.2 względem 2.1.1 wprowadziło m.in. huby, nagłówki routingu, Hub Client Info, platformy z wieloma rolami,
 Charging Profiles, credit CDR i `CancelReservation` `[OCPI230 §1.3.1]`.
+
+Changelog 2.2.1-d2 → 2.3.0 `[OCPI230 §18.1]` dodaje do tej listy pole EVSE z kontraktami eMSP, które są akceptowane,
+i pole Location z numerem telefonu wsparcia.
+
+### Hub w Credentials: 2.3.0 a 2.2.1
+| | 2.2.1 `[OCPI221 §7.3.1]` | 2.3.0 `[OCPI230 §7.3.1]` |
+|---|---|---|
+| `hub_party_id` | brak pola | `CiString(5)`, opcjonalne: kod kraju (2) i `party_id` (3) huba sklejone w jeden ciąg |
+| `roles` huba | „A Hub SHALL only reports itself as role: Hub” i SHALL NOT zgłaszać tam innych stron | platformy huba „are expected to include” w `roles` strony osiągalne przez hub |
+| strony za hubem | SHALL być raportowane przez moduł HubClientInfo | w `roles`; moduł HubClientInfo nadal istnieje `[OCPI230 §15]` |
+| obowiązek | — | platforma z funkcją huba i nagłówkami routingu SHALL podać kraj i party ID huba w `hub_party_id` |
+Cel pola według §1.1: platformy z obsługą huba mogą łączyć się z platformami, które funkcji huba nie implementują.
+Changelog: „make hub clients be reported as normal credentials roles” `[OCPI230 §18.1]`. W 2.3.0 zdanie o braku związku
+`party_id` z EVSE ID i Contract ID mówi o formacie „eMI3/IDACS”, a w 2.2.1 o „eMI3”.
+
+### Migracja 2.2.1 → 2.3.0 (Wniosek)
+Procedura wyprowadzona z cytowanych faktów, nie wymaganie specyfikacji:
+1. Najpierw parser i walidatory tolerujące nieznane pola i nieznane wartości `OpenEnum`. W 2.3.0 odrzucanie z powodu
+   nieopisanych pól jest zabronione `[OCPI230 §4.1.8]`, a 2.2.1 tej reguły nie ma (`references/transport.md`).
+2. Obie platformy wystawiają 2.3.0 w endpoint versions. Jedna wysyła PUT na credentials **w wersji 2.3.0**. PUT przełącza
+   połączenie na wersję, do której należy endpoint, a serwer pobiera endpointy na nowo `[OCPI230 §7.1.2]`
+   `[OCPI230 §7.2.3]`.
+3. Hub: wypełnia `hub_party_id` i raportuje strony w `roles` `[OCPI230 §7.3.1]`. Partnerzy na 2.2.1 dalej dostają
+   strony przez HubClientInfo `[OCPI221 §7.3.1]`.
+4. Rejestr partnerów: partner, `country_code`/`party_id`, uzgodniona wersja i data PUT credentials.
+Specyfikacja nie opisuje równoległego utrzymywania połączeń 2.2.1 i 2.3.0 z tym samym partnerem.
+
 
 ## Role `[OCPI230 §2.3]`
 CPO, eMSP, NAP (krajowa baza punktów, dane są do niej wysyłane i z niej pobierane), NSP (informacja o lokalizacjach),
@@ -51,6 +96,32 @@ Tabela „typical”, a nie wymagania (Sender / Receiver / Both). Odczytana z PD
 | Tokens | Receiver | Sender | Both | | | | |
 | Payments | Receiver | | | | | | Sender |
 | Versions | Both | Both | Both | Both | Both | Both | Both |
+
+## Versions: wersje i endpointy `[OCPI230 §6]`
+- Moduł konfiguracyjny i punkt startowy połączenia. CPO i eMSP MUST implementować oba endpointy: version information
+  i version details `[OCPI230 §6.1]` `[OCPI230 §6.2]`.
+- Struktura URL jest dowolna. Dokładny adres endpointu versions przekazuje się partnerowi poza OCPI (offline)
+  `[OCPI230 §6.1]`.
+- Version information: lista `Version` (`version`, `url`) `[OCPI230 §6.1.2]`. Version details: `version` i lista
+  `Endpoint` (`identifier`, `role`, `url`) `[OCPI230 §6.2.1–6.2.2]`.
+- `role` (`InterfaceRole`): `SENDER` (interfejs właściciela danych, z którego Receiver robi pull) albo `RECEIVER`
+  (interfejs odbiorcy, na który Sender robi push) `[OCPI230 §6.2.3]`. Pole wprowadziło OCPI 2.2 `[OCPI230 §6.2]`.
+- Dla modułu credentials `role` nie ma znaczenia. Zalecane: wysyłać `SENDER` dla własnego endpointu i ignorować `role`
+  w endpointach credentials innych platform `[OCPI230 §6.2.2]`.
+- Strona, która jest CPO i eMSP (albo hub), może wystawić jeden endpoint wersji dla obu ról. Dwie takie strony
+  potrzebują jednego połączenia OCPI `[OCPI230 §6.2]`.
+- `ModuleID`: wymagany jest tylko `credentials`, pozostałe moduły są opcjonalne, choć mogą od siebie zależeć
+  `[OCPI230 §6.2.4]`. `VersionNumber`: 2.0, 2.1 (DEPRECATED), 2.1.1, 2.2 (DEPRECATED), 2.2.1, 2.3.0 `[OCPI230 §6.2.5]`.
+- Moduły własne: rozszerzenie `ModuleID`, wysyłane MAY tylko partnerom z umową na ten moduł. Zalecany prefiks, np.
+  kod kraju + `party_id` (`nltnm-tokens`) `[OCPI230 §6.2.5.1]`.
+- Zmiana listy endpointów w bieżącej wersji: PUT na credentials partnera w tej wersji, a partner pobiera endpointy
+  ponownie `[OCPI230 §6.2]` `[OCPI230 §7.1.3]`.
+- Przejście na nowszą wersję: gdy obie platformy ją wdrożyły, jedna wysyła PUT na endpoint credentials drugiej w nowej
+  wersji `[OCPI230 §7.1.2]`. PUT przełącza wersję, jeśli jest inna niż bieżąca. Serwer MUST pobrać endpointy klienta
+  ponownie, także bez zmiany wersji, i wygenerować nowy credentials token. PUT od niezarejestrowanego klienta → HTTP
+  405 `[OCPI230 §7.2.3]`.
+Zdania z §6.2.2, §6.2.5.1 i §7.2.3 mają identyczne brzmienie w `[OCPI221]` (porównanie ciągów 2026-11-15). W 2.2.1
+`ModuleID` i `VersionNumber` są typu `enum` `[OCPI221 §6.2.4–6.2.5]`, w 2.3.0 `OpenEnum`.
 
 ## Topologie `[OCPI230 §3]`
 Peer-to-peer (także wiele połączeń, wiele tych samych ról, role podwójne i mieszane), platformy przez hub oraz przez hub

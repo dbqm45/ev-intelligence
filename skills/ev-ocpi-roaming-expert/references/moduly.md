@@ -10,6 +10,7 @@
 5. Tariffs i `step_size`
 6. Tokens i autoryzacja
 7. Commands
+8. Interfejsy i metody modułów
 
 ## 1. Credentials — rejestracja `[OCPI230 §7.1.1]`
 1. Platformy ustalają poza OCPI, która jest Senderem modułu Credentials.
@@ -19,11 +20,36 @@
 4. Receiver zapisuje token B, pobiera nim wersje i endpointy Sendera, po czym zwraca `CREDENTIALS_TOKEN_C` w odpowiedzi
    na POST.
 5. Sender SHALL używać tokenu C w kolejnych żądaniach. Token A „MAY no longer be used”.
-Pozostałe przypadki (nowsza wersja, zmiana endpointów, reset tokenu, błędy, brak wymaganych endpointów): §7.1.2–7.1.6.
+
+Metody na endpoincie credentials `[OCPI230 §7.2]`. Moduł jest symetryczny: każda implementacja go wystawia i woła u
+partnera.
+| Metoda | Działanie | Kiedy HTTP 405 |
+|---|---|---|
+| GET | zwraca obiekt credentials do platformy serwera (z danymi firmy) | — |
+| POST | rejestracja: serwer pobiera endpointy klienta, generuje nowy token i zwraca poświadczenia | klient już zarejestrowany |
+| PUT | aktualizacja: przełącza na wersję tego endpointu, serwer zawsze pobiera endpointy na nowo i generuje nowy token | klient jeszcze niezarejestrowany |
+| PATCH | n/a | — |
+| DELETE | wyrejestrowanie: poświadczenia nieważne, obie strony kończą automatyczną komunikację | klient niezarejestrowany |
+Źródła wierszy: `[OCPI230 §7.2.1]`, `[OCPI230 §7.2.2]`, `[OCPI230 §7.2.3]`, `[OCPI230 §7.2.4]`.
+
+Pozostałe przypadki:
+- Nowsza wersja: gdy obie platformy ją wdrożą, jedna wysyła PUT na credentials drugiej w tej wersji. Receiver poznaje
+  wersję po użytym endpoincie `[OCPI230 §7.1.2]`.
+- Zmiana endpointów bieżącej wersji: ta sama procedura (PUT) dla tej samej wersji `[OCPI230 §7.1.3]`.
+- Zmiana poświadczeń lub reset tokenu: PUT nowych poświadczeń na credentials bieżącej wersji. Przy podejrzeniu
+  wycieku platforma SHALL zainicjować wymianę tokenu „as soon as possible”. Specyfikacja zaleca („advisable”) odnawiać
+  tokeny co najmniej raz w miesiącu, na wypadek niewykrytego wycieku `[OCPI230 §7.1.4]`.
+- Błąd przy łączeniu zwrotnym serwera w trakcie rejestracji: serwer „should” dodać kod 3001 do odpowiedzi na POST
+  `[OCPI230 §7.1.5]`.
+- Brak oczekiwanych endpointów (np. CPO chce CDRs u eMSP): Sender nie wysyła POST, loguje i powiadamia administratora.
+  Receiver w tej sytuacji odpowiada kodem 3003 `[OCPI230 §7.1.6]`.
 Błędy rejestracji: kody 3001 (nie można użyć API klienta), 3002 (nieobsługiwana wersja), 3003 (brak wspólnych lub
 wymaganych endpointów) `[OCPI230 §5.3]`.
 
 ## 2. Locations (właściciel danych: CPO) `[OCPI230 §8.1]`
+- Zależność: „the Receiver endpoint is dependent on the Tariffs module” `[OCPI230 §8]`. Taryfy złącza wskazuje
+  `Connector.tariff_ids` `[OCPI230 §8.3.3]`. **Wniosek:** eMSP z interfejsem Receiver Locations powinien obsłużyć też
+  Tariffs, inaczej nie rozwiąże `tariff_ids`.
 - Location → EVSE (1:n) → Connector (1:n). Aktualizować można całą Location, jedno EVSE albo jeden Connector.
 - Nowa Location: PUT na Receiverze (eMSP). Zmiany: PATCH tylko ze zmienionymi polami. Bez push eMSP robi GET
   „regularly … but not too often”.
@@ -41,6 +67,26 @@ wymaganych endpointów) `[OCPI230 §5.3]`.
   `[OCPI230 §8.4.24]`.
 - Prywatne lokalizacje SHALL NOT być publikowane. Lokalizacje niedostępne publicznie ani w roamingu: zaleca się ich
   nie wysyłać (§8.1.1).
+- Identyfikatory i długości `[OCPI230 §8.3.1, §8.3.2]`:
+| Pole | Typ | Uwagi |
+|---|---|---|
+| `Location.id` | `CiString(36)` | nie może się zmieniać |
+| `EVSE.uid` | `CiString(36)` | identyfikator „techniczny”, unikalny w platformie CPO, nie może się zmieniać; nie służy jako identyfikator czytelny dla człowieka |
+| `EVSE.evse_id` | `CiString(48)`, opcjonalne | czytelny identyfikator w formacie dokumentu „E-mobility ID-codes” (evroaming.org); można go usunąć z EVSE o statusie `REMOVED`, gdy `evse_id` ma być użyty ponownie |
+| `EVSE.physical_reference` | `string(16)`, opcjonalne | numer lub napis na obudowie do identyfikacji wzrokowej |
+  CPO „will typically want to avoid” identyfikatorów sprzętu w `EVSE.uid`: po przeniesieniu urządzenia do innej Location
+  złamałby unikalność, bo EVSE nie usuwa się `[OCPI230 §8.3.2]`. Ta uwaga doszła w 2.2.1-d2 `[OCPI230 §18.2]`.
+  W `[OCPI221 §8.3.2]` `evse_id` odsyła do eMI3 V1.0 Part 2, a w 2.3.0 do „E-mobility ID-codes”. Samego formatu nie
+  opisujemy: żaden z tych dokumentów nie jest w rejestrze.
+- Nowe w 2.3.0 w Locations `[OCPI230 §18.1]`:
+  - obiekt `Parking` (lista `Location.parking_places`, odwołania `EVSE.parking`), m.in. typ pojazdu `[OCPI230 §8.3.4]`;
+  - `EVSE.accepted_service_providers`: nazwy eMSP, których umowy są akceptowane. Pole dodano dla europejskich CPO
+    (raportowanie do NAP); gdy wymóg nie obowiązuje, można je pominąć `[OCPI230 §8.3.2]`;
+  - `Location.help_phone` (`CiString(25)`): numer pomocy dla kierowcy `[OCPI230 §8.3.1]`;
+  - `ConnectorCapability` `ISO_15118_2_PLUG_AND_CHARGE`, `ISO_15118_20_PLUG_AND_CHARGE`. Mają sygnalizować, że kierowca
+    może z funkcji skorzystać; samo wsparcie normy przez sprzęt nie wystarcza `[OCPI230 §8.4.4]`;
+  - typy złączy, m.in. `MCS`, `SAE_J3400` (brak ich w `[OCPI221 §8.4.5]`); `TESLA_S` jest mechanicznie zgodny z J3400
+    `[OCPI230 §8.4.6]`.
 - Statusy EVSE `[OCPI230 §8.4.26]`:
 | Wartość | Znaczenie |
 |---|---|
@@ -63,6 +109,36 @@ wymaganych endpointów) `[OCPI230 §5.3]`.
   - `COMPLETED` (zakończona, bez dalszych zmian);
   - `INVALID` (nieważna, nie będzie rozliczona);
   - `RESERVATION` (sesja z rezerwacji, ładowanie jeszcze nie ruszyło).
+- PUT na istniejącą Session zastępuje cały obiekt. `charging_periods` zastępuje się w całości. Brak pola albo pusta
+  lista usuwa istniejące okresy `[OCPI230 §9.2.2.2]`.
+- PATCH `[OCPI230 §9.2.2.3]`:
+  - SHALL zawierać `last_updated`; pola pominięte pozostają bez zmian;
+  - działa tylko na całej Session: nie wolno dokładać segmentów URL, by PATCH-ować obiekty wewnętrzne;
+  - `charging_periods` w PATCH to żądanie **dopisania** okresów. Brak pola albo pusta lista nic nie zmienia;
+  - zastąpić lub usunąć okresy można tylko PUT-em całej Session.
+  **Wniosek:** ponowione (np. po timeoucie) PATCH z tymi samymi okresami dopisze je drugi raz. Specyfikacja nie
+  przewiduje deduplikacji. Bezpieczniej ponawiać PUT-em całej Session.
+- `total_cost` to cena, którą eMSP zapłaci CPO. `0.00` oznacza bezpłatnie, a brak pola nie oznacza, że sesja była
+  bezpłatna `[OCPI230 §9.3.1]`.
+- GET listy u CPO (Sender): `date_from` jest wymagany, `date_to` nie. Filtr po `last_updated`: `date_from` włącznie,
+  `date_to` wyłącznie `[OCPI230 §9.2.1.1]`.
+- Rezerwacja `[OCPI230 §9.1.4]`: przy rezerwacji Sender SHALL utworzyć nową Session (w push CPO SHALL ją wysłać). Gdy rezerwacja kończy się
+  ładowaniem tym samym tokenem, status przechodzi na `ACTIVE`; gdy nie, SHALL przejść na `COMPLETED`. CDR może
+  powstać bez energii, tylko za koszt rezerwacji. `evse_uid` i `connector_id` mogą mieć wartość `#NA`, gdy EVSE lub
+  złącze nie jest jeszcze przydzielone `[OCPI230 §9.3.1]`.
+  Rozbieżność: §9.1.4 pisze „status = RESERVED”, a `SessionStatus` nie ma tej wartości, tylko `RESERVATION`
+  `[OCPI230 §9.4.3]` (`RESERVED` jest statusem EVSE, §8.4.26). To samo w `[OCPI221 §9.1.4]`. Rozstrzygnięcie: enum,
+  czyli `RESERVATION`.
+- Charging Preferences `[OCPI230 §9.1.3, §9.2.1.2]`:
+  - eMSP w trakcie sesji wysyła PUT na `{sessions_endpoint_url}/{session_id}/charging_preferences` (interfejs Sender,
+    u CPO). Sufiks `/charging_preferences` jest wymagany;
+  - wsparcie EVSE: `CHARGING_PREFERENCES_CAPABLE` w `EVSE.capabilities` `[OCPI230 §8.4.3]`;
+  - `ChargingPreferences`: `profile_type` (wymagane: `CHEAP`, `FAST`, `GREEN`, `REGULAR`), `departure_time`,
+    `energy_need` (kWh), `discharge_allowed` (domyślnie `false`). Dla każdego obsługiwanego `ProfileType` MUST
+    istnieć taryfa `[OCPI230 §9.3.2, §9.4.2]`;
+  - odpowiedź `ChargingPreferencesResponse`: `ACCEPTED` (bez gwarancji spełnienia), `DEPARTURE_REQUIRED`,
+    `ENERGY_NEED_REQUIRED`, `NOT_POSSIBLE`, `PROFILE_TYPE_NOT_SUPPORTED`. EVSE bez tej capability: odbiorca „should”
+    odpowiedzieć HTTP 404 i kodem 2001 `[OCPI230 §9.4.1]`.
 
 ## 4. CDRs i credit CDR (właściciel danych: CPO) `[OCPI230 §10]`
 - CDR to „the only billing-relevant object”, wysyłany po zakończeniu sesji. Wysyłka „as soon as possible” to dobra
@@ -103,6 +179,33 @@ Wytyczne uproszczenia taryf dla 2.3.0: `[OCPI-TSG]` (nieopracowane w tym skillu)
   - `NEVER` — tylko real-time.
 - `valid = false` nie zwalnia z real-time, gdy wymaga tego `whitelist`: CPO SHALL wykonać zapytanie, bo stan tokenu mógł
   się zmienić.
+- Obiekt `Token` `[OCPI230 §12.3.2]`: `country_code`, `party_id`, `uid` (`CiString(36)`), `type`, `contract_id`,
+  `visual_number`, `issuer`, `group_id` (`CiString(36)`), `valid`, `whitelist`, `language`, `default_profile_type`,
+  `energy_contract`, `last_updated`.
+  - para `uid` + `type` „should be unique” w systemie eMSP. **Wniosek:** ten sam `uid` może istnieć w kilku typach,
+    więc klucz w pamięci CPO to para, nie samo `uid`;
+  - `group_id` łączy tokeny (start jednym, stop drugim). OCPP 1.5/1.6 obsługuje `parentId` do 20 znaków, więc
+    specyfikacja radzi nie przekraczać 20, dopóki kierowca może ładować na takich stacjach.
+- Usuwania nie ma: unieważnienie to `valid = false` wysłane PUT-em albo PATCH-em `[OCPI230 §12.1.1]`. Receiver Tokens
+  nie ma DELETE („Tokens cannot be removed”) `[OCPI230 §12.2.1]`.
+- Parametr `?type=`: opcjonalny w GET i PUT u CPO oraz w POST authorize; domyślnie `RFID` `[OCPI230 §12.2.1.1,
+  §12.2.1.2, §12.2.2.2]`.
+- `TokenType` `[OCPI230 §12.4.4]`: `AD_HOC_USER` (jednorazowy, generowany przez serwer lub aplikację), `APP_USER`
+  (stały dla użytkownika aplikacji), `EMAID`, `OTHER`, `RFID`. W 2.3.0 to `OpenEnum`. `[OCPI221 §12.4.4]` ma zamknięty
+  `enum` bez `EMAID`. Uwagi specyfikacji:
+  - `AD_HOC_USER` i `APP_USER`: RECOMMENDED wysyłać z `whitelist = NEVER`, bo whitelist nic im nie daje;
+  - `EMAID` (ISO 15118): RECOMMENDED w ogóle ich nie wysyłać. CPO poznaje wystawcę ze stacji i pyta go real-time;
+  - zarządzanie certyfikatami kontraktu ISO 15118 jest poza OCPI 2.3.0. PKI: skill `ev-iso15118-pki-expert`.
+- Tokenów `AD_HOC_USER` i `APP_USER` eMSP nie musi wcześniej wysyłać modułem Tokens, gdy idą tylko w komendach. CPO nie
+  musi ich zapisywać ani zwracać w GET, ale dane tokenu SHALL trafić do Session i CDR `[OCPI230 §13.3.5]`.
+- Real-time `POST {tokens_endpoint_url}{token_uid}/authorize[?type=]` `[OCPI230 §12.2.2.2]`:
+  - ciało: opcjonalne `LocationReferences` (`location_id`, `evse_uids`) `[OCPI230 §12.4.3]`;
+  - token nieznany: HTTP 404 i kod 2004, bez pola `data`;
+  - za mało informacji (brak `LocationReferences`), by rozstrzygnąć: kod 2002;
+  - token znany: `AuthorizationInfo` z `allowed`, `token`, opcjonalnie `location` (tylko EVSE, na których wolno
+    ładować), `authorization_reference` (trafia do Session i CDR), `info` `[OCPI230 §12.3.1]`;
+  - `AllowedType`: `ALLOWED`, `BLOCKED`, `EXPIRED`, `NO_CREDIT`, `NOT_ALLOWED` (token ważny, ale nie w tej lokalizacji)
+    `[OCPI230 §12.4.1]`.
 
 ## 7. Commands `[OCPI230 §13]`
 - Moduł jest asynchroniczny (§13.1):
@@ -120,6 +223,42 @@ Wytyczne uproszczenia taryf dla 2.3.0: `[OCPI-TSG]` (nieopracowane w tym skillu)
   - `ACCEPTED` w obu krokach, ale brak sesji, bo EV nie został podłączony przed timeoutem (Figure 28);
   - stacja odrzuca start bez wpiętego kabla → `CommandResult` `FAILED` (Figure 29);
   - nieznana Location → `status_code` 2003 i `REJECTED` (Figure 32).
+- `StartSession` `[OCPI230 §13.3.5]`: `response_url`, `token` (autoryzowany przez eMSP), `location_id`, opcjonalnie
+  `evse_uid` (wymagany, gdy jest `connector_id`), `connector_id` (wymagany przy capability
+  `START_SESSION_CONNECTOR_REQUIRED` na EVSE, `[OCPI230 §8.4.3]`), `authorization_reference`. Bez `evse_uid` stacja
+  sama wybiera EVSE (nie każda to obsługuje). eMSP SHALL używać tylko własnych tokenów.
+- `ReserveNow` `[OCPI230 §13.3.4]`: `response_url`, `token`, `expiry_date`, `reservation_id`, `location_id`, opcjonalnie
+  `evse_uid` i `authorization_reference`. Ten sam `reservation_id` w tej samej Location zastępuje rezerwację. Udana
+  rezerwacja tworzy Session; niewykorzystana MAY kosztować i dać CDR. CPO SHALL NOT przekazywać `reservation_id` eMSP
+  wprost do stacji: sam zapewnia unikalny identyfikator rezerwacji na stacji.
+- Anulowanie rezerwacji przez CPO `[OCPI230 §13.1]`: CPO wysyła `CommandResult` `CANCELED_RESERVATION` na ten sam
+  `response_url`, który dostał w `RESERVE_NOW` (Figure 35). Specyfikacja: „not to be taken lightly”, tylko gdy CPO jest do
+  tego zmuszony, np. awaria punktu albo roboty drogowe.
 - `START_SESSION`: CPO „should not check the Token” przed wysłaniem do stacji i zakłada, że eMSP wysyła tylko ważne
   tokeny. Jeśli stacja zrobi OCPP Authorize, CPO robi real-time tylko wtedy, gdy to token RFID, a `START_SESSION` dla
   niego przyszło ponad 15 minut wcześniej (§13.1).
+
+## 8. Interfejsy i metody modułów
+Metody niewymienione mają w specyfikacji „n/a”. Rejestr endpointów i role: `references/wersje-i-role.md`. Paginacja:
+`references/transport.md`.
+| Moduł | Interfejs (typowo) | URL | Metody |
+|---|---|---|---|
+| `credentials` | symetryczny | `{credentials_endpoint_url}` | GET, POST, PUT, DELETE `[OCPI230 §7.2]` |
+| `locations` | Sender (CPO) | `{locations_endpoint_url}` z `date_from`, `date_to`, `offset`, `limit`; obiekt: `/{location_id}[/{evse_uid}][/{connector_id}]` | GET (lista lub obiekt) `[OCPI230 §8.2.1]` |
+| `locations` | Receiver (eMSP, NSP) | `/{country_code}/{party_id}/{location_id}[/{evse_uid}][/{connector_id}]` | GET, PUT, PATCH; bez POST (PUT) i DELETE (PATCH na `REMOVED`) `[OCPI230 §8.2.2]` |
+| `sessions` | Sender (CPO) | lista z `date_from` (wymagany); `/{session_id}/charging_preferences` | GET, PUT `[OCPI230 §9.2.1]` |
+| `sessions` | Receiver (eMSP, SCSP) | `/{country_code}/{party_id}/{session_id}` | GET, PUT, PATCH `[OCPI230 §9.2.2]` |
+| `cdrs` | Sender (CPO) | lista z `date_from`, `date_to`, `offset`, `limit` | GET `[OCPI230 §10.2.1]` |
+| `cdrs` | Receiver (eMSP) | `{cdr_endpoint_url}`; URL utworzonego CDR wraca w nagłówku `Location` | GET, POST; bez PUT, PATCH, DELETE `[OCPI230 §10.2.2, §10.2.2.2]` |
+| `tariffs` | Sender (CPO) | lista | GET `[OCPI230 §11.2.1]` |
+| `tariffs` | Receiver (eMSP, NSP) | `/{country_code}/{party_id}/{tariff_id}` | GET, PUT, DELETE (taryfa już nieużywana) `[OCPI230 §11.2.2]` |
+| `tokens` | Receiver (CPO) | `/{country_code}/{party_id}/{token_uid}[?type={type}]` | GET, PUT, PATCH; bez DELETE `[OCPI230 §12.2.1]` |
+| `tokens` | Sender (eMSP) | lista; `{token_uid}/authorize[?type={type}]` | GET, POST (real-time) `[OCPI230 §12.2.2]` |
+| `commands` | Receiver (CPO) | `{commands_endpoint_url}{command}` | POST `[OCPI230 §13.2.1]` |
+| `commands` | Sender (eMSP) | `response_url` z żądania; struktury OCPI nie definiuje | POST (`CommandResult`) `[OCPI230 §13.2.2]` |
+- Obiekty Locations, Sessions, Tariffs i Tokens to Client Owned Objects: URL Receivera zawiera `{country_code}` i
+  `{party_id}` `[OCPI230 §8.2.2, §9.2.2, §11.2.2, §12.2.1]`. Przy PUT te segmenty SHALL równać się polom pchanego
+  obiektu `[OCPI230 §9.2.2.2, §12.2.1.2]`.
+- Przed DELETE taryfy RECOMMENDED sprawdzić, że żaden `Connector.tariff_ids` jej nie wskazuje `[OCPI230 §11.2.2.3]`.
+- `response_url` warto robić unikalnym dla każdego żądania (np. id w segmencie), żeby rozróżnić równoległe komendy
+  `[OCPI230 §13.2.2.1]`.
