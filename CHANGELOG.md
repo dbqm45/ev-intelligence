@@ -3,6 +3,15 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.8] — 2026-11-15
+### Added
+- **billing:** add OCPI tariff calculator and pack-ev pricing knowledge
+- **ocpi:** merge pack-ev OCPI and OICP knowledge into ev-ocpi-roaming-expert
+- **diagnostics:** add OCPP log sequence and timing analyzer
+- **ocpp:** add 1.6 status transitions, boot and stop rules, Device Model reports
+### Fixed
+- **sources:** PSD2 is registered, keep only PCI DSS as unavailable
+
 ## [0.1.7] — 2026-11-08
 ### Fixed
 - **billing:** name TxResumed in interrupted session reference
