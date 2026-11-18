@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.9] — 2026-11-18
+### Added
+- **ocpi:** add Sessions, CDR, Tokens and Payments module mechanics
+
 ## [0.1.8] — 2026-11-15
 ### Added
 - **billing:** add OCPI tariff calculator and pack-ev pricing knowledge
