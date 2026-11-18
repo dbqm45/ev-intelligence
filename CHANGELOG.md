@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.10] — 2026-11-18
+### Added
+- **compliance:** add Polish electromobility act articles and AFIR targets
+
 ## [0.1.9] — 2026-11-18
 ### Added
 - **ocpi:** add Sessions, CDR, Tokens and Payments module mechanics
