@@ -37,7 +37,7 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 |---|---|
 | `references/wersje-i-role.md` | status wersji (2.2.1, 2.3.0, 3.0), moduł Versions, rewizje dokumentu, hub w Credentials (`hub_party_id`), migracja 2.2.1 → 2.3.0, role i moduły per rola, topologie, rozszerzenia EVRF |
 | `references/transport.md` | Authorization i Base64, PUT/PATCH i obiekty klienta, push/pull, paginacja, nieznane pola i `OpenEnum`, Broadcast Push, Open Routing, GET All, ID żądań, kody statusu, objaw → hipoteza |
-| `references/moduly.md` | Credentials A/B/C i rotacja tokenu, Locations i identyfikatory EVSE, Sessions (PUT/PATCH `charging_periods`, rezerwacje, Charging Preferences), CDR i credit CDR, Tariffs, Tokens i autoryzacja real-time, Commands, tabela URL i metod modułów |
+| `references/moduly.md` | Credentials A/B/C i rotacja tokenu, Locations i identyfikatory EVSE, Sessions (PUT/PATCH `charging_periods`, rezerwacje, Charging Preferences), CDR (push/pull, POST i `Location`, credit CDR, `id` ≤ 36), Tariffs, Tokens i autoryzacja real-time (kody 2001–2004), Commands, Payments 2.3.0 (interfejsy PTP i CPO), tabela URL i metod modułów |
 | `references/ochp.md` | OCHP 1.4 / OCHPdirect 0.2: status wersji, clearing house, usługi, walidacja CDR i statusy, tokeny, status live z TTL, SOAP, porównanie z OICP i OCPI |
 | `references/oicp.md` | OICP 2.3 / Hubject: wersje usług, HBS i ID, autoryzacja (offline, EvcoID, broadcast), CDR i Eichrecht, EVSE Data/Status, Dynamic Pricing, kody, limity, porównanie i mapowanie z OCPI |
 
@@ -101,6 +101,10 @@ a sesji nie ma.”
 - `UNLOCK_CONNECTOR` jest tylko dla operatora lub eMSP: „SHALL never be allowed to be sent directly by the EV-Driver”
   `[OCPI230 §13.4.3]`.
 - Hub przekazując żądanie SHALL nadać nowy `X-Request-ID`, a `X-Correlation-ID` zostaje ten sam `[OCPI230 §4.2]`.
+- Ponowiony PATCH sesji z `charging_periods` dopisuje okresy drugi raz; zastąpienie albo usunięcie okresów to PUT
+  całej sesji `[OCPI230 §9.2.2.3]`.
+- Zwykły CDR ma `id` najwyżej 36 znaków, choć pole to `CiString(39)`: zapas jest na przyrostek Credit CDR
+  `[OCPI230 §10.3.1]`.
 
 ## Źródła
 Dokumenty, adresy i sumy SHA-256: `sources/evrf-ocpi.yaml` (pobrane ze stron EVRF 2026-11-07) i
