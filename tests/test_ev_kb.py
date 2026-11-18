@@ -131,6 +131,16 @@ class TestLocate(unittest.TestCase):
         self.assertIn("charging session", parts[0].excerpt)
         self.assertEqual(self.status("§11.9"), ["NIE_ZNALEZIONO"])   # tylko w spisie treści
 
+    def test_block_letter_scopes_section(self):
+        doc = "\n".join(["E. Transactions . . . . . . . 10", "A. Security", "1.3. Security profiles", "text",
+                          "E. Transactions", "1.2. Transaction IDs", "text", "R. DER Control", "1.3. DER curves"])
+        st = lambda r: [p.status for p in ev_kb.locate(r, doc)]   # noqa: E731
+        self.assertEqual(st("E §1.2"), ["OK"])
+        self.assertEqual(st("E §1.3"), ["NIE_ZNALEZIONO"])        # §1.3 jest tylko w blokach A i R
+        self.assertEqual(st("R §1.3"), ["OK"])                    # tytuł bloku z wielkimi literami („DER”)
+        self.assertEqual(ev_kb.locate("E §1.2", doc)[0].line, 6)
+        self.assertEqual(st("§1.3"), ["OK"])                      # bez litery: cały dokument
+
     def test_chapter_and_ranges(self):
         self.assertEqual(self.status("§2"), ["OK"])
         self.assertEqual(self.status("rozdz. 2"), ["OK"])

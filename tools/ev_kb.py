@@ -213,6 +213,11 @@ def _section_pattern(num: str) -> re.Pattern:
     return re.compile(r"^\s*" + re.escape(num) + r"\.?(\s|$)" + alt)
 
 
+def _block_pattern(letter: str) -> re.Pattern:
+    """Nagłówek bloku OCPP 2.x w części 2: „E. Transactions” (litera, kropka, tytuł od wielkiej litery)."""
+    return re.compile(r"^" + letter + r"\.\s+[A-Z][A-Za-z]")
+
+
 def locate(rest: str, text: str) -> list[PartResult]:
     """Rozbija lokalizator (np. '§10.3.1, §11.4.2', 'art. 5 ust. 4', 'I03.FR.04') i szuka każdej części."""
     lines = text.splitlines()
@@ -271,10 +276,10 @@ def locate(rest: str, text: str) -> list[PartResult]:
                     found = _find_line(lines, re.compile(r"^" + m.group(2) + r"\.\s+\S"), found + 1, nxt)
         # Blok OCPP 2.x: „I” → „I. Tariff And Cost”
         if not checked:
-            m = re.match(r"^([A-P])$", part)
+            m = re.match(r"^([A-Z])$", part)
             if m:
                 checked = True
-                found = _find_line(lines, re.compile(r"^" + m.group(1) + r"\.\s+[A-Z]"))
+                found = _find_line(lines, _block_pattern(m.group(1)))
         # Kotwica AsciiDoc (OICP): #eRoamingAuthorizeStart → wiersz „[[eRoamingAuthorizeStart]]”;
         # nagłówek Markdown (OCHP): #CDRInfo → „### CDRInfo *class*”, #Live Status Interface → „## Live Status Interface”
         if not checked:
@@ -305,9 +310,17 @@ def locate(rest: str, text: str) -> list[PartResult]:
             if m:
                 checked = True
                 nums = [m.group(1)] + ([m.group(2)] if m.group(2) else [])
+                lo, hi = 0, None
+                blk = re.match(r"^([A-Z])\s+§", part)        # blok OCPP 2.x: „E §1.3.2” → tylko w bloku E
+                if blk:
+                    lo = _find_line(lines, _block_pattern(blk.group(1)))
+                    if lo is None:
+                        nums = []
+                    else:
+                        hi = _find_line(lines, _block_pattern("[A-Z]"), lo + 1)
                 for num in nums:
-                    found = _find_line(lines, _section_pattern(num))
-                    if found is None:                       # paragraf aktu PL/DE: „§ 17.” albo „§ 33”
+                    found = _find_line(lines, _section_pattern(num), lo, hi)
+                    if found is None and not blk:           # paragraf aktu PL/DE: „§ 17.” albo „§ 33”
                         found = _find_line(lines, re.compile(r"^\s*§\s*" + re.escape(num) + r"\.?(\s|$)"))
                     if found is None:
                         break
