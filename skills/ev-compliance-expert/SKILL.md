@@ -29,8 +29,8 @@ czytelnikowi.
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/prawo-pl.md` | role i obowiązki według ustawy, OSD, wymagania techniczne, badania UDT, EIPA, kary, rozbieżności z AFIR |
-| `references/afir-mapa.md` | obowiązki AFIR według adresata (państwa, operatorzy, MSP, NAP), cele mocy i TEN-T, relacja z prawem krajowym |
+| `references/prawo-pl.md` | role i obowiązki według ustawy, OSD, wymagania techniczne, badania i kontrole UDT (art. 29f), EIPA (art. 42), kary i odwołania, punkty w budynkach i garażach wielorodzinnych (art. 11–12c), plany gmin (art. 60–67), rozbieżności z AFIR |
+| `references/afir-mapa.md` | obowiązki AFIR według adresata (państwa, operatorzy, MSP, NAP), cele mocy i TEN-T dla pojazdów lekkich (art. 3, z odstępstwami) i ciężkich (art. 4), relacja z prawem krajowym |
 | `references/metrologia.md` | MID i MI-003, MessEG § 33, podpisane wartości pomiarowe w OCPP i OCPI, luki (MessEV, Prawo o miarach) |
 
 ## Procedura
@@ -41,7 +41,7 @@ czytelnikowi.
 3. **Obowiązki przed uruchomieniem (PL):** numer EIPA `[PL-EMOB art. 41b]`, wymagania techniczne `[PL-R1316]`, badanie
    UDT wstępne `[PL-EMOB art. 16]`, zgłoszenie do EIPA `[PL-EMOB art. 42 ust. 5]`.
 4. **Obowiązki w trakcie:** dostęp dla dostawców usług, dane do EIPA i NAP, konserwacja i pomiary według instrukcji,
-   badanie eksploatacyjne po naprawie lub modernizacji.
+   badanie eksploatacyjne po naprawie lub modernizacji, kontrola Prezesa UDT `[PL-EMOB art. 29f ust. 1]`.
 5. **Pomiar i rozliczenie:** czy kraj wymaga liczników legalizowanych (MID art. 3), podpisane wartości tam, gdzie wymaga
    tego prawo (DE).
 6. **Ryzyko:** kary i organ `[PL-EMOB art. 45]` `[PL-EMOB art. 46]`.
@@ -60,7 +60,8 @@ Fakty:
   natychmiast, ceny w ciągu godziny `[PL-EMOB art. 42 ust. 6]`. AFIR wymaga jednak aktualizacji danych dynamicznych do
   1 minuty `[AFIR-655 art. 2]`.
 - AFIR dla 150 kW: cena ad hoc za kWh i ewentualnie za minutę, kabel stały, terminal od 2027 na TEN-T `[AFIR art. 5]`.
-- Kary: m.in. 20 000 zł za stację za brak badania UDT; 5 000–150 000 zł za odmowę dostępu dostawcom usług
+- Kary: m.in. 20 000 zł za stację za brak badania UDT, 100 000 zł za eksploatację mimo decyzji po kontroli
+  `[PL-EMOB art. 45 ust. 2]`; 5 000–150 000 zł za odmowę dostępu dostawcom usług
   `[PL-EMOB art. 45]`.
 
 **Wniosek:** ceny publikujesz w obu kanałach (EIPA i NAP) z opóźnieniem do minuty, a badania UDT planujesz także po
@@ -73,8 +74,12 @@ każdej modernizacji. Treść normy PN-EN 62196-3 jest płatna i nieopracowana.
 - OSD nie może być operatorem ogólnodostępnej stacji ani dostawcą usługi (z wyjątkami) `[PL-EMOB art. 3a]`.
 - MID nie nakłada sam obowiązku liczników legalizowanych; decyduje państwo `[MID art. 3]`.
 - Nota OCA o podpisanych wartościach opisuje tylko transport do CSMS, nie pełną zgodność z Eichrecht `[OCA-AN-SMV §1]`.
+- Eksploatacja mimo decyzji wydanej po kontroli UDT to 100 000 zł za stację, nie 20 000 zł (ta kwota dotyczy braku
+  badania) `[PL-EMOB art. 45 ust. 2]` `[PL-EMOB art. 29f ust. 7]`.
+- Cele mocy i odległości TEN-T z AFIR art. 3 i 4 adresują państwa członkowskie, nie operatora; obowiązki operatora
+  są w art. 5 `[AFIR art. 3 ust. 4]` `[AFIR art. 4 ust. 1]`.
 
 ## Źródła
-`sources/pl-prawo.yaml` (PL-EMOB, PL-R1316), `sources/eu-afir.yaml` (AFIR art. 3, 5, 20, 25; AFIR-655),
+`sources/pl-prawo.yaml` (PL-EMOB, PL-R1316), `sources/eu-afir.yaml` (AFIR art. 2, 3, 4, 5, 20, 25; AFIR-OJ do porównania art. 3–4; AFIR-655),
 `sources/eu-inne.yaml` (MID), `sources/de-prawo.yaml` (DE-MESSEG-33), `sources/oca-ocpp.yaml` (OCA-AN-SMV),
 `sources/evrf-ocpi.yaml` (OCPI230 §10.4.7). Niedostępne: `sources/niedostepne.yaml`. Pobrane 2026-11-07.
