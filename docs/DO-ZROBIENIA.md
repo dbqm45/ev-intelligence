@@ -40,6 +40,7 @@ historii w commicie.
 |---|---|---|---|
 | `www.iea.org` | HTTP 403 mimo dodania do listy domen | IEA Global EV Outlook 2026 (raport CC BY 4.0, dane na licencji IEA innej niż CC) | sprawdzić, czy blokuje automatyczne pobieranie; ewentualnie pobrać ręcznie i podać plik |
 | `www.ochp.eu` | połączenie resetowane mimo dodania do listy | strona OCHP; specyfikacja jest już z GitHuba | prawdopodobnie strona nieczynna; nic nie robić |
+| `eur-lex.europa.eu` (od 2026-11-18) | HTTP 202 z `x-amzn-waf-action: challenge` (zapora CloudFront), także przez ELI `data.europa.eu/eli/…`; `publications.europa.eu` (CELLAR/SPARQL) odrzucony przez proxy | sprawdzenie, czy istnieje zmiana MID 2026/706 (MI-011, liczniki EVSE) — wg analizy pack-ev; jeśli tak, `ev-compliance-expert/references/metrologia.md` jest nieaktualny dla liczników DC; nowe akty UE z fali 3 | sprawdzić ręcznie w przeglądarce i podać plik HTML (SHA-256 policzymy) albo ponowić później; ewentualnie dodać `publications.europa.eu` do listy hostów |
 | `commission.europa.eu` | połączenie odrzucone przez proxy | nota prawna Komisji: warunki ponownego wykorzystania danych Eurostatu i EAFO | dodać host; potem zastąpić „[niesprawdzone]” w `sources/eu-dane.yaml` |
 
 Pełna lista zablokowanych hostów: `sources/niedostepne.yaml`, sekcja `hosty_zablokowane`.
