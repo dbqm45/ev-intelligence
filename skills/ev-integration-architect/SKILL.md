@@ -31,6 +31,7 @@ pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Do
 |---|---|
 | `references/ocpp-ocpi-polaczenie.md` | różnice OCPP i OCPI (offline, nieznane pola, korelacja), zasady OCPP-J, mapowanie na Locations, wiele złączy na EVSE, START_SESSION, szkielet bramy |
 | `references/migracja-i-rozszerzenia.md` | migracja stacji (1.6, 2.0.1, profil 3, przeszkody), co nie przenosi się samo (identyfikator, hasło, sloty profili sieci, lista lokalna, cache, profile ładowania, rezerwacje, `Inoperative`), transakcje przy przełączeniu, OCPI przy zmianie platformy, lista kontrolna migracji, rozszerzenia OCPP i OCPI, testy i macierz kompatybilności, rozbieżności |
+| `references/sesja-ocpp-ocpi.md` | przepływ jednej sesji: transakcja OCPP (1.6 Start/Stop/MeterValues, 2.0.1 `TransactionEvent`) → Session OCPI (statusy, PUT/PATCH, `charging_periods`, `last_updated`) → CDR; autoryzacja whitelist i real-time, `START_SESSION`, późna transakcja po offline, kWh z licznika, lista kontrolna |
 
 ## Procedura
 1. **Granice systemów:** kto jest właścicielem danych (stacja, CSMS, CPO, eMSP), jaki protokół na każdej granicy i w
@@ -82,6 +83,10 @@ Fakty:
   slot starego CSMS znika `[201-P2 A05.FR.06]`.
 - `Inoperative` ustawione przez CSMS wraca po restarcie także pod nowym CSMS; bez `ChangeAvailability(Operative)` z
   nowego systemu EVSE zostaje niedostępne `[201-P2 B11.FR.02]`.
+- `CommandResult(ACCEPTED)` na `START_SESSION` znaczy tylko, że stacja przyjęła polecenie; Session może nie powstać,
+  np. gdy kabel nie zostanie podłączony przed upływem czasu `[OCPI230 §13.1]`.
+- Wolumen `ENERGY` w OCPI to kWh według definicji `[OCPI230 §10.4.3]`, choć przykłady specyfikacji liczą w Wh
+  `[OCPI230 §9.3.1.1]`; OCPP podaje Wh, więc dzielisz przez 1000 (szczegóły: `references/sesja-ocpp-ocpi.md`).
 
 ## Źródła
 `sources/oca-ocpp.yaml` (16, J16, 201-P2 B09, B10, E13; 201-P4 §4, §5, §6; OCA-AN-MC; OCA-WP-MIG; OCA-WP-CUST; OCA-CERT;
