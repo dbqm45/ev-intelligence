@@ -104,6 +104,36 @@
       }
     },
     {
+   "id": "migracja-300-stacji",
+   "expect": "trigger",
+   "prompt": "Przenosimy 300 stacji OCPP 2.0.1 (profil 2) i 1.6 do nowego CSMS i nowej platformy OCPI. Co nie przeniesie się samo i w jakiej kolejności to robić?",
+   "checks": {
+    "all": [
+     ["SetNetworkProfile|NetworkConnectionProfile"],
+     ["NetworkConfigurationPriority"],
+     ["BasicAuthPassword|hasł\\w*"],
+     ["lista? lokaln\\w*|SendLocalList|cache|profil\\w* ładowania|rezerwac\\w*"],
+     ["credentials|rejestracj\\w*|REMOVED"]
+    ],
+    "none": []
+   }
+  },
+  {
+   "id": "pozna-transakcja-offline-cdr",
+   "expect": "trigger",
+   "prompt": "Nasz CSMS jest CPO w OCPI 2.2.1. Stacja OCPP 1.6 była offline 2 godziny i po powrocie wysłała StartTransaction i StopTransaction z transactionId -1. Jak to obsłużyć w CSMS i co wysłać do eMSP jako Session i CDR? Kiedy wolno wysłać CDR?",
+   "checks": {
+    "all": [
+     ["-1"],
+     ["kolejk\\w*|queue\\w*|chronologi\\w*|historyczn\\w*"],
+     ["COMPLETED"],
+     ["[Cc]redit|nie (wolno|można) (zmieni|popraw)\\w*|niezmienn\\w*"],
+     ["last_updated|date_from"]
+    ],
+    "none": []
+   }
+  },
+  {
       "id": "koszt-z-taryfy",
       "expect": "no-trigger",
       "prompt": "Jak policzyć koszt sesji z taryfy OCPI 2.3.0, gdy cena energii zmienia się o 17:00, a step_size wynosi 500?",

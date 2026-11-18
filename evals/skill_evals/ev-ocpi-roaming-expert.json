@@ -251,6 +251,20 @@
       }
     },
     {
+   "id": "session-patch-ponowienie-credit-cdr",
+   "expect": "trigger",
+   "prompt": "Jako CPO wysyłam sesję przez OCPI 2.2.1 PATCH-em z nowymi charging_periods, a po timeoucie ponawiam to samo żądanie. Co się stanie u eMSP i jak poprawnie poprawić CDR, który już wysłałem z błędną kwotą?",
+   "checks": {
+    "all": [
+     ["dopis\\w*|dodaj\\w*|dodan\\w*|append\\w*|dołącz\\w*|drugi raz|zdublow\\w*|podwój\\w*"],
+     ["PUT"],
+     ["[Cc]redit CDR|credit_reference_id"],
+     ["ujemn\\w*|negative|minus"]
+    ],
+    "none": []
+   }
+  },
+  {
       "id": "ocpp-callerror",
       "expect": "no-trigger",
       "neighbor": "ev-ocpp-expert",

@@ -67,6 +67,21 @@
    }
   },
   {
+   "id": "pl-garaz-wielorodzinny-kontrola-udt",
+   "expect": "trigger",
+   "prompt": "Mieszkaniec bloku (wspólnota, 40 lokali) chce zamontować wallbox 7,4 kW na swoim miejscu w garażu podziemnym. Jaka jest procedura zgody i kto płaci za ekspertyzę? Osobno: UDT zapowiedział kontrolę naszej ogólnodostępnej stacji po skardze klienta — co nam grozi, jeśli dostaniemy decyzję o wstrzymaniu, a dalej będziemy ładować? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["art\\.? ?12b|zwykłego zarządu"],
+     ["ekspertyz\\w*"],
+     ["30 dni"],
+     ["art\\.? ?29f|kontrol\\w* (Prezesa )?UDT"],
+     ["100 ?000 ?zł|100 tys"]
+    ],
+    "none": ["20 ?000 ?zł za eksploatacj\\w* mimo decyzji"]
+   }
+  },
+  {
    "id": "limit-stacji-profil",
    "expect": "no-trigger",
    "prompt": "Jak ustawić ChargingStationMaxProfile w OCPP 2.0.1, żeby ograniczyć stację do 32 A na fazę?",
