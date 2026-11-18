@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.11] — 2026-11-18
+### Added
+- **integration:** add what does not move by itself in CSMS migration
+
 ## [0.1.10] — 2026-11-18
 ### Added
 - **compliance:** add Polish electromobility act articles and AFIR targets
