@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.13] — 2026-11-18
+### Fixed
+- **kb:** scope OCPP block-letter section tags to their block
+
 ## [0.1.12] — 2026-11-18
 ### Added
 - **integration:** add end-to-end OCPP transaction to OCPI Session and CDR
