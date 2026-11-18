@@ -30,7 +30,7 @@ pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Do
 | Plik | Kiedy |
 |---|---|
 | `references/ocpp-ocpi-polaczenie.md` | różnice OCPP i OCPI (offline, nieznane pola, korelacja), zasady OCPP-J, mapowanie na Locations, wiele złączy na EVSE, START_SESSION, szkielet bramy |
-| `references/migracja-i-rozszerzenia.md` | migracja stacji (1.6, 2.0.1, profil 3, przeszkody), rozszerzenia OCPP i OCPI, testy i macierz kompatybilności, rozbieżności |
+| `references/migracja-i-rozszerzenia.md` | migracja stacji (1.6, 2.0.1, profil 3, przeszkody), co nie przenosi się samo (identyfikator, hasło, sloty profili sieci, lista lokalna, cache, profile ładowania, rezerwacje, `Inoperative`), transakcje przy przełączeniu, OCPI przy zmianie platformy, lista kontrolna migracji, rozszerzenia OCPP i OCPI, testy i macierz kompatybilności, rozbieżności |
 
 ## Procedura
 1. **Granice systemów:** kto jest właścicielem danych (stacja, CSMS, CPO, eMSP), jaki protokół na każdej granicy i w
@@ -76,6 +76,12 @@ Fakty:
 - Powrót stacji do starego profilu po nieudanych próbach jest w 2.0.1 tylko zaleceniem (SHOULD), nie gwarancją
   `[201-P2 B10.FR.07]`.
 - Zmiana CSO zmienia zewnętrzne identyfikatory EVSE (EVSEID) w roamingu `[OCA-WP-MIG §3.2]`.
+- W 2.0.1 identyfikator i `BasicAuthPassword` są wspólne dla wszystkich slotów profili sieci: po zmianie hasła stary
+  CSMS SHALL przestać przyjmować poprzednie dane, więc powrót do starego slotu się nie uda `[201-P2 A01.FR.03]`.
+- Po udanym połączeniu z wyższym profilem bezpieczeństwa stacja SHALL usunąć profile sieci o niższym profilu, więc
+  slot starego CSMS znika `[201-P2 A05.FR.06]`.
+- `Inoperative` ustawione przez CSMS wraca po restarcie także pod nowym CSMS; bez `ChangeAvailability(Operative)` z
+  nowego systemu EVSE zostaje niedostępne `[201-P2 B11.FR.02]`.
 
 ## Źródła
 `sources/oca-ocpp.yaml` (16, J16, 201-P2 B09, B10, E13; 201-P4 §4, §5, §6; OCA-AN-MC; OCA-WP-MIG; OCA-WP-CUST; OCA-CERT;
