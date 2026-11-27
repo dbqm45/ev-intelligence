@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.22] — 2026-11-27
+### Added
+- **operations:** add uptime calculator for NEVI and AFIR/OCPP availability
+
 ## [0.1.21] — 2026-11-27
 ### Fixed
 - **integration:** add OCPI request and correlation ID rules after holdout audit
