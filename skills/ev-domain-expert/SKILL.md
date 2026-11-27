@@ -3,8 +3,8 @@ name: ev-domain-expert
 description: Użyj, gdy zadanie EV obejmuje kilka obszarów — dobór domen taksonomii, skilli i kolejności, luki w bazie, norma kontra praktyka. Nie do doboru person i zespołu.
 metadata:
   przeglad: "2027-05-07"
-  katalog: "Użyj na początku zadania z elektromobilności (CPMS, ładowarki, roaming, operacje, taryfy, energia, regulacje), gdy trzeba ustalić, których domen i poddomen taksonomii EV Intelligence ono dotyczy, które skille wczytać i w jakiej kolejności, czego baza jeszcze nie obejmuje (priorytet P2/P3, flaga do weryfikacji) oraz gdzie zapisać nową wiedzę — norma, dokumentacja producenta, obserwacja z wdrożenia czy decyzja produktowa. Nie do merytorycznej odpowiedzi o protokole (skille ev-ocpp-expert, ev-ocpi-roaming-expert) ani do doboru person i składu zespołu (core-problem-routing)."
-  slowa: "EV Intelligence, taksonomia EV, które domeny, jakie obszary wiedzy, które skille użyć, od czego zacząć zadanie EV, kolejność skilli, mapa wiedzy EV, czy baza to obejmuje, luka w bazie wiedzy, brak wiedzy w bazie, gdzie zapisać wiedzę, gdzie to umieścić w taksonomii, norma czy praktyka, deklaracja producenta, obserwacja z wdrożenia, vendor quirk, zadanie przekrojowe EV, projekt CPMS, ładowarki i roaming razem, router EV"
+  katalog: "Użyj na początku zadania z elektromobilności (CPMS, ładowarki, roaming, operacje, taryfy, energia, regulacje), gdy trzeba ustalić, których domen i poddomen taksonomii EV Intelligence ono dotyczy, które skille wczytać i w jakiej kolejności, czego baza jeszcze nie obejmuje (priorytet P2/P3, flaga do weryfikacji) oraz gdzie zapisać nową wiedzę — norma, dokumentacja producenta, obserwacja z wdrożenia czy decyzja produktowa. Także identyfikatory (EVSE ID, contract ID, party_id, kody IDRO i EIPA) i role rynkowe według AFIR, ustawy, OCPI i OICP. Nie do merytorycznej odpowiedzi o protokole (skille ev-ocpp-expert, ev-ocpi-roaming-expert) ani do doboru person i składu zespołu (core-problem-routing)."
+  slowa: "EV Intelligence, taksonomia EV, które domeny, jakie obszary wiedzy, które skille użyć, od czego zacząć zadanie EV, kolejność skilli, mapa wiedzy EV, czy baza to obejmuje, luka w bazie wiedzy, brak wiedzy w bazie, gdzie zapisać wiedzę, gdzie to umieścić w taksonomii, norma czy praktyka, deklaracja producenta, obserwacja z wdrożenia, vendor quirk, zadanie przekrojowe EV, projekt CPMS, ładowarki i roaming razem, router EV, EVSE ID, eMA ID, EMAID, contract_id, party_id, country_code, IDRO, EvseID, EvcoID, OperatorID, ProviderID, kod operatora, rola CPO, rola eMSP, MSP, roaming hub, role rynkowe"
 ---
 
 # EV Domain Expert — router taksonomii
@@ -13,7 +13,8 @@ Skill nie odpowiada merytorycznie. Ustala, **których obszarów wiedzy dotyczy z
 kolejności i czego baza jeszcze nie ma. Źródło prawdy w repozytorium: `taxonomy/taxonomy.yaml`. Skill ma własne kopie (generowane, nie edytuj):
 drzewo `references/taksonomia-drzewo.md` i zasady `references/taksonomia-zasady.md` (granice: sekcja 5). Sieć: brak.
 
-**Zasada źródeł.** Skill nie podaje faktów o protokołach ani przepisach. Domeny, poddomeny, priorytety i flagi
+**Zasada źródeł.** Skill nie podaje faktów o protokołach ani przepisach, poza identyfikatorami i rolami rynkowymi
+(`references/identyfikatory-i-role.md`, każdy fakt ze znacznikiem). Domeny, poddomeny, priorytety i flagi
 bierzesz wyłącznie z taksonomii, a fakty dostarczają wskazane skille ze znacznikami `[dokument §sekcja]`
 (`sources/*.yaml`). Czego taksonomia nie zawiera, nazywasz luką, a nie uzupełniasz z pamięci.
 
@@ -23,6 +24,11 @@ pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Do
 
 **Cytowanie w odpowiedzi.** Poddomenę podajesz z identyfikatorem i nazwą, np. „D01.01 OCPP”, a skill pełną nazwą,
 np. `ev-ocpp-expert`. Sam identyfikator nic nie mówi czytelnikowi.
+
+## Czytaj references, gdy…
+| Plik | Kiedy |
+|---|---|
+| `references/identyfikatory-i-role.md` | identyfikatory EV (`country_code` + `party_id`, `evse_id`, `uid`, `contract_id`, EvseID, EvcoID, OperatorID, ProviderID, UID RFID, ID punktu AFIR i EIPA), kto nadaje kody operatorów i dostawców (IDRO, rejestry krajowe, EIPA), role rynkowe CPO, eMSP, hub, NAP, NSP, SCSP, PTP, PSP, OSD według AFIR, ustawy o elektromobilności, OCPI i OICP, rozbieżności formatów |
 
 ## Procedura
 1. **Rozpoznaj zadanie.** Wypisz rzeczowniki z zadania (komunikaty, obiekty, role, procesy), np. `Heartbeat`, `CDR`,
@@ -81,6 +87,9 @@ Założenia: <wersja protokołu, rola, rynek>
   napisać wprost.
 - Ręczna edycja plików `taksonomia-drzewo.md` i `taksonomia-zasady.md` w references: to pliki generowane z `taxonomy/taxonomy.yaml`
   (`python3 tools/render_taxonomy.py`).
+- Kod operatora w EVSE ID nie wynika z `party_id`: OCPI mówi, że nie mają bezpośredniego związku `[OCPI230 §7.3.1]`.
+- EVSE ID z przykładu EIPA (`PL-S77-…`) nie przejdzie wyrażenia ISO w OICP, które jako separator dopuszcza tylko `*`
+  `[EIPA-OPIS §3]` `[OICP23-CPO-DT #EvseIDType]`.
 
 ## Źródła
 - `taxonomy/taxonomy.yaml` v1.2.0 i `taxonomy/TAXONOMY.md` (EV Intelligence, 2026-11-08; właściciel poddomeny w polu `skills`).

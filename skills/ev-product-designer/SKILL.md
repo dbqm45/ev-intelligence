@@ -30,8 +30,8 @@ OCPI 2.3.0 §8.3.1 `[OCPI230 §8.3.1]`”, „OCPP 2.0.1 O01.FR.15 `[201-P2 O01.
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/wymagania-produktu.md` | wymagania według ścieżki kierowcy (znalezienie, start, cena, pomoc), dostępność (EAA, terminal płatniczy), produkt operatora i partnera, lista luk |
-| `references/rynek-dane.md` | liczba punktów i stacji (EIPA, EAFO, BNetzA), flota i rejestracje aut elektrycznych (Eurostat), kategorie mocy AFIR według kraju, struktura cen CPO i eMSP (2024), rozbieżności między źródłami |
+| `references/wymagania-produktu.md` | wymagania według ścieżki kierowcy (znalezienie, start, cena, pomoc), wartości pól OCPI Location, EVSE i Parking oraz dane AFIR 2025/655 dla NAP (jednostki, kody, poziomy), dostępność (EAA, terminal płatniczy), produkt operatora i partnera (pola CDR), platforma eMSP (wydanie i blokada tokenu, whitelist, `NO_CREDIT`, grupy tokenów, zdalny start i `CommandResult`), lista luk |
+| `references/rynek-dane.md` | liczba punktów i stacji (EIPA od 2019, EAFO, BNetzA), flota i rejestracje aut elektrycznych (Eurostat) z definicjami BEV i PHEV z AFIR, kategorie mocy AFIR według kraju, struktura cen i rodzaje umów CPO i eMSP (2024), rozbieżności między źródłami |
 
 ## Procedura
 1. **Kto i gdzie:** kierowca, operator, partner; kanał (aplikacja MSP, ekran stacji, panel CPMS, mapa); kraj i moc
@@ -68,6 +68,10 @@ gdy dotyczy.
 - Liczby rynkowe podawaj z datą migawki i źródłem `[EIPA-STAT]` `[ESTAT-EQS]`; zbiory się zmieniają. Liczby krajowe PL
   bierz z EIPA, a EAFO do porównań między państwami (rozbieżność w `references/rynek-dane.md`).
 - Terminal płatniczy w ładowarce wprowadzonej do obrotu po 28.06.2025 podlega wymaganiom dostępności `[PL-DOST art. 9]`.
+- Eksport do NAP bez przeliczenia: AFIR 2025/655 podaje kraj w alfa-2, a masę i wymiary w tonach i metrach, OCPI ma
+  `country` w alfa-3 i `max_vehicle_*` w kg i cm `[AFIR-655 Annex]` `[OCPI230 §8.3.1]` `[OCPI230 §8.3.4]`.
+- Zgubiona karta: samo `valid = false` przy `whitelist = ALWAYS` nie wystarczy, bo CPO wtedy nie pyta eMSP
+  `[OCPI230 §12.4.5]`; **Wniosek:** zmień też `whitelist`.
 
 ## Źródła
 `sources/eu-afir.yaml` (AFIR art. 5, 14, 20; AFIR-655), `sources/pl-prawo.yaml` (PL-EMOB, PL-R1316),

@@ -195,6 +195,13 @@ niezarejestrowane:
     przywolana_w: [ev-evse-hardware-expert]
     uwaga: "Wydawcy: SAE International, IEC, SAC, BIS. Dostępność i cena niesprawdzone (2026-11-27)."
 
+  - dokument: "EVRF „E-mobility ID-codes: the purpose of IDs, ID usage and ID format”, eMI3 V1.0 Part 2, DIN SPEC 91286:2011-11, ISO 3166-1, ITU-T E.164"
+    dostep: niezarejestrowana
+    temat: "formaty EVSE ID i contract ID (eMA ID, EvcoID), kody krajów i numeracja telefoniczna w identyfikatorach"
+    przywolana_przez: ["OCPI230 §2.5, §8.3.2, §12.3.2 (dokument EVRF)", "OCPI221 §8.3.2 (eMI3)", "OICP23-CPO-DT #EvseIDType (DIN SPEC 91286, ISO 3166-1, ITU-T E.164)"]
+    przywolana_w: [ev-domain-expert, ev-ocpi-roaming-expert, ev-product-designer]
+    uwaga: "Dokument EVRF może być do pobrania z evroaming.org — kandydat do rejestracji. Cyfry kontrolnej EMAID nie da się dziś sprawdzić."
+
 hosty_zablokowane:
   - host: modelcontextprotocol.io
     data: 2026-11-07
