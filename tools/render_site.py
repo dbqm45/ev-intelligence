@@ -48,7 +48,7 @@ class Linker:
     def tag_link(self, tag: str) -> str | None:
         head, _ = ev_kb.split_tag(tag)
         if head in self.sources:
-            return f'<a class="tag" href="#/zrodlo/{html.escape(head)}" title="{html.escape(self.sources[head].title)}">[{html.escape(tag)}]</a>'
+            return f'<a class="tag" href="#zrodlo--{html.escape(head)}" title="{html.escape(self.sources[head].title)}">[{html.escape(tag)}]</a>'
         return None
 
     def code(self, content: str, skill: str) -> str:
@@ -61,19 +61,19 @@ class Linker:
         if m:
             sk = m.group(1) or skill
             if m.group(2) in self.skills.get(sk, []):
-                return f'<a class="file" href="#/plik/{sk}/{m.group(2)}"><code>{content}</code></a>'
+                return f'<a class="file" href="#plik--{sk}--{m.group(2)}"><code>{content}</code></a>'
         m = re.fullmatch(r"([\w.-]+\.md)", raw)
         if m and m.group(1) != "SKILL.md":
             own = [s for s, fs in self.skills.items() if m.group(1) in fs]
             sk = skill if skill in own else (own[0] if len(own) == 1 else None)
             if sk:
-                return f'<a class="file" href="#/plik/{sk}/{m.group(1)}"><code>{content}</code></a>'
+                return f'<a class="file" href="#plik--{sk}--{m.group(1)}"><code>{content}</code></a>'
         m = re.fullmatch(r"(ev-[\w-]+)(?:\s*\(`?([\w.-]+\.md)`?\))?", raw)
         if m and m.group(1) in self.skills:
-            return f'<a class="skill" href="#/skill/{m.group(1)}"><code>{content}</code></a>'
+            return f'<a class="skill" href="#skill--{m.group(1)}"><code>{content}</code></a>'
         m = re.fullmatch(r"sources/([\w.-]+\.yaml)", raw)
         if m:
-            return f'<a href="#/rejestr/{m.group(1)}"><code>{content}</code></a>'
+            return f'<a href="#zrodla"><code>{content}</code></a>'
         return f"<code>{content}</code>"
 
     def inline(self, text: str, skill: str) -> str:
@@ -101,7 +101,7 @@ class Linker:
             return f'<a href="{html.escape(url)}" rel="noopener noreferrer" target="_blank">{label}</a>'
         name = url.split("#")[0].rsplit("/", 1)[-1]
         if name in self.skills.get(skill, []):
-            return f'<a class="file" href="#/plik/{skill}/{name}">{label}</a>'
+            return f'<a class="file" href="#plik--{skill}--{name}">{label}</a>'
         return label
 
 
@@ -259,10 +259,159 @@ def build_data(root: Path = ROOT) -> dict:
 
 # ───────────────────────────── strona ─────────────────────────────
 
-PAGE = r"""<!doctype html>
-<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EV Intelligence</title>
-<style>
+# ───────────────────────────── strona (statyczny HTML; JavaScript tylko do wyszukiwania i grafu) ─────────────────────────────
+
+def _e(s) -> str:
+    return html.escape(str(s if s is not None else ""))
+
+
+def _a_skill(s: str) -> str:
+    return f'<a href="#skill--{_e(s)}">{_e(s)}</a>'
+
+
+def _a_file(s: str, f: str, label: str | None = None) -> str:
+    return f'<a href="#plik--{_e(s)}--{_e(f)}">{_e(label or f)}</a>'
+
+
+def _a_src(i: str) -> str:
+    return f'<a href="#zrodlo--{_e(i)}">{_e(i)}</a>'
+
+
+def view_mapa(d: dict) -> str:
+    n_sub = sum(len(x["subdomains"]) for x in d["domains"])
+    gaps = sum(1 for x in d["domains"] for s in x["subdomains"] if not s["skills"])
+    h = [f'<h1>Mapa pokrycia</h1><p class="muted">{len(d["domains"])} domen · {n_sub} poddomen · '
+         f'<span class="gap">{gaps} luk</span> (poddomena bez skilla) · {len(d["skills"])} skilli · {len(d["sources"])} '
+         'dokumentów źródłowych. Właściciel poddomeny pochodzi z taksonomii; to nie znaczy, że każdy jej temat jest już '
+         'opisany.</p>']
+    for dom in d["domains"]:
+        g = sum(1 for s in dom["subdomains"] if not s["skills"])
+        h.append(f'<details class="card" open><summary>{_e(dom["id"])} {_e(dom["name"])} <span class="muted">· '
+                 f'{_e(dom["priority"])} · {len(dom["subdomains"])} poddomen</span>'
+                 + (f' <span class="gap">· {g} luk</span>' if g else "") + '</summary>'
+                 f'<p class="muted">{_e(dom["description"])}</p><div class="tbl"><table><thead><tr><th>Poddomena</th>'
+                 '<th>Skill</th><th>Tematy</th></tr></thead><tbody>')
+        for s in dom["subdomains"]:
+            sk = "<br>".join(f'{_a_skill(x)} <span class="muted" title="znaczniki źródeł w całym skillu">(skill: '
+                             f'{d["skills"].get(x, {}).get("tags", 0)} cyt.)</span>' for x in s["skills"]) \
+                or '<span class="gap">luka: brak skilla</span>'
+            h.append(f'<tr><td>{_e(s["id"])} {_e(s["name"])}</td><td>{sk}</td><td class="muted">'
+                     f'{"; ".join(_e(x) for x in s["topics"])}</td></tr>')
+        h.append("</tbody></table></div></details>")
+    return "".join(h)
+
+
+def view_start(d: dict) -> str:
+    n_sub = sum(len(x["subdomains"]) for x in d["domains"])
+    gaps = sum(1 for x in d["domains"] for s in x["subdomains"] if not s["skills"])
+    n_tags = sum(s["tags"] for s in d["skills"].values())
+    h = [f'<h1>Wiedza o ładowaniu pojazdów elektrycznych</h1><div class="card"><p><b>{len(d["skills"])} skilli · '
+         f'{len(d["files"])} plików · {n_tags} znaczników źródeł · {len(d["sources"])} dokumentów oficjalnych · '
+         f'{len(d["unavailable"])} norm niedostępnych</b></p><p>Każdy fakt ma znacznik źródła, np. '
+         '<code>[OCPI230 §10.3.1]</code>; kliknięcie pokazuje dokument z rejestru i wszystkie miejsca, które go cytują. '
+         '<b>Wniosek</b> w treści oznacza rekomendację wyprowadzoną z faktów, nie cytat.</p><p>'
+         '<a href="#mapa">Mapa pokrycia</a> — domeny i poddomeny z luk&shy;ami · <a href="#graf">Graf</a> — które skille '
+         'opierają się na których dokumentach · <a href="#zrodla">Źródła</a> · <a href="#niedostepne">Niedostępne</a>'
+         '</p></div><h2>Pokrycie domen</h2><div class="tbl"><table><thead><tr><th>Domena</th><th>Skille</th>'
+         f'<th>Poddomeny</th><th>Luki</th></tr></thead><tbody>']
+    for dom in d["domains"]:
+        g = sum(1 for s in dom["subdomains"] if not s["skills"])
+        h.append(f'<tr><td>{_e(dom["id"])} {_e(dom["name"])}</td><td>' + ", ".join(_a_skill(x) for x in dom["skills"])
+                 + f'</td><td>{len(dom["subdomains"])}</td><td>' + (f'<span class="gap">{g}</span>' if g else "0")
+                 + "</td></tr>")
+    h.append(f'</tbody></table></div><p class="muted">Razem {n_sub} poddomen, {gaps} bez skilla.</p><h2>Skille</h2>')
+    return "".join(h) + view_skille(d).replace("<h1>Skille</h1>", "", 1)
+
+
+def view_skille(d: dict) -> str:
+    h = ["<h1>Skille</h1>"]
+    for n, s in d["skills"].items():
+        h.append(f'<div class="card"><h3>{_a_skill(n)}</h3><p>{_e(s["description"])}</p><p class="muted">'
+                 f'{len(s["files"])} plików · {s["tags"]} znaczników · {len(s["docs"])} dokumentów · przegląd '
+                 f'{_e(s["przeglad"])}</p></div>')
+    return "".join(h)
+
+
+def view_skill(d: dict, n: str) -> str:
+    s = d["skills"][n]
+    files = {(f["skill"], f["file"]): f for f in d["files"]}
+    h = [f'<h1>{_e(n)}</h1><p>{_e(s["description"])}</p><p class="muted">{_e(s["katalog"])}</p><h2>Pliki</h2><ul>']
+    for f in s["files"]:
+        x = files[(n, f)]
+        h.append(f'<li>{_a_file(n, f)} <span class="muted">— {_e(x["title"])} · {x["tags"]} znaczników</span></li>')
+    h.append('</ul><h2>Dokumenty, na których się opiera</h2><p>'
+             + " ".join(f'<a class="pill" href="#zrodlo--{_e(x)}">{_e(x)}</a>' for x in s["docs"]) + "</p>")
+    subs = [x for dom in d["domains"] for x in dom["subdomains"] if n in x["skills"]]
+    h.append("<h2>Poddomeny taksonomii</h2><ul>" + "".join(f'<li>{_e(x["id"])} {_e(x["name"])}</li>' for x in subs)
+             + "</ul>")
+    return "".join(h)
+
+
+def view_file(f: dict) -> str:
+    return (f'<p class="muted">{_a_skill(f["skill"])} / {_e(f["file"])} · {f["tags"]} znaczników · źródła: '
+            + ", ".join(_a_src(x) for x in f["docs"]) + f'</p><article>{f["html"]}</article>')
+
+
+def view_zrodla(d: dict) -> str:
+    by = defaultdict(list)
+    for i, s in d["sources"].items():
+        by[s["registry"]].append((i, s))
+    h = ['<h1>Dokumenty źródłowe</h1><p class="muted">Rejestr <code>sources/*.yaml</code>: adres, data pobrania, '
+         'SHA-256, licencja. Teksty dokumentów nie są częścią przeglądarki.</p>']
+    for r, items in by.items():
+        h.append(f'<h2>{_e(r)}</h2><div class="tbl"><table><thead><tr><th>ID</th><th>Dokument</th><th>Cytowań</th>'
+                 '</tr></thead><tbody>')
+        for i, s in items:
+            c = len(s["cites"])
+            h.append(f'<tr><td>{_a_src(i)}</td><td>{_e(s["title"])}</td><td>{c or "<span class=warn>0</span>"}</td></tr>')
+        h.append("</tbody></table></div>")
+    return "".join(h)
+
+
+def view_zrodlo(i: str, s: dict) -> str:
+    url = f'<a href="{_e(s["url"])}" target="_blank" rel="noopener noreferrer">{_e(s["url"])}</a>' if s["url"] else "—"
+    h = [f'<h1>{_e(i)}</h1><div class="card"><p><b>{_e(s["title"])}</b></p><p>URL: {url}</p><p>Pobrano: '
+         f'{_e(s["date"])} · rejestr <code>sources/{_e(s["registry"])}</code>'
+         + (f' · pakiet {_e(s["package"])}' if s["package"] else "") + f'</p><p>Licencja: {_e(s["licence"]) or "—"}</p>'
+         f'<p class="muted">SHA-256: <code>{_e(s["sha256"]) or "—"}</code></p>'
+         + (f'<p class="muted">{_e(s["note"])}</p>' if s["note"] else "") + f'</div><h2>Cytowany w ({len(s["cites"])})</h2>']
+    by = defaultdict(list)
+    for c in s["cites"]:
+        by[(c["skill"], c["file"])].append(c)
+    for (sk, f), cs in by.items():
+        h.append(f'<details class="card"><summary>{_a_file(sk, f, sk + "/" + f)} <span class="muted">· {len(cs)}</span>'
+                 "</summary><ul>" + "".join(f'<li><code>[{_e(c["tag"])}]</code> <span class="muted">linia {c["line"]}'
+                                            "</span></li>" for c in cs) + "</ul></details>")
+    return "".join(h)
+
+
+def view_niedostepne(d: dict) -> str:
+    h = ['<h1>Normy i dokumenty niedostępne</h1><p class="muted">Wpisy z <code>sources/niedostepne.yaml</code>. To nie '
+         'są źródła: baza nie opisuje ich treści i mówi o tym w pierwszym zdaniu odpowiedzi.</p><div class="tbl"><table>'
+         '<thead><tr><th>Dokument</th><th>Dostęp</th><th>Temat</th><th>Przywołany przez</th><th>W skillach</th></tr>'
+         '</thead><tbody>']
+    for u in d["unavailable"]:
+        note = f'<br><span class="muted">{_e(u["note"])}</span>' if u["note"] else ""
+        h.append(f'<tr><td>{_e(u["name"])}{note}</td><td>{_e(u["access"])}</td><td>{_e(u["topic"])}</td><td>'
+                 + "<br>".join(_e(x) for x in u["cited_by"]) + "</td><td>"
+                 + "<br>".join(_a_skill(x) if x in d["skills"] else _e(x) for x in u["skills"]) + "</td></tr>")
+    return "".join(h) + "</tbody></table></div>"
+
+
+VIEW_GRAF = """<h1>Graf zależności</h1><p class="muted">Skille (duże koła na okręgu) i dokumenty źródłowe (kolor = rejestr,
+wielkość = liczba cytowań). Dokument ustawia się bliżej skilli, które go cytują; grubość krawędzi to liczba cytowań. Najedź
+na węzeł, żeby zobaczyć jego połączenia; kliknij, aby otworzyć; przeciągaj węzły i tło, kółkiem myszy przybliżaj.</p>
+<p class="js-off gap">Graf wymaga JavaScript. Otwórz plik w zwykłej przeglądarce (Chrome, Firefox, Safari, Edge), a nie
+w podglądzie pliku.</p>
+<p><label><input type="checkbox" id="gss"> krawędzie skill–skill</label> · <label>min. cytowań <input type="number"
+id="gmin" value="1" min="1" style="width:4em"></label> · <span id="ginfo" class="muted"></span></p>
+<canvas id="gc" style="width:100%;height:72vh;border:1px solid var(--line);border-radius:8px;background:var(--card);
+touch-action:none"></canvas><div id="glegend" class="muted" style="margin-top:6px"></div>"""
+
+VIEW_SZUKAJ = """<h1>Wyszukiwanie</h1><p class="js-off gap">Wyszukiwanie wymaga JavaScript. Otwórz plik w zwykłej
+przeglądarce, a nie w podglądzie pliku.</p><div id="wyniki"></div>"""
+
+CSS = """
 :root{--bg:#fbfbfa;--fg:#1d1f22;--muted:#666b73;--line:#e3e4e6;--card:#fff;--accent:#1f6feb;--tag:#7a3e9d;--gap:#b42318;--ok:#1a7f37;--warn:#9a6700}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#121416;--fg:#e6e7e9;--muted:#9aa0a8;--line:#2a2e33;--card:#1a1d21;--accent:#6aa6ff;--tag:#c792ea;--gap:#ff7b72;--ok:#56d364;--warn:#e3b341}}
 :root[data-theme=dark]{--bg:#121416;--fg:#e6e7e9;--muted:#9aa0a8;--line:#2a2e33;--card:#1a1d21;--accent:#6aa6ff;--tag:#c792ea;--gap:#ff7b72;--ok:#56d364;--warn:#e3b341}
@@ -276,79 +425,37 @@ th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-alig
 .muted{color:var(--muted)}.gap{color:var(--gap);font-weight:600}.ok{color:var(--ok)}.warn{color:var(--warn)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0}
 details>summary{cursor:pointer;font-weight:600}li.d1{margin-left:1.2em}li.d2{margin-left:2.4em}.pill{display:inline-block;border:1px solid var(--line);border-radius:10px;padding:0 7px;font-size:.85em;margin:1px 2px}
-mark{background:#ffe58f;color:#000}button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}.hit{margin:6px 0;padding:6px 0;border-bottom:1px solid var(--line)}
-</style></head><body>
-<header><b>EV Intelligence</b><span class="muted" id="ver"></span>
-<nav><a href="#/mapa">Mapa</a><a href="#/graf">Graf</a><a href="#/skille">Skille</a><a href="#/zrodla">Źródła</a><a href="#/niedostepne">Niedostępne</a></nav>
-<input type="search" id="q" placeholder="Szukaj w treści skilli…" aria-label="Szukaj">
-<button id="theme" title="Przełącz jasny i ciemny motyw">Motyw</button></header>
-<main id="app"></main>
-<script id="data" type="application/json">__DATA__</script>
-<script>
-const D=JSON.parse(document.getElementById('data').textContent);
-const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-$('#ver').textContent=`wiedza ${D.version} · taksonomia ${D.taxonomy_version} · tylko podgląd`;
-try{const t=localStorage.getItem('evkb-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
-$('#theme').onclick=()=>{const r=document.documentElement,n=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('evkb-theme',n)}catch(e){}};
-const skillLink=s=>`<a href="#/skill/${esc(s)}">${esc(s)}</a>`;
-const fileOf=(s,f)=>D.files.find(x=>x.skill===s&&x.file===f);
-function mapa(){
-  let nSub=0,gaps=0;D.domains.forEach(d=>d.subdomains.forEach(s=>{nSub++;if(!s.skills.length)gaps++}));
-  let h=`<h1>Mapa pokrycia</h1><p class="muted">${D.domains.length} domen · ${nSub} poddomen · <span class="gap">${gaps} luk</span> (poddomena bez skilla) · ${Object.keys(D.skills).length} skilli · ${Object.keys(D.sources).length} dokumentów źródłowych. Właściciel poddomeny pochodzi z taksonomii; to nie znaczy, że każdy jej temat jest już opisany.</p>`;
-  for(const d of D.domains){
-    const g=d.subdomains.filter(s=>!s.skills.length).length;
-    h+=`<details class="card"><summary>${esc(d.id)} ${esc(d.name)} <span class="muted">· ${esc(d.priority)} · ${d.subdomains.length} poddomen</span>${g?` <span class="gap">· ${g} luk</span>`:''}</summary><p class="muted">${esc(d.description)}</p><div class="tbl"><table><thead><tr><th>Poddomena</th><th>Skill</th><th>Tematy</th></tr></thead><tbody>`;
-    for(const s of d.subdomains){
-      const sk=s.skills.length?s.skills.map(x=>`${skillLink(x)} <span class="muted" title="znaczniki źródeł w całym skillu">(skill: ${D.skills[x]?D.skills[x].tags:0} cyt.)</span>`).join('<br>'):'<span class="gap">luka: brak skilla</span>';
-      h+=`<tr><td>${esc(s.id)} ${esc(s.name)}</td><td>${sk}</td><td class="muted">${s.topics.map(esc).join('; ')}</td></tr>`}
-    h+='</tbody></table></div></details>'}
-  return h}
-function skille(){
-  let h='<h1>Skille</h1>';
-  for(const [n,s] of Object.entries(D.skills))h+=`<div class="card"><h3>${skillLink(n)}</h3><p>${esc(s.description)}</p><p class="muted">${s.files.length} plików · ${s.tags} znaczników · ${s.docs.length} dokumentów · przegląd ${esc(s.przeglad)}</p></div>`;
-  return h}
-function skill(n){
-  const s=D.skills[n];if(!s)return '<p>Nie ma takiego skilla.</p>';
-  let h=`<h1>${esc(n)}</h1><p>${esc(s.description)}</p><p class="muted">${esc(s.katalog)}</p><h2>Pliki</h2><ul>`;
-  for(const f of s.files){const x=fileOf(n,f);h+=`<li><a href="#/plik/${esc(n)}/${esc(f)}">${esc(f)}</a> <span class="muted">— ${esc(x.title)} · ${x.tags} znaczników</span></li>`}
-  h+='</ul><h2>Dokumenty, na których się opiera</h2><p>'+s.docs.map(d=>`<a class="pill" href="#/zrodlo/${esc(d)}">${esc(d)}</a>`).join(' ')+'</p>';
-  const sub=[];D.domains.forEach(d=>d.subdomains.forEach(x=>{if(x.skills.includes(n))sub.push(x)}));
-  h+='<h2>Poddomeny taksonomii</h2><ul>'+sub.map(x=>`<li>${esc(x.id)} ${esc(x.name)}</li>`).join('')+'</ul>';return h}
-function plik(n,f){
-  const x=fileOf(n,f);if(!x)return '<p>Nie ma takiego pliku.</p>';
-  return `<p class="muted"><a href="#/skill/${esc(n)}">${esc(n)}</a> / ${esc(f)} · ${x.tags} znaczników · źródła: ${x.docs.map(d=>`<a href="#/zrodlo/${esc(d)}">${esc(d)}</a>`).join(', ')}</p><article>${x.html}</article>`}
-function zrodla(){
-  const byReg={};for(const [id,s] of Object.entries(D.sources))(byReg[s.registry]=byReg[s.registry]||[]).push([id,s]);
-  let h='<h1>Dokumenty źródłowe</h1><p class="muted">Rejestr <code>sources/*.yaml</code>: adres, data pobrania, SHA-256, licencja. Teksty dokumentów nie są częścią przeglądarki.</p>';
-  for(const [r,list] of Object.entries(byReg)){h+=`<h2 id="r-${esc(r)}">${esc(r)}</h2><div class="tbl"><table><thead><tr><th>ID</th><th>Dokument</th><th>Cytowań</th></tr></thead><tbody>`;
-    for(const [id,s] of list)h+=`<tr><td><a href="#/zrodlo/${esc(id)}">${esc(id)}</a></td><td>${esc(s.title)}</td><td>${s.cites.length||'<span class="warn">0</span>'}</td></tr>`;
-    h+='</tbody></table></div>'}
-  return h}
-function zrodlo(id){
-  const s=D.sources[id];if(!s)return '<p>Nie ma takiego dokumentu w rejestrze.</p>';
-  let h=`<h1>${esc(id)}</h1><div class="card"><p><b>${esc(s.title)}</b></p><p>URL: ${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.url)}</a>`:'—'}</p><p>Pobrano: ${esc(s.date)} · rejestr <code>sources/${esc(s.registry)}</code>${s.package?` · pakiet ${esc(s.package)}`:''}</p><p>Licencja: ${esc(s.licence)||'—'}</p><p class="muted">SHA-256: <code>${esc(s.sha256)||'—'}</code></p>${s.note?`<p class="muted">${esc(s.note)}</p>`:''}</div><h2>Cytowany w (${s.cites.length})</h2>`;
-  const by={};s.cites.forEach(c=>(by[c.skill+'/'+c.file]=by[c.skill+'/'+c.file]||[]).push(c));
-  for(const [k,cs] of Object.entries(by)){const [sk,f]=k.split('/');h+=`<details class="card"><summary><a href="#/plik/${esc(sk)}/${esc(f)}">${esc(k)}</a> <span class="muted">· ${cs.length}</span></summary><ul>${cs.map(c=>`<li><code>[${esc(c.tag)}]</code> <span class="muted">linia ${c.line}</span></li>`).join('')}</ul></details>`}
-  return h}
-function niedostepne(){
-  let h='<h1>Normy i dokumenty niedostępne</h1><p class="muted">Wpisy z <code>sources/niedostepne.yaml</code>. To nie są źródła: baza nie opisuje ich treści i mówi o tym w pierwszym zdaniu odpowiedzi.</p><div class="tbl"><table><thead><tr><th>Dokument</th><th>Dostęp</th><th>Temat</th><th>Przywołany przez</th><th>W skillach</th></tr></thead><tbody>';
-  for(const u of D.unavailable)h+=`<tr><td>${esc(u.name)}${u.note?`<br><span class="muted">${esc(u.note)}</span>`:''}</td><td>${esc(u.access)}</td><td>${esc(u.topic)}</td><td>${u.cited_by.map(esc).join('<br>')}</td><td>${u.skills.map(skillLink).join('<br>')}</td></tr>`;
-  return h+'</tbody></table></div>'}
-function szukaj(q){
-  q=q.trim();if(q.length<2)return '<p class="muted">Wpisz co najmniej 2 znaki.</p>';
-  const words=q.toLowerCase().split(/\s+/).filter(Boolean),hits=[];
-  for(const f of D.files){const low=f.text.toLowerCase();if(words.every(w=>low.includes(w))){const i=low.indexOf(words[0]);hits.push([f,f.text.slice(Math.max(0,i-90),i+200)])}}
-  const re=new RegExp('('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')','gi');
-  let h=`<h1>Wyniki: ${esc(q)}</h1><p class="muted">${hits.length} plików</p>`;
-  for(const [f,snip] of hits)h+=`<div class="hit"><a href="#/plik/${esc(f.skill)}/${esc(f.file)}">${esc(f.skill)} / ${esc(f.file)}</a> <span class="muted">— ${esc(f.title)}</span><br><span class="muted">…${esc(snip).replace(re,'<mark>$1</mark>')}…</span></div>`;
-  return h}
-const G={};
-function grafHtml(){
-  return `<h1>Graf zależności</h1><p class="muted">Skille (duże koła na okręgu) i dokumenty źródłowe (kolor = rejestr, wielkość = liczba cytowań). Dokument ustawia się bliżej skilli, które go cytują; grubość krawędzi to liczba cytowań. Najedź na węzeł, żeby zobaczyć jego połączenia; kliknij, aby otworzyć; przeciągaj węzły i tło, kółkiem myszy przybliżaj.</p>
-  <p><label><input type="checkbox" id="gss"> krawędzie skill–skill</label> · <label>min. cytowań <input type="number" id="gmin" value="1" min="1" style="width:4em"></label> · <span id="ginfo" class="muted"></span></p>
-  <canvas id="gc" style="width:100%;height:72vh;border:1px solid var(--line);border-radius:8px;background:var(--card);touch-action:none"></canvas><div id="glegend" class="muted" style="margin-top:6px"></div>`}
-function initGraf(){
-  const cv=$('#gc'),ctx=cv.getContext('2d'),css=getComputedStyle(document.documentElement),col=v=>css.getPropertyValue(v).trim();
+mark{background:#ffe58f;color:#000}.hit{margin:6px 0;padding:6px 0;border-bottom:1px solid var(--line)}
+button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
+main>section{display:none;scroll-margin-top:70px}main>section:target{display:block}
+main>#start{display:block}main>section:target~#start{display:none}
+html.js .js-off{display:none}html:not(.js) .js-on{display:none}
+"""
+
+
+def render(data: dict) -> str:
+    sections = [("graf", VIEW_GRAF), ("skille", view_skille(data)),
+                ("zrodla", view_zrodla(data)), ("niedostepne", view_niedostepne(data)), ("szukaj", VIEW_SZUKAJ)]
+    sections += [(f"skill--{n}", view_skill(data, n)) for n in data["skills"]]
+    sections += [(f'plik--{f["skill"]}--{f["file"]}', view_file(f)) for f in data["files"]]
+    sections += [(f"zrodlo--{i}", view_zrodlo(i, s)) for i, s in data["sources"].items()]
+    sections.append(("mapa", view_mapa(data)))
+    sections.append(("start", view_start(data)))    # ostatnia: widoczna domyślnie, ukrywana przez „:target ~ #start”
+    body = "\n".join(f'<section id="{_e(i)}">{h}</section>' for i, h in sections)
+    js_data = {"version": data["version"], "skills": {n: {"tags": s["tags"]} for n, s in data["skills"].items()},
+               "sources": {i: {"title": s["title"], "registry": s["registry"], "cites": len(s["cites"])}
+                           for i, s in data["sources"].items()},
+               "files": [{"skill": f["skill"], "file": f["file"], "title": f["title"], "text": f["text"]}
+                         for f in data["files"]],
+               "graph": data["graph"]}
+    blob = json.dumps(js_data, ensure_ascii=False).replace("</", "<\\/")
+    return PAGE.replace("__CSS__", CSS).replace("__BODY__", body).replace("__DATA__", blob) \
+        .replace("__VER__", _e(f'wiedza {data["version"]} · taksonomia {data["taxonomy_version"]} · tylko podgląd')) \
+        .replace("__GRAPH__", GRAPH_JS)
+
+
+GRAPH_JS = r"""function initGraf(){
+  const cv=document.getElementById('gc'),ctx=cv.getContext('2d'),css=getComputedStyle(document.documentElement),col=v=>css.getPropertyValue(v).trim();
   const PAL=['#1f77b4','#d62728','#2ca02c','#9467bd','#ff7f0e','#17becf','#8c564b','#e377c2','#bcbd22','#7f7f7f','#393b79','#637939'];
   const regs=[...new Set(Object.values(D.sources).map(s=>s.registry))].sort(),rc=r=>PAL[regs.indexOf(r)%PAL.length];
   $('#glegend').innerHTML=regs.map(r=>`<span class="pill"><span style="color:${rc(r)}">●</span> ${esc(r)}</span>`).join(' ')+' <span class="pill"><span style="color:'+col('--accent')+'">●</span> skill</span>';
@@ -397,26 +504,43 @@ function initGraf(){
   let pan=null;
   cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);moved=false;const n=at(pt(e));if(n){drag=n}else pan={x:e.clientX-view.x,y:e.clientY-view.y}};
   cv.onpointermove=e=>{const p=pt(e);if(drag){drag.x=p.x;drag.y=p.y;moved=true;alpha=Math.max(alpha,.3)}else if(pan){view.x=e.clientX-pan.x;view.y=e.clientY-pan.y;moved=true}else{hover=at(p);cv.style.cursor=hover?'pointer':'grab'}};
-  cv.onpointerup=e=>{if(drag&&drag.sk&&moved){drag.fx=drag.x;drag.fy=drag.y}if(drag&&!moved)location.hash=drag.sk?'#/skill/'+drag.key:'#/zrodlo/'+drag.key;drag=null;pan=null};
+  cv.onpointerup=e=>{if(drag&&drag.sk&&moved){drag.fx=drag.x;drag.fy=drag.y}if(drag&&!moved)location.hash=drag.sk?'#skill--'+drag.key:'#zrodlo--'+drag.key;drag=null;pan=null};
   cv.onwheel=e=>{e.preventDefault();const k=Math.min(6,Math.max(.2,view.k*(e.deltaY<0?1.12:1/1.12)));view.k=k};
   view.k=Math.min(1,Math.min(cv.clientWidth,cv.clientHeight)/(2*320+220));
   $('#gss').onchange=build;$('#gmin').onchange=build;build();loop();G.stop=()=>{cancelAnimationFrame(raf);G.stop=null}}
-function route(){
-  const p=decodeURIComponent(location.hash.replace(/^#\/?/,'')).split('/');let h;
-  switch(p[0]){case 'skille':h=skille();break;case 'skill':h=skill(p[1]);break;case 'plik':h=plik(p[1],p[2]);break;
-    case 'zrodla':h=zrodla();break;case 'zrodlo':h=zrodlo(p[1]);break;case 'rejestr':location.hash='#/zrodla';return;
-    case 'niedostepne':h=niedostepne();break;case 'szukaj':h=szukaj(p.slice(1).join('/'));break;
-    case 'graf':h=grafHtml();break;default:h=mapa()}
-  if(G.stop)G.stop();$('#app').innerHTML=h;window.scrollTo(0,0);if(p[0]==='graf')initGraf()}
-let tm;$('#q').addEventListener('input',e=>{clearTimeout(tm);tm=setTimeout(()=>{location.hash='#/szukaj/'+encodeURIComponent(e.target.value)},250)});
-addEventListener('hashchange',route);route();
-</script></body></html>
 """
 
-
-def render(data: dict) -> str:
-    blob = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    return PAGE.replace("__DATA__", blob)
+PAGE = r"""<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Intelligence</title><style>__CSS__</style>
+<script>document.documentElement.classList.add('js')</script></head><body>
+<header><b>EV Intelligence</b><span class="muted">__VER__</span>
+<nav><a href="#start">Start</a><a href="#mapa">Mapa</a><a href="#graf">Graf</a><a href="#skille">Skille</a><a href="#zrodla">Źródła</a><a href="#niedostepne">Niedostępne</a></nav>
+<input class="js-on" type="search" id="q" placeholder="Szukaj w treści skilli…" aria-label="Szukaj">
+<button class="js-on" id="theme" title="Przełącz jasny i ciemny motyw">Motyw</button></header>
+<main>
+__BODY__
+</main>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent);
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+D.sources=Object.fromEntries(Object.entries(D.sources).map(([k,v])=>[k,Object.assign({},v,{cites:{length:v.cites}})]));
+try{const t=localStorage.getItem('evkb-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+$('#theme').onclick=()=>{const r=document.documentElement,n=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('evkb-theme',n)}catch(e){}};
+function szukaj(q){
+  q=q.trim();const out=$('#wyniki');if(q.length<2){out.innerHTML='<p class="muted">Wpisz co najmniej 2 znaki.</p>';return}
+  const words=q.toLowerCase().split(/\s+/).filter(Boolean),hits=[];
+  for(const f of D.files){const low=f.text.toLowerCase();if(words.every(w=>low.includes(w))){const i=low.indexOf(words[0]);hits.push([f,f.text.slice(Math.max(0,i-90),i+200)])}}
+  const re=new RegExp('('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')','gi');
+  out.innerHTML=`<p class="muted">${esc(q)}: ${hits.length} plików</p>`+hits.map(([f,snip])=>`<div class="hit"><a href="#plik--${esc(f.skill)}--${esc(f.file)}">${esc(f.skill)} / ${esc(f.file)}</a> <span class="muted">— ${esc(f.title)}</span><br><span class="muted">…${esc(snip).replace(re,'<mark>$1</mark>')}…</span></div>`).join('')}
+let tm;$('#q').addEventListener('input',e=>{clearTimeout(tm);tm=setTimeout(()=>{szukaj(e.target.value);if(location.hash!=='#szukaj')location.hash='#szukaj'},250)});
+const G={};
+__GRAPH__
+function onHash(){if(location.hash==='#graf'){if(!G.stop)initGraf()}else if(G.stop)G.stop();window.scrollTo(0,0)}
+addEventListener('hashchange',onHash);onHash();
+</script></body></html>
+"""
 
 
 def main(argv: list[str] | None = None) -> int:

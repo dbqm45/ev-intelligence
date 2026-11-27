@@ -35,8 +35,8 @@ class TestRenderSite(unittest.TestCase):
         lk = rs.Linker({"OCPI230": type("S", (), {"title": "OCPI"})()}, {"ev-x": ["SKILL.md", "a.md"]})
         h = rs.md_to_html("| A | B |\n|---|---|\n| `[OCPI230 §10.3.1]` | `references/a.md` |\n\n- **x** [OCPI230 §8]\n",
                           lk, "ev-x")
-        self.assertIn('href="#/zrodlo/OCPI230"', h)
-        self.assertIn('href="#/plik/ev-x/a.md"', h)
+        self.assertIn('href="#zrodlo--OCPI230"', h)
+        self.assertIn('href="#plik--ev-x--a.md"', h)
         self.assertIn("<strong>x</strong>", h)
         self.assertEqual(h.count('class="tag"'), 2)
         self.assertNotIn("<script", rs.md_to_html("<script>alert(1)</script>", lk, "ev-x"))
@@ -45,7 +45,18 @@ class TestRenderSite(unittest.TestCase):
         page = rs.render(self.data)
         self.assertNotIn(".cache/ev-kb", page)
         self.assertNotIn("ev-kb-poufne", page)
-        self.assertEqual(page.count("</script>"), 2)        # dane JSON nie mogą zamknąć znacznika <script>
+        self.assertEqual(page.count("</script>"), 3)        # dane JSON nie mogą zamknąć znacznika <script>
+
+    def test_content_is_static_html(self):
+        """Treść jest w HTML, nie w JavaScript: podgląd pliku bez skryptów też ją pokazuje."""
+        page = rs.render(self.data)
+        body = page[page.index("<main>"):page.index("</main>")]
+        self.assertIn('<section id="start">', body)
+        self.assertIn('<section id="plik--ev-ocpp-expert--SKILL.md">', body)
+        self.assertIn('<section id="zrodlo--OCPI230">', body)
+        self.assertGreater(body.count('class="tag"'), 1000)
+        self.assertLess(body.rindex('<section id="start">'), len(body))
+        self.assertGreater(body.rindex('<section id="start">'), body.rindex('<section id="zrodlo--'))   # domyślny widok na końcu
 
 
 if __name__ == "__main__":
