@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.18] — 2026-11-27
+### Added
+- **kb:** add offline knowledge browser generated from the repository
+
 ## [0.1.17] — 2026-11-27
 ### Added
 - **domain:** add identifiers and market roles, eMSP platform and NAP fields
