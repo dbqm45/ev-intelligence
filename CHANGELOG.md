@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.23] — 2026-11-27
+### Added
+- **energy:** add composite schedule calculator for OCPP 1.6, 2.0.1 and 2.1
+
 ## [0.1.22] — 2026-11-27
 ### Added
 - **operations:** add uptime calculator for NEVI and AFIR/OCPP availability
