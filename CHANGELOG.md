@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.17] — 2026-11-27
+### Added
+- **domain:** add identifiers and market roles, eMSP platform and NAP fields
+
 ## [0.1.16] — 2026-11-27
 ### Added
 - **hardware:** add connector types across OCPP 2.1 and OCPI, Device Model components
