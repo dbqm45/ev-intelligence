@@ -62,6 +62,12 @@ class Linker:
             sk = m.group(1) or skill
             if m.group(2) in self.skills.get(sk, []):
                 return f'<a class="file" href="#/plik/{sk}/{m.group(2)}"><code>{content}</code></a>'
+        m = re.fullmatch(r"([\w.-]+\.md)", raw)
+        if m and m.group(1) != "SKILL.md":
+            own = [s for s, fs in self.skills.items() if m.group(1) in fs]
+            sk = skill if skill in own else (own[0] if len(own) == 1 else None)
+            if sk:
+                return f'<a class="file" href="#/plik/{sk}/{m.group(1)}"><code>{content}</code></a>'
         m = re.fullmatch(r"(ev-[\w-]+)(?:\s*\(`?([\w.-]+\.md)`?\))?", raw)
         if m and m.group(1) in self.skills:
             return f'<a class="skill" href="#/skill/{m.group(1)}"><code>{content}</code></a>'
@@ -232,9 +238,23 @@ def build_data(root: Path = ROOT) -> dict:
             unavailable.append({"name": str(e.get("norma") or e.get("dokument") or ""), "access": e.get("dostep", ""),
                                 "topic": e.get("temat", ""), "cited_by": e.get("przywolana_przez", []) or [],
                                 "skills": e.get("przywolana_w", []) or [], "note": e.get("uwaga", "")})
+    skill_doc: dict[tuple[str, str], int] = defaultdict(int)
+    for sid, cs in cites.items():
+        for c in cs:
+            skill_doc[(c["skill"], sid)] += 1
+    skill_skill: dict[tuple[str, str], int] = defaultdict(int)
+    for f in files:
+        for other in skill_files:
+            if other != f["skill"]:
+                n = len(re.findall(r"(?<![\w-])" + re.escape(other) + r"(?![\w-])", f["text"]))
+                if n:
+                    skill_skill[(f["skill"], other)] += n
+    graph = {"skill_doc": [[s, d, n] for (s, d), n in sorted(skill_doc.items())],
+             "skill_skill": [[a, b, n] for (a, b), n in sorted(skill_skill.items())]}
     version = (root / "VERSION").read_text(encoding="utf-8").strip() if (root / "VERSION").exists() else ""
     return {"version": version, "taxonomy_version": str((tax.get("taxonomy") or {}).get("version", "")),
-            "domains": domains, "skills": skills, "files": files, "sources": src, "unavailable": unavailable}
+            "domains": domains, "skills": skills, "files": files, "sources": src, "unavailable": unavailable,
+            "graph": graph}
 
 
 # ───────────────────────────── strona ─────────────────────────────
@@ -259,7 +279,7 @@ details>summary{cursor:pointer;font-weight:600}li.d1{margin-left:1.2em}li.d2{mar
 mark{background:#ffe58f;color:#000}button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}.hit{margin:6px 0;padding:6px 0;border-bottom:1px solid var(--line)}
 </style></head><body>
 <header><b>EV Intelligence</b><span class="muted" id="ver"></span>
-<nav><a href="#/mapa">Mapa</a><a href="#/skille">Skille</a><a href="#/zrodla">Źródła</a><a href="#/niedostepne">Niedostępne</a></nav>
+<nav><a href="#/mapa">Mapa</a><a href="#/graf">Graf</a><a href="#/skille">Skille</a><a href="#/zrodla">Źródła</a><a href="#/niedostepne">Niedostępne</a></nav>
 <input type="search" id="q" placeholder="Szukaj w treści skilli…" aria-label="Szukaj">
 <button id="theme" title="Przełącz jasny i ciemny motyw">Motyw</button></header>
 <main id="app"></main>
@@ -322,12 +342,72 @@ function szukaj(q){
   let h=`<h1>Wyniki: ${esc(q)}</h1><p class="muted">${hits.length} plików</p>`;
   for(const [f,snip] of hits)h+=`<div class="hit"><a href="#/plik/${esc(f.skill)}/${esc(f.file)}">${esc(f.skill)} / ${esc(f.file)}</a> <span class="muted">— ${esc(f.title)}</span><br><span class="muted">…${esc(snip).replace(re,'<mark>$1</mark>')}…</span></div>`;
   return h}
+const G={};
+function grafHtml(){
+  return `<h1>Graf zależności</h1><p class="muted">Skille (duże koła na okręgu) i dokumenty źródłowe (kolor = rejestr, wielkość = liczba cytowań). Dokument ustawia się bliżej skilli, które go cytują; grubość krawędzi to liczba cytowań. Najedź na węzeł, żeby zobaczyć jego połączenia; kliknij, aby otworzyć; przeciągaj węzły i tło, kółkiem myszy przybliżaj.</p>
+  <p><label><input type="checkbox" id="gss"> krawędzie skill–skill</label> · <label>min. cytowań <input type="number" id="gmin" value="1" min="1" style="width:4em"></label> · <span id="ginfo" class="muted"></span></p>
+  <canvas id="gc" style="width:100%;height:72vh;border:1px solid var(--line);border-radius:8px;background:var(--card);touch-action:none"></canvas><div id="glegend" class="muted" style="margin-top:6px"></div>`}
+function initGraf(){
+  const cv=$('#gc'),ctx=cv.getContext('2d'),css=getComputedStyle(document.documentElement),col=v=>css.getPropertyValue(v).trim();
+  const PAL=['#1f77b4','#d62728','#2ca02c','#9467bd','#ff7f0e','#17becf','#8c564b','#e377c2','#bcbd22','#7f7f7f','#393b79','#637939'];
+  const regs=[...new Set(Object.values(D.sources).map(s=>s.registry))].sort(),rc=r=>PAL[regs.indexOf(r)%PAL.length];
+  $('#glegend').innerHTML=regs.map(r=>`<span class="pill"><span style="color:${rc(r)}">●</span> ${esc(r)}</span>`).join(' ')+' <span class="pill"><span style="color:'+col('--accent')+'">●</span> skill</span>';
+  let nodes,links,byId;
+  function build(){
+    const min=Math.max(1,+$('#gmin').value||1),ss=$('#gss').checked,keep=new Set();
+    links=D.graph.skill_doc.filter(l=>l[2]>=min).map(([a,b,n])=>({a:'s:'+a,b:'d:'+b,n,t:'sd'}));
+    if(ss)links=links.concat(D.graph.skill_skill.map(([a,b,n])=>({a:'s:'+a,b:'s:'+b,n,t:'ss'})));
+    links.forEach(l=>{keep.add(l.a);keep.add(l.b)});Object.keys(D.skills).forEach(s=>keep.add('s:'+s));
+    const old=byId||{};byId={};nodes=[];
+    for(const id of keep){const sk=id.startsWith('s:'),key=id.slice(2),o=old[id];
+      const w=sk?D.skills[key].tags:D.sources[key].cites.length;
+      const n={id,key,sk,label:key,r:sk?9+Math.sqrt(w)/2.2:3+Math.sqrt(w)/1.6,color:sk?col('--accent'):rc(D.sources[key].registry),
+        x:o?o.x:(Math.random()-.5)*600,y:o?o.y:(Math.random()-.5)*600,vx:0,vy:0};nodes.push(n);byId[id]=n}
+    links.forEach(l=>{l.s=byId[l.a];l.d=byId[l.b]});
+    const sks=nodes.filter(n=>n.sk).sort((a,b)=>a.key.localeCompare(b.key)),R=320;
+    sks.forEach((n,i)=>{const a=2*Math.PI*i/sks.length-Math.PI/2;n.fx=R*Math.cos(a);n.fy=R*Math.sin(a);if(!old[n.id]){n.x=n.fx;n.y=n.fy}});
+    $('#ginfo').textContent=`${nodes.filter(n=>n.sk).length} skilli · ${nodes.filter(n=>!n.sk).length} dokumentów · ${links.length} krawędzi`;
+    alpha=1}
+  let alpha=1,view={x:0,y:0,k:1},hover=null,drag=null,moved=false,raf;
+  function tick(){
+    const N=nodes.length;
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const a=nodes[i],b=nodes[j];let dx=b.x-a.x,dy=b.y-a.y,d2=dx*dx+dy*dy+.01;
+      const f=(a.sk&&b.sk?9000:a.sk||b.sk?1800:500)/d2,d=Math.sqrt(d2);dx/=d;dy/=d;a.vx-=f*dx;a.vy-=f*dy;b.vx+=f*dx;b.vy+=f*dy}
+    for(const l of links){const a=l.s,b=l.d;let dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)+.01;
+      const want=l.t==='ss'?260:120,k=(l.t==='ss'?.004:.012)*Math.min(3,1+Math.log(l.n));const f=(d-want)*k;a.vx+=f*dx/d;a.vy+=f*dy/d;b.vx-=f*dx/d;b.vy-=f*dy/d}
+    for(const n of nodes){if(n===drag)continue;if(n.sk){n.x+=(n.fx-n.x)*.2;n.y+=(n.fy-n.y)*.2;n.vx=n.vy=0;continue}
+      n.vx-=n.x*.002;n.vy-=n.y*.002;n.x+=n.vx*alpha;n.y+=n.vy*alpha;n.vx*=.6;n.vy*=.6}
+    alpha=Math.max(.02,alpha*.985)}
+  function draw(){
+    const dpr=devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;if(cv.width!==w*dpr){cv.width=w*dpr;cv.height=h*dpr}
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);ctx.translate(w/2+view.x,h/2+view.y);ctx.scale(view.k,view.k);
+    const nb=new Set();if(hover){nb.add(hover);links.forEach(l=>{if(l.s===hover)nb.add(l.d);if(l.d===hover)nb.add(l.s)})}
+    for(const l of links){const on=!hover||l.s===hover||l.d===hover;ctx.globalAlpha=on?(hover?.8:.35):.06;ctx.strokeStyle=l.t==='ss'?col('--muted'):l.d.color;
+      ctx.lineWidth=(l.t==='ss'?1:Math.min(5,.6+Math.log(1+l.n)))/view.k;ctx.setLineDash(l.t==='ss'?[6/view.k,4/view.k]:[]);ctx.beginPath();ctx.moveTo(l.s.x,l.s.y);ctx.lineTo(l.d.x,l.d.y);ctx.stroke()}
+    ctx.setLineDash([]);
+    for(const n of nodes){ctx.globalAlpha=!hover||nb.has(n)?1:.15;ctx.fillStyle=n.color;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,7);ctx.fill();
+      if(n.sk||nb.has(n)&&hover||view.k>1.6){ctx.font=`${n.sk?'600 ':''}${(n.sk?13:11)/view.k}px system-ui`;const tw=ctx.measureText(n.label).width,left=n.sk&&n.x<0;
+        const tx=left?n.x-n.r-4/view.k-tw:n.x+n.r+4/view.k,ty=n.y+4/view.k;ctx.lineWidth=3/view.k;ctx.strokeStyle=col('--card');ctx.strokeText(n.label,tx,ty);ctx.fillStyle=col('--fg');ctx.fillText(n.label,tx,ty)}}
+    ctx.globalAlpha=1;
+    if(hover){const t=hover.sk?`${hover.key}: ${D.skills[hover.key].tags} znaczników`:`${hover.key}: ${D.sources[hover.key].title} · ${D.sources[hover.key].cites.length} cytowań`;
+      ctx.setTransform(dpr,0,0,dpr,0,0);ctx.font='12px system-ui';const tw=ctx.measureText(t).width;ctx.fillStyle=col('--bg');ctx.fillRect(8,8,Math.min(tw+12,w-16),22);ctx.fillStyle=col('--fg');ctx.fillText(t,14,23)}}
+  function loop(){tick();draw();raf=requestAnimationFrame(loop)}
+  const pt=e=>{const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left-cv.clientWidth/2-view.x)/view.k,y:(e.clientY-r.top-cv.clientHeight/2-view.y)/view.k}};
+  const at=p=>{let best=null,bd=1e9;for(const n of nodes){const d=Math.hypot(n.x-p.x,n.y-p.y);if(d<n.r+4/view.k&&d<bd){best=n;bd=d}}return best};
+  let pan=null;
+  cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);moved=false;const n=at(pt(e));if(n){drag=n}else pan={x:e.clientX-view.x,y:e.clientY-view.y}};
+  cv.onpointermove=e=>{const p=pt(e);if(drag){drag.x=p.x;drag.y=p.y;moved=true;alpha=Math.max(alpha,.3)}else if(pan){view.x=e.clientX-pan.x;view.y=e.clientY-pan.y;moved=true}else{hover=at(p);cv.style.cursor=hover?'pointer':'grab'}};
+  cv.onpointerup=e=>{if(drag&&drag.sk&&moved){drag.fx=drag.x;drag.fy=drag.y}if(drag&&!moved)location.hash=drag.sk?'#/skill/'+drag.key:'#/zrodlo/'+drag.key;drag=null;pan=null};
+  cv.onwheel=e=>{e.preventDefault();const k=Math.min(6,Math.max(.2,view.k*(e.deltaY<0?1.12:1/1.12)));view.k=k};
+  view.k=Math.min(1,Math.min(cv.clientWidth,cv.clientHeight)/(2*320+220));
+  $('#gss').onchange=build;$('#gmin').onchange=build;build();loop();G.stop=()=>{cancelAnimationFrame(raf);G.stop=null}}
 function route(){
   const p=decodeURIComponent(location.hash.replace(/^#\/?/,'')).split('/');let h;
   switch(p[0]){case 'skille':h=skille();break;case 'skill':h=skill(p[1]);break;case 'plik':h=plik(p[1],p[2]);break;
     case 'zrodla':h=zrodla();break;case 'zrodlo':h=zrodlo(p[1]);break;case 'rejestr':location.hash='#/zrodla';return;
-    case 'niedostepne':h=niedostepne();break;case 'szukaj':h=szukaj(p.slice(1).join('/'));break;default:h=mapa()}
-  $('#app').innerHTML=h;window.scrollTo(0,0)}
+    case 'niedostepne':h=niedostepne();break;case 'szukaj':h=szukaj(p.slice(1).join('/'));break;
+    case 'graf':h=grafHtml();break;default:h=mapa()}
+  if(G.stop)G.stop();$('#app').innerHTML=h;window.scrollTo(0,0);if(p[0]==='graf')initGraf()}
 let tm;$('#q').addEventListener('input',e=>{clearTimeout(tm);tm=setTimeout(()=>{location.hash='#/szukaj/'+encodeURIComponent(e.target.value)},250)});
 addEventListener('hashchange',route);route();
 </script></body></html>

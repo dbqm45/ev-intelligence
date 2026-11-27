@@ -104,6 +104,8 @@ Wynik: `site/ev-intelligence.html` (katalog poza gitem). Otwierasz go w przeglą
 - **Skille i pliki:** treść z klikalnymi znacznikami `[ID §…]` i odwołaniami do plików.
 - **Źródła:** metadane każdego dokumentu z rejestru (URL, data pobrania, SHA-256, licencja) i lista wszystkich miejsc,
   które go cytują; osobno normy i dokumenty niedostępne.
+- **Graf zależności:** skille na okręgu i dokumenty źródłowe między nimi (kolor = rejestr, wielkość = liczba cytowań);
+  po najechaniu na węzeł widać, na których dokumentach opiera się skill albo które skille cytują dany dokument.
 - **Wyszukiwanie** w treści wszystkich skilli.
 
 Przeglądarka tylko pokazuje treść: niczego nie zapisuje, a zmiany robisz jak dotąd, przez pliki i bramkę. Teksty
