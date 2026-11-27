@@ -28,9 +28,9 @@ pierwszym zdaniu odpowiedzi: której normy nie da się sprawdzić i dlaczego. Do
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/profile-ocpp.md` | cele i rodzaje profili, stack level (1.6 vs 2.0.1), harmonogram złożony, A/W i fazy, zmiana i usuwanie, offline, zmienne, rozbieżności dokumentów |
-| `references/sterowanie-i-topologie.md` | równoważenie w stacji, sterowanie centralne, Local Controller, limity zewnętrzne (EMS, DSO), wielu aktorów, priorytet, OCPI ChargingProfiles, AFIR, przegląd OCPP 2.1 |
-| `references/v2x-der-ocpp21.md` | OCPP 2.1: setpoint i limity rozładowania, tryby V2X, autoryzacja V2X, profile dynamiczne, EMS, FCR/aFRR, równoważenie z budynkiem, offline (`maxOfflineDuration`), DER (SetDERControl), errata |
+| `references/profile-ocpp.md` | cele i rodzaje profili, stack level (1.6 vs 2.0.1), harmonogram złożony i pola `GetCompositeSchedule`, A/W i fazy, zmiana i usuwanie, offline i trwałość (2.1), zmienne, walidacja `SetChargingProfile` (tabela K01 2.0.1/2.1), `Accepted` ≠ wykonanie, `GetChargingProfiles` (K09), rozbieżności dokumentów |
+| `references/sterowanie-i-topologie.md` | równoważenie w stacji, sterowanie centralne, Local Controller, limit a pobór (MeterValues, `*.Offered`, `Inlet`), limity zewnętrzne (EMS, DSO, `isGridCritical`), wielu aktorów, priorytet, OCPI ChargingProfiles, AFIR, przegląd OCPP 2.1 |
+| `references/v2x-der-ocpp21.md` | OCPP 2.1: setpoint i limity rozładowania, tryby V2X, autoryzacja V2X, profile dynamiczne, EMS, FCR/aFRR, równoważenie z budynkiem, offline (`maxOfflineDuration`), DER (SetDERControl), pomiar i rozliczenie energii oddanej (rejestry Import/Export, OCPI CDR), errata |
 
 ## Procedura
 1. **Kontekst:** wersja OCPP, AC czy DC, liczba EVSE i stacji na wspólnym przyłączu, kto ustala limity (CSMS, Local
@@ -82,7 +82,12 @@ Fakty:
   `ChargingOnly` na niższym stack level jest obowiązkowym elementem projektu sesji V2X (**Wniosek**).
 - `setpoint` poza zakresem od `dischargeLimit` do `limit` → odrzucenie profilu (V2X.05) `[21-P2 Q §2.5]`.
 - Nazwy zmiennych w wymaganiach 2.0.1 różnią się od Device Model (`RateUnit`, `NotifyChargingLimitWithSchedules`).
-  W implementacji obowiązują nazwy z załącznika (`references/profile-ocpp.md`, sekcja 9).
+  W implementacji obowiązują nazwy z załącznika (`references/profile-ocpp.md`, sekcja 11).
+- `Accepted` na `SetChargingProfile` znaczy tylko, że stacja przetworzyła komunikat; specyfikacja nie gwarantuje
+  wykonania harmonogramu co do litery `[201-P2 §1.51.2]`. Skutek sprawdzasz przez `GetCompositeSchedule` i `MeterValues`.
+- OCPP 2.1 nie wymaga trwałości `TxProfile` po restarcie (tylko Max, TxDefault i PriorityCharging), a w 2.0.1 trwałe są
+  wszystkie profile `[21-P2 K01.FR.27]` `[201-P2 K01.FR.27]`.
+- `GetChargingProfiles` z `evseId = 0` zwraca tylko profile przyłącza, nie `TxProfile` na EVSE `[201-P2 K09.FR.05]`.
 
 ## Źródła
 `sources/oca-ocpp.yaml` (16 §3.13, §5.7, §5.16, §7.8–7.14, §9.4; 16E; S16; 201-P2 blok K; 201-APP §3.1.16; 201-CSV;

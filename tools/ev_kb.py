@@ -294,6 +294,12 @@ def locate(rest: str, text: str) -> list[PartResult]:
         if not checked and part in ("Preface",):
             checked = True
             found = _find_line(lines, re.compile(r"^\s*" + part + r"\s*$"))
+        # Paragraf kodu NIST Handbook 44: A.1, S.2.4.3, T.2.2, UR.3.3, N.3 (wiersz „S.2.4.3. Tytuł”)
+        if not checked:
+            m = re.match(r"^((?:A|S|N|T|UR)\.\d+(?:\.\d+)*)\.?(?:\s*\(\w+\))*$", part)
+            if m:
+                checked = True
+                found = _find_line(lines, re.compile(r"^\s*" + re.escape(m.group(1)) + r"\.(\s|$)"))
         # Wymaganie OCPP 2.x: I03.FR.04, F02.FR.07; przypadek użycia: E13, F02
         if not checked:
             m = re.search(r"\b([A-Z]\d{2}\.FR\.\d{2,3})\b", part) or \

@@ -131,6 +131,15 @@ class TestLocate(unittest.TestCase):
         self.assertIn("charging session", parts[0].excerpt)
         self.assertEqual(self.status("§11.9"), ["NIE_ZNALEZIONO"])   # tylko w spisie treści
 
+    def test_handbook_paragraph_codes(self):
+        doc = "\n".join(["S.2.4.3. Selection of Unit Price. .......... 3-155", "x",
+                          "     S.2.4.3. Selection of Unit Price. – When", "T.2.2. EVSE Accuracy Test Tolerances"])
+        st = lambda r: [p.status for p in ev_kb.locate(r, doc)]   # noqa: E731
+        self.assertEqual(st("S.2.4.3"), ["OK"])
+        self.assertEqual(ev_kb.locate("S.2.4.3", doc)[0].line, 3)      # nie linia spisu treści
+        self.assertEqual(st("T.2.2 (a)"), ["OK"])
+        self.assertEqual(st("UR.9.9"), ["NIE_ZNALEZIONO"])
+
     def test_block_letter_scopes_section(self):
         doc = "\n".join(["E. Transactions . . . . . . . 10", "A. Security", "1.3. Security profiles", "text",
                           "E. Transactions", "1.2. Transaction IDs", "text", "R. DER Control", "1.3. DER curves"])

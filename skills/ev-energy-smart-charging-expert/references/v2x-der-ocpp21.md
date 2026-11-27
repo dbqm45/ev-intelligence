@@ -18,8 +18,9 @@ sekcji erraty. Zdania **Wniosek** to rekomendacje.
 11. Offline i powrót online (Q11–Q12, K01.FR.101–104)
 12. DER: stacja jako rozproszone źródło (blok R)
 13. Device Model
-14. Rozbieżności i errata
-15. Czego baza nie obejmuje
+14. Pomiar i rozliczenie energii oddanej
+15. Rozbieżności i errata
+16. Czego baza nie obejmuje
 
 ## 1. Zakres i pojęcia `[21-P2 Q §1]`
 - Blok Q opisuje komunikację stacja–CSMS dla ładowania dwukierunkowego, gdy pojazd komunikuje się przez **CHAdeMO albo
@@ -211,7 +212,33 @@ usługach bilansujących).
 - Komponent `ConnectedEV` z co najmniej `Available`, `VehicleId`, `VehicleCertificate`, `ProtocolAgreed`,
   `ProtocolSupportedByEV` (Q01.FR.36) `[21-P2 Q01.FR.36]`.
 
-## 14. Rozbieżności i errata
+## 14. Pomiar i rozliczenie energii oddanej
+- Kierunek: import to przepływ z sieci do stacji, pojazdu lub innego odbiornika; eksport to przepływ z pojazdu do
+  stacji i/lub ze stacji do sieci. Miary z `.Import`/`.Export` w nazwie są nieujemne; miary z `.Setpoint`, `.Net` albo
+  `.Residual` mogą być ujemne `[21-P2 §3.59]`.
+- Rejestry: osobne `Energy.Active.Import.Register` i `Energy.Active.Export.Register` (odczyt rejestru licznika energii
+  pobranej z sieci i oddanej do sieci) są już w 1.6 i 2.0.1 `[16 §7.31]` `[201-P2 §3.50]`; 2.0.1 ma też
+  `Energy.Active.Net` (rejestr netto) `[201-P2 §3.50]`. Wartości `.Register` w jednej transakcji MUST rosnąć
+  monotonicznie, a energię liczy się jako różnicę względem wartości ze startu transakcji `[21-P2 §3.59]`.
+- Nowe w 2.1 dla V2X: `Energy.Active.Setpoint.Interval` (energia, gdyby setpoint był wykonany dokładnie; może być
+  ujemna przy eksporcie), `Power.Active.Setpoint`, `Power.Active.Residual`, `Current.Export.Offered`,
+  `Power.Export.Offered`, `Current.Export.Minimum`, `Power.Export.Minimum`, `EnergyRequest.*` dla zakresów SoC przy
+  cyklowaniu V2X `[21-P2 §3.59]`.
+- OCPI 2.3.0: w CDR `total_energy` to „Total energy charged, in kWh” `[OCPI230 §10.3.1]`. Wymiary okresu ładowania:
+  `ENERGY` może być ujemne, gdy do sieci oddano więcej, niż naładowano; `ENERGY_EXPORT` i `ENERGY_IMPORT` są oznaczone
+  „Session Only”, więc nie używa się ich w CDR `[OCPI230 §10.4.3]`. Kierowca może zezwolić na rozładowanie polem
+  `discharge_allowed` w `ChargingPreferences` (domyślnie false), o ile spełnione są `energy_need` i `departure_time`
+  `[OCPI230 §9.3.2]`.
+
+**Wniosek:** do rozliczenia V2X raportuj z licznika oba rejestry (`Import` i `Export`), nie sam rejestr netto: netto
+nie pozwala odtworzyć, ile energii oddano. CDR OCPI 2.3.0 nie ma osobnego pola energii oddanej, więc rozliczenie
+eksportu między CPO a eMSP wymaga umowy (np. danych z modułu Sessions albo własnego rozszerzenia); OCPI tego nie
+określa. Wycena i taryfy są w skillu `ev-billing-tariff-expert`.
+
+Walidację profili V2X przy `SetChargingProfile` w 2.1 (`InvalidOperationMode`, `PhaseConflict`, tryby V2X tylko w
+transakcji z BPT, K01.FR.111–116, K01.FR.141–146) zbiera `references/profile-ocpp.md` §9 `[21-P2 K01.FR.116]`.
+
+## 15. Rozbieżności i errata
 | Temat | Dokument A | Dokument B | Rozstrzygnięcie |
 |---|---|---|---|
 | oznaczenia przypadków DER | część 0: „R DER Control” z U01–U05 `[21-P0 rozdz. 2]` | część 2: R01–R05 `[21-P2 R01]` | część 2 (normatywna): R01–R05 |
@@ -222,7 +249,7 @@ usługach bilansujących).
 | przykładowy algorytm w erracie Q09 | „setpoint aktualizowany przez dodanie korekty do poprzedniego” `[21-E §2.22]` | w gałęzi „w granicach” przykład podaje `Setpoint_new = 0` `[21-E §2.23]` | **Wniosek:** przykład jest niespójny; normatywny jest tylko stan ustalony z Q09.FR.04 |
 | limity w `LocalLoadBalancing` | tabela w części 2: brak `limit` / `dischargeLimit` `[21-P2 Q §2.2]` | errata 2026-06: opcjonalne `[21-E §2.19]`; Q09.FR.05 i tak je stosuje | errata |
 
-## 15. Czego baza nie obejmuje
+## 16. Czego baza nie obejmuje
 - ISO 15118-20 (z Amendment 1, usługa AC_BPT_DER), CHAdeMO, IEC 61851: normy płatne lub niezarejestrowane. Parametry
   komunikacji z pojazdem nie są opracowane.
 - IEEE 1547, IEEE 2030.5, IEC 61850, UL 1741, SAE J3072, VDE-AR-N 4105 i kodeksy sieciowe: OCPP tylko je przywołuje

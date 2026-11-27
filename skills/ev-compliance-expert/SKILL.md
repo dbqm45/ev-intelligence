@@ -1,19 +1,20 @@
 ---
 name: ev-compliance-expert
-description: Użyj przy wymogach prawnych ładowania EV — ustawa o elektromobilności, UDT, EIPA, kary, AFIR według adresata, MID i Eichrecht, podpisane pomiary.
+description: Użyj przy wymogach prawnych ładowania EV — ustawa o elektromobilności, UDT, EIPA, kary, AFIR według adresata, MID i Eichrecht, podpisane pomiary, USA (NEVI, HB44).
 metadata:
   przeglad: "2027-02-07"
-  katalog: "Użyj, gdy trzeba ustalić, jakie przepisy dotyczą stacji ładowania i usług ładowania i kto za nie odpowiada — polska ustawa o elektromobilności i paliwach alternatywnych (operator ogólnodostępnej stacji, dostawca usługi ładowania, zakaz dla OSD, dostęp dla dostawców usług, art. 3–8), rozporządzenie o wymaganiach technicznych stacji ładowania (zabezpieczenia, instrukcja, numer telefonu, pomiary, złącza Type 2 i Combo 2), badania UDT wstępne i eksploatacyjne, numer EIPA i dane do Ewidencji Infrastruktury Paliw Alternatywnych, kary URE, UDT i Inspekcji Handlowej, mapa obowiązków AFIR (państwa, operatorzy, MSP, NAP) i relacja AFIR z prawem krajowym, metrologia prawna (MID i MI-003, niemiecki MessEG § 33, podpisane wartości pomiarowe w OCPP według noty OCA, OCMF i EDL). Każdy fakt z cytatem z aktu prawnego albo dokumentu OCA; to interpretacja, nie opinia prawna. Nie do wyceny i taryf (ev-billing-tariff-expert), wymagań sprzętowych aneksu II AFIR (ev-evse-hardware-expert) ani publikacji danych do NAP (ev-cpms-architect)."
-  slowa: "compliance, rynek niemiecki, Niemcy, rozliczenia zgodne z Eichrecht, przechowywanie podpisanych pomiarów, co stacja i CSMS muszą przesyłać, zgodność z prawem, regulacje, przepisy, ustawa o elektromobilności, ustawa o elektromobilności i paliwach alternatywnych, Dz.U. 2026 poz. 1243, operator ogólnodostępnej stacji ładowania, dostawca usługi ładowania, ogólnodostępna stacja ładowania, OSD stacja ładowania, URE, UDT, Urząd Dozoru Technicznego, dozór techniczny, badanie techniczne wstępne, badanie eksploatacyjne, odbiór UDT, opinia UDT, wstrzymanie eksploatacji, rozporządzenie wymagania techniczne stacji ładowania, Dz.U. 2019 poz. 1316, EIPA, numer EIPA, Ewidencja Infrastruktury Paliw Alternatywnych, zgłoszenie do EIPA, ceny do EIPA, kary, kara pieniężna, Inspekcja Handlowa, AFIR obowiązki, cele AFIR, 1,3 kW na pojazd, TEN-T 60 km, dyrektywa 2014/94, MID, dyrektywa 2014/32, MI-003, klasa A B C, licznik MID, Eichrecht, MessEG, MessEV, PTB, podpisane wartości pomiarowe, signed meter values, OCMF, EDL, klucz publiczny licznika, SampledDataSignReadings, PublicKeyWithSignedMeterValue, Bundesnetzagentur, legalizacja licznika"
+  katalog: "Użyj, gdy trzeba ustalić, jakie przepisy dotyczą stacji ładowania i usług ładowania i kto za nie odpowiada — polska ustawa o elektromobilności i paliwach alternatywnych (operator ogólnodostępnej stacji, dostawca usługi ładowania, zakaz dla OSD, dostęp dla dostawców usług, art. 3–8), rozporządzenie o wymaganiach technicznych stacji ładowania (zabezpieczenia, instrukcja, numer telefonu, pomiary, złącza Type 2 i Combo 2), badania UDT wstępne i eksploatacyjne, numer EIPA i dane do Ewidencji Infrastruktury Paliw Alternatywnych, kary URE, UDT i Inspekcji Handlowej, mapa obowiązków AFIR (państwa, operatorzy, MSP, NAP) i relacja AFIR z prawem krajowym, metrologia prawna (MID i MI-003, niemiecki MessEG § 33, podpisane wartości pomiarowe w OCPP według noty OCA, OCMF i EDL). Każdy fakt z cytatem z aktu prawnego albo dokumentu OCA; to interpretacja, nie opinia prawna. Także USA: NEVI 23 CFR 680 (uptime, płatności, protokoły, raporty) i NIST Handbook 44 §3.40 (pomiar i tolerancje). Nie do wyceny i taryf (ev-billing-tariff-expert), wymagań sprzętowych aneksu II AFIR (ev-evse-hardware-expert) ani publikacji danych do NAP (ev-cpms-architect)."
+  slowa: "compliance, rynek niemiecki, Niemcy, rozliczenia zgodne z Eichrecht, przechowywanie podpisanych pomiarów, co stacja i CSMS muszą przesyłać, zgodność z prawem, regulacje, przepisy, ustawa o elektromobilności, ustawa o elektromobilności i paliwach alternatywnych, Dz.U. 2026 poz. 1243, operator ogólnodostępnej stacji ładowania, dostawca usługi ładowania, ogólnodostępna stacja ładowania, OSD stacja ładowania, URE, UDT, Urząd Dozoru Technicznego, dozór techniczny, badanie techniczne wstępne, badanie eksploatacyjne, odbiór UDT, opinia UDT, wstrzymanie eksploatacji, rozporządzenie wymagania techniczne stacji ładowania, Dz.U. 2019 poz. 1316, EIPA, numer EIPA, Ewidencja Infrastruktury Paliw Alternatywnych, zgłoszenie do EIPA, ceny do EIPA, kary, kara pieniężna, Inspekcja Handlowa, AFIR obowiązki, cele AFIR, 1,3 kW na pojazd, TEN-T 60 km, dyrektywa 2014/94, MID, dyrektywa 2014/32, MI-003, klasa A B C, licznik MID, Eichrecht, MessEG, MessEV, PTB, podpisane wartości pomiarowe, signed meter values, OCMF, EDL, klucz publiczny licznika, SampledDataSignReadings, PublicKeyWithSignedMeterValue, Bundesnetzagentur, legalizacja licznika, USA, NEVI, 23 CFR 680, FHWA, uptime 97 %, uptime NEVI, NIST Handbook 44, HB44, sekcja 3.40, Class 5, tolerancja licznika EVSE, MMQ"
 ---
 
 # Compliance Expert — przepisy dla stacji i usług ładowania
 
 Skill odpowiada, **jakie przepisy dotyczą stacji i usług ładowania, kto je wypełnia i co grozi za ich naruszenie**: prawo
-polskie, AFIR i metrologia prawna. Taksonomia: D12.01, D12.05, D10.01–D10.03. Sieć: brak.
+polskie, AFIR, metrologia prawna i wymogi USA (NEVI, NIST HB44). Taksonomia: D12.01, D12.05, D12.06 (USA),
+D10.01–D10.03. Sieć: brak.
 
 **Zasada źródeł.** Fakty mają znacznik `[dokument §]` i pochodzą z `sources/*.yaml`: ustawa o elektromobilności (tekst
-jednolity Dz.U. 2026 poz. 1243) i rozporządzenie Dz.U. 2019 poz. 1316 (`pl-prawo.yaml`), AFIR, MID (`eu-inne.yaml`),
+jednolity Dz.U. 2026 poz. 1243) i rozporządzenie Dz.U. 2019 poz. 1316 (`pl-prawo.yaml`), AFIR, MID (`eu-inne.yaml`), 23 CFR 680 i NIST Handbook 44 §3.40 (`us-prawo.yaml`),
 MessEG § 33 (`de-prawo.yaml`), noty OCA. To **interpretacja przepisów, nie opinia prawna**; przy decyzjach z ryzykiem
 kary zaleca się konsultację z prawnikiem. Stan prawny podajesz z datą (2026-11-07).
 
@@ -31,6 +32,7 @@ czytelnikowi.
 |---|---|
 | `references/prawo-pl.md` | role i obowiązki według ustawy, OSD, wymagania techniczne, badania i kontrole UDT (art. 29f), EIPA (art. 42), kary i odwołania, punkty w budynkach i garażach wielorodzinnych (art. 11–12c), plany gmin (art. 60–67), rozbieżności z AFIR |
 | `references/afir-mapa.md` | obowiązki AFIR według adresata (państwa, operatorzy, MSP, NAP), cele mocy i TEN-T dla pojazdów lekkich (art. 3, z odstępstwami) i ciężkich (art. 4), relacja z prawem krajowym |
+| `references/usa.md` | USA: NEVI 23 CFR 680 (uptime > 97 % i wyłączenia, płatności i cena, OCPP 2.0.1 / OCPI 2.2.1 / ISO 15118, raporty i API dla stron trzecich, obsługa klienta), NIST Handbook 44 §3.40 (jednostki, paragon, MMQ, tolerancje, Class 5), porównanie z AFIR |
 | `references/metrologia.md` | MID i MI-003, MessEG § 33, podpisane wartości pomiarowe w OCPP i OCPI, luki (MessEV, Prawo o miarach) |
 
 ## Procedura
@@ -78,8 +80,12 @@ każdej modernizacji. Treść normy PN-EN 62196-3 jest płatna i nieopracowana.
   badania) `[PL-EMOB art. 45 ust. 2]` `[PL-EMOB art. 29f ust. 7]`.
 - Cele mocy i odległości TEN-T z AFIR art. 3 i 4 adresują państwa członkowskie, nie operatora; obowiązki operatora
   są w art. 5 `[AFIR art. 3 ust. 4]` `[AFIR art. 4 ust. 1]`.
+- Uptime NEVI to średnio ponad 97 % rocznie na port; wyłączenia liczą się tylko wtedy, gdy operator wykaże, że port
+  byłby sprawny `[US-23CFR680 §680.116]`.
+- Na stacji NEVI cena z początku sesji nie może się zmienić w jej trakcie `[US-23CFR680 §680.116]`; HB44 dopuszcza
+  zmianę po wcześniejszej zgodzie klienta `[NIST-HB44 S.2.4.3]`, ale to nie zwalnia z wymogu NEVI.
 
 ## Źródła
 `sources/pl-prawo.yaml` (PL-EMOB, PL-R1316), `sources/eu-afir.yaml` (AFIR art. 2, 3, 4, 5, 20, 25; AFIR-OJ do porównania art. 3–4; AFIR-655),
 `sources/eu-inne.yaml` (MID), `sources/de-prawo.yaml` (DE-MESSEG-33), `sources/oca-ocpp.yaml` (OCA-AN-SMV),
-`sources/evrf-ocpi.yaml` (OCPI230 §10.4.7). Niedostępne: `sources/niedostepne.yaml`. Pobrane 2026-11-07.
+`sources/evrf-ocpi.yaml` (OCPI230 §10.4.7), `sources/us-prawo.yaml` (US-23CFR680, NIST-HB44; pobrane 2026-11-27). Niedostępne: `sources/niedostepne.yaml`. Pobrane 2026-11-07.

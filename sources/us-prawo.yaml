@@ -1,0 +1,50 @@
+# Rejestr źródeł: prawo i metrologia USA — klasa A. eCFR (Office of the Federal Register / GPO) i NIST.
+# Zakres USA zatwierdzony przez właściciela 2026-11-15 (NEVI 23 CFR 680, NIST Handbook 44).
+# Pobrano 2026-11-27. eCFR: API versioner/renderer (strony „Reader Aids” i nota o statusie prawnym zablokowane
+# przekierowaniem na unblock.federalregister.gov — patrz note dokumentu US-23CFR680).
+
+source_class: A
+owner: "Stany Zjednoczone: Office of the Federal Register / U.S. Government Publishing Office (eCFR); National Institute of Standards and Technology (NIST Handbook 44)"
+licence: >
+  US-23CFR680: [niesprawdzone] — warunki ponownego wykorzystania eCFR nie zostały pobrane (strony Reader Aids
+  zablokowane); cytujemy z podaniem źródła. NIST-HB44: wg NIST „Copyright, Fair Use, and Licensing Statements for SRD,
+  Data, Software, and Technical Series Publications”
+  (https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications):
+  „Works authored by NIST employees are not subject to Copyright protection within the United States; foreign rights are
+  reserved. To the extent NIST may assert rights outside of the United States, the public is granted the non-exclusive,
+  perpetual, paid-up, royalty-free, worldwide right to reprint works…”; zalecany dopisek „Republished courtesy of the
+  National Institute of Standards and Technology.” Zastrzeżenie: „Some works published by NIST may have been written by
+  third parties and may be subject to copyright protection.” (HB44 przyjmuje National Conference on Weights and Measures.)
+retrieved: 2026-11-27
+
+documents:
+  - id: US-23CFR680
+    title: "23 CFR Part 680 — National Electric Vehicle Infrastructure Standards and Requirements (eCFR, stan na 2026-11-24)"
+    url: https://www.ecfr.gov/api/renderer/v1/content/enhanced/2026-11-24/title-23?part=680
+    sha256_html: 8f7f601776bf253914be5b992344f1ccf141398dd08c6bccfd9ebf615be7ee39
+    xml_url: https://www.ecfr.gov/api/versioner/v1/full/2026-11-24/title-23.xml?part=680
+    sha256_xml: 9a709082ee7f0925ae4485a2acc9d8710011f9713b5093299d79bba9e1631945
+    up_to_date_as_of: 2026-11-24
+    note: >
+      Tytuł 23 w eCFR „up_to_date_as_of” 2026-11-24, ostatnia zmiana tytułu 2026-09-23 (API versioner/v1/titles.json,
+      2026-11-27). Wszystkie sekcje §§ 680.100–680.118 mają jedną wersję z 2023-03-30 (versions/title-23.json?part=680);
+      podstawa: 88 FR 12752, Feb. 28, 2023. Tekst w rejestrze to HTML z renderera eCFR (indeksowany); XML z API versioner
+      to ta sama treść, zapisany dla porównań. eCFR jest kompilacją redakcyjną, a nie urzędowym wydaniem CFR — tej
+      noty eCFR nie dało się zacytować: strony Reader Aids (np. /reader-aids/using-ecfr/ecfr-legal-status) przekierowują
+      na unblock.federalregister.gov (403 proxy), więc status prawny jest [niesprawdzone]. Tekst nie zawiera sekcji
+      o włączeniu norm przez odesłanie (incorporation by reference); normy ISO 15118, SAE J1772, UL, PCI DSS i
+      ENERGY STAR są tylko przywołane. Daty wejścia w życie rozporządzenia tekst eCFR nie podaje (preambuła 88 FR 12752
+      niepobrana).
+  - id: NIST-HB44
+    title: "NIST Handbook 44 (2026 Ed.), Section 3.40. Electric Vehicle Fueling Systems (PDF, 14 s., str. 3-151–3-164)"
+    url: https://www.nist.gov/system/files/documents/2025/12/30/3-40-26-HB44-20251210.pdf
+    sha256: 676f80b8465406e55843b32a443c64294457e62cc561f1e705c131398b0325b5
+    edition: 2026
+    landing: https://www.nist.gov/pml/owm/nist-handbook-44-current-edition
+    doi: https://doi.org/10.6028/NIST.HB.44-2026
+    note: >
+      Strona NIST „Handbook 44 - Current Edition”: „Current Version - 2026 as adopted by the 109th National Conference on
+      Weights and Measures”. Pobrano tylko sekcję 3.40; Section 1.10 General Code (G-S.1, G-S.5.5, G-S.8.2), 5.55 Timing
+      Devices, Introduction i Appendix D (definicje) nie są opracowane. Metadane PDF mają tytuł „… - Tentative Code”,
+      a tekst sekcji mówi, że od 1.1.2023 kod jest „permanent” — rozstrzyga tekst. Status prawny HB44 w poszczególnych
+      stanach (przyjęcie przez prawo stanowe) nie jest określony w sekcji 3.40 i nie był sprawdzany.

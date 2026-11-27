@@ -15,14 +15,14 @@
 # - Gdy uzyskamy dokument: pobranie → wpis w `sources/<wydawca>.yaml` z SHA-256 → usunięcie wpisu stąd.
 # - `przywolana_w`: skille, które wymieniają dokument (stan 2026-11-07). Aktualizuj przy zmianach.
 
-updated: 2026-11-07
+updated: 2026-11-27
 
 normy_platne:
   - norma: "ISO 15118 (części -1, -2, -3, -4, -5, -20 oraz -20 Amendment 1)"
     wydawca: ISO
     dostep: platna
     temat: "komunikacja pojazd–ładowarka, Plug & Charge, struktura V2G PKI, BPT"
-    przywolana_przez: ["AFIR Annex II pkt 2.1 (EN ISO 15118-1…-5, EN ISO 15118-20:2022)", "201-P2 blok A, C, K, M", "21-P2 bloki K, Q, R", "OCA-AN-PNC"]
+    przywolana_przez: ["AFIR Annex II pkt 2.1 (EN ISO 15118-1…-5, EN ISO 15118-20:2022)", "201-P2 blok A, C, K, M", "21-P2 bloki K, Q, R", "OCA-AN-PNC", "US-23CFR680 §680.108(a) (ISO 15118-2, -3, -4, -5, -20)"]
     przywolana_w: [ev-domain-expert, ev-energy-smart-charging-expert, ev-evse-diagnostics-expert, ev-evse-hardware-expert, ev-ocpi-roaming-expert, ev-iso15118-pki-expert]
   - norma: "IEC 61851-1 / EN IEC 61851-1:2019, EN 61851-23-1:2020"
     wydawca: IEC / CENELEC
@@ -142,7 +142,8 @@ niezarejestrowane:
   - dokument: "Standard PCI DSS (PCI SSC)"
     dostep: niezarejestrowana
     temat: "bezpieczeństwo danych kart płatniczych; PSD2 jest w rejestrze (`sources/eu-inne.yaml`, id `PSD2`)"
-    przywolana_w: [ev-billing-tariff-expert, ev-domain-expert]
+    przywolana_przez: ["US-23CFR680 §680.106(l)"]
+    przywolana_w: [ev-billing-tariff-expert, ev-domain-expert, ev-compliance-expert]
   - dokument: "Dyrektywa (UE) 2019/944 (rynek energii elektrycznej)"
     dostep: niezarejestrowana
     temat: "OSD, OSP, elastyczność; definicje przywołane przez AFIR"
@@ -169,6 +170,23 @@ niezarejestrowane:
     temat: "protokół roamingowy Gireve, domena D01.04"
     przywolana_w: [ev-ocpi-roaming-expert]
     uwaga: "Pliki są publicznie do pobrania (www.gireve.com/download/), ale licencja (rozdz. 1.4 Confidentiality) zakazuje ujawniania protokołu osobom trzecim w jakiejkolwiek formie. Decyzja właściciela (2026-11-07): poziom źródeł poufnych — rejestr sources/poufne/gireve-emip.yaml, tekst tylko lokalnie, narzędzie ev_confidential_check zwraca wyłącznie werdykt i link."
+  - dokument: "SAE J1772 (złącze), normy UL dla urządzeń ładowania EV, certyfikacja ENERGY STAR (EPA)"
+    dostep: niezarejestrowana
+    temat: "wymagania sprzętowe NEVI przywołane bez numeru (UL) albo jako program certyfikacji (ENERGY STAR)"
+    przywolana_przez: ["US-23CFR680 §680.106(c)", "US-23CFR680 §680.106(g)"]
+    przywolana_w: [ev-compliance-expert]
+    uwaga: "Wydawcy: SAE International, UL, EPA. Dostępność i cena niesprawdzone (2026-11-27)."
+  - dokument: "NIST Handbook 44 (2026) — Section 1.10 General Code, Section 5.55 Timing Devices, Introduction, Appendix D"
+    dostep: niezarejestrowana
+    temat: "przepisy ogólne przywołane przez §3.40 (G-S.1, G-S.5.5, G-S.8.2) i definicje"
+    przywolana_przez: ["NIST-HB44 §3.40"]
+    przywolana_w: [ev-compliance-expert]
+    uwaga: "Bezpłatne na www.nist.gov; jeszcze niepobrane."
+  - dokument: "Federal Register 88 FR 12752 (28.02.2023) — preambuła reguły NEVI; 2 CFR 200, 49 CFR 37, 28 CFR 35/36, 23 CFR 655"
+    dostep: niezarejestrowana
+    temat: "data wejścia w życie 23 CFR 680 i przepisy, do których odsyła"
+    przywolana_przez: ["US-23CFR680"]
+    przywolana_w: [ev-compliance-expert]
 
 hosty_zablokowane:
   - host: modelcontextprotocol.io
@@ -183,3 +201,9 @@ hosty_zablokowane:
   - host: www.ochp.eu
     data: 2026-11-07
     obejscie: "specyfikacja OCHP z github.com/e-clearing-net/OCHP; host dodany do listy, ale połączenie jest resetowane"
+  - host: www.ecfr.gov (strony poza /api/)
+    data: 2026-11-27
+    obejscie: "tekst 23 CFR 680 z /api/renderer i /api/versioner; strony Reader Aids (status prawny eCFR) przekierowują do unblock.federalregister.gov, które proxy odrzuca"
+  - host: eur-lex.europa.eu
+    data: 2026-11-18
+    obejscie: "brak — zapora CloudFront (HTTP 202, x-amzn-waf-action: challenge); publications.europa.eu odrzucony przez proxy; docs/DO-ZROBIENIA.md"

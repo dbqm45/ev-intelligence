@@ -32,6 +32,25 @@ pojedynczego pojazdu albo na łączny pobór stacji lub grupy stacji `[16 §3.13
   (K02.FR.02) `[201-P2 K02.FR.02]`.
 - Profil to **limit, nie cel**: pojazd może pobierać mniej (temperatura, stan baterii, kabel jednofazowy, limity
   lokalne) `[OCPI230 §14]`.
+- `Accepted` na `SetChargingProfile` też nie jest dowodem działania limitu: status mówi tylko, że stacja przetworzyła
+  komunikat, bez gwarancji wykonania harmonogramu co do litery `[16 §6.44]` `[201-P2 §1.51.2]` (szczegóły:
+  `references/profile-ocpp.md` §10).
+- Pobór rzeczywisty a limit w `MeterValues`:
+  - `Current.Import` (prąd do pojazdu), `Power.Active.Import` (moc czynna pobierana przez pojazd), w V2X
+    `Current.Export`, `Power.Active.Export` `[16 §7.31]` `[201-P2 §3.50]`;
+  - `Current.Offered` i `Power.Offered` nie są pomiarami, tylko maksimum oferowanym pojazdowi, przeznaczonym do
+    zastosowań smart charging `[16 §4.7]` `[201-P2 §3.50]`; w 2.1 są synonimami `Current.Import.Offered` i
+    `Power.Import.Offered`, a nowe `Power.Active.Setpoint` i `Power.Active.Residual` to wartość zadana i odchyłka od
+    niej `[21-P2 §3.59]`;
+  - pomiar przyłącza: stacja mierząca np. `Current.Import` na wejściu (grid connection) i na wyjściach SHALL raportować
+    wszystkie lokalizacje i fazy; przyłącze idzie jako `connectorId`/`evseId` 0 z `location = Inlet`, złącze z
+    `location = Outlet` `[16 §3.16.3]` `[201-P2 J §2.3]`;
+  - liczbę faz faktycznie używanych przez pojazd CSMS może ustalić z otrzymanych `MeterValues`, bo profil z 3 fazami
+    nie gwarantuje, że pojazd lub kabel ładują trzema fazami (nota do K01.FR.43) `[201-P2 K01.FR.43]`.
+
+**Wniosek:** suma limitów z profili nie jest obciążeniem przyłącza. Do planowania i rozliczania mocy przyłącza używasz
+pomiaru (`Inlet` na EVSE 0 albo licznik zewnętrzny), a różnicę między `*.Offered` a `*.Import` traktujesz jako
+niewykorzystany limit, który pojazd może w każdej chwili zacząć pobierać.
 
 ## 2. Local Controller
 - Komponent logiczny: osobne urządzenie albo „master” jednej ze stacji. Działa jak proxy komunikatów OCPP członków
@@ -55,6 +74,22 @@ pojedynczego pojazdu albo na łączny pobór stacji lub grupy stacji `[16 §3.13
   (K13.FR.01) i SHALL powiadomić CSMS komunikatem `ClearedChargingLimitRequest` (K13.FR.02). Gdy trwa transakcja, a moc
   zmieniła się bardziej niż `LimitChangeSignificance`, stacja SHALL wysłać `TransactionEventRequest` z
   `trigger = ChargingRateChanged` (K13.FR.03) `[201-P2 K13.FR.01]` `[201-P2 K13.FR.02]` `[201-P2 K13.FR.03]`.
+- `NotifyChargingLimitRequest` niesie wymagany `chargingLimit` (`ChargingLimitType`), opcjonalny `evseId` i opcjonalną
+  listę `chargingSchedule` `[201-P2 §1.33.1]`. `ChargingLimitType` ma `chargingLimitSource` (wymagane) i opcjonalne
+  `isGridCritical`: „Indicates whether the charging limit is critical for the grid” `[201-P2 §2.7]`. Na diagramie K14
+  (Local Controller) pole pojawia się jako `[chargingLimitGridCritical]` `[201-P2 K14]`. OCPP 2.1 dodaje w tym typie
+  `isLocalGeneration`: limit dotyczy lokalnej generacji, która daje dodatkową moc, a nie ograniczenia; źródło jest
+  tam napisem (`string[0..20]`) z wartościami z załącznika `[21-P2 §2.13]` `[21-APP §7.2]`.
+- **Czego specyfikacja nie określa:** sprawdzone dokumenty `[201-P2]` `[21-P2]` nie przypisują `isGridCritical` żadnego
+  zachowania CSMS ani stacji (brak wymagania FR z tym polem). Twierdzenie, że limit krytyczny ma „pierwszeństwo przed
+  celami komercyjnymi”, nie ma oparcia w OCPP. **Wniosek:** stacja i tak SHALL NOT przekroczyć limitu zewnętrznego
+  (K11.FR.01), a CSMS nie może go zdjąć (K01.FR.22), więc flaga służy CSMS do klasyfikacji: alarm, raport do CSO,
+  wstrzymanie planów, które zakładały wyższą moc. Zasady priorytetu ustalasz w umowie z operatorem systemu.
+- Zakres `evseId` w `NotifyChargingLimitRequest`: 2.0.1 „evseId must be > 0”, bez opisu, czego dotyczy brak pola
+  `[201-P2 §1.33.1]`, choć cel `ChargingStationExternalConstraints` jest w 2.0.1 ważny tylko dla `evseId` 0
+  `[201-P2 §3.13]`. 2.1: brak pola albo 0 = cała stacja `[21-P2 §1.45.1]`, a cel zewnętrzny może dotyczyć też
+  pojedynczego EVSE `[21-P2 §3.15]`. **Wniosek:** w 2.0.1 limit całej stacji zgłaszaj bez `evseId` (0 łamie „> 0”),
+  a CSMS traktuje brak pola jako całą stację; w 2.1 dopuszczalne jest też `evseId` 0.
 - Raportując taki limit, stacja używa celu `ChargingStationExternalConstraints`; zaleca się ujemne `id`, żeby nie
   kolidowało z `id` od CSMS (K11.FR.06). Każda zmiana limitu w profilu `Absolute`/`Relative` oznacza nowy profil (może
   mieć to samo `id`) `[201-P2 K11.FR.06]`.
