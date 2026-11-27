@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.19] — 2026-11-27
+### Added
+- **kb:** add dependency graph to the knowledge browser
+
 ## [0.1.18] — 2026-11-27
 ### Added
 - **kb:** add offline knowledge browser generated from the repository
