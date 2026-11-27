@@ -54,6 +54,15 @@ ten sam identyfikator, więc drugą kopię rozpoznasz po nim.
 - Lokalizacji prywatnych, nieprzeznaczonych do ładowania publicznego, SHALL NOT się publikować `[OCPI230 §8.1]`.
 - Push jest zalecany w normalnej pracy; GET (pull) przy pierwszym połączeniu i przy niepewności co do stanu (pełna
   synchronizacja) `[OCPI230 §8.2]`.
+- Identyfikatory żądań `[OCPI230 §4.2]`:
+  - `X-Request-ID`: każde żądanie SHALL mieć unikalny identyfikator, a odpowiedź na nie SHALL nieść ten sam;
+  - `X-Correlation-ID`: każde żądanie i odpowiedź SHALL mieć unikalny identyfikator korelacji, a każda odpowiedź na
+    to żądanie SHALL nieść ten sam;
+  - jako wartości zaleca się GUID/UUID;
+  - hub przekazujący żądanie do strony SHALL nadać mu nową, unikalną wartość `X-Request-ID`, a nie kopię z żądania
+    przychodzącego. `X-Correlation-ID` SHALL przekazać z tą samą wartością.
+- **Wniosek:** w logach bramy `X-Request-ID` identyfikuje jeden odcinek HTTP, a `X-Correlation-ID` cały przebieg przez
+  hub. Przebieg od partnera do stacji wyszukujesz więc po `X-Correlation-ID`.
 - Mechanikę credentials, nagłówków i paginacji opisuje skill `ev-ocpi-roaming-expert`.
 
 ## 4. Mapowanie stacji OCPP na OCPI Locations `[OCPI230 §8.1.2]`

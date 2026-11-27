@@ -51,7 +51,8 @@
           [
             "additionalProperties",
             "nieznan\\w*\\s+pol\\w*[^.\\n]{0,30}odrzuc\\w*\\s+schemat",
-            "schemat\\w*[^.\\n]{0,40}odrzuc\\w*[^.\\n]{0,30}nieznan\\w*\\s+pol"
+            "schemat\\w*[^.\\n]{0,40}odrzuc\\w*[^.\\n]{0,30}nieznan\\w*\\s+pol",
+            "schemat\\w*[^.\\n]{0,40}nie\\s+dopuszcz\\w*[^.\\n]{0,30}pól"
           ],
           [
             "nie\\s+(wolno|może|mogą|powinn\\w*|należy|odrzuca)\\w*\\s+(\\w+\\s+){0,3}odrzuc",
@@ -65,7 +66,7 @@
           "(OCPI|platform\\w*\\s+OCPI)(?:(?!\\bnie\\b).){0,60}(musi|powinn\\w*|należy)\\s+odrzuc\\w*(?:(?!\\bnie\\b).){0,30}nieznan"
         ]
       },
-      "audit_note": "Audyt 2026-11-08: grupa additionalProperties przyjmuje opis tego samego faktu (schemat JSON odrzuca nieznane pola; OCA-WP-CUST §1.2.2)."
+      "audit_note": "Audyt 2026-11-08: grupa additionalProperties przyjmuje opis tego samego faktu (schemat JSON odrzuca nieznane pola; OCA-WP-CUST §1.2.2). Audyt holdout 2026-11-27: ta sama grupa przyjmuje też „schemat nie dopuszcza pól” (ten sam fakt: additionalProperties false, parser nie przyjmuje innych pól; OCA-WP-CUST §1.2.2)."
     },
     {
       "id": "ho-int-brama-naglowki",
@@ -92,14 +93,14 @@
           [
             "X-Correlation-ID.{0,80}(ten\\s+sam|tą\\s+samą|tę\\s+samą|takim\\s+samym|tym\\s+samym|same|bez\\s+zmian|niezmienion|zachow)",
             "(ten\\s+sam|tą\\s+samą|tę\\s+samą|same|zachow\\w*|przekaz\\w*\\s+bez\\s+zmian).{0,40}X-Correlation-ID",
-            "X-Correlation-ID`?\\s+(idzie|przechodzi|biegnie)[^.\\n]{0,40}(cał\\w*\\s+łańcuch|przez\\s+hub)"
+            "X-Correlation-ID[`*]*\\s+(idzie|przechodzi|biegnie)[^.\\n]{0,40}(cał\\w*\\s+łańcuch|przez\\s+hub)"
           ]
         ],
         "none": [
           "hub\\w*\\s+(?:(?!\\bnie\\b).){0,60}(kopiuje|przepisuje)\\s+(ten\\s+sam\\s+|to\\s+samo\\s+)?X-Request-ID"
         ]
       },
-      "audit_note": "Audyt 2026-11-08: grupa X-Correlation-ID przyjmuje opis przejścia tego samego identyfikatora przez cały łańcuch i hub (ten sam fakt, OCPI230 §4.2). Audyt holdout 2026-11-08: grupa o jednym oczekującym CALL przyjmuje też „nie wysyła kolejnego CALL” i SHALL NOT po słowie CALL (ten sam fakt, 201-P4 §4.1.1)."
+      "audit_note": "Audyt 2026-11-08: grupa X-Correlation-ID przyjmuje opis przejścia tego samego identyfikatora przez cały łańcuch i hub (ten sam fakt, OCPI230 §4.2). Audyt holdout 2026-11-08: grupa o jednym oczekującym CALL przyjmuje też „nie wysyła kolejnego CALL” i SHALL NOT po słowie CALL (ten sam fakt, 201-P4 §4.1.1). Audyt holdout 2026-11-27: trzeci wzorzec grupy X-Correlation-ID dopuszcza formatowanie Markdown (` i *) po nazwie nagłówka (ten sam fakt, OCPI230 §4.2); grupa X-Request-ID bez zmian, fakt jest w OCPI230 §4.2 i został dodany do skilla."
     },
     {
       "id": "ho-int-nt-onboarding",
