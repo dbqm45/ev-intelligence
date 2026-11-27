@@ -3,6 +3,10 @@
 Format: newest version on top ([Keep a Changelog](https://keepachangelog.com/en/1.1.0/), [SemVer](https://semver.org/)).
 Entries are generated from Conventional Commits by `scripts/release.py` (docs/RELEASING.md).
 
+## [0.1.15] — 2026-11-27
+### Added
+- **compliance:** add USA NEVI 23 CFR 680 and NIST HB44 3.40
+
 ## [0.1.14] — 2026-11-27
 ### Added
 - **taxonomy:** add USA scope (NEVI, NIST HB44) to D12.06 in 1.3.0
