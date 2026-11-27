@@ -134,6 +134,21 @@
       }
     },
     {
+   "id": "emsp-zgubiona-karta-nap",
+   "expect": "trigger",
+   "prompt": "Budujemy aplikację eMSP (OCPI 2.3.0) z mapą stacji i kartami RFID. Klient zgłasza zgubienie karty: co wysyłamy do CPO i na co uważać przy whitelist? Jakie dane o miejscach postojowych CPO przekazuje do NAP i w jakich jednostkach? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["valid"],
+     ["PATCH|PUT"],
+     ["whitelist|ALWAYS|NEVER"],
+     ["Parking|vehicle_types|miejsc\\w* postojow\\w*"],
+     ["\\bcm\\b|centymetr\\w*|\\bkg\\b|ton\\w*|metr\\w*"]
+    ],
+    "none": []
+   }
+  },
+  {
       "id": "callerror-201",
       "expect": "no-trigger",
       "prompt": "Jakie kody błędów CALLERROR są dozwolone w OCPP 2.0.1 i czym różni się FormatViolation od FormationViolation?",

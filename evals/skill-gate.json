@@ -4,23 +4,23 @@
   "offline": "2026-11-15"
  },
  "ev-charging-operations-expert": {
-  "fingerprint": "5f06798fd2e2bc4a",
+  "fingerprint": "6970801c11fc8b76",
   "offline": "2026-11-27"
  },
  "ev-compliance-expert": {
-  "fingerprint": "283f28ef28232b18",
+  "fingerprint": "6a12c6ef6799663f",
   "offline": "2026-11-27"
  },
  "ev-cpms-architect": {
-  "fingerprint": "495e99adc3387a68",
+  "fingerprint": "11a9e2b87e326ed8",
   "offline": "2026-11-27"
  },
  "ev-domain-expert": {
-  "fingerprint": "15bf186fcb9ff871",
+  "fingerprint": "f9ad65139dde3b00",
   "offline": "2026-11-27"
  },
  "ev-energy-smart-charging-expert": {
-  "fingerprint": "faf29e7d2601fbd9",
+  "fingerprint": "837943d744acac64",
   "offline": "2026-11-27"
  },
  "ev-evse-diagnostics-expert": {
@@ -28,7 +28,7 @@
   "offline": "2026-11-15"
  },
  "ev-evse-hardware-expert": {
-  "fingerprint": "c9cfeec86a49c0de",
+  "fingerprint": "926e138243668e98",
   "offline": "2026-11-27"
  },
  "ev-integration-architect": {
@@ -48,7 +48,7 @@
   "offline": "2026-11-15"
  },
  "ev-product-designer": {
-  "fingerprint": "b4779f85462164e2",
+  "fingerprint": "17f52783242a09f3",
   "offline": "2026-11-27"
  }
 }

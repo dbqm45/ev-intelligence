@@ -146,6 +146,21 @@
       }
     },
     {
+   "id": "zlacza-nacs-mcs-ocpp21-ocpi",
+   "expect": "trigger",
+   "prompt": "Dodajemy do CPMS stacje z kablem NACS (SAE J3400) i złączem MCS dla ciężarówek. Jak zapisać te typy złączy w OCPP 2.0.1, OCPP 2.1 i w OCPI 2.2.1 oraz 2.3.0? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["cNACS"],
+     ["cMCS"],
+     ["SAE_J3400"],
+     ["\\bMCS\\b"],
+     ["2\\.2\\.1[^.\\n]{0,80}(nie (ma|zawiera|definiuje)|brak)|(brak|nie ma)[^.\\n]{0,80}2\\.2\\.1|OpenEnum|ConnectorEnumStringType"]
+    ],
+    "none": []
+   }
+  },
+  {
       "id": "groundfailure-dyzur",
       "expect": "no-trigger",
       "neighbor": "ev-charging-operations-expert",

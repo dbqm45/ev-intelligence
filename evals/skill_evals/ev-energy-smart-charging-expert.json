@@ -122,6 +122,20 @@
    }
   },
   {
+   "id": "accepted-nie-znaczy-zastosowany",
+   "expect": "trigger",
+   "prompt": "Stacja OCPP 2.0.1 odpowiedziała Accepted na SetChargingProfile z TxProfile 10 A, ale auto dalej pobiera 16 A. Czy Accepted oznacza, że limit działa, i jak w CSMS sprawdzić, jakie profile i jaki limit stacja naprawdę stosuje? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["nie gwarant\\w*|does not guarantee|nie oznacza|to the letter|co do litery|tylko[^.\\n]{0,40}przetworz\\w*"],
+     ["GetCompositeSchedule"],
+     ["GetChargingProfiles|ReportChargingProfiles|K09"],
+     ["MeterValues|Current\\.Import|Power\\.Active\\.Import"]
+    ],
+    "none": ["Accepted (oznacza|gwarantuje),? że limit (działa|jest zastosowany)"]
+   }
+  },
+  {
    "id": "callerror-format",
    "expect": "no-trigger",
    "prompt": "Jak wygląda ramka CALLERROR w OCPP-J 1.6 i jakie kody błędów są dozwolone?",

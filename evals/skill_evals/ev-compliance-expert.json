@@ -82,6 +82,20 @@
    }
   },
   {
+   "id": "usa-nevi-uptime-platnosci",
+   "expect": "trigger",
+   "prompt": "Budujemy w USA stację DC przy korytarzu AFC finansowaną z programu NEVI. Jak liczy się wymagany uptime portu, co można wyłączyć z przestojów i jakie metody płatności oraz protokoły (OCPP, OCPI) musimy zapewnić? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["97 ?%|97 procent"],
+     ["680\\.116|23 CFR 680"],
+     ["zbliżeniow\\w*|contactless"],
+     ["OCPP 2\\.0\\.1|OCPI 2\\.2\\.1"]
+    ],
+    "none": ["99 ?% uptime\\w*"]
+   }
+  },
+  {
    "id": "limit-stacji-profil",
    "expect": "no-trigger",
    "prompt": "Jak ustawić ChargingStationMaxProfile w OCPP 2.0.1, żeby ograniczyć stację do 32 A na fazę?",

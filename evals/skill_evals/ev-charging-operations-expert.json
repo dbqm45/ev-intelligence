@@ -164,6 +164,20 @@
       }
     },
     {
+   "id": "firmware-wolne-evse-unavailable",
+   "expect": "trigger",
+   "prompt": "Jestem dyżurnym NOC. Na stacji OCPP 2.0.1 w nocy wysłaliśmy UpdateFirmware. Rano kierowcy zgłaszają, że wolne EVSE są Unavailable, na jednym trwa sesja, a firmware wisi w stanie pośrednim. Czy to awaria, co sprawdzić i czy w tym czasie raportujemy te EVSE do NAP jako non-operational?",
+   "checks": {
+    "all": [
+     ["L01\\.FR\\.0?[67]|czeka\\w*[^.\\n]{0,80}(koniec|zakończeni\\w*)[^.\\n]{0,40}transakc"],
+     ["AllowNewSessionsPendingFirmwareUpdate"],
+     ["FirmwareStatusNotification"],
+     ["non-operational|nieoperacyjn\\w*|niesprawn\\w*|niedostępn\\w*"]
+    ],
+    "none": []
+   }
+  },
+  {
       "id": "model-danych-cpms",
       "expect": "no-trigger",
       "neighbor": "ev-cpms-architect",

@@ -45,6 +45,21 @@
    }
   },
   {
+   "id": "identyfikatory-role-ocpi-oicp",
+   "expect": "trigger",
+   "prompt": "Integrujemy CPMS z OCPI i Hubject. Jaki jest format EVSE ID i ID kontraktu (eMA ID, EvcoID), kto nadaje kody operatorów w UE i w Polsce i czym różnią się role CPO, eMSP i hub według AFIR i OCPI? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["IDRO|art\\.? ?20"],
+     ["party_id|country_code"],
+     ["EvseID|evse_id|EVSE ID"],
+     ["EIPA"],
+     ["niedostępn\\w*|nie da się sprawdzić|nie (ma|obejmuje)[^.\\n]{0,40}baz\\w*|ISO 15118|DIN SPEC"]
+    ],
+    "none": ["\\bLuhn\\w*"]
+   }
+  },
+  {
    "id": "dobor-persony",
    "expect": "no-trigger",
    "neighbor": "core-problem-routing",

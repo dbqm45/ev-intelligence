@@ -80,8 +80,41 @@ rada), kody 2002/2004, reguła 15 minut zależna od typu tokenu, `parking_places
 2.2.1/2.3.0 (specyfikacja nie opisuje). Niespójności w samych specyfikacjach są opisane w plikach (np. `RESERVED` vs
 `RESERVATION`, `ModuleID` bez `payments`, `lang` w `InfoTextType`).
 
+## Fala 1, część 2 (2026-11-18 – 2026-11-27): pozostałe skille i USA
+Treść pisali agenci, każdy na osobnych plikach. Przed merdżem kluczowe twierdzenia każdego z nich sprawdzono w tekście
+dokumentów z `.cache/ev-kb/`. Wszystkie znaczniki mają status `OK` w `ev_kb.py check`; znaczniki z literą bloku OCPP
+są od 2026-11-18 sprawdzane tylko w swoim bloku.
+
+| Pozycje | Stan | Gdzie |
+|---|---|---|
+| sesja OCPP↔OCPI end-to-end (luki-podsumowanie) | przeniesione | `ev-integration-architect/references/sesja-ocpp-ocpi.md` |
+| migracja CSMS (luki-E, luki-podsumowanie) | przeniesione | `ev-integration-architect/references/migracja-i-rozszerzenia.md` §7–12 |
+| prawo PL art. 11–12c, 29f, 42, 60–67, kary; AFIR art. 3 ust. 5–11, art. 4 (luki-D) | przeniesione | `ev-compliance-expert/references/prawo-pl.md`, `afir-mapa.md` |
+| C3, C5, Y3; Sessions PATCH, Tokens 2001–2004, Payments 2.3.0 (luki-B) | przeniesione | `ev-ocpi-roaming-expert/references/moduly.md` |
+| SC2, SC3, SC7, SC11, SC12, EM15, VX6, VX7; K01/K09, `isGridCritical`, „Accepted ≠ zastosowano” (luki-C, luki-A) | przeniesione | `ev-energy-smart-charging-expert/references/` (3 pliki) |
+| HW1, HW3, HW4, HW5, HW6, HW7, HW9, HW10, HW13 (luki-C §4) | częściowo | `ev-evse-hardware-expert/references/` — tylko strona protokołów; treść IEC 61851-1, EN IEC 62196, IEC 60364-7-722 niedostępna |
+| wiersze 138, 174, 175 (część), 176, 222, 223; 179/180, 186, 226 jako Wniosek (luki-E) | przeniesione | `ev-cpms-architect/references/`, `ev-charging-operations-expert/references/` |
+| D1–D3, D5–D8, E1, E2 (część), E4–E6, E12, M1 (część), M3 (część) (luki-B §6–8); luki-F §1, §4, §5 (część) | przeniesione | `ev-domain-expert/references/identyfikatory-i-role.md`, `ev-product-designer/references/` |
+| T13, wiersze 172, 173, 219–221 (USA, NEVI) | przeniesione | `ev-compliance-expert/references/usa.md`; źródła `sources/us-prawo.yaml` (23 CFR 680, NIST HB44 §3.40) |
+
+Czeka albo odrzucone (powód):
+- SC1, EM2, EM3, VX4, VX5: RED III, EPBD, RfG niezarejestrowane — fala 3; EUR-Lex od 2026-11-18 blokuje pobieranie.
+- SC6, EM7, HW1/HW5/HW6/HW9/HW13 (treść normy), VX2, VX3: normy płatne (`sources/niedostepne.yaml`).
+- HW10: zmiana MID 2026/706 niesprawdzona (EUR-Lex); `metrologia.md` może być nieaktualny dla liczników DC.
+- wiersz 177 (legalizacja licznika): Prawo o miarach niezarejestrowane; wiersz 224 (DST): dyrektywa 2000/84/WE
+  niezarejestrowana; wiersz 141 (free vend): nie sprawdzono w 201-P2 C.
+- D4 (cyfra kontrolna EMAID), format EVSE ID: dokument EVRF „E-mobility ID-codes”, eMI3, DIN SPEC 91286 niezarejestrowane.
+- E15 (RODO), M1 (host, producent, flota), luki-F §4 (opłaty dystrybucyjne): brak źródła w rejestrze.
+- klasy P i R bez faktów, z których dałoby się wyprowadzić Wniosek: SC4, SC5, SC8–SC10, EM5–EM14, EM16–EM22, E3, E7–E9,
+  E11, E13, E14, M2, M4–M6 — zostają tutaj.
+
+Błędy w analizie luk wykryte przy pracy:
+- luki-E wiersz 180 cytuje StatusSchedule jako `[OCPI230 §8.4.24]`; poprawnie §8.4.27 (§8.4.24 to PublishTokenType).
+- luki-B D5/D6 cytują `OCPI230 §16.1` dla CiString; w 2.3.0 to §17.4 (§16 to moduł Payments).
+- pack-ev podaje dla EVSE ID „1–31 znaków” po `E`; wyrażenie OICP dopuszcza 1–30 `[OICP23-CPO-DT #EvseIDType]`.
+
 ## Pozostałe skille pack-ev
-Nieprzetworzone. Kolejność i decyzje: `analiza/luki-podsumowanie.md`. Decyzje właściciela z 2026-11-15:
+Nieprzetworzone: pozycje nieujęte w tabelach powyżej. Kolejność i decyzje: `analiza/luki-podsumowanie.md`. Decyzje właściciela z 2026-11-15:
 - praktyka (P): przenosić, co pasuje; resztę zostawić tutaj z adnotacją;
 - zakres USA (NEVI 23 CFR 680, NIST HB44): **tak**, wymaga rejestracji źródeł i rozszerzenia taksonomii D12.06;
 - tematy bez skilla (identyfikatory, role rynku, eMSP, bateria, floty): do istniejących skilli `ev-*`, bez nowych.

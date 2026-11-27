@@ -98,6 +98,21 @@
       }
     },
     {
+   "id": "status-evse-wiele-zlaczy-eipa",
+   "expect": "trigger",
+   "prompt": "Projektujemy publikację statusu EVSE z CPMS do OCPI, do API dla NAP (AFIR) i do EIPA w Polsce. Stacje OCPP 2.0.1 i 2.1 mają EVSE z dwoma złączami, a część statusów przychodzi przez NotifyEvent zamiast StatusNotification. Jak wyliczać jeden status EVSE i jakie terminy aktualizacji obowiązują? Odpowiedz zwięźle.",
+   "checks": {
+    "all": [
+     ["AvailabilityState"],
+     ["G01\\.FR\\.08|pozostał\\w* złącz|inn\\w* złącz|drugi\\w* złącz"],
+     ["(1|jedn\\w*) minut\\w*|one minute"],
+     ["EIPA"],
+     ["deprecated|przestarzał\\w*|wycofywan\\w*"]
+    ],
+    "none": []
+   }
+  },
+  {
       "id": "ocpi-credentials",
       "expect": "no-trigger",
       "neighbor": "ev-ocpi-roaming-expert",
