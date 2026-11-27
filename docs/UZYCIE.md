@@ -89,3 +89,23 @@ CHAdeMO, OpenADR i inne) i nieopracowane płatności (SCA, PCI DSS, polska ustaw
 ## 6. Aktualizacja
 `git -C ~/ev-intelligence pull`, potem restart Claude Code. Wersję wiedzy serwer podaje w instrukcjach (`VERSION` i
 commit), a zmiany opisuje `CHANGELOG.md`.
+
+## 7. Przeglądarka wiedzy (podgląd jak w Obsidianie)
+Jeden plik HTML do czytania offline, generowany z repozytorium:
+
+```bash
+python3 tools/render_site.py
+```
+
+Wynik: `site/ev-intelligence.html` (katalog poza gitem). Otwierasz go w przeglądarce, po `git pull` generujesz od nowa.
+
+- **Mapa pokrycia:** domeny i poddomeny taksonomii, skill odpowiedzialny za każdą z nich, liczba cytatów i luki
+  (poddomena bez skilla). Właściciel z taksonomii nie znaczy, że każdy temat poddomeny jest już opisany.
+- **Skille i pliki:** treść z klikalnymi znacznikami `[ID §…]` i odwołaniami do plików.
+- **Źródła:** metadane każdego dokumentu z rejestru (URL, data pobrania, SHA-256, licencja) i lista wszystkich miejsc,
+  które go cytują; osobno normy i dokumenty niedostępne.
+- **Wyszukiwanie** w treści wszystkich skilli.
+
+Przeglądarka tylko pokazuje treść: niczego nie zapisuje, a zmiany robisz jak dotąd, przez pliki i bramkę. Teksty
+dokumentów źródłowych (`.cache/`) do niej nie trafiają ze względu na licencje (m.in. CC BY-ND, eMIP poufny), więc plik
+można trzymać lokalnie, ale nie należy go publikować bez sprawdzenia licencji treści skilli.
