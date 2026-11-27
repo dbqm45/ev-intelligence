@@ -4,16 +4,16 @@
   "offline": "2026-11-15"
  },
  "ev-charging-operations-expert": {
-  "fingerprint": "b6b1ee12488aaf6f",
-  "offline": "2026-11-08"
+  "fingerprint": "5f06798fd2e2bc4a",
+  "offline": "2026-11-27"
  },
  "ev-compliance-expert": {
   "fingerprint": "283f28ef28232b18",
   "offline": "2026-11-27"
  },
  "ev-cpms-architect": {
-  "fingerprint": "c35a539bc1b5f734",
-  "offline": "2026-11-08"
+  "fingerprint": "495e99adc3387a68",
+  "offline": "2026-11-27"
  },
  "ev-domain-expert": {
   "fingerprint": "32eef1371203c5ed",
@@ -28,8 +28,8 @@
   "offline": "2026-11-15"
  },
  "ev-evse-hardware-expert": {
-  "fingerprint": "9e472dabb75514be",
-  "offline": "2026-11-07"
+  "fingerprint": "c9cfeec86a49c0de",
+  "offline": "2026-11-27"
  },
  "ev-integration-architect": {
   "fingerprint": "25c4d121e9ced90e",
