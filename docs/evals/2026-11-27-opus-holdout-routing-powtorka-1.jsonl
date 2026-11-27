@@ -1,0 +1,4 @@
+{"skill": "ev-compliance-expert", "id": "ho-comp-eichrecht-smv", "expect": "trigger", "routed_to": "ev-ocpp-expert", "route_stop": "end_turn", "route_ok": false, "ok": false, "spent_usd": 0.0355}
+{"skill": "ev-cpms-architect", "id": "ho-cpms-lc-utrata-stacji", "expect": "trigger", "routed_to": "ev-cpms-architect", "route_stop": "end_turn", "route_ok": true, "ok": true, "spent_usd": 0.0691}
+{"skill": "ev-evse-hardware-expert", "id": "ho-hw-capability-pnc", "expect": "trigger", "routed_to": "ev-iso15118-pki-expert", "route_stop": "end_turn", "route_ok": false, "ok": false, "spent_usd": 0.1009}
+{"skill": "ev-integration-architect", "id": "ho-int-migracja-201-sp2", "expect": "trigger", "routed_to": "ev-ocpp-expert", "route_stop": "end_turn", "route_ok": false, "ok": false, "spent_usd": 0.137}
