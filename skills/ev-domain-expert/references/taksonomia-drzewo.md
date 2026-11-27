@@ -2,9 +2,9 @@
 
 <!-- AUTO-GENERATED from taxonomy/taxonomy.yaml by tools/render_taxonomy.py — do not edit by hand. -->
 
-# EV Knowledge Taxonomy — drzewo (v1.2.0, accepted, 2026-11-08)
+# EV Knowledge Taxonomy — drzewo (v1.3.0, accepted, 2026-11-27)
 
-**Domeny: 23 · poddomeny: 129 · tematy: 320.** Legenda: `MVP` = Etap 1, `P2` = Etap 4, `P3` = później; ⚠️ = wersje/numery do weryfikacji w źródle pierwotnym.
+**Domeny: 23 · poddomeny: 129 · tematy: 321.** Legenda: `MVP` = Etap 1, `P2` = Etap 4, `P3` = później; ⚠️ = wersje/numery do weryfikacji w źródle pierwotnym.
 
 ## Spis domen
 
@@ -804,7 +804,10 @@ Wymagania prawne UE i krajowe wpływające na produkty i procesy.
 
 `knowledge/regulations/other-countries/`
 
+Skill: `ev-compliance-expert`
+
 - Niemcy (Eichrecht, Ladesäulenverordnung), Holandia, Francja, Wielka Brytania (regulacje dot. publicznych punktów ładowania)
+- USA (decyzja właściciela 2026-11-15) — NEVI (23 CFR 680, minimalne standardy infrastruktury finansowanej federalnie), NIST Handbook 44 §3.40 (urządzenia pomiarowe do ładowania)
 - Szablon karty kraju — wymagania, organy, dane
 
 ### D12.07 Programy wsparcia i dotacje `P3`
