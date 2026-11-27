@@ -17,6 +17,11 @@ historii w commicie.
 - **eMIP (Gireve), poziom 2:** dziś `ev_confidential_check` sprawdza tylko występowanie nazw. Ocena zgodności całego
   opisu (werdykt i kategoria problemu bez treści) wymaga modelu po stronie serwera: klucz API, koszt, Twoja zgoda.
   Do rozważenia też pisemne potwierdzenie Gireve przy użyciu komercyjnym.
+- **Holdout: scenariusze, których sprawdzenia autor skilli zobaczył (2026-11-27).** Przy odczycie przebiegu
+  `docs/evals/2026-11-27-opus-holdout-7-po-fali1` wyświetliły się wzorce niezaliczonych sprawdzeń dla
+  `ho-int-rozszerzenia`, `ho-int-brama-naglowki` i `ho-en-16-fazy` (prompty nie). Poprawki treści pod te scenariusze robi
+  inny agent albo scenariusze trzeba zastąpić nowymi, napisanymi przez agenta bez dostępu do skilli. Przy kolejnych
+  przebiegach autor czyta tylko tabelę zbiorczą (nie wyjście konsoli z liniami ✗).
 - **Tematy bez skilla w bazie** (z ewaluacji dev2 i taksonomii 1.1.0, gdzie poddomena ma `skills: []`): wybór
   lokalizacji stacji (D17/D18), serwis terenowy (D07.04), obsługa kierowcy (D07.06), RODO historii ładowań, NIS2 i
   EN 18031 (RED), protokoły D01.08–D01.11 (CHAdeMO, OpenADR/OSCP, Modbus, standardy w przygotowaniu). Każdy wymaga
