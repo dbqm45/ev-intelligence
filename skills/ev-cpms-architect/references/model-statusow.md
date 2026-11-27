@@ -2,6 +2,13 @@
 
 Znaczniki: `sources/*.yaml`. Fakty (definicje) są cytowane, a model docelowy jest **wnioskiem**.
 
+## Spis treści
+1. Definicje w źródłach
+2. Co jest oficjalnie zmapowane, a co nie
+3. Model docelowy — Wniosek
+4. Jak stacja raportuje status (wejście modelu)
+5. Publikacja: OCPI, AFIR, EIPA
+
 ## 1. Definicje w źródłach
 | Źródło | Poziom | Wartości | Operative / Inoperative |
 |---|---|---|---|
@@ -53,4 +60,69 @@ Decyzje do podjęcia przez produkt (źródła ich nie rozstrzygają):
   czy `BLOCKED`;
 - próg czasu, po którym brak kontaktu oznacza offline. Ograniczenie: dane dynamiczne AFIR SHALL być aktualizowane
   najpóźniej 1 minutę po zmianie `[AFIR-655 art. 2]`;
-- agregacja wielu złączy jednego EVSE (1.6: status per złącze; OCPI: status per EVSE).
+- agregacja wielu złączy jednego EVSE (1.6: status per złącze; OCPI: status per EVSE). Źródło przenosi to zadanie na
+  CSMS, ale nie podaje reguły (sekcja 4).
+
+## 4. Jak stacja raportuje status (wejście modelu)
+**OCPP 1.6:**
+- Przy zmianie stanu stacja SHALL wysłać `StatusNotification`, „taking into account some minimum status duration”
+  `[16E §3.19]`. **Rozbieżność:** tekst 1.6 mówi „MAY send” `[16 §4.9]`. Rozstrzygnięcie: obowiązuje errata OCA (SHALL).
+- `MinimumStatusDuration`: stacja MAY pominąć status trwający krócej. Minimum producenta działa niezależnie, wartość
+  klucza dodaje się do niego, a 0 go nie wyłącza. Wysoka wartość opóźnia wszystkie `StatusNotification` `[16 §4.9]`.
+- Błąd zgłoszony przy statusie innym niż `Faulted` to ostrzeżenie, bo ładowanie jest nadal możliwe.
+  `EVCommunicationError` tylko przy `Preparing`, `SuspendedEV`, `SuspendedEVSE`, `Finishing`, jako ostrzeżenie `[16 §4.9]`.
+- Po powrocie z offline stacja SHOULD wysłać bieżący status, jeśli się zmienił, i MAY zgłosić błąd z czasu offline.
+  Historycznych zmian bez błędu SHOULD NOT wysyłać. Kolejność MUST odpowiadać kolejności zdarzeń `[16 §4.9]`.
+- Po `BootNotification` `Accepted` stacja SHALL wysłać status `connectorId` 0 i wszystkich złączy `[16E §3.22]`.
+
+**OCPP 2.0.1 i 2.1:**
+- Zamiast `StatusNotification` stacja może wysłać `NotifyEvent` (`component` = `Connector`, `variable` =
+  `AvailabilityState`, `trigger` = `Delta`) `[201-P2 G01]`. W 2.1 `NotifyEvent` jest metodą preferowaną, a
+  `StatusNotification` jest „deprecated and will be removed in a future release” `[21-P2 G01]`.
+- Stacja, EVSE i złącze mają osobne stany. Wyłączenie EVSE ustawia `Unavailable` na wszystkich złączach poza `Faulted`,
+  a włączenie przywraca ich poprzedni status `[201-P2 G03.FR.06–07]`; to samo dla całej stacji `[201-P2 G04.FR.07–08]`.
+  Złącze wyłączone osobno zostaje `Inoperative` po ponownym włączeniu EVSE (NOTE 1) `[201-P2 G03]`.
+- Zmiana na stan, w którym obiekt już jest → `Accepted` `[201-P2 G03.FR.03]`. Trwająca transakcja → `Scheduled`
+  `[201-P2 G03.FR.05]`. Stan ustawiony przez `ChangeAvailability` przetrwa restart i zanik zasilania
+  `[201-P2 G03.FR.08]` (1.6: `[16 §4.9]`).
+- `Reserved` i podłączenie pojazdu bez pasującego `IdToken`: status SHALL NOT się zmienić `[201-P2 G01.FR.09]`.
+- Wiele złączy na EVSE: po wpięciu kabla stacja SHOULD NOT raportować pozostałych złączy, choć nie da się ich już użyć
+  `[201-P2 G01.FR.08]`. CSMS „has to take care of the status of the other connectors when presenting availability
+  information to another system or user” `[201-P2 G01]`.
+
+**`Unavailable` nie zawsze pochodzi od CSMS:**
+- stacja MAY używać go wewnętrznie, np. przy aktualizacji firmware albo przed `Accepted` `[16 §4.9]` `[201-P2 G01]`;
+- gdy firmware nie da się instalować w trakcie transakcji, stacja SHALL ustawić nieużywane EVSE na `Unavailable` do
+  końca instalacji, chyba że `AllowNewSessionsPendingFirmwareUpdate` = true `[201-P2 L01.FR.07]`. W 1.6 to zalecenie
+  erraty `[16E §3.49]`.
+
+**Łączność:**
+- CSMS SHALL zakładać dostępność stacji po każdej odebranej wiadomości `[201-P2 G02.FR.04]`; w 1.6 SHOULD `[16 §4.6]`;
+- przy braku Heartbeatu CSMS „concludes that the Charging Station is Offline” (failure postcondition) `[201-P2 G02]`;
+- interwał Heartbeatu stacja bierze z `BootNotificationResponse` `[201-P2 G02.FR.01]`. Progu czasu offline żadne
+  źródło nie podaje.
+
+**Wniosek:**
+- każde zdarzenie statusu zapisujesz z czasem stacji, czasem odbioru i flagą „po powrocie z offline”. Brak zmian z czasu
+  offline nie dowodzi, że ich nie było (1.6: historii SHOULD NOT wysyłać);
+- krótkie stany przejściowe mogą nie dotrzeć wcale (`MinimumStatusDuration`), więc ciąg statusów nie jest pełnym zapisem
+  sesji. Granice sesji bierzesz z komunikatów transakcyjnych;
+- `Unavailable` zapisujesz z przyczyną (polecenie operatora, firmware, decyzja stacji). Sam status jej nie niesie;
+- EVSE jest „w użyciu”, gdy którekolwiek jego złącze jest zajęte, bo stacja nie raportuje pozostałych złączy;
+- dla 2.0.1 i 2.1 parser przyjmuje `NotifyEvent(AvailabilityState)` i `StatusNotification` jako to samo zdarzenie.
+
+## 5. Publikacja: OCPI, AFIR, EIPA
+- OCPI `status_schedule` (planowane okresy statusu) jest „purely informational”. Przy faktycznej zmianie CPO musi
+  wysłać aktualizację pola `status` `[OCPI230 §8.4.27]`. Usunięcie EVSE: `REMOVED` i PUT/PATCH, bez kasowania
+  `[OCPI230 §8.1]`.
+- AFIR: status operacyjny i dostępność są na poziomie punktu ładowania, cena ad hoc na poziomie stacji. Dostępność to
+  możliwość użycia „at present time and, when technically possible, at a specific future time”
+  `[AFIR-655 Annex, tabela F]`. Punkt ładowania ładuje jeden pojazd naraz, choć może mieć kilka złączy
+  `[AFIR art. 2 pkt 48]`.
+- Polska (EIPA): rejestr zawiera informacje o dostępności punktów ładowania `[PL-EMOB art. 42 ust. 3]`. Operator
+  przekazuje ją usługą sieciową „natychmiast po zmianie stanu dostępności tego punktu, w czasie wynikającym ze sposobu
+  działania usługi sieciowej”, a ceny w ciągu godziny od zmiany `[PL-EMOB art. 42 ust. 6]`. Wartości statusu określa
+  specyfikacja usługi publikowana w BIP UDT `[PL-EMOB art. 42 ust. 9]`. Tu jej nie opracowano.
+
+**Wniosek:** jeden wyliczony stan EVSE zasila trzy kanały (OCPI, API do NAP, EIPA). Każdy kanał mapujesz osobno, bo
+słowniki i terminy są różne (1 minuta w AFIR, „natychmiast” w EIPA).

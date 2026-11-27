@@ -9,7 +9,7 @@ Znaczniki: `sources/oca-ocpp.yaml`, `sources/evrf-ocpi.yaml`, `sources/eu-afir.y
 3. Topologie
 4. Sesje i transakcje
 5. Stacje zewnętrzne (OCPI)
-6. Wymagania AFIR dla stacji publicznych
+6. Wymagania AFIR i krajowe (PL) dla stacji publicznych
 7. Bezpieczeństwo i separacja
 
 ## 1. Warstwa połączeń OCPP-J
@@ -78,6 +78,20 @@ potem `Accepted`. Stacja nieznana albo zablokowana dostaje `Rejected`.
   `[201-P2 E §1.3.2]`.
 Szczegóły: skill `ev-ocpp-expert` (wzorce komunikatów transakcyjnych).
 
+Energia z licznika:
+- 1.6: `meterStart` i `meterStop` to liczby całkowite w Wh „for the connector” `[16 §6.45]` `[16 §6.49]`. Licznik z
+  odczytywalnym rejestrem: zaleca się wysyłać wartość rejestru, a nie zaczynać każdej transakcji od 0 `[16E §3.9]`.
+  W `transactionData` zaleca się zawsze podawać wartości `Transaction.Begin` i `Transaction.End` i nie usuwać ich przy
+  braku pamięci `[16E §3.14]`.
+- 2.0.1: próbka bez pól opcjonalnych oznacza odczyt rejestru energii czynnej pobranej w Wh `[201-P2 §2.41]`. Jednostka
+  domyślna dla energii to Wh, `multiplier` jest wykładnikiem potęgi 10 `[201-P2 §2.49]`. `context` rozróżnia
+  `Transaction.Begin`, `Transaction.End`, `Sample.Periodic`, `Trigger` i inne `[201-P2 §3.66]`.
+- Początek i koniec okresu przekazywania energii CSMS MAY wyznaczać z MeterValues i statusów `Charging`/`Suspended*`.
+  Errata zastrzega, że niektóre pojazdy nie przechodzą w `SuspendedEV`, a niektóre stacje nie mają licznika `[16E §3.6]`.
+
+**Wniosek:** odczyty zapisujesz surowo (wartość, jednostka, `multiplier`, `context`, `measurand`). Energię sesji liczysz
+jako różnicę odczytów rejestru, bez założenia, że start jest równy 0.
+
 **Wniosek:** klucz transakcji w CSMS to (stacja, `transactionId`) dla 2.0.1 i (stacja, `transactionId` nadany przez CSMS)
 dla 1.6, z osobną ścieżką dla `-1`. Rozliczenie dopiero po kompletnym ciągu zdarzeń albo z flagą „dane niepełne”.
 
@@ -88,11 +102,28 @@ dla 1.6, z osobną ścieżką dla `-1`. Rozliczenie dopiero po kompletnym ciągu
 - Synchronizacja po przerwie: pull, bez kolejkowania `[OCPI230 §4.4]`. Sesje: PUT, potem PATCH, stan końcowy `COMPLETED`
   `[OCPI230 §9.1.1]`. CDR niezmienny, korekta przez credit CDR `[OCPI230 §10.1.1]`.
 - Obiekty partnera rozróżnia się po `country_code` + `party_id` z CredentialsRoles `[OCPI230 §4.1.5]`.
+- Identyfikatory EVSE `[OCPI230 §8.3.2]`:
+  - `uid` jest unikalny w platformie CPO i „can never be changed, modified or renamed”. To identyfikator techniczny,
+    nie do wyświetlania;
+  - specyfikacja zniechęca do użycia identyfikatora sprzętu jako `uid`: ten sam fizyczny EVSE przeniesiony do innej
+    Location złamie unikalność;
+  - `evse_id` ma format „E-mobility ID-codes” EVRF i jest opcjonalny: przy ponownym użyciu numeru w terenie można go
+    usunąć z obiektu o statusie `REMOVED`.
+- `capabilities` EVSE mówi partnerowi, co wolno zlecić: m.in. `REMOTE_START_STOP_CAPABLE`, `RESERVABLE`,
+  `UNLOCK_CAPABLE`, `START_SESSION_CONNECTOR_REQUIRED` (stacje 1.x z wieloma złączami na EVSE) `[OCPI230 §8.4.3]`.
+
+Czego OCPI 2.3.0 nie określa: kiedy numer `evse_id` wolno użyć ponownie ani że wygaszonego numeru nie wolno nadać
+innemu EVSE. Zmiana operatora (CSO) zmienia EVSEID w roamingu `[OCA-WP-MIG §3.2]`.
+
+**Wniosek:**
+- `uid` generujesz w CPMS niezależnie od numeru seryjnego i nigdy go nie zmieniasz. `evse_id` trzymasz jako osobny
+  atrybut z historią, bo może zostać zdjęty z obiektu `REMOVED`;
+- `capabilities` wyliczasz z faktycznej obsługi poleceń przez stację (np. brak blokady złącza → bez `UNLOCK_CAPABLE`).
 
 **Wniosek:** stacje zewnętrzne trzymasz w tym samym modelu Location/EVSE/Connector z atrybutem źródła (własna / partner
 `country_code`+`party_id`) i ograniczonym zestawem dozwolonych operacji. UI i API nie oferują dla nich operacji OCPP.
 
-## 6. Wymagania AFIR dla stacji publicznych
+## 6. Wymagania AFIR i krajowe (PL) dla stacji publicznych
 - Ad hoc: możliwość ładowania ad hoc na publicznych punktach. Od 13.04.2024 płatność powszechnie używanym instrumentem
   (czytnik kart, urządzenie zbliżeniowe; dla < 50 kW także np. kod QR). Od 01.01.2027 punkty ≥ 50 kW na TEN-T i w
   bezpiecznych parkingach, także starsze, muszą mieć (a) czytnik kart albo (b) urządzenie zbliżeniowe `[AFIR art. 5 ust. 1]`.
@@ -111,7 +142,24 @@ dla 1.6, z osobną ścieżką dla `-1`. Rozliczenie dopiero po kompletnym ciągu
 - API może prowadzić podmiot zewnętrzny w imieniu operatora; nie zdejmuje to z operatora obowiązku jakości
   `[AFIR-655 art. 3 ust. 3]`.
 
+Polska (ustawa o elektromobilności, EIPA):
+- operator ogólnodostępnej stacji ładowania wyposaża ją w oprogramowanie, które przekazuje do Ewidencji Infrastruktury
+  Paliw Alternatywnych (EIPA) dane o dostępności punktu ładowania i cenie `[PL-EMOB art. 3 ust. 1]`;
+- operator i dostawca usługi ładowania składają do Prezesa UDT wniosek o numer EIPA przed rozpoczęciem działalności,
+  za pośrednictwem rejestru `[PL-EMOB art. 41b ust. 1–2]`. Zgłoszenia do rejestru dokonuje tylko podmiot z numerem EIPA
+  albo uznanym kodem `[PL-EMOB art. 42 ust. 5a]`;
+- zgłoszenie (dane operatora, rodzaj infrastruktury, współrzędne) najpóźniej w dniu złożenia wniosku o badanie
+  techniczne przed oddaniem do eksploatacji i przy każdej zmianie. Zakończenie świadczenia usługi zgłasza się najpóźniej
+  w dniu zakończenia `[PL-EMOB art. 42 ust. 5]`;
+- dostępność punktu „natychmiast po zmianie stanu dostępności”, ceny w ciągu godziny od zmiany `[PL-EMOB art. 42 ust. 6]`;
+- mapa EIPA pokazuje tylko stacje po badaniu technicznym i oznacza stacje z decyzją o wstrzymaniu eksploatacji
+  `[PL-EMOB art. 42 ust. 4a]`. Specyfikacja usługi sieciowej jest w BIP UDT `[PL-EMOB art. 42 ust. 9]`.
+
 **Wniosek:**
+- w Polsce stacja ma dwa kanały publikacji danych dynamicznych z tego samego stanu EVSE: API do NAP (AFIR) i usługę
+  sieciową EIPA. Każdy ma własny termin i słownik (`references/model-statusow.md` §5);
+- cykl życia zasobu w CPMS ma kroki „zgłoszenie do EIPA” przed wnioskiem o badanie UDT i „zgłoszenie zakończenia
+  usługi” najpóźniej w dniu wycofania;
 - status EVSE w CPMS musi być wyliczany na bieżąco (zdarzeniowo), żeby publikacja do NAP mieściła się w 1 minucie;
 - detekcja offline i jej próg wpływają bezpośrednio na zgodność z AFIR;
 - mapowanie na dane AFIR: `references/model-statusow.md`.

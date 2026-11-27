@@ -27,9 +27,9 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/diagnostyka.md` | drzewo diagnozy: sesja nie startuje, RFID nie reaguje, brak poboru energii, roaming |
-| `references/alarmy.md` | priorytety alarmów: severity 0–9, monitory, zdarzenia bezpieczeństwa, errorCode, KPI |
-| `references/dzialania-zdalne.md` | skutki poleceń: Reset, ChangeAvailability, UnlockConnector, TriggerMessage, logi |
+| `references/diagnostyka.md` | drzewo diagnozy: sesja nie startuje, RFID nie reaguje, brak poboru energii, offline, kabel zablokowany, logi i firmware „wiszą”, roaming |
+| `references/alarmy.md` | priorytety alarmów: severity 0–9, pola NotifyEvent (`cleared`, `cause`), kolejka offline, zdarzenia bezpieczeństwa, errorCode; KPI: dane wejściowe, AFIR „availability of data”, EIPA |
+| `references/dzialania-zdalne.md` | skutki i odpowiedzi poleceń: Reset, ChangeAvailability, UnlockConnector, TriggerMessage; pola GetDiagnostics/GetLog/UpdateFirmware, firmware a trwające sesje |
 
 ## Procedura
 1. **Objaw i zakres.** Jedna stacja, jedno EVSE, lokalizacja czy wiele stacji naraz. Stacja własna (OCPP) czy partnera
@@ -77,6 +77,11 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
   uptime (przeszukane 2026-11-07). AFIR wymaga natomiast aktualizacji statusu operacyjnego najpóźniej minutę po zmianie
   `[AFIR-655 art. 2]`.
 - `UNLOCK_CONNECTOR` z roamingu jest tylko dla operatora lub eMSP, nigdy bezpośrednio od kierowcy `[OCPI230 §13.4.3]`.
+- Wolne EVSE w stanie `Unavailable` po `UpdateFirmware` to nie zawsze awaria: gdy
+  `AllowNewSessionsPendingFirmwareUpdate` jest false albo nie istnieje, stacja SHALL wyłączyć nieużywane EVSE do końca
+  trwających transakcji `[201-P2 L01.FR.07]`.
+- `Accepted` na `UpdateFirmware` albo `GetLog` znaczy tylko start procesu; wynik śledzisz w powiadomieniach o statusie
+  `[201-P2 §3.86]` `[201-P2 §3.49]`.
 
 ## Źródła
 `sources/oca-ocpp.yaml` (16, 16E, S16, 201-P2, 201-P4, 201-CSV), `sources/evrf-ocpi.yaml` (OCPI230),

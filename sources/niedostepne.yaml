@@ -188,6 +188,13 @@ niezarejestrowane:
     przywolana_przez: ["US-23CFR680"]
     przywolana_w: [ev-compliance-expert]
 
+  - dokument: "SAE J3400 (NACS), GB/T 20234, IS 17017"
+    dostep: niezarejestrowana
+    temat: "normy złączy przywołane w opisach wartości złączy"
+    przywolana_przez: ["OCPI230 §8.4.6 (SAE_J3400, GB/T 20234)", "OCPI221 §8.4.5 (GB/T 20234)", "21-APP §7.3 (SAE J3400, GB/T 20234, IS 17017)"]
+    przywolana_w: [ev-evse-hardware-expert]
+    uwaga: "Wydawcy: SAE International, IEC, SAC, BIS. Dostępność i cena niesprawdzone (2026-11-27)."
+
 hosty_zablokowane:
   - host: modelcontextprotocol.io
     data: 2026-11-07

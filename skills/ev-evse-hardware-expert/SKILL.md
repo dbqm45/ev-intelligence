@@ -28,9 +28,9 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/zlacza-i-moc.md` | typy złączy w OCPP 2.0.1, OCPI 2.3.0 i AFIR; zapis mocy, napięcia, prądu i faz |
-| `references/wymagania-afir.md` | aneks II (złącza, ISO 15118 z datami), art. 5 (płatność, kabel DC, smart), klasy mocy, definicje |
-| `references/karta-urzadzenia.md` | pola karty: dane z `BootNotification`, Device Model, terminal płatniczy, dane statyczne AFIR |
+| `references/zlacza-i-moc.md` | typy złączy w OCPP 2.0.1 (ConnectorEnumType, Device Model), OCPP 2.1 (ConnectorEnumStringType: `cNACS`, `cMCS`, `cGBT-DC`), OCPI 2.2.1 i 2.3.0 (OpenEnum, MCS, SAE_J3400) i tabela odpowiedników; moc, napięcie, prąd, fazy, PhaseRotation, DischargePower; rozbieżności OCA |
+| `references/wymagania-afir.md` | aneks II (złącza, brzmienie „socket-outlet”/„vehicle connector”, ISO 15118 z datami), art. 5 (płatność, kabel DC, smart), definicje; mapowanie wymogów AFIR na pola OCPP/OCPI |
+| `references/karta-urzadzenia.md` | pola karty: `BootNotification`, Device Model i komponenty fizyczne (FiscalMetering, RCD, CPPWMController, DataLink…), gniazdo czy kabel w protokole, terminal płatniczy, dane statyczne AFIR, klasa licznika wpisywana ręcznie |
 
 ## Procedura
 1. **Kontekst:** stacja publiczna czy prywatna, rodzaj pojazdów (lekkie, ciężkie, autobusy, kategoria L), AC czy DC,
@@ -81,6 +81,10 @@ W danych: OCPP `cCCS2` (kabel), OCPI `IEC_62196_T2_COMBO`, `format = CABLE`, `po
   `sType3` ustalasz z dokumentacji urządzenia, nie z samego opisu enumu.
 - „Recharging point” w AFIR może mieć kilka złączy, ale ładuje tylko jeden pojazd naraz `[AFIR art. 2]`. **Wniosek:**
   EVSE z kilkoma złączami to w sprawozdawczości AFIR jeden punkt, a nie tyle punktów, ile złączy.
+- NACS i MCS są tylko w OCPP 2.1 (`cNACS`, `cMCS`) i OCPI 2.3.0 (`SAE_J3400`, `MCS`); OCPI 2.2.1 ma zamkniętą listę bez
+  nich `[21-APP §7.3]` `[OCPI230 §8.4.6]` `[OCPI221 §8.4.5]`.
+- `CPPWMController.State` i `Percentage` podają stan CP i wypełnienie PWM `[201-APP §3.2.21]`; ich interpretacja
+  zależy od IEC 61851-1, normy niedostępnej — mówisz to w pierwszym zdaniu.
 
 ## Źródła
 `sources/eu-afir.yaml` (AFIR skonsolidowane: art. 2, art. 5, aneks II zmieniony aktem 2025/656, aneks III),

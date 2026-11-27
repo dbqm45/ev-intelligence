@@ -1,7 +1,15 @@
 # Wymagania sprzętowe AFIR (wersja skonsolidowana 2026-01-08)
 
 Źródło: `[AFIR]` z `sources/eu-afir.yaml`. Aneks II w zakresie złączy i ISO 15118 zmieniony rozporządzeniem delegowanym
-(UE) 2025/656 (M1). Normy wymienione poniżej są płatne, a ich treści nie opracowano.
+(UE) 2025/656 (M1). Normy wymienione poniżej są płatne, a ich treści nie opracowano. Zdania **Wniosek** to
+rekomendacje wyprowadzone z cytowanych faktów.
+
+## Spis treści
+1. Złącza — aneks II pkt 1
+2. Komunikacja pojazd–punkt — aneks II pkt 2.1
+3. Wymagania z art. 5 dotyczące sprzętu
+4. Definicje (art. 2)
+5. Wymagania AFIR w danych OCPP i OCPI
 
 ## 1. Złącza — aneks II pkt 1 (instalacja lub modernizacja od 8.01.2026)
 „Installed” to pierwsze umieszczenie sprzętu, oprogramowania i infrastruktury elektrycznej. „Renovated” to poważna lub
@@ -22,6 +30,13 @@ całkowita wymiana sprzętu punktu `[AFIR Annex II pkt 0]`.
 | Ładowanie bezprzewodowe statyczne, lekkie (pkt 1.7) | EN IEC 61980-1:2021, -2:2023, -3:2022 | — |
 Punkty 1.8–1.18 (m.in. ładowanie bezprzewodowe dynamiczne, wymiana baterii, dostępność dla osób z niepełnosprawnościami)
 zawierają w tekście skonsolidowanym tylko tytuły, bez wymagań.
+- Brzmienie wymogu: AC normal-power (pkt 1.1) „socket-outlets or vehicle connectors of Type 2”, AC high-power
+  (pkt 1.2) tylko „vehicle connectors of Type 2”; DC (pkt 1.1, 1.2, 1.6) „vehicle connectors of the combined charging
+  system ‘Combo 2’” `[AFIR Annex II pkt 1.1]` `[AFIR Annex II pkt 1.2]`. AFIR nie definiuje „vehicle connector” ani
+  „socket-outlet”: to pojęcia norm EN IEC 62196 / IEC 61851 (płatne, niedostępne). Czy pkt 1.2 wyklucza gniazdo Type 2
+  w punkcie AC > 22 kW, nie da się więc rozstrzygnąć z dostępnych źródeł.
+- Wymogi mówią „at least” `[AFIR Annex II pkt 1.1]`. Tekst AFIR nie wymienia CHAdeMO, MCS, GB/T ani NACS (SAE J3400).
+  **Wniosek:** takie złącza mogą być dodatkowe, ale nie zastępują Type 2 / Combo 2.
 
 ## 2. Komunikacja pojazd–punkt — aneks II pkt 2.1
 - Publiczne punkty AC i DC (lekkie i ciężkie) instalowane lub modernizowane **od 8.01.2026**: co najmniej EN ISO
@@ -56,3 +71,24 @@ zawierają w tekście skonsolidowanym tylko tytuły, bez wymagań.
   stacji w danym miejscu.
 - „connector”: fizyczny interfejs między punktem a pojazdem.
 - „normal power” ≤ 22 kW, „high-power” > 22 kW.
+
+## 5. Wymagania AFIR w danych OCPP i OCPI
+Mapowanie jest **wnioskiem**: AFIR nie wskazuje pól protokołów (pkt 2.2–2.4 aneksu II mają tylko tytuły).
+| Wymóg AFIR | Co sprawdzić w danych | Znaczniki |
+|---|---|---|
+| Złącze Type 2 / Combo 2 (aneks II pkt 1) | OCPP `sType2`/`cType2`/`cCCS2`; OCPI `IEC_62196_T2`, `IEC_62196_T2_COMBO` | `[201-P2 §3.22]` `[OCPI230 §8.4.6]` |
+| Type 3A dla kategorii L (pkt 1.3.1) | OCPI `IEC_62196_T3A`; w OCPP 2.0.1 i 2.1 brak osobnej wartości 3A | `[OCPI230 §8.4.6]` `[21-APP §7.3]` |
+| Ładowanie bezprzewodowe statyczne (pkt 1.7) | OCPP `wInductive`, `wResonant`; w OCPI 2.3.0 brak wartości `ConnectorType` | `[21-APP §7.3]` `[OCPI230 §8.4.6]` |
+| Pantograf dla autobusów (pkt 1.5) | OCPP `Pan` (2.1: „up”), `OppCharge` („down”); OCPI `PANTOGRAPH_BOTTOM_UP`, `PANTOGRAPH_TOP_DOWN` | `[21-APP §7.3]` `[OCPI230 §8.4.6]` |
+| Kabel stały w publicznym DC (art. 5 ust. 10) | OCPI `format = CABLE`, `power_type = DC`; OCPP prefiks `c…`, `UnlockOnEVSideDisconnect` `ReadOnly`/`false` | `[AFIR art. 5 ust. 10]` `[OCPI230 §8.4.5]` `[201-APP §3.1.12]` |
+| Czytnik kart / zbliżeniowe (art. 5 ust. 1 lit. a–b) | OCPI capability EVSE: `CHIP_CARD_SUPPORT`, `CONTACTLESS_CARD_SUPPORT` (opcjonalnie `CREDIT_CARD_PAYABLE`, `DEBIT_CARD_PAYABLE`, `PED_TERMINAL`); OCPP `PaymentCtrlr` | `[AFIR art. 5 ust. 1]` `[OCPI230 §8.4.3]` |
+| ISO 15118 / plug-and-charge (aneks II pkt 2.1) | OCPP `ChargeProtocol` = `ISO15118`; OCPI `ISO_15118_2_PLUG_AND_CHARGE` / `ISO_15118_20_PLUG_AND_CHARGE` tylko gdy kierowca może z tego skorzystać | `[201-APP rozdz. 4]` `[OCPI230 §8.4.4]` |
+| Klasa mocy (art. 2, aneks III) | OCPP `EVSE.Power` maxLimit; OCPI `max_electric_power` albo U × I | `[201-P2 §2.13.7]` `[OCPI230 §8.3.3]` |
+| Kompatybilność typów pojazdów (art. 20 ust. 2) | OCPI 2.3.0 `Parking.vehicle_types` (`VehicleType`) | `[AFIR art. 20 ust. 2]` `[OCPI230 §8.3.4]` `[OCPI230 §8.4.28]` |
+- OCPI: przy terminalu płatniczym „please use a combination of” `CHIP_CARD_SUPPORT`, `CONTACTLESS_CARD_SUPPORT`,
+  `CREDIT_CARD_PAYABLE`, `DEBIT_CARD_PAYABLE`, `PED_TERMINAL` `[OCPI230 §8.4.3]`. Te same wartości są w 2.2.1
+  `[OCPI221 §8.4.3]`.
+- **Wniosek:** publiczny punkt DC z OCPI `format = SOCKET` po 14.04.2025 to sygnał do sprawdzenia: błąd danych albo
+  niezgodność z art. 5 ust. 10.
+- **Wniosek:** punkt ≥ 50 kW na TEN-T bez `CHIP_CARD_SUPPORT` ani `CONTACTLESS_CARD_SUPPORT` od 1.01.2027 wymaga
+  wyjaśnienia (terminal może być wspólny dla puli `[AFIR art. 5 ust. 1]`, więc brak na jednym EVSE nie przesądza).

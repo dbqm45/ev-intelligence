@@ -28,8 +28,8 @@ wykonawcze 2025/655 art. 2 `[AFIR-655 art. 2]`”. Sam skrót znacznika nic nie 
 ## Czytaj references, gdy…
 | Plik | Kiedy |
 |---|---|
-| `references/ograniczenia.md` | katalog ograniczeń per moduł: połączenia, onboarding, topologie, sesje, roaming, AFIR, bezpieczeństwo |
-| `references/model-statusow.md` | model statusów i dostępności dla stacji własnych i roamingowych, mapowanie na AFIR i OCPI |
+| `references/ograniczenia.md` | katalog ograniczeń per moduł: połączenia, onboarding, topologie, sesje i energia z licznika, roaming (`uid`/`evse_id`, `capabilities`), AFIR i EIPA (PL), bezpieczeństwo |
+| `references/model-statusow.md` | model statusów i dostępności dla stacji własnych i roamingowych; jak stacja raportuje status (1.6/2.0.1/2.1, NotifyEvent, wiele złączy, Unavailable ustawiany przez stację); publikacja do OCPI, AFIR, EIPA |
 
 ## Procedura
 1. **Zakres zasobów.** Stacje własne (OCPP: pełne sterowanie) czy zewnętrzne (OCPI: dane i komendy partnera).
@@ -84,6 +84,10 @@ nie wysłała `BootNotification`.
   Controller” `[201-P1 §8.3]`.
 - Uprawnienia operatorów wyłącznie po stronie stacji: OCPP nie ma kontroli dostępu na stacji, zalecana jest kontrola
   dostępu w CSMS `[201-P2 A §1.2]`.
+- W 2.0.1 i 2.1 status przychodzi też przez `NotifyEvent(AvailabilityState)`, a w 2.1 `StatusNotification` jest
+  „deprecated, but still allowed” `[21-P2 G01]`; jedno źródło statusu w CSMS to błąd.
+- Po wpięciu kabla do EVSE z kilkoma złączami stacja SHOULD NOT raportować pozostałych złączy `[201-P2 G01.FR.08]`;
+  status EVSE do publikacji wylicza CSMS.
 
 ## Źródła
 `sources/oca-ocpp.yaml` (201-P0, 201-P1, 201-P2, 201-P4, 201-CSV, 16, 16E), `sources/evrf-ocpi.yaml` (OCPI230),
